@@ -12,7 +12,7 @@ Replace the contents of this file with the completed assignments, as described i
 Any functionality of the screen that is not obvious should be written into the document. -->
 
 ## **Create Account & Home )**
-
+<img src="./ux-design/0d-home.png" alt= “create-account” width="25%"> <br/>
 
 
 ---
