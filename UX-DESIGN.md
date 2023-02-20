@@ -41,11 +41,13 @@ Any functionality of the screen that is not obvious should be written into the d
 - Overlay appears when user clicks on "Post Comment" button in the Comment Section.
 - User can type one's comment and post to engage in other's post. 
 User can exit the page by clicking the top-left "X" button.
+
 ---
 ## Share Outfit 
 
 ---
 ## Saved Items & Discussion Posts
+
 
 ---
 ## View & Edit User Profile
