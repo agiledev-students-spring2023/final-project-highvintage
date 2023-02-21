@@ -7,47 +7,65 @@ Replace the contents of this file with the completed assignments, as described i
 <!-- - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md) -->
 
-
 <!-- For the wireframe diagrams, include the title of each diagram, as well as a simple explanation of the purpose of the screen it represents.
 Any functionality of the screen that is not obvious should be written into the document. -->
 
 ## **Create Account & Home )**
 
-
 ---
 
 ## **Outfit Collection & Post Comment )**
+
 ### Outfit Collection :
+
 <img src="./ux-design/1a-outfit-collection.png" alt= “create-account” width="25%"> <br/>
-- User can view collected posts of outfits posted by other users. 
+
+- User can view collected posts of outfits posted by other users.
 - User can filter the posts by style. For example, if one clicks on "Streetwear", posts related to "Streetwear" should be displayed.
 - User can click image to view the entire post.
 
 ### View Post :
+
 <img src="./ux-design/1b-view-post.png" alt= “create-account” width="25%"> <br/>
+
 - User can view, leave heart, comment, or save other's posts.
 - User can exit the page by clicking the top-left "X" button.
 
 ### Comment Section :
+
 <img src="./ux-design/1c-comment-section.png" alt= “create-account” width="25%"> <br/>
+
 - Displays comments posted under a specific post.
 - User can reply to the post itself or the comment by clicking "Post Comment" or "Comment" button respectively.
 - User can leave heart to comments.
 - User can exit the page by clicking the top-left "X" button.
 
 ### Post Comment :
+
 <img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%"> <br/>
+
 - Overlay appears when user clicks on "Post Comment" button in the Comment Section.
-- User can type one's comment and post to engage in other's post. 
-User can exit the page by clicking the top-left "X" button.
+- User can type one's comment and post to engage in other's post.
+  User can exit the page by clicking the top-left "X" button.
 
 ---
-## Share Outfit 
+
+## Share Outfit
 
 ---
+
 ## Saved Items & Discussion Posts
 
+### View discussion feed
+
+<img src="./ux-design/3b-discussion-feed.png" alt=“view-discussion-feed width="25%"> <br/>
+
+- Users can search for discussion posts
+- Users can either filter by posts made most recently (newest first) or most popular (based on some metric, like number of likes or comments)
+- User can view other user's discussion posts - that contain text and may also contain an image
+- Within each discussion post, User's can see the discussion author, title, text
+- Users can like (by pressing the hear) or comment (by pressing chat bubble) on discussion posts
 
 ---
-## View & Edit User Profile
 
+## View & Edit User Profile
