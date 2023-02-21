@@ -12,7 +12,7 @@ Any functionality of the screen that is not obvious should be written into the d
 
 ## **Create Account & Home )**
 
-### Create Account
+### Create Account :
 
 <img src="./ux-design/0a-create-account.png" alt= “create-account” width="25%">
 
@@ -21,21 +21,21 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can also join as guest without loging in but can't see past likes or save their collections
 - User can see the terms of service or the contact page by clicking on the buttons at the bottom
 
-### Contact Us
+### Contact Us :
 
 <img src="./ux-design/0b-contact-us.png" alt= “contact-us” width="25%">
 
 - User can contact the site either through phone or email.
 - User can click the x or the logo to go back to login page or the main home page if they were on it before.
 
-### Terms of Service
+### Terms of Service :
 
 <img src="./ux-design/0c-terms-of-service.png" alt= “terms-of-service” width="25%">
 
 - User can read the terms of service on this page.
 - User can click the x to go back to login page or main home page if they were on it.
 
-###  Home
+###  Home :
 
 <img src="./ux-design/0d-home.png" alt= “home” width="25%">
 
@@ -84,9 +84,9 @@ Any functionality of the screen that is not obvious should be written into the d
 
 ---
 
-## Share Outfit
+## **Share Outfit )**
 
-### Share outfit
+### Share outfit :
 
 
 <img src="./ux-design/2a-share-outfit.png" alt= “share-outfit” width="25%"> <br/>
@@ -99,7 +99,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - Pressing "Post" will publish the outfit onto their feed and onto their profile
 - Pressing "x" will exit the Share Outfit page
 
-### Choose style
+### Choose style :
 
 <img src="./ux-design/2b-choose-style.png" alt= “choose-style” width="25%"> <br/>
 
@@ -107,7 +107,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can search for an existing style to choose from list, or choose from a list of all styles
 - Published alongside the image(s) chosen by the User
 
-### Choose location
+### Choose location :
 
 <img src="./ux-design/2c-search-location.png" alt= “choose-location” width="25%"> <br/>
 
@@ -117,7 +117,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - Pressing "x" will take the user back to the previous page (Share Outfit)
 - Published alongside the image(s) chosen by the User
 
-### Add Location (Overlay)
+### Add Location (Overlay) :
 
 <img src="./ux-design/2d-add-location-overlay.png" alt= “add-location-overlay” width="25%"> <br/>
 
@@ -128,9 +128,10 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can save the new location using the "Save" button
 - Published alongside the image(s) chosen by the User
 
-## Saved Items & Discussion Posts
+---
+## **Saved Items & Discussion Posts )**
 
-### Saved Items:
+### Saved Items :
 <img src="./ux-design/3a-saved-items.png" alt = "Saved Items" width = "25%"> <br/>
 - User can view their saved outfit posts and discussion threads in the "Saved" page. 
 - Press "View All" to see an expanded view of the discussions or collections saved.
@@ -138,7 +139,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - Navigation bar is at the bottom of the screen.
 - User can exit the page by clicking the top-left "X" button.
 
-### Discussion Feed:
+### Discussion Feed :
 <img src="./ux-design/3b-discussion-feed.png" alt = "Discussion Feed" width = "25%"> <br/>
 - Search for posts using the bar at the top.
 - Displays discussion posts with author information, date, title, and a pre-view of the post.
@@ -147,7 +148,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - Leave comments for a post by clicking on the message icon. User will enter the comment section of the post.
 - Post new discussion posts using the "post" button at the bottom.
 
-### Post Discussion:
+### Post Discussion :
 <img src="./ux-design/3c-post-discussion.png" alt = "Post discussion" width = "25%"> <br/>
 
 - Displays a form that requires title and the text of a discussion post.
@@ -155,8 +156,8 @@ Any functionality of the screen that is not obvious should be written into the d
 
 
 ---
-## **View and Edit Profiles**
-### View User's Own Profile: Outfits Version:
+## **View and Edit Profiles )**
+### View User's Own Profile (Outfits Version):
 <img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
 - User can view their own profile, which includes a profile picture, a bio, and their uploaded
 outfits.
@@ -181,7 +182,7 @@ bio, and uploaded outfits.
 - User can click image to view entire post.
 - User can click the "Follow" button next to follow the user.
 
-### View Another User's Profile (Discussion Posts):
+### View Another User's Profile (Discussion Posts) :
 <img src="./ux-design/4d-user-profile-discussion-other-view.png" alt= "profile-other-view-disc" width="25%"> <br>
 - User can view the uploaded discussion posts of a profile rather than outfits.
 - User can click the "Outfits button to return to viewing the profile's outfits.
