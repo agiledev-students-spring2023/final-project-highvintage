@@ -12,7 +12,32 @@ Replace the contents of this file with the completed assignments, as described i
 Any functionality of the screen that is not obvious should be written into the document. -->
 
 ## **Create Account & Home )**
+### Login Page
+<img src="./ux-design/0a-create-account.png" alt= "create-account" width="25%">
+- User will first be met with this page if they were never on the site before.
+- User can either sign in if they have an existing account or be able to create account
+- User can also just view the site as a guest but won't be able to use features such as saving posts and likes.
+- User can view contact info or view the terms of services.
 
+### Contact Us Page
+<img src="./ux-design/0b-contact-us.png" alt= "contact-us" width="25%">
+- User will be able to contact the site through either phone or email.
+- User can click either the x or the logo button to go back to login page or the main page.
+
+### Terms of Service
+<img src="./ux-design/0c-terms-of-service.png" alt= "terms-of-service" width="25%">
+- User can view the terms of service.
+- User can click the x to go back to the login or main home page.
+
+### Main Home Page
+<img src="./ux-design/0d-home.png" alt= "home" width="25%">
+- User can view the main home page here with all the posts related to your interest or from your follows.
+- User can view posts related to thrifting from other users here.
+- User can click on their profile names to visit their profile page.
+- User can click on search and search items or other users to see related posts.
+- User can like and comment on other people's post similar to other social medias.
+- User can also save posts
+- User can click on the ask Highvintager button to go to the discussion page.
 
 ---
 
