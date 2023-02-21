@@ -121,7 +121,7 @@ Any functionality of the screen that is not obvious should be written into the d
 
 
 ---
-## **View and Edit User Profile **
+## **View and Edit Profiles**
 ### View User's Own Profile: Outfits Version:
 <img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
 - User can view their own profile, which includes a profile picture, a bio, and their uploaded
