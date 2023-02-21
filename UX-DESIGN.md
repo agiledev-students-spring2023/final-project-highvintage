@@ -7,69 +7,93 @@ Replace the contents of this file with the completed assignments, as described i
 <!-- - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md) -->
 
-
 <!-- For the wireframe diagrams, include the title of each diagram, as well as a simple explanation of the purpose of the screen it represents.
 Any functionality of the screen that is not obvious should be written into the document. -->
 
 ## **Create Account & Home )**
-### Login Page
-<img src="./ux-design/0a-create-account.png" alt= "create-account" width="25%">
-- User will first be met with this page if they were never on the site before.
-- User can either sign in if they have an existing account or be able to create account
-- User can also just view the site as a guest but won't be able to use features such as saving posts and likes.
-- User can view contact info or view the terms of services.
-
-### Contact Us Page
-<img src="./ux-design/0b-contact-us.png" alt= "contact-us" width="25%">
-- User will be able to contact the site through either phone or email.
-- User can click either the x or the logo button to go back to login page or the main page.
-
-### Terms of Service
-<img src="./ux-design/0c-terms-of-service.png" alt= "terms-of-service" width="25%">
-- User can view the terms of service.
-- User can click the x to go back to the login or main home page.
-
-### Main Home Page
-<img src="./ux-design/0d-home.png" alt= "home" width="25%">
-- User can view the main home page here with all the posts related to your interest or from your follows.
-- User can view posts related to thrifting from other users here.
-- User can click on their profile names to visit their profile page.
-- User can click on search and search items or other users to see related posts.
-- User can like and comment on other people's post similar to other social medias.
-- User can also save posts
-- User can click on the ask Highvintager button to go to the discussion page.
 
 ---
 
 ## **Outfit Collection & Post Comment )**
+
 ### Outfit Collection :
+
 <img src="./ux-design/1a-outfit-collection.png" alt= “create-account” width="25%"> <br/>
-- User can view collected posts of outfits posted by other users. 
+
+- User can view collected posts of outfits posted by other users.
 - User can filter the posts by style. For example, if one clicks on "Streetwear", posts related to "Streetwear" should be displayed.
 - User can click image to view the entire post.
 
 ### View Post :
+
 <img src="./ux-design/1b-view-post.png" alt= “create-account” width="25%"> <br/>
+
 - User can view, leave heart, comment, or save other's posts.
 - User can exit the page by clicking the top-left "X" button.
 
 ### Comment Section :
+
 <img src="./ux-design/1c-comment-section.png" alt= “create-account” width="25%"> <br/>
+
 - Displays comments posted under a specific post.
 - User can reply to the post itself or the comment by clicking "Post Comment" or "Comment" button respectively.
 - User can leave heart to comments.
 - User can exit the page by clicking the top-left "X" button.
 
 ### Post Comment :
+
 <img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%"> <br/>
+
 - Overlay appears when user clicks on "Post Comment" button in the Comment Section.
-- User can type one's comment and post to engage in other's post. 
-User can exit the page by clicking the top-left "X" button.
+- User can type one's comment and post to engage in other's post.
+  User can exit the page by clicking the top-left "X" button.
 
 ---
-## Share Outfit 
 
----
+## Share Outfit
+
+### Share outfit
+
+
+<img src="./ux-design/2a-share-outfit.png" alt= “share-outfit” width="25%"> <br/>
+
+- Displayed when user decides to create a post to appear on feed
+- User can choose to select video(s) and photo(s)
+- User presses "Style", which takes them to the Choose Style page
+- User presses "Add Location" which takes them to the Add Location Page
+- User can type a caption to be published
+- Pressing "Post" will publish the outfit onto their feed and onto their profile
+- Pressing "x" will exit the Share Outfit page
+
+### Choose style
+
+<img src="./ux-design/2b-choose-style.png" alt= “choose-style” width="25%"> <br/>
+
+- Displayed when User chooses to select a style that best describes the outit on the Share Outfit Page
+- User can search for an existing style to choose from list, or choose from a list of all styles
+- Published alongside the image(s) chosen by the User
+
+### Choose location
+
+<img src="./ux-design/2c-search-location.png" alt= “choose-location” width="25%"> <br/>
+
+- Displayed when User chooses to select a location on the Share Outfit Page
+- User can search from saved location or from current location (using the Arrow on the upper right-hand corner)
+- User can also choose to add a store
+- Pressing "x" will take the user back to the previous page (Share Outfit)
+- Published alongside the image(s) chosen by the User
+
+### Add Location (Overlay)
+
+<img src="./ux-design/2d-add-location-overlay.png" alt= “add-location-overlay” width="25%"> <br/>
+
+- Displayed as an overlay when User chooses to add a location on the Choose Location Page
+- User inputs store name, address, open hours, and the business phone number
+- User can use current location to input store details (using the Arrow on the upper right-hand corner)
+- Pressing "x" will close the overlay (displaying the Choose Location Page)
+- User can save the new location using the "Save" button
+- Published alongside the image(s) chosen by the User
+
 ## Saved Items & Discussion Posts
 
 ### Saved Items:
@@ -95,6 +119,35 @@ User can exit the page by clicking the top-left "X" button.
 - Displays a form that requires title and the text of a discussion post.
 - User can return to the previous the page by clicking the top-left "X" button.
 
----
-## View & Edit User Profile
 
+---
+## **View and Edit Profiles**
+### View User's Own Profile: Outfits Version:
+<img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
+- User can view their own profile, which includes a profile picture, a bio, and their uploaded
+outfits.
+- User can click "Discussion Posts" to view their uploaded discussion posts instead of their outgits.
+- User can click image to view the entire post.
+- Overlay appears when user clicks on "Edit Profile" button. 
+
+### Edit Profile :
+<img src="./ux-design/4b-user-profile-edit.png" alt= "edit-profile" width="25%"> <br/>
+- User can edit certain profile features, including their username, style, favorite thrift, and
+biography.
+- User can type in new responses for each feature.
+- User can change their profile picture by clicking the "+" button at the top of the screen.
+- The user can either click the "Done" button at the top right to save changes and exit,
+or the "X" button at the top left to discard changes and exit. 
+
+### View Another User's Profile (Outfits) :
+<img src="./ux-design/4c-user-profile-outfits-other-view.png" alt= "profile-other-view-out" width="25%"> <br/>
+- User can view another user's profile and their profile features, like their profile picture,
+bio, and uploaded outfits.
+- User can click "Discussion Posts" to view uploaded discussion posts instead of outfits.
+- User can click image to view entire post.
+- User can click the "Follow" button next to follow the user.
+
+### View Another User's Profile (Discussion Posts):
+<img src="./ux-design/4d-user-profile-discussion-other-view.png" alt= "profile-other-view-disc" width="25%"> <br>
+- User can view the uploaded discussion posts of a profile rather than outfits.
+- User can click the "Outfits button to return to viewing the profile's outfits.
