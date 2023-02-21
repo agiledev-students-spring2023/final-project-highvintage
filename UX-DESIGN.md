@@ -48,7 +48,7 @@ User can exit the page by clicking the top-left "X" button.
 ## Saved Items & Discussion Posts
 <img src="./ux-design/3a-saved-items.png" alt = "Saved Items" width = "25%"> <br/>
 - User can view their saved outfit posts and discussion threads in the "Saved" page. 
-- User can press view all to see an expanded view of the discussions or collections saved.
+- Press "View All" to see an expanded view of the discussions or collections saved.
 - User may click on individual item and post to see their details.
 - Navigation bar is at the bottom of the screen.
 - User can exit the page by clicking the top-left "X" button.
@@ -61,10 +61,10 @@ User can exit the page by clicking the top-left "X" button.
 - Leave comments for a post by clicking on the message icon. User will enter the comment section of the post.
 - Post new discussion posts using the "post" button at the bottom.
 
-<img src="./ux-design/3c-post-discussion.png" alt = "Discussion Feed" width = "25%"> <br/>
+<img src="./ux-design/3c-post-discussion.png" alt = "Post discussion" width = "25%"> <br/>
 
 - Displays a form that requires title and the text of a discussion post.
-- "Post" button for
+- User can return to the previous the page by clicking the top-left "X" button.
 
 ---
 ## View & Edit User Profile
