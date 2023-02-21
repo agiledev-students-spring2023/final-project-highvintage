@@ -121,7 +121,7 @@ Any functionality of the screen that is not obvious should be written into the d
 
 
 ---
-## **View and Edit User Profile )**
+## **View and Edit User Profile **
 ## View User's Own Profile: Outfits Version:
 <img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
 - User can view their own profile, which includes a profile picture, a bio, and their uploaded
@@ -140,7 +140,7 @@ biography.
 or the "X" button at the top left to discard changes and exit. 
 
 ## View Another User's Profile (Outfits) :
-<img src="./ux-design/4c-user-profile-other-view.png" alt= "profile-other-view-out" width="25%"> <br/>
+<img src="./ux-design/4c-user-profile-outfits-other-view.png" alt= "profile-other-view-out" width="25%"> <br/>
 - User can view another user's profile and their profile features, like their profile picture,
 bio, and uploaded outfits.
 - User can click "Discussion Posts" to view uploaded discussion posts instead of outfits.
