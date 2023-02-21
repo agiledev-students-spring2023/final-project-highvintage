@@ -7,8 +7,6 @@ Replace the contents of this file with the completed assignments, as described i
 <!-- - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md) -->
 
-<!-- For the wireframe diagrams, include the title of each diagram, as well as a simple explanation of the purpose of the screen it represents.
-Any functionality of the screen that is not obvious should be written into the document. -->
 
 ## **Create Account & Home )**
 
@@ -45,6 +43,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can click on the "Ask Highvintager" button to go to the discussion post page.
 - User can like and comment on other user's posts similar to other social media apps.
 - User can save posts to refer to them later.
+- User can click the button in the bottom menu bar to toggle between different pages.
 
 ---
 
@@ -57,6 +56,7 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can view collected posts of outfits posted by other users.
 - User can filter the posts by style. For example, if one clicks on "Streetwear", posts related to "Streetwear" should be displayed.
 - User can click image to view the entire post.
+- User can click the button in the bottom menu bar to toggle between different pages.
 
 ### View Post :
 
@@ -74,13 +74,13 @@ Any functionality of the screen that is not obvious should be written into the d
 - User can leave heart to comments.
 - User can exit the page by clicking the top-left "X" button.
 
-### Post Comment :
+### Post Comment (Overlay) :
 
 <img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%"> <br/>
 
-- Overlay appears when user clicks on "Post Comment" button in the Comment Section.
-- User can type one's comment and post to engage in other's post.
-  User can exit the page by clicking the top-left "X" button.
+- Appears when user clicks on "Post Comment" button in the Comment Section.
+- User can type one's comment and click "Post" button to engage in other's post.
+- User can exit the page by clicking the top-left "X" button.
 
 ---
 
