@@ -49,5 +49,33 @@ User can exit the page by clicking the top-left "X" button.
 
 
 ---
-## View & Edit User Profile
+## **View and Edit User Profile )**
+## View User's Own Profile: Outfits Version:
+<img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
+- User can view their own profile, which includes a profile picture, a bio, and their uploaded
+outfits.
+- User can click "Discussion Posts" to view their uploaded discussion posts instead of their outgits.
+- User can click image to view the entire post.
+- Overlay appears when user clicks on "Edit Profile" button. 
 
+## Edit Profile :
+<img src="./ux-design/4b-user-profile-edit.png" alt= "edit-profile" width="25%"> <br/>
+- User can edit certain profile features, including their username, style, favorite thrift, and
+biography.
+- User can type in new responses for each feature.
+- User can change their profile picture by clicking the "+" button at the top of the screen.
+- The user can either click the "Done" button at the top right to save changes and exit,
+or the "X" button at the top left to discard changes and exit. 
+
+## View Another User's Profile (Outfits) :
+<img src="./ux-design/4c-user-profile-other-view.png" alt= "profile-other-view-out" width="25%"> <br/>
+- User can view another user's profile and their profile features, like their profile picture,
+bio, and uploaded outfits.
+- User can click "Discussion Posts" to view uploaded discussion posts instead of outfits.
+- User can click image to view entire post.
+- User can click the "Follow" button next to follow the user.
+
+## View Another User's Profile (Discussion Posts):
+<img src="./ux-design/4d-user-profile-discussion-other-view.png" alt= "profile-other-view-disc" width="25%"> <br>
+- User can view the uploaded discussion posts of a profile rather than outfits.
+- User can click the "Outfits button to return to viewing the profile's outfits.
