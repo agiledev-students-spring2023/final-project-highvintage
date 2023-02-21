@@ -12,6 +12,40 @@ Any functionality of the screen that is not obvious should be written into the d
 
 ## **Create Account & Home )**
 
+### Create Account
+
+<img src="./ux-design/0a-create-account.png" alt= “create-account” width="25%">
+
+- This is the first page you see when you get on the site.
+- User can login or create an account if they don't already have one.
+- User can also join as guest without loging in but can't see past likes or save their collections
+- User can see the terms of service or the contact page by clicking on the buttons at the bottom
+
+### Contact Us
+
+<img src="./ux-design/0b-contact-us.png" alt= “contact-us” width="25%">
+
+- User can contact the site either through phone or email.
+- User can click the x or the logo to go back to login page or the main home page if they were on it before.
+
+### Terms of Service
+
+<img src="./ux-design/0c-terms-of-service.png" alt= “terms-of-service” width="25%">
+
+- User can read the terms of service on this page.
+- User can click the x to go back to login page or main home page if they were on it.
+
+###  Home
+
+<img src="./ux-design/0d-home.png" alt= “home” width="25%">
+
+- This is the main home page where the user can view posts from other users or travel to other pages through the menu bar at the bottom.
+- User can click on other user's profile and view their profile.
+- User can use the search bar to find posts or profiles related to the searched words.
+- User can click on the "Ask Highvintager" button to go to the discussion post page.
+- User can like and comment on other user's posts similar to other social media apps.
+- User can save posts to refer to them later.
+
 ---
 
 ## **Outfit Collection & Post Comment )**
