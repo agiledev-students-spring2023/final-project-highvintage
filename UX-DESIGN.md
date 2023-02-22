@@ -13,7 +13,7 @@ Replace the contents of this file with the completed assignments, as described i
 </br>
 
 # [App Map](https://bit.ly/3Ihz7To)
-<img src="./ux-design/00-app-map.png" alt= “app-map” width="70%"> </br>
+<img src="./ux-design/00-app-map.png" alt= “app-map” width="100%"> </br>
 </br>
 
 # [Wireframes](https://bit.ly/3YSVANI)
