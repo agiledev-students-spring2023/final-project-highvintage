@@ -139,27 +139,47 @@ Replace the contents of this file with the completed assignments, as described i
 
 ### Saved Items :
 <img src="./ux-design/3a-saved-items.png" alt = "Saved Items" width = "25%"> <br/>
-
-- User can view their saved outfit posts and discussion threads in the "Saved" page. 
+- Displays saved outfit posts and discussion threads with titles.
 - Press "View All" to see an expanded view of the discussions or collections saved.
 - User may click on individual item and post to see their details.
-- Navigation bar is at the bottom of the screen.
-- User can exit the page by clicking the top-left "X" button.
+
+### Saved Outfit Collections:
+<img src="./ux-design/3h-saved-collections.png" alt = "Post discussion" width = "25%"> <br/>
+- Displays expanded view of the saved outfit collections.
+- User may click on listed outfits pictures to view the original post.
+- User can return to the previous the page by clicking the top-left "X" button.
+
+### Saved Discussions:
+<img src="./ux-design/3i-saved-discussions.png" alt = "Post discussion" width = "25%"> <br/>
+- Displays expanded view of the saved discussions with titles and an overview of the post.
+- User may click on listed discussions to view the original post.
+- User can return to the previous the page by clicking the top-left "X" button.
+
 
 ### Discussion Feed :
 <img src="./ux-design/3b-discussion-feed.png" alt = "Discussion Feed" width = "25%"> <br/>
 
-- Search for posts using the bar at the top.
+
 - Displays discussion posts with author information, date, title, and a pre-view of the post.
-- User may sort discussion posts by most recent or most popular.
-- Like a post by clicking on the heart icon at the bottom left 
-- Leave comments for a post by clicking on the message icon. User will enter the comment section of the post.
+- User can search for posts using the search bar "search HighVintage" at the top.
+- User may sort discussion posts by most recent or most popular using the "Most Recent" and "Most Popular" button.
+- Like a discussion post by clicking on "Like" button.
+- Leave comments for a post by clicking on "Comment". User will enter the comment section of the post.
 - Post new discussion posts using the "post" button at the bottom.
 
 ### Post Discussion :
 <img src="./ux-design/3c-post-discussion.png" alt = "Post discussion" width = "25%"> <br/>
 
 - Displays a form that requires title and the text of a discussion post.
+- User can return to the previous the page by clicking the top-left "X" button.
+- Click on "Post" to post the current discussion
+
+### View Discussion:
+<img src="./ux-design/3d-view-discussion.png" alt = "Post discussion" width = "25%"> <br/>
+- Displays an specific example discussion post with a comment section.
+- Click on "Post Comment" to post new comments to the original post 
+- Click on "Comment" to comment under other's comments.
+- User can like a comment with the "like" button aligned to the right of each comment.
 - User can return to the previous the page by clicking the top-left "X" button.
 
 
