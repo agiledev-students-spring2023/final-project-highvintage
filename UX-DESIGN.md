@@ -7,11 +7,16 @@ Replace the contents of this file with the completed assignments, as described i
 <!-- - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md) -->
 
-## **[View Prototype in Figma](https://www.figma.com/proto/MKhYma12o2g2J1nhqxpeYV/HighVintage-Prototype?node-id=66%3A492&scaling=scale-down&page-id=0%3A1&starting-point-node-id=64%3A197&show-proto-sidebar=1)**
+> ## [View HighVintage Prototype on Figma](https://www.figma.com/proto/MKhYma12o2g2J1nhqxpeYV/HighVintage-Prototype?node-id=66%3A492&scaling=scale-down&page-id=0%3A1&starting-point-node-id=64%3A197&show-proto-sidebar=1)
 
 </br>
+</br>
 
+# [App Map](https://bit.ly/3Ihz7To)
+<img src="./ux-design/00-app-map.png" alt= “app-map” width="70%"> </br>
+</br>
 
+# [Wireframes](https://bit.ly/3YSVANI)
 
 ## **Create Account & Home )**
 
@@ -56,7 +61,7 @@ Replace the contents of this file with the completed assignments, as described i
 
 ### Outfit Collection :
 
-<img src="./ux-design/1a-outfit-collection.png" alt= “create-account” width="25%"> <br/>
+<img src="./ux-design/1a-outfit-collection.png" alt= “outfit-collection” width="25%"> <br/>
 
 - User can view collected posts of outfits posted by other users.
 - User can filter the posts by style. For example, if one clicks on "Streetwear", posts related to "Streetwear" should be displayed.
@@ -65,14 +70,14 @@ Replace the contents of this file with the completed assignments, as described i
 
 ### View Post :
 
-<img src="./ux-design/1b-view-post.png" alt= “create-account” width="25%"> <br/>
+<img src="./ux-design/1b-view-post.png" alt= “view-post” width="25%"> <br/>
 
 - User can view, leave heart, comment, or save other's posts.
 - User can exit the page by clicking the top-left "X" button.
 
 ### Comment Section :
 
-<img src="./ux-design/1c-comment-section.png" alt= “create-account” width="25%"> <br/>
+<img src="./ux-design/1c-comment-section.png" alt= “comment-section” width="25%"> <br/>
 
 - Displays comments posted under a specific post.
 - User can reply to the post itself or the comment by clicking "Post Comment" or "Comment" button respectively.
@@ -80,8 +85,8 @@ Replace the contents of this file with the completed assignments, as described i
 - User can exit the page by clicking the top-left "X" button.
 
 ### Post Comment (Overlay) :
-<img src="./ux-design/1e-comment-section-with-overlay.png" alt= “create-account” width="25%">
-<img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%">  <br/>
+<img src="./ux-design/1e-comment-section-with-overlay.png" alt= “comment-with-overlay” width="25%">
+<img src="./ux-design/1d-post-comment-overlay.png" alt= “comment-overlay” width="25%">  <br/>
 
 
 - Appears when user clicks on "Post Comment" button in the Comment Section.
