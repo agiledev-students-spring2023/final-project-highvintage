@@ -7,6 +7,11 @@ Replace the contents of this file with the completed assignments, as described i
 <!-- - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md) -->
 
+## **[View Prototype in Figma](https://www.figma.com/proto/MKhYma12o2g2J1nhqxpeYV/HighVintage-Prototype?node-id=66%3A492&scaling=scale-down&page-id=0%3A1&starting-point-node-id=64%3A197&show-proto-sidebar=1)**
+
+</br>
+
+
 
 ## **Create Account & Home )**
 
@@ -75,9 +80,9 @@ Replace the contents of this file with the completed assignments, as described i
 - User can exit the page by clicking the top-left "X" button.
 
 ### Post Comment (Overlay) :
+<img src="./ux-design/1e-comment-section-with-overlay.png" alt= “create-account” width="25%">
+<img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%">  <br/>
 
-<img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%"> <br/>
-<img src="./ux-design/1e-comment-section-with-overlay.png" alt= “create-account” width="25%"> <br/>
 
 - Appears when user clicks on "Post Comment" button in the Comment Section.
 - User can type one's comment and click "Post" button to engage in other's post.
