@@ -77,6 +77,7 @@ Replace the contents of this file with the completed assignments, as described i
 ### Post Comment (Overlay) :
 
 <img src="./ux-design/1d-post-comment-overlay.png" alt= “create-account” width="25%"> <br/>
+<img src="./ux-design/1e-comment-section-with-overlay.png" alt= “create-account” width="25%"> <br/>
 
 - Appears when user clicks on "Post Comment" button in the Comment Section.
 - User can type one's comment and click "Post" button to engage in other's post.
