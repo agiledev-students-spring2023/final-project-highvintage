@@ -133,6 +133,7 @@ Replace the contents of this file with the completed assignments, as described i
 
 ### Saved Items :
 <img src="./ux-design/3a-saved-items.png" alt = "Saved Items" width = "25%"> <br/>
+
 - User can view their saved outfit posts and discussion threads in the "Saved" page. 
 - Press "View All" to see an expanded view of the discussions or collections saved.
 - User may click on individual item and post to see their details.
@@ -141,6 +142,7 @@ Replace the contents of this file with the completed assignments, as described i
 
 ### Discussion Feed :
 <img src="./ux-design/3b-discussion-feed.png" alt = "Discussion Feed" width = "25%"> <br/>
+
 - Search for posts using the bar at the top.
 - Displays discussion posts with author information, date, title, and a pre-view of the post.
 - User may sort discussion posts by most recent or most popular.
@@ -159,30 +161,44 @@ Replace the contents of this file with the completed assignments, as described i
 ## **View and Edit Profiles )**
 ### View User's Own Profile (Outfits Version):
 <img src="./ux-design/4a-user-profile-my-view.png" alt= "profile-own-view" width="25%"> <br/>
-- User can view their own profile, which includes a profile picture, a bio, and their uploaded
-outfits.
-- User can click "Discussion Posts" to view their uploaded discussion posts instead of their outgits.
+
+- User can view their own profile, which includes a profile picture, a bio, and their uploaded outfits.
+- Users can click the "Followers" button to view who follows them, or the "Following" button to view accounts they follow. 
+- User can click "Discussion Posts" to view their uploaded discussion posts instead of their outfits.
 - User can click image to view the entire post.
-- Overlay appears when user clicks on "Edit Profile" button. 
+- User can click "Edit Profile" button to change profile features.
+
+### View User's Own Profile (Discussion Posts Version):
+<img src="./ux-design/4e-user-profile-my-view-discussion.png" alt="profile-own-view-disc" width="25%"> <br/>
+
+- User views their own profile with their uploaded discussion posts.
+- User can click "Discussion Posts" to view their uploaded discussion posts instead of their outfits.
+- User can click discussion post to view the entire post.
+- User can click "Edit Profile" button to change profile features.
 
 ### Edit Profile :
 <img src="./ux-design/4b-user-profile-edit.png" alt= "edit-profile" width="25%"> <br/>
-- User can edit certain profile features, including their username, style, favorite thrift, and
-biography.
+
+- User can edit certain profile features, including their username, style, favorite thrift, and biography.
 - User can type in new responses for each feature.
 - User can change their profile picture by clicking the "+" button at the top of the screen.
-- The user can either click the "Done" button at the top right to save changes and exit,
-or the "X" button at the top left to discard changes and exit. 
+- The user can either click the "Done" button at the top right to save changes and exit, or the "X" button at the top left to discard changes and exit. 
 
 ### View Another User's Profile (Outfits) :
 <img src="./ux-design/4c-user-profile-outfits-other-view.png" alt= "profile-other-view-out" width="25%"> <br/>
-- User can view another user's profile and their profile features, like their profile picture,
-bio, and uploaded outfits.
+
+- User can view another user's profile and their profile features, like their profile picture, bio, and uploaded outfits.
+- Users can click the "Followers" button to view who follows this account, or the "Following" button to view  accounts this account follows. 
 - User can click "Discussion Posts" to view uploaded discussion posts instead of outfits.
 - User can click image to view entire post.
 - User can click the "Follow" button next to follow the user.
 
-### View Another User's Profile (Discussion Posts) :
-<img src="./ux-design/4d-user-profile-discussion-other-view.png" alt= "profile-other-view-disc" width="25%"> <br>
-- User can view the uploaded discussion posts of a profile rather than outfits.
-- User can click the "Outfits button to return to viewing the profile's outfits.
+### View Followers :
+<img src="./ux-design/4h-user-profile-followers.png" alt= "profile-view-followers" width="25%"> <br/>
+
+- User can vertically scroll through list of accounts who follow the page they are currently visiting.
+
+### View Following :
+<img src="./ux-design/4i-user-profile-following.png" alt= "profile-view-following" width="25%"> <br/>
+
+- User can vertically scroll through list of accounts who the page they are currently visiting follow.
