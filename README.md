@@ -36,7 +36,7 @@ HighVintage is a social media web application that aims to provide easy access t
 ## **Team members**
 <!-- include links to their GitHub accounts and any other web presence they have -->
 - Ruby Kim - [GitHub](https://github.com/rubykiim)
-- 
+- Kedan Zha - [GitHub](https://github.com/Zackdan0227)
 
 </br>
 
