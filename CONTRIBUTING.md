@@ -19,6 +19,11 @@ Team members may solicit help from others by communication in Discord.
 - For non-technical questions/help on designs or features, leave a note in the project discord channel. (e.g. "Does anyone have opinion on x,y,z")
 - Anyone available may help to solve the issue.
 
+Contribution Rules:
+- Must have made progress on tasks unless there were issues that you could not solve alone, in which case you must consult with other developers.
+- Attend daily meet-ups and weekly sync on the promised hours and contribute to the discussion and planning.
+- Must communicate with other developers if there are issues and be responsible to bring them up in the daily meet ups or weekly syncs.
+
 Team conflict resolution:
 - Disagreements regarding direction should be discussed upfront.
 - It is always best to consult the entire team rather than individuals. 

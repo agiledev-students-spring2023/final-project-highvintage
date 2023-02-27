@@ -39,6 +39,7 @@ HighVintage is a social media web application that aims to provide easy access t
 - Kedan Zha - [GitHub](https://github.com/Zackdan0227)
 - Eduarda Martini [GitHub](https://github.com/ezmartini)
 - Kate Yoon [GitHub](https://github.com/katepilled)
+- Tony Kim [GitHub](https://github.com/wjdgus02)
 
 </br>
 
