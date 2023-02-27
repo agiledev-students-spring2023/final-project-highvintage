@@ -2,11 +2,26 @@
 
 ## Team Norms
 
+Form of meeting:
+- By default, members meet synchronously on Zoom for daily stand-ups and weekly syncs.
+- In-person meetings can be arranged if needed.
+
+Regular check-ups & communication:
+- Weekly sync - Saturday 2:30 pm
+- 3 weekly daily stand-ups
+  - Monday 10:30 am
+  - Wednesday 10:30 am
+  - Saturday 2:30 pm (complete during weekly sync)
+- Scrum Master may rearrange schedules if needed
+
+
 Team members may solicit help from others by communication in Discord.
 
 - Post a new thread regarding a technical issue. (e.g. "Need help with x,y,z")
 - For non-technical questions/help on designs or features, leave a note in the project discord channel. (e.g. "Does anyone have opinion on x,y,z")
 - Anyone available may help to solve the issue.
+
+</br>
 
 ## GitHub Workflow & Coding Standards
 
