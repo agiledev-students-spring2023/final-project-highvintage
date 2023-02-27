@@ -19,7 +19,7 @@ Several sets of instructions are included in this repository. They should each b
 1. See the [Deployment instructions](./instructions-4-deployment.md) for the requirements of deploying an app. -->
 
 # HighVintage
-HighVintage is a social media web application that aims to provide easy access to information  for thrifting by allowing users to share outfits and stores and exchange ideas. </br> </br>
+HighVintage is a social media web application that aims to provide easy access to thrifting-related information by allowing users to share outfits and thrift stores and exchange ideas. HighVintage users will be able to join a community of like-minded second-hand clothing enjoyers, where the experience of thrifting is made easier and more fun. </br> </br>
 
 
 
