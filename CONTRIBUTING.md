@@ -14,12 +14,24 @@ Regular check-ups & communication:
   - Saturday 2:30 pm (complete during weekly sync)
 - Scrum Master may rearrange schedules if needed
 
-
 Team members may solicit help from others by communication in Discord.
-
 - Post a new thread regarding a technical issue. (e.g. "Need help with x,y,z")
 - For non-technical questions/help on designs or features, leave a note in the project discord channel. (e.g. "Does anyone have opinion on x,y,z")
 - Anyone available may help to solve the issue.
+
+Team conflict resolution:
+- Disagreements regarding direction should be discussed upfront.
+- It is always best to consult the entire team rather than individuals. 
+- If there is a team member failing to deliver their obligations to the team:
+  - The team has agreed to report to management a member who has failed to make progress on a task for two or more standups.
+  - Work must be redistributed accordingly so that the project does not suffer. 
+
+Asyncronous team messaging expectations:
+- When a message is directed at a specific member:
+  - The message should ideally be responded to within 1-3 hours. 
+  - At latest, the message should be handled by the end of the day.
+  - If an immediate response is not possible, the member should acknowledge that they have seen the message and will work on it. 
+- For urgent issues, begin the message with "[Urgent]". 
 
 </br>
 
