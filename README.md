@@ -25,8 +25,8 @@ HighVintage is a social media web application that aims to provide easy access t
 
 ## **Product Vision Statement**
 ### Our Minimum Viable Product includes following features :
-- User can post image / video with text to share one's thrifted items or outfits and categorize them by style, with an option to include store location
-- User can post questions or any discussion topics to exchange ideas with others
+- User can post image / video with text to share one's thrifted items or outfits and categorize them by style, with an option to include store location(s)
+- User can post questions or any discussion topics in a forum-style page to exchange ideas with others 
 - User can like and comment on other's posts
 - User can save outfit posts and/or discussion posts to collect information
 - User can create one's profile and access other's profile, given an option to follow or unfollow.
@@ -38,15 +38,17 @@ HighVintage is a social media web application that aims to provide easy access t
 - Ruby Kim - [GitHub](https://github.com/rubykiim)
 - Kedan Zha - [GitHub](https://github.com/Zackdan0227)
 - Eduarda Martini [GitHub](https://github.com/ezmartini)
+- Kate Yoon [GitHub](https://github.com/katepilled)
 
 </br>
 
 ## **Project History**
-The idea started from difficulty in finding thrift stores and lack of dedicated space to access relevant information. Moreover, not every thrift/vintage locations appear on maps.
+The idea for the stemmed from a difficulty in finding thrift stores and a lack of spaces dedicated to relevant thrifting information. Moreover, not every thrift/vintage location appears on online maps, adding to some of the inaccesibility faced 
+by vintage and thrift lovers alike. 
 
-Therefore, a web application HighVintage aims to provide an online space that nurtures a sound thrift community where people can share their thrifted items and styles, recommend stores, and freely talk and ask questions about anything related to thrifting.
+Therefore, the web application HighVintage aims to provide an online space that nurtures a sound thrifting community where people can share their thrifted items and styles, recommend stores, and freely discuss anything related to thrifting.
 
-The ultimate goal of this project is to build a community so users can help each other make best thrifting experience. As the community grows, we wish thrifting to be recognized as a more accessible way of shopping so more people can make environmentally healthy choices while elevating their wardrobes.
+The ultimate goal of this project is to build a community where users can help each other have the best thrifting experience possible. As the community grows, we hope for thrifting to be recognized as a more accessible way of shopping so more people can make environmentally-friendly choices while elevating their wardrobes. The HighVintage community can help this happen. 
 
 </br>
 
