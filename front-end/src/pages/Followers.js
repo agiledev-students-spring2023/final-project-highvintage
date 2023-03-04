@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ProfilePreview from "../components/ProfilePreview";
+import { FaLongArrowAltLeft } from "react-icons/fa";
 
 export default function Followers() {
   // mocking an api call to get someone's followers: a list of followers
@@ -33,7 +34,11 @@ export default function Followers() {
 
   return (
     <>
-      <h1 className="p-4 text-center text-2xl font-extrabold"> Followers</h1>
+      <div className="grid w-80 grid-cols-2 p-3">
+        {" "}
+        <FaLongArrowAltLeft />
+        <h1 className="text-center text-2xl font-extrabold"> Followers</h1>{" "}
+      </div>
       <div className="grid grid-cols-1">{followerComponents}</div>{" "}
     </>
   );
