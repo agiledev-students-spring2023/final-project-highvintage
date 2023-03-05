@@ -4,12 +4,13 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import Followers from "./pages/Followers";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/test" element={<p> whatsup </p>}></Route>
+      <Route path="/test" element={<Followers />}></Route>
     </Routes>
   </BrowserRouter>
 );
