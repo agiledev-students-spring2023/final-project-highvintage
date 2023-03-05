@@ -5,12 +5,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Followers from "./pages/Followers";
+import Following from "./pages/Following";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/test" element={<Followers />}></Route>
+      <Route path="/followers" element={<Followers />}></Route>
+      <Route path="/following" element={<Following />}></Route>
     </Routes>
   </BrowserRouter>
 );
