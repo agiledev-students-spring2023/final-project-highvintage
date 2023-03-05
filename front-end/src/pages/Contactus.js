@@ -4,10 +4,14 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 export default function Aboutus() {
   return (
+    /*
+    Using a placeholder image for logo. Needs to be changed to HighVintage logo
+    */
     <>
       <div className="fixed bg-white top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
         <FaLongArrowAltLeft />
       </div>
+
       <div className="flex flex-wrap justify-center py-5">
         <div className="w-6/12 sm:w-4/12 py-10 px-4">
           <img

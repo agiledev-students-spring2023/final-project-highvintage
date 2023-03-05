@@ -3,6 +3,9 @@ import { FaLongArrowAltLeft } from "react-icons/fa";
 
 export default function Termsofservice() {
   return (
+    /*
+    Lorem Ipsum placeholder for terms of service.
+    */
     <>
       <div className="fixed bg-white top-0 left-0 right-0 grid w-60 grid-cols-2 p-3">
         <FaLongArrowAltLeft />
