@@ -9,7 +9,6 @@ export default function Termsofservice() {
         <h1 className="whitespace-nowrap text-center text-2xl font-extrabold">
           Terms of Service
         </h1>
-        
       </div>
       <div className="px-10 pt-20 text-base leading-7 text-gray-600 text-justify">
         <p>
@@ -30,7 +29,6 @@ export default function Termsofservice() {
           imperdiet mauris. Aliquam sit amet tincidunt nibh.
         </p>
       </div>
-      
     </>
   );
 }

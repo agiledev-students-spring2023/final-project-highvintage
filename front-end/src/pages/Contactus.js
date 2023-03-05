@@ -17,7 +17,6 @@ export default function Aboutus() {
           />
         </div>
       </div>
-
       <h1 className="text-center text-2xl font-extrabold">Contact Us</h1>
       <div className="flex items-center justify-center">
         <FaPhoneAlt />
