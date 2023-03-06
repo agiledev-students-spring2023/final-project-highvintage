@@ -2,6 +2,7 @@ import React from "react";
 import ProfilePreview from "../components/ProfilePreview";
 import { useState } from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
+import GenericHeader from "../components/GenericHeader";
 
 export default function Following() {
   // this page uses a different API call to get user's list of following
@@ -59,14 +60,7 @@ export default function Following() {
   ));
   return (
     <>
-      <div className="fixed bg-white top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
-        {" "}
-        <FaLongArrowAltLeft />
-        <h1 className="text-center text-2xl font-extrabold">
-          {" "}
-          Following{" "}
-        </h1>{" "}
-      </div>
+      <GenericHeader pageName="Following" />
       <div className="grid grid-cols-1 mt-12">{followerComponents}</div>{" "}
     </>
   );
