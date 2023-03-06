@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import Contactus from "./pages/Contactus";
+import OutfitCollection from "./pages/OutfitCollection";
 import Termsofservice from "./pages/Termsofservice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,6 +18,7 @@ root.render(
       <Route path="/following" element={<Following />}></Route>
       <Route path="/contactus" element = {<Contactus />}></Route>
       <Route path="/termsofservice" element = {<Termsofservice />}></Route>
+      <Route path="/outfit-collection" element = {<OutfitCollection />}></Route>
     </Routes>
   </BrowserRouter>
 );
