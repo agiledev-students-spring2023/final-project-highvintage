@@ -7,8 +7,8 @@ import reportWebVitals from "./reportWebVitals";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import Contactus from "./pages/Contactus";
-import OutfitCollection from "./pages/OutfitCollection";
 import Termsofservice from "./pages/Termsofservice";
+import OutfitCollection from "./pages/OutfitCollection";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
