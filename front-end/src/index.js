@@ -8,6 +8,7 @@ import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import Contactus from "./pages/Contactus";
 import Termsofservice from "./pages/Termsofservice";
+import Search from "./pages/Search";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,8 +16,9 @@ root.render(
     <Routes>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
-      <Route path="/contactus" element = {<Contactus />}></Route>
-      <Route path="/termsofservice" element = {<Termsofservice />}></Route>
+      <Route path="/contactus" element={<Contactus />}></Route>
+      <Route path="/termsofservice" element={<Termsofservice />}></Route>
+      <Route path="/search" element={<Search />}></Route>
     </Routes>
   </BrowserRouter>
 );
