@@ -1,5 +1,4 @@
 import React from "react";
-import ProfilePreview from "../components/ProfilePreview";
 import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
 
@@ -8,13 +7,7 @@ export default function Search() {
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  const recentQueries = recent.map((pastQuery) => (
-    <div>
-      {" "}
-      <p> {pastQuery}</p>{" "}
-    </div>
-  ));
-
+  function handleSearch() {}
   return (
     <>
       <GenericHeader pageName="Search" />
@@ -36,8 +29,7 @@ export default function Search() {
           className="bg-gray-400 p-1"
           onClick={(e) => {
             e.preventDefault();
-            setRecent([...recent, query]);
-            setIsSearching(true);
+            handleSearch(query);
           }}
         />
       </form>
