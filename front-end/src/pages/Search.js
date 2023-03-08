@@ -1,18 +1,58 @@
 import React from "react";
 import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
+import { dummyUsers } from "../dummy/users";
+import { useEffect } from "react";
+import ProfilePreview from "../components/ProfilePreview";
 
 export default function Search() {
   const [found, setFound] = useState([]);
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
   function handleSearch() {
-    if (!isSearching) {
-      return <p> hi </p>;
+    if (isSearching) {
+      return (
+        <button
+          className="underline text-neutral-400 ml-10"
+          onClick={(e) => {
+            setIsSearching(false);
+          }}
+        >
+          clear search{" "}
+        </button>
+      );
     }
-    // query database using searched term
   }
+
+  useEffect(() => {
+    if (query === "") {
+      setIsSearching(false);
+      setResults([]);
+      handleSearch();
+    } else {
+      setIsSearching(true);
+      handleSearch();
+
+      const cleanQuery = query.toLowerCase();
+
+      const foundUsers = dummyUsers
+        .filter((user) => user.username.toLowerCase().includes(cleanQuery))
+        .map((user) => (
+          <ProfilePreview
+            username={user.username}
+            photo={user.photo}
+            key={user.id}
+          />
+        ));
+
+      setResults(foundUsers);
+    }
+
+    return () => {};
+  }, [query]);
+
   return (
     <>
       <GenericHeader pageName="Search" />
@@ -35,12 +75,12 @@ export default function Search() {
           onClick={(e) => {
             e.preventDefault();
             setIsSearching(true);
-            handleSearch(query);
           }}
         />
       </form>
 
       {handleSearch()}
+      {results}
     </>
   );
 }
