@@ -3,11 +3,16 @@ import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
 
 export default function Search() {
-  const [recent, setRecent] = useState([]);
+  const [found, setFound] = useState([]);
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
-  function handleSearch() {}
+  function handleSearch() {
+    if (!isSearching) {
+      return <p> hi </p>;
+    }
+    // query database using searched term
+  }
   return (
     <>
       <GenericHeader pageName="Search" />
@@ -29,10 +34,13 @@ export default function Search() {
           className="bg-gray-400 p-1"
           onClick={(e) => {
             e.preventDefault();
+            setIsSearching(true);
             handleSearch(query);
           }}
         />
       </form>
+
+      {handleSearch()}
     </>
   );
 }
