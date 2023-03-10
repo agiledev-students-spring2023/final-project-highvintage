@@ -1,5 +1,4 @@
 import React from "react";
-import { FaLongArrowAltLeft } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
 import GenericHeader from "../components/GenericHeader";
