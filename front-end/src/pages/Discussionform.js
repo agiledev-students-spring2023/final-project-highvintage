@@ -7,11 +7,15 @@ export default function DiscussionForm() {
   const [title, setTitle] = useState("");
   const [discussionContent, setDiscussionContent] = useState("");
   // const [error, setError] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   //Handling form submit
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent the default browser form submission stuff
 
+    //error mmessage needed
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
     console.log(`Title: ${title}`);
     console.log(`Discussion content: ${discussionContent}`);
     //backend stuff for later goes here
@@ -20,6 +24,7 @@ export default function DiscussionForm() {
     <>
       <GenericHeader pageName="Post Discussion" />
       <div className="flex justify-center items-center h-screen">
+      
         <form className="bg-white p-10 rounded-lg " onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold mb-4"></h2>
           <div className="mb-4">
@@ -60,13 +65,23 @@ export default function DiscussionForm() {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="ml-auto bg-gray-400 text-white px-10 py-2 rounded-md"
+              className="ml-auto bg-gray-400 text-white px-10 py-2 rounded-md hover:bg-gray-700"
             >
               Submit
             </button>
           </div>
         </form>
+        {/* Success Message */}
+        {showMessage && (
+          <div className="fixed top-0 left-0 w-full flex items-center justify-center">
+
+        <div className=" p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-600 dark:text-green-300" role="alert">
+        <span className="font-medium">Successfully Posted!</span> 
+        </div>
+        </div>
+      )}
       </div>
+      
     </>
   );
 }
