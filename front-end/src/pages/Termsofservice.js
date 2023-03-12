@@ -1,5 +1,6 @@
 import React from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
+import GenericHeader from "../components/GenericHeader";
 
 export default function Termsofservice() {
   return (
@@ -7,12 +8,13 @@ export default function Termsofservice() {
     Lorem Ipsum placeholder for terms of service.
     */
     <>
-      <div className="fixed bg-white top-0 left-0 right-0 grid w-60 grid-cols-2 p-3">
+      {/* <div className="fixed bg-white top-0 left-0 right-0 grid w-60 grid-cols-2 p-3">
         <FaLongArrowAltLeft />
         <h1 className="whitespace-nowrap text-center text-2xl font-extrabold">
           Terms of Service
         </h1>
-      </div>
+      </div> */}
+      <GenericHeader pageName = "Terms of Service"/>
       <div className="px-10 pt-20 text-base leading-7 text-gray-600 text-justify">
         <p>
           Maecenas nunc enim, convallis eget sapien ut, tempor malesuada urna.

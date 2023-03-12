@@ -1,19 +1,20 @@
 import React from "react";
-import { FaLongArrowAltLeft } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
+import GenericHeader from "../components/GenericHeader";
 export default function Aboutus() {
   return (
     /*
     Using a placeholder image for logo. Needs to be changed to HighVintage logo
     */
     <>
-      <div className="fixed bg-white top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
+      {/* <div className="fixed bg-white top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
         <FaLongArrowAltLeft />
-      </div>
+      </div> */}
+      <GenericHeader pageName = "Contact Us" />
 
       <div className="flex flex-wrap justify-center py-5">
-        <div className="w-6/12 sm:w-4/12 py-10 px-4">
+        <div className="w-6/12 sm:w-4/12 pt-20 px-4">
           <img
             src="https://ventureasheville.com/wp-content/uploads/2015/09/logo-placeholder.jpg"
             alt="..."
