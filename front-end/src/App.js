@@ -1,10 +1,13 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Form from "./components/Form";
 
 function App() {
   return (
-    <div className="App">
-      <p className="font-medium text-slate-900 serif"> hi </p>
+    <div className="flex w-full h-screen">
+      <div className="w-full flex items-center justify-center">
+        <Form />
+      </div>
     </div>
   );
 }
