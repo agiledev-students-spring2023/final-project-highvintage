@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import Profile from "./pages/Profile"
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
 import Contactus from "./pages/Contactus";
@@ -14,6 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
+      <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
       <Route path="/contactus" element = {<Contactus />}></Route>
