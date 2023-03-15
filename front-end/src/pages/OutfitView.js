@@ -1,5 +1,5 @@
 import React from 'react'
-import OutfitPost from '../components/OutfitPost'
+import OutfitPost from '../components/OutfitPost/OutfitPost'
 import GenericHeader from '../components/GenericHeader'
 
 export default function OutfitView() {
