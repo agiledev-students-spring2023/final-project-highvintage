@@ -77,17 +77,20 @@ export default function EditProfile() {
           </div>
 
           <div className="mb-2">
-            <label className="p-1" for="name">
+            <label className="p-1 align-top" for="bio">
               Bio{" "}
             </label>{" "}
-            <input
-              type="textarea"
-              className="p-1"
+            <textarea
+              className="p-1 w-2/4"
               rows="10"
               id="bio"
               placeholder={loggedIn.bio}
             />
           </div>
+          <button type="submit" className="mt-2 text-sky-800 font-semibold">
+            {" "}
+            Save changes{" "}
+          </button>
         </form>
       </div>
     </>
