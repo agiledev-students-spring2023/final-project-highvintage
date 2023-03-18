@@ -13,6 +13,14 @@ export default function EditProfile() {
     following: "302",
     posts: "67",
   });
+
+  const [update, setUpdate] = useState({
+    username: "",
+    profilePicture: "",
+    style: "",
+    favoriteThrift: "",
+    bio: "",
+  });
   return (
     <>
       {" "}
@@ -34,14 +42,12 @@ export default function EditProfile() {
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="username"
+              name="username"
               className="ml-2 w-2/4 p-1"
-              required
-              minlength="4"
-              maxlength="8"
               placeholder={loggedIn.username}
               size="10"
+              onChange={(e) => (update.username = e.target.value)}
             />
           </div>
 
@@ -55,6 +61,7 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.favoriteThrift}
               size="10"
+              onChange={(e) => (update.favoriteThrift = e.target.value)}
             />
           </div>
 
@@ -67,6 +74,7 @@ export default function EditProfile() {
               id="style"
               name="style"
               className="ml-2 w-2/4 p-1"
+              onChange={(e) => (update.style = e.target.value)}
             >
               <option> {loggedIn.style} </option>
               <option> Athlesuire </option>
@@ -85,9 +93,14 @@ export default function EditProfile() {
               rows="10"
               id="bio"
               placeholder={loggedIn.bio}
+              onChange={(e) => (update.bio = e.target.value)}
             />
           </div>
-          <button type="submit" className="mt-2 text-sky-800 font-semibold">
+          <button
+            type="submit"
+            className="mt-2 text-sky-800 font-semibold"
+            onClick={(e) => e.preventDefault()}
+          >
             {" "}
             Save changes{" "}
           </button>
