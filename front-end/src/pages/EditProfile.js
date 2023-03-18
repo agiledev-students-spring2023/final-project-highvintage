@@ -14,13 +14,17 @@ export default function EditProfile() {
     posts: "67",
   });
 
-  const [update, setUpdate] = useState({
-    username: "",
-    profilePicture: "",
-    style: "",
-    favoriteThrift: "",
-    bio: "",
-  });
+  const [update, setUpdate] = useState({});
+
+  function handleSubmit() {
+    // ignore all empty strings - besides bio
+
+    // logic prior to update DB api call is made
+    for (const prop in update) {
+    }
+
+    // check non-empty strings
+  }
   return (
     <>
       {" "}
@@ -47,7 +51,9 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.username}
               size="10"
-              onChange={(e) => (update.username = e.target.value)}
+              onChange={(e) =>
+                setUpdate({ ...update, username: e.target.value })
+              }
             />
           </div>
 
@@ -61,7 +67,9 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.favoriteThrift}
               size="10"
-              onChange={(e) => (update.favoriteThrift = e.target.value)}
+              onChange={(e) =>
+                setUpdate({ ...update, favoriteThrift: e.target.value })
+              }
             />
           </div>
 
@@ -74,7 +82,7 @@ export default function EditProfile() {
               id="style"
               name="style"
               className="ml-2 w-2/4 p-1"
-              onChange={(e) => (update.style = e.target.value)}
+              onChange={(e) => setUpdate({ ...update, style: e.target.value })}
             >
               <option> {loggedIn.style} </option>
               <option> Athlesuire </option>
@@ -93,16 +101,19 @@ export default function EditProfile() {
               rows="10"
               id="bio"
               placeholder={loggedIn.bio}
-              onChange={(e) => (update.bio = e.target.value)}
+              onChange={(e) => setUpdate({ ...update, bio: e.target.value })}
             />
           </div>
           <button
             type="submit"
             className="mt-2 text-sky-800 font-semibold"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
           >
             {" "}
-            Save changes{" "}
+            Save changes
           </button>
         </form>
       </div>
