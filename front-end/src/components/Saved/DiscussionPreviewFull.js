@@ -1,5 +1,8 @@
 import React from 'react'
 
+/*
+Displays preview of discussion with title and content
+*/
 function DiscussionPreviewFull(props) {
   return (
     <>
@@ -7,7 +10,7 @@ function DiscussionPreviewFull(props) {
         <div className="flex flex-col gap-2 ">
           <h2 className="ml-2 pt-2 text-lg font-serif leading-none font-bold">{props.title}</h2>
           <hr className="h-0 border-none pt-1 mb-0  bg-gray-200 border-0"></hr>
-          <p className=" mx-1 px-2 pb-2 text-base text-justify ">{props.discuss}</p>
+          <p className="mx-1 px-2 pb-1 text-base text-justify line-clamp-3 ">{props.discuss}</p>
         </div>
       </div>
     </>
