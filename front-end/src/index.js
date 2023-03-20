@@ -13,6 +13,7 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
+import Saveddiscussion from "./pages/Saveddiscussion";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -28,6 +29,7 @@ root.render(
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/saved-discussion" element = {<Saveddiscussion />}></Route>
     </Routes>
   </BrowserRouter>
 );
