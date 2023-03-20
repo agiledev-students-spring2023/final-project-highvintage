@@ -8,7 +8,9 @@ export default function Home() {
     <div>
         <GenericHeader pageName = "HighVintage" />
 
-        <MainNav></MainNav>
+        
+
+        <MainNav/>
     </div>
   )
 }

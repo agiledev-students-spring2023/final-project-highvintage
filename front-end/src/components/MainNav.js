@@ -16,7 +16,7 @@ export default function MainNav() {
           <div className='mx-auto'>
               {/* link needs to be changed to /home later */}
               {/* <Link to='/'><FaHome size={30}></FaHome></Link>  */}
-              <Link to='/'>Home</Link> 
+              <Link to='/home'>Home</Link> 
           </div>
 
           <div>
