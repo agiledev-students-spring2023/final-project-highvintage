@@ -16,6 +16,7 @@ import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
+import ShareDiscussion from "./pages/ShareDiscussion";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,7 +34,10 @@ root.render(
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
       <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
-      <Route path="/discussion-view" element = {<DiscussionView/>} /></Routes>
+      <Route path="/discussion-view" element = {<DiscussionView/>}></Route>
+      <Route path="/share-discussion" element = {<ShareDiscussion/>}></Route>
+      </Routes>
+     
   </BrowserRouter>
 );
 
