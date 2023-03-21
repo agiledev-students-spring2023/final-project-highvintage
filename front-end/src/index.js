@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import SelfProfile from "./pages/SelfProfile";
 import Profile from "./pages/Profile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
@@ -19,6 +20,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+      <Route path ="/self" element={<SelfProfile />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
