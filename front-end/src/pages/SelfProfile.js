@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "../components/ProfileHeader.js";
+import OutfitPreview from "../components/OutfitPreview.js";
+import { dummyUsers } from "../dummy/users";
 
 /**
  * A React component that represents a user's profile page
@@ -11,19 +13,18 @@ const SelfProfile = () => {
   const [header, setHeader] = useState([
     {
       isSelf: true,
-      username: "lisa_li",
+      username: "suzii",
       profilePicture:
-        "https://images.unsplash.com/photo-1541823709867-1b206113eafd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "https://images.unsplash.com/photo-1660951381925-57ac7e40c40d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
       style: "Streetwear",
       favoriteThrift: "Urban Jungle",
       bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-      followers: "623",
-      following: "302",
-      posts: "67",
+      followers: "509",
+      following: "264",
+      posts: "63",
     },
   ]);
 
-  
   const headerComp = header.map((header) => (
     <ProfileHeader
       isSelf={header.isSelf}
@@ -38,6 +39,16 @@ const SelfProfile = () => {
     />
   ));
 
+  const [users, setUsers] = useState(dummyUsers);
+
+  const OutfitPreviews = users.map((user) => (
+    <OutfitPreview
+      key={user.id}
+      id={user.id}
+      photo={user.posts[0].postMedia[0]}
+    />
+  ));
+
   return (
     <div>
       <div className="top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
@@ -46,6 +57,7 @@ const SelfProfile = () => {
       <h1 className="text-center text-2xl font-extrabold -mt-5">Profile</h1>
       <div className="-mt-4">{headerComp}</div>
 
+      {/*Outfit posts / Discussion bar */}
       <ul class="mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
         <li class="w-full">
           <a class="inline-block w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white">
@@ -58,6 +70,8 @@ const SelfProfile = () => {
           </a>
         </li>
       </ul>
+      {/* outfit grid */}
+      <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
     </div>
   );
 };
