@@ -31,3 +31,5 @@ function DiscussionPreviewFull(props) {
 }
 
 export default DiscussionPreviewFull;
+
+export default DiscussionPreviewFull
