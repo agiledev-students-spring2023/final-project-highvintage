@@ -15,6 +15,13 @@ export const dummyUsers = [
         postLike: '132',
         postText: 'I love thrifting!'
       }
+    ],
+    discussion:[
+      {
+        title: "I love this place!",
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+      date: new Date("2023-3-20")
+      }
     ]
   },
   {
