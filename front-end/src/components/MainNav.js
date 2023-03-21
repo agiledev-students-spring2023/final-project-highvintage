@@ -20,11 +20,11 @@ export default function MainNav() {
           </div>
 
           <div>
-            Saved
+            <Link to='/saved'>Saved</Link> 
           </div>
 
           <div>
-            <Link to='/profile'>Profile</Link>
+            <Link to='/self'>Profile</Link>
           </div>
       </div>
   )
