@@ -58,18 +58,19 @@ const SelfProfile = () => {
       <div className="-mt-4">{headerComp}</div>
 
       {/*Outfit posts / Discussion bar */}
-      <ul class="mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
-        <li class="w-full">
-          <a class="inline-block w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white">
+      <ul class="flex flex-row mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
+        <li class="flex-1">
+          <button class="inline-block w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white">
             Outfits
-          </a>
+          </button>
         </li>
-        <li class="w-full">
-          <a class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+        <li class="flex-1">
+          <button class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
             Discussion Posts
-          </a>
+          </button>
         </li>
       </ul>
+
       {/* outfit grid */}
       <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
     </div>
