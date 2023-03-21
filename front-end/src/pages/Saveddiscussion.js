@@ -9,8 +9,8 @@ export default function Saveddiscussion() {
   const [discussions, setDiscussions] = useState(dummyDiscussions);
   const discussionComponents = discussions.map((discussion) => (
     <DiscussionPreviewFull
-      key = {discussion.id}
-      id = {discussion.id}
+      key={discussion.id}
+      id={discussion.id}
       title={discussion.title}
       discuss={discussion.content}
       date={discussion.date}
@@ -21,9 +21,9 @@ export default function Saveddiscussion() {
       <GenericHeader pageName="Saved"></GenericHeader>
       <SavedHeader pageName="Discussion"></SavedHeader>
       <div className="grid grid-cols-1 gap-3 my-1 mt-2 mb-16">
-       {discussionComponents} 
+        {discussionComponents}
       </div>
-        <MainNav></MainNav>
+      <MainNav></MainNav>
     </>
   );
 }

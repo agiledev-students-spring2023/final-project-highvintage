@@ -33,7 +33,7 @@ root.render(
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
       <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
-      <Route path="/discussionview" element = {<DiscussionView/>} /></Routes>
+      <Route path="/discussion-view" element = {<DiscussionView/>} /></Routes>
   </BrowserRouter>
 );
 
