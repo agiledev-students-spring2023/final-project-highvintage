@@ -7,7 +7,7 @@ import ProfileHeader from "../components/ProfileHeader.js";
  * NOTE: currently filled with placeholders for user information
  * @returns The contents of this component, in JSX form.
  */
-const Profile = () => {
+const SelfProfile = () => {
   const [header, setHeader] = useState([
     {
       isSelf: true,
@@ -62,4 +62,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default SelfProfile;
