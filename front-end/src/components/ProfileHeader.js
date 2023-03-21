@@ -18,7 +18,7 @@ export default function ProfileHeader(props) {
   } = props;
   return (
     <div>
-      <div className="flex flex-row items-center space-x-16">
+      <div className="flex flex-row items-center space-x-16 mt-8">
         <div className="flex-shrink-0">
           <img
             src={profilePicture}
