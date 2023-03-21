@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "../components/ProfileHeader.js";
 import OutfitPreview from "../components/OutfitPreview.js";
+import GenericHeader from "../components/GenericHeader.js";
 import { dummyUsers } from "../dummy/users";
 
 /**
@@ -15,7 +15,7 @@ const SelfProfile = () => {
       isSelf: true,
       username: "suzii",
       profilePicture:
-      "https://images.unsplash.com/photo-1660951381925-57ac7e40c40d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
+        "https://images.unsplash.com/photo-1660951381925-57ac7e40c40d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80",
       style: "Streetwear",
       favoriteThrift: "Urban Jungle",
       bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
@@ -51,11 +51,9 @@ const SelfProfile = () => {
 
   return (
     <div>
-      <div className="top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
-        <FaLongArrowAltLeft />
-      </div>
-      <h1 className="text-center text-2xl font-extrabold -mt-5">Profile</h1>
-      <div className="-mt-4">{headerComp}</div>
+      <GenericHeader pageName="Profile"></GenericHeader>
+
+      {headerComp}
 
       {/*Outfit posts / Discussion bar */}
       <ul class="flex flex-row mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
