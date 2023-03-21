@@ -10,6 +10,7 @@ import ProfileHeader from "../components/ProfileHeader.js";
 const Profile = () => {
   const [header, setHeader] = useState([
     {
+      isSelf: false,
       username: "lisa_li",
       profilePicture:
         "https://images.unsplash.com/photo-1541823709867-1b206113eafd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
@@ -22,8 +23,10 @@ const Profile = () => {
     },
   ]);
 
+  
   const headerComp = header.map((header) => (
     <ProfileHeader
+      isSelf={header.isSelf}
       username={header.username}
       profilePicture={header.profilePicture}
       style={header.style}
