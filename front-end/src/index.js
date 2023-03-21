@@ -17,6 +17,7 @@ import Search from "./pages/Search";
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import SavedOutfits from "./pages/SavedOutfits";
+import Saved from "./pages/Saved";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ root.render(
       <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
       <Route path="/discussion-view" element = {<DiscussionView/>} />
       <Route path="/saved-outfits" element = {<SavedOutfits />}></Route>
+      <Route path="/saved" element = {<Saved />}></Route>      
     </Routes>
       
   </BrowserRouter>
