@@ -3,6 +3,7 @@ import ProfileHeader from "../components/ProfileHeader.js";
 import OutfitPreview from "../components/OutfitPreview.js";
 import GenericHeader from "../components/GenericHeader.js";
 import { dummyUsers } from "../dummy/users";
+import MainNav from "../components/MainNav.js";
 
 /**
  * A React component that represents a user's profile page
@@ -50,7 +51,7 @@ const Profile = () => {
   ));
 
   return (
-    <div>
+    <div className="mb-16">
       <GenericHeader pageName="Profile"></GenericHeader>
       {headerComp}
 
@@ -70,6 +71,7 @@ const Profile = () => {
 
       {/* outfit grid */}
       <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
+      <MainNav></MainNav>
     </div>
   );
 };
