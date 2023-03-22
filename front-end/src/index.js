@@ -14,13 +14,10 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
-
 import Home from "./pages/Home"
-
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import Comments from "./pages/Comments";
-
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
