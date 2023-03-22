@@ -16,24 +16,27 @@ import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
+import Comments from "./pages/Comments";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
-      <Route path ="/self" element={<SelfProfile />}></Route>
+      <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
+      <Route path="/comments" element={<Comments />}></Route>
       <Route path="/contact-us" element={<Contactus />}></Route>
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
-      <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
-      <Route path="/discussion-view" element = {<DiscussionView/>} /></Routes>
+      <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
+      <Route path="/discussion-view" element={<DiscussionView />} />
+    </Routes>
   </BrowserRouter>
 );
 
