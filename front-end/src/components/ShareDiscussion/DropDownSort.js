@@ -7,11 +7,11 @@ export default function DropDownMenuTwo(props) {
     <div className="relative">
         <button
           onClick={() => setShowMenu(!showMenu)}
-          className="fixed right-0 mr-1 py-2 px-4 bg-gray-800 text-white rounded-md font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          className="absolute right-0 mr-1 py-2 px-4 bg-gray-800 text-white rounded-md font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
         >
           {props.menuName}{" "}
           <svg
-            className="inline-block h-5 w-5"
+            className="inline-block h-5 w-5"    
             viewBox="0 0 20 20"
             fill="currentColor"
           >

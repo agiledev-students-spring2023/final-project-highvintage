@@ -1,7 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import MainNav from "../components/MainNav";
+import DiscussionFullView from "../components/Saved/DiscussionFullView";
 import DropDownMenuTwo from "../components/ShareDiscussion/DropDownSort";
+import { dummyUsers } from "../dummy/users";
 export default function ShareDiscussion() {
+    const [users, setUsers] = useState(dummyUsers)
+    const navigate = useNavigate();
+    //only using the first two dummy users since I did not put discussion posts in others
+  const discussionComponents = users.map((user) => (
+    <DiscussionFullView
+    key = {user.id}
+    title={user.discussion[0].title}
+    photo={user.photo}
+    content={user.discussion[0].content}
+    username={user.username}
+    date={user.discussion[0].date}
+    ></DiscussionFullView>
+  ));
   return (
     <>
       <div className="flex flex-col">
@@ -25,13 +42,26 @@ export default function ShareDiscussion() {
         </div>
         <hr className="w-full h-0 border-none pt-1 mb-4  bg-gray-700 border-0"></hr>
       </div>
-      <div>
+      
         <DropDownMenuTwo
           menuName="Sort By"
           optionOne="Most Recent"
           optionTwo="Most Popular"
         ></DropDownMenuTwo>
+      
+      <br></br>
+      <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">
+        <Link to="/discussion-view">{discussionComponents}</Link>
+        
       </div>
+      <div className="flex flex-col">
+      <button onClick={() => navigate("/discussion-form")} className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3">
+      Post
+    </button>
+      <MainNav></MainNav>
+      </div>
+      
+      
     </>
   );
 }

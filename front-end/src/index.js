@@ -17,6 +17,7 @@ import Search from "./pages/Search";
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
+import Discussionform from "./pages/Discussionform"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ root.render(
       <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
       <Route path="/discussion-view" element = {<DiscussionView/>}></Route>
       <Route path="/share-discussion" element = {<ShareDiscussion/>}></Route>
+      <Route path="/discussion-form" element = {<Discussionform/>}></Route>
       </Routes>
      
   </BrowserRouter>
