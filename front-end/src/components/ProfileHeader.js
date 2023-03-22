@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import EditProfile from "../pages/EditProfile";
+import { Link } from 'react-router-dom';
 
 /**
  * A React component that represents a user's profile header
@@ -18,7 +20,7 @@ export default function ProfileHeader(props) {
   } = props;
   return (
     <div>
-      <div className="flex flex-row items-center space-x-16 mt-8">
+      <div className="flex flex-row items-center space-x-16 mt-12">
         <div className="flex-shrink-0">
           <img
             src={profilePicture}
@@ -31,7 +33,9 @@ export default function ProfileHeader(props) {
             <h2 className="text-2xl font-bold">{username}</h2>
             {isSelf ? (
               <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
-                Edit Profile
+                <Link to="/edit-profile">
+                  Edit Profile
+                </Link>
               </button>
             ) : (
               <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
@@ -44,12 +48,19 @@ export default function ProfileHeader(props) {
             <li className="mr-6">
               <span className="font-bold">{posts}</span> posts
             </li>
-            <li className="mr-6">
-              <span className="font-bold">{followers}</span> followers
-            </li>
-            <li>
-              <span className="font-bold">{following}</span> following
-            </li>
+            <button>
+              <li className="mr-6">
+                <Link to="/followers">
+                <span className="font-bold">{followers}</span></Link> followers
+              </li>
+            </button>
+            <button>
+              <li className="mr-6">
+                <Link to="/following">
+                <span className="font-bold">{following }</span></Link> following
+
+              </li>
+            </button>
           </ul>
         </div>
       </div>
