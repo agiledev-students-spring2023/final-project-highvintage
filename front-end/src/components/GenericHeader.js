@@ -1,13 +1,15 @@
 import React from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"
 
 export default function GenericHeader(props) {
+  const navigate = useNavigate();
   return (
     <>
       {" "}
       <div className="fixed bg-white top-0 left-0 right-0 w-full flex justify-between p-3">
         {" "}
-        <FaLongArrowAltLeft />
+        <FaLongArrowAltLeft onClick={() => navigate(-1)} />
         
         <h1 className="mt-2 text-center text-2xl font-extrabold">
           {" "}
