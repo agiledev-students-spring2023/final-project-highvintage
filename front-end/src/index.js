@@ -4,6 +4,7 @@ import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import SelfProfile from "./pages/SelfProfile";
 import Profile from "./pages/Profile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
@@ -13,23 +14,36 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
+tony4
 import Home from "./pages/Home"
+
+import SavedDiscussion from "./pages/Saveddiscussion";
+import DiscussionView from "./pages/DiscussionView";
+import Comments from "./pages/Comments";
+master
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+tony4
       <Route path="/home" element={<Home />}></Route>
+
+      <Route path="/self" element={<SelfProfile />}></Route>
+master
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
+      <Route path="/comments" element={<Comments />}></Route>
       <Route path="/contact-us" element={<Contactus />}></Route>
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
+      <Route path="/discussion-view" element={<DiscussionView />} />
     </Routes>
   </BrowserRouter>
 );
