@@ -4,12 +4,12 @@ export const dummyComments = [
   { user: dummyUsers[1], id: 2, body: "so cool!!" },
   {
     user: dummyUsers[2],
-    id: 2,
+    id: 3,
     body: "how much did u pay for this?!",
   },
   {
     user: dummyUsers[3],
-    id: 3,
+    id: 4,
     body: "omg i was looking for that shirt EVERYWHEREEEEE",
   },
 ];
