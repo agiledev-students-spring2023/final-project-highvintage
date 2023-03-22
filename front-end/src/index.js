@@ -19,11 +19,13 @@ import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import Comments from "./pages/Comments";
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+
       <Route path="/home" element={<Home />}></Route>
       <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
