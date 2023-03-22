@@ -18,16 +18,19 @@ import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
 import Discussionform from "./pages/Discussionform"
+import Comments from "./pages/Comments";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
-      <Route path ="/self" element={<SelfProfile />}></Route>
+      <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
+      <Route path="/comments" element={<Comments />}></Route>
       <Route path="/contact-us" element={<Contactus />}></Route>
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
@@ -40,6 +43,7 @@ root.render(
       <Route path="/discussion-form" element = {<Discussionform/>}></Route>
       </Routes>
      
+
   </BrowserRouter>
 );
 
