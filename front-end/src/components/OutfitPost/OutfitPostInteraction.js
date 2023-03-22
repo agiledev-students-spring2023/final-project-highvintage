@@ -1,7 +1,10 @@
-import React from 'react'
+import { React, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import {FaRegHeart, FaHeart, FaRegCommentDots, FaRegBookmark, FaBookmark} from "react-icons/fa";
 
 export default function OutfitPostInfo() {
+  const navigate = useNavigate()
+
   const handleLike = () => {
     console.log('handle like')
   }
@@ -23,7 +26,7 @@ export default function OutfitPostInfo() {
 
         {/* Comment */}
         <div className='my-auto' onClick={handleComment}>
-          <FaRegCommentDots size={24} />
+          <FaRegCommentDots size={24} onClick={()=>navigate('/comments')} />
         </div>
       </div>
 

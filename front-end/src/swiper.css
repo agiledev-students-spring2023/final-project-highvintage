@@ -1,0 +1,17 @@
+.swiper-button-next,
+.swiper-button-prev {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+/* .swiper-button-next::after,
+.swiper-button-prev::after {
+    display: none;
+} */
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    color: white;
+    opacity: 0.5;
+}
