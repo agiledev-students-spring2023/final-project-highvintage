@@ -19,8 +19,11 @@ import Home from "./pages/Home"
 
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
+import ShareDiscussion from "./pages/ShareDiscussion";
+import Discussionform from "./pages/Discussionform"
 import Comments from "./pages/Comments";
 master
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -42,9 +45,13 @@ master
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
-      <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
-      <Route path="/discussion-view" element={<DiscussionView />} />
-    </Routes>
+      <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
+      <Route path="/discussion-view" element = {<DiscussionView/>}></Route>
+      <Route path="/discussion-home" element = {<ShareDiscussion/>}></Route>
+      <Route path="/discussion-form" element = {<Discussionform/>}></Route>
+      </Routes>
+     
+
   </BrowserRouter>
 );
 

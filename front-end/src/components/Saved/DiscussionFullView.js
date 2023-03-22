@@ -7,7 +7,7 @@ export default function DiscussionFullView(props) {
         <h2 className="text-lg font-serif leading-none font-bold text-gray-800 mr-auto">{props.title}</h2>
         <div className="flex items-center">
           <img src={props.photo} alt="User Avatar" className="w-8 h-8 rounded-full mr-2" />
-          <span className="text-gray-600">{props.username}</span>
+          <span className="overflow-hidden truncate text-gray-600">{props.username}</span>
         </div>
       </div>
       <div className="p-4">

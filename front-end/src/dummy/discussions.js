@@ -18,7 +18,7 @@ export const dummyDiscussions = [
   {
     id: 3,
     username: "kate7725",
-    title: "WOW I found this new thrift shop it's amazing!",
+    title: "this new thrift shop it's amazing!",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
     date: new Date("2023-3-21")

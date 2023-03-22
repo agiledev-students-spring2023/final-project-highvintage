@@ -18,6 +18,7 @@ export const dummyUsers = [
     ],
     discussion:[
       {
+        id:1,
         title: "I love this place!",
       content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
       date: new Date("2023-3-20")
@@ -39,7 +40,16 @@ export const dummyUsers = [
           postLike: '132',
           postText: 'I love thrifting!'
         }
-      ]
+      ],
+    discussion:[
+      {
+        id: 2,
+        title: "Second Street is OVERRATED!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2023-4-20")
+      }
+    ]
   },
   {
     id: 3,
@@ -55,6 +65,15 @@ export const dummyUsers = [
           "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg"],
           postLike: '132',
           postText: 'I love thrifting!'
+        }
+      ],
+      discussion: [
+        {
+        id: 3,
+        title: "This new thrift shop it's amazing!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2023-3-21")
         }
       ]
   },
@@ -73,6 +92,15 @@ export const dummyUsers = [
           postLike: '132',
           postText: 'I love thrifting!'
         }
+      ],
+      discussion: [
+        {
+        id: 4,
+        title: "this new thrift shop it's BAD!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2023-5-21")
+        }
       ]
   },
   {
@@ -89,6 +117,15 @@ export const dummyUsers = [
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1"],
           postLike: '132',
           postText: 'I love thrifting!'
+        }
+      ],
+      discussion: [
+        {
+        id: 5,
+        title: "I found this new thrift shop!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2021-5-21")
         }
       ]
   },
@@ -107,6 +144,15 @@ export const dummyUsers = [
           postLike: '132',
           postText: 'I love thrifting!'
         }
+      ],
+      discussion: [
+        {
+        id: 6,
+        title: "I found this new thrift shop!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2021-5-21")
+        }
       ]
   },
   {
@@ -123,6 +169,15 @@ export const dummyUsers = [
           "https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg"],
           postLike: '132',
           postText: 'I love thrifting!'
+        }
+      ],
+      discussion: [
+        {
+          id: 7,
+          title: "what do you think about ...",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+            date: new Date("2023-1-21")
         }
       ]
   },
@@ -141,6 +196,15 @@ export const dummyUsers = [
           postLike: '132',
           postText: 'I love thrifting!'
         }
+      ],
+      discussion: [
+        {
+          id: 8,
+          title: "This is cool...",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+            date: new Date("2020-1-21")
+        }
       ]
   },
   {
@@ -157,6 +221,15 @@ export const dummyUsers = [
           "https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg"],
           postLike: '132',
           postText: 'I love thrifting!'
+        }
+      ],
+      discussion: [
+        {
+          id: 8,
+          title: "This is nice...",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+            date: new Date("2019-1-21")
         }
       ]
   },
