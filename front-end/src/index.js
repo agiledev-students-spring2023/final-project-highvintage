@@ -36,7 +36,7 @@ root.render(
       <Route path="/search" element={<Search />} />
       <Route path="/saved-discussion" element = {<SavedDiscussion />}></Route>
       <Route path="/discussion-view" element = {<DiscussionView/>}></Route>
-      <Route path="/share-discussion" element = {<ShareDiscussion/>}></Route>
+      <Route path="/discussion-home" element = {<ShareDiscussion/>}></Route>
       <Route path="/discussion-form" element = {<Discussionform/>}></Route>
       </Routes>
      
