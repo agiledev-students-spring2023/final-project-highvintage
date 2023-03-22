@@ -5,7 +5,6 @@ import GenericHeader from "../components/GenericHeader";
 import MainNav from '../components/MainNav';
 import StyleNav from '../components/StyleNav';
 import OutfitPreview from '../components/OutfitPreview';
-import PageNum from '../components/PageNum';
 import { dummyUsers } from '../dummy/users';
 
 export default function OutfitCollection() {
