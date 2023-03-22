@@ -14,6 +14,7 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
+tony4
 import Home from "./pages/Home"
 
 import SavedDiscussion from "./pages/Saveddiscussion";
@@ -21,6 +22,7 @@ import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
 import Discussionform from "./pages/Discussionform"
 import Comments from "./pages/Comments";
+master
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -28,9 +30,11 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+tony4
       <Route path="/home" element={<Home />}></Route>
 
       <Route path="/self" element={<SelfProfile />}></Route>
+master
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
