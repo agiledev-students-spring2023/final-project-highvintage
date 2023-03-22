@@ -13,24 +13,14 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
-
-import Home from "./pages/Home";
-
-import SavedDiscussion from "./pages/Saveddiscussion";
-import DiscussionView from "./pages/DiscussionView";
-import ShareDiscussion from "./pages/ShareDiscussion";
-import Discussionform from "./pages/Discussionform";
-import Comments from "./pages/Comments";
+import Home from "./pages/Home"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
-
       <Route path="/home" element={<Home />}></Route>
-
-      <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
@@ -40,10 +30,6 @@ root.render(
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
-      <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
-      <Route path="/discussion-view" element={<DiscussionView />}></Route>
-      <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
-      <Route path="/discussion-form" element={<Discussionform />}></Route>
     </Routes>
   </BrowserRouter>
 );
