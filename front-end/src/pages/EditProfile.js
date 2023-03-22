@@ -13,18 +13,6 @@ export default function EditProfile() {
     following: "302",
     posts: "67",
   });
-
-  const [update, setUpdate] = useState({});
-
-  function handleSubmit() {
-    // ignore all empty strings - besides bio
-
-    // logic prior to update DB api call is made
-    for (const prop in update) {
-    }
-
-    // check non-empty strings
-  }
   return (
     <>
       {" "}
@@ -46,14 +34,14 @@ export default function EditProfile() {
             </label>
             <input
               type="text"
-              id="username"
-              name="username"
+              id="name"
+              name="name"
               className="ml-2 w-2/4 p-1"
+              required
+              minlength="4"
+              maxlength="8"
               placeholder={loggedIn.username}
               size="10"
-              onChange={(e) =>
-                setUpdate({ ...update, username: e.target.value })
-              }
             />
           </div>
 
@@ -67,9 +55,6 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.favoriteThrift}
               size="10"
-              onChange={(e) =>
-                setUpdate({ ...update, favoriteThrift: e.target.value })
-              }
             />
           </div>
 
@@ -82,7 +67,6 @@ export default function EditProfile() {
               id="style"
               name="style"
               className="ml-2 w-2/4 p-1"
-              onChange={(e) => setUpdate({ ...update, style: e.target.value })}
             >
               <option> {loggedIn.style} </option>
               <option> Athlesuire </option>
@@ -93,28 +77,17 @@ export default function EditProfile() {
           </div>
 
           <div className="mb-2">
-            <label className="p-1 align-top" for="bio">
+            <label className="p-1" for="name">
               Bio{" "}
             </label>{" "}
-            <textarea
-              className="p-1 w-2/4"
+            <input
+              type="textarea"
+              className="p-1"
               rows="10"
               id="bio"
               placeholder={loggedIn.bio}
-              onChange={(e) => setUpdate({ ...update, bio: e.target.value })}
             />
           </div>
-          <button
-            type="submit"
-            className="mt-2 text-sky-800 font-semibold"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
-            {" "}
-            Save changes
-          </button>
         </form>
       </div>
     </>

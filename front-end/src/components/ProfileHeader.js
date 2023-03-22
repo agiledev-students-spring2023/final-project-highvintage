@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 /**
  * A React component that represents a user's profile header
@@ -6,7 +6,6 @@ import React, { useState } from "react";
  */
 export default function ProfileHeader(props) {
   const {
-    isSelf,
     username,
     profilePicture,
     bio,
@@ -29,17 +28,10 @@ export default function ProfileHeader(props) {
         <div className="flex flex-col">
           <div className="flex flex-row items-center mt-4">
             <h2 className="text-2xl font-bold">{username}</h2>
-            {isSelf ? (
-              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
-                Edit Profile
-              </button>
-            ) : (
-              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
-                Follow
-              </button>
-            )}
+            <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
+              Follow
+            </button>
           </div>
-  
           <ul className="flex flex-row mt-4">
             <li className="mr-6">
               <span className="font-bold">{posts}</span> posts

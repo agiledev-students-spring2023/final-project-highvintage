@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import ProfileHeader from "../components/ProfileHeader.js";
-import OutfitPreview from "../components/OutfitPreview.js";
-import { dummyUsers } from "../dummy/users";
 
 /**
  * A React component that represents a user's profile page
  * NOTE: currently filled with placeholders for user information
  * @returns The contents of this component, in JSX form.
  */
-const SelfProfile = () => {
+const Profile = () => {
   const [header, setHeader] = useState([
     {
-      isSelf: false,
       username: "lisa_li",
       profilePicture:
         "https://images.unsplash.com/photo-1541823709867-1b206113eafd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
@@ -27,7 +24,6 @@ const SelfProfile = () => {
 
   const headerComp = header.map((header) => (
     <ProfileHeader
-      isSelf={header.isSelf}
       username={header.username}
       profilePicture={header.profilePicture}
       style={header.style}
@@ -39,16 +35,6 @@ const SelfProfile = () => {
     />
   ));
 
-  const [users, setUsers] = useState(dummyUsers);
-
-  const OutfitPreviews = users.map((user) => (
-    <OutfitPreview
-      key={user.id}
-      id={user.id}
-      photo={user.posts[0].postMedia[0]}
-    />
-  ));
-
   return (
     <div>
       <div className="top-0 left-0 right-0 grid w-80 grid-cols-2 p-3">
@@ -57,24 +43,20 @@ const SelfProfile = () => {
       <h1 className="text-center text-2xl font-extrabold -mt-5">Profile</h1>
       <div className="-mt-4">{headerComp}</div>
 
-      {/*outfit posts & discussion bar */}
-      <ul class="flex flex-row mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
-        <li class="flex-1">
-          <button class="inline-block w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white">
+      <ul class="mt-4 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
+        <li class="w-full">
+          <a class="inline-block w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white">
             Outfits
-          </button>
+          </a>
         </li>
-        <li class="flex-1">
-          <button class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
+        <li class="w-full">
+          <a class="inline-block w-full p-4 bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700">
             Discussion Posts
-          </button>
+          </a>
         </li>
       </ul>
-
-      {/* outfit grid */}
-      <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
     </div>
   );
 };
 
-export default SelfProfile;
+export default Profile;
