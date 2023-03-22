@@ -3,7 +3,7 @@ import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
 import { dummyUsers } from "../dummy/users";
 import { useEffect } from "react";
-import ProfilePreview from "../components/ProfilePreview";
+import ProfilePreview from "../components/Profile/ProfilePreview";
 
 export default function Search() {
   const [found, setFound] = useState([]);

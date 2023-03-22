@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ProfilePreview from "../components/ProfilePreview";
+import ProfilePreview from "../components/Profile/ProfilePreview";
 import { dummyUsers } from "../dummy/users";
 import GenericHeader from "../components/GenericHeader";
 
