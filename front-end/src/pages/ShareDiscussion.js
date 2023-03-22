@@ -51,6 +51,7 @@ export default function ShareDiscussion() {
       
       <br></br>
       <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">
+        {/* Only links to one demo discussion page */}
         <Link to="/discussion-view">{discussionComponents}</Link>
         
       </div>
