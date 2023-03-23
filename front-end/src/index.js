@@ -16,6 +16,7 @@ import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
 import SavedOutfits from "./pages/SavedOutfits";
+import Saved from "./pages/Saved";
 
 import Home from "./pages/Home";
 
@@ -44,6 +45,7 @@ root.render(
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
+      <Route path="/saved" element={<Saved />}></Route>
       <Route path="/saved-outfits" element={<SavedOutfits />}></Route>
       <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
       <Route path="/discussion-view" element={<DiscussionView />}></Route>
