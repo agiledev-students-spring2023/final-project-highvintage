@@ -18,12 +18,12 @@ const [users, setUsers] = useState(dummyUsers);
 
  
   return (
-    <>
+    <div className="mb-16">
       <GenericHeader pageName="Saved"></GenericHeader>
       <SavedHeader pageName="Outfits"></SavedHeader>
       {/* outfit grid */}
       <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
       <MainNav></MainNav>
-    </>
+    </div>
   );
 }
