@@ -33,8 +33,10 @@ const [users, setUsers] = useState(dummyUsers);
       <GenericHeader pageName="Saved"></GenericHeader>
       <SavedHeader pageName="Outfits"></SavedHeader>
       {/* outfit grid */}
-      <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
-      <div className="-mt-8"><SavedHeader pageName="Discussions"></SavedHeader></div>
+      <div className="ml-3 mr-3 mt-3 mb-3 grid grid-cols-3 gap-5">{
+        OutfitPreviews.slice(0, 3)} 
+      </div>
+      <div className="-mt-7"><SavedHeader pageName="Discussions"></SavedHeader></div>
       <div className="grid grid-cols-1 gap-3 my-1 mt-2 mb-16">
         {discussionComponents}
       </div>
