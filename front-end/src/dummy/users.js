@@ -10,6 +10,7 @@ export const dummyUsers = [
         postId: 1,
         postDate: 'Mar 23, 2023',
         postLoc: 'bklyn thrift',
+        postStyle: 'Streetwear',
         postMedia: ["https://ln-site.nyc3.cdn.digitaloceanspaces.com/public/prod/2021/08/image/metcha_OnlyThrift_internal_18-custom.min.jpg",
           "https://ln-site.nyc3.cdn.digitaloceanspaces.com/public/prod/2021/08/image/metcha_OnlyThrift_internal_18-custom.min.jpg"],
         postLike: '132',
@@ -20,8 +21,8 @@ export const dummyUsers = [
       {
         id:1,
         title: "I love this place!",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-      date: new Date("2023-3-20")
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2023-3-20")
       }
     ]
   },
@@ -31,14 +32,15 @@ export const dummyUsers = [
     photo:
       "https://images.unsplash.com/photo-1630208232589-e42b29428b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1538&q=80",
     posts: [
-        {
-          postId: 1,
+      {
+        postId: 1,
         postDate: 'Mar 23, 2023',
         postLoc: '',
-          postMedia: ["https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
+        postStyle: 'StreetWear',
+        postMedia: ["https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w"],
-          postLike: '132',
-          postText: 'I love thrifting!'
+        postLike: '132',
+        postText: 'I love thrifting!'
         }
       ],
     discussion:[
@@ -59,8 +61,9 @@ export const dummyUsers = [
     posts: [
         {
           postId: 1,
-        postDate: 'Mar 23, 2023',
-        postLoc: 'cool thrift',
+          postDate: 'Mar 23, 2023',
+          postLoc: 'cool thrift',
+          postStyle: 'Minimal',
           postMedia: ["https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
           "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg"],
           postLike: '132',
@@ -83,10 +86,11 @@ export const dummyUsers = [
     photo:
       "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1317&q=80",
     posts: [
-        {
-          postId: 1,
+      {
+        postId: 1,
         postDate: 'Mar 23, 2023',
         postLoc: 'hi thrift',
+        postStyle: 'Minimal',
           postMedia: ["https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
           "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg"],
           postLike: '132',
@@ -113,6 +117,7 @@ export const dummyUsers = [
           postId: 1,
         postDate: 'Mar 23, 2023',
         postLoc: 'great thrift',
+        postStyle: 'Funk',
           postMedia: ["https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1",
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1"],
           postLike: '132',
@@ -139,6 +144,7 @@ export const dummyUsers = [
           postId: 1,
         postDate: 'Mar 23, 2023',
         postLoc: 'thrift cool',
+        postStyle: 'Streetwear',
           postMedia: ["https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w",
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w"],
           postLike: '132',
@@ -165,8 +171,9 @@ export const dummyUsers = [
           postId: 1,
           postDate: 'Mar 23, 2023',
           postLoc: 'vintage cool',
-          postMedia: ["https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg",
-          "https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg"],
+          postStyle: 'Sporty & Athleisure',
+          postMedia: ["https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom",
+          "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom"],
           postLike: '132',
           postText: 'I love thrifting!'
         }
@@ -191,6 +198,7 @@ export const dummyUsers = [
           postId: 1,
           postDate: 'Mar 23, 2023',
           postLoc: 'yes thrift',
+          postStyle: 'Streetwear',
           postMedia: ["https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg",
           "https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg"],
           postLike: '132',
@@ -217,6 +225,7 @@ export const dummyUsers = [
           postId: 1,
           postDate: 'Mar 23, 2023',
           postLoc: 'best thrift',
+          postStyle: 'Streetwear',
           postMedia: ["https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg",
           "https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg"],
           postLike: '132',
@@ -233,4 +242,40 @@ export const dummyUsers = [
         }
       ]
   },
+  {
+    id: 10,
+    username: "wiizii",
+    photo:
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    posts: [
+      {
+        postId: 1,
+        postDate: 'Mar 23, 2023',
+        postLoc: 'thrift nyc',
+        postStyle: 'Classic',
+        postMedia: ["https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg",
+          "https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg"],
+        postLike: '102',
+        postText: 'Thrift classic!'
+      }
+    ]
+  },
+  {
+    id: 11,
+    username: "sassiii",
+    photo:
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    posts: [
+      {
+        postId: 1,
+        postDate: 'Mar 23, 2023',
+        postLoc: 'how2thrift',
+        postStyle: 'Funk',
+        postMedia: ["https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg",
+          "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg"],
+        postLike: '82',
+        postText: 'Gems found this weekend!'
+      }
+    ]
+  }
 ];
