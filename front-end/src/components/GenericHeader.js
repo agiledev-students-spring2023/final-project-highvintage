@@ -7,11 +7,11 @@ export default function GenericHeader(props) {
   return (
     <>
       {" "}
-      <div className="fixed bg-white top-0 left-0 right-0 w-full flex justify-between p-3">
+      <div className="fixed bg-white items-center top-0 left-0 right-0 w-full flex justify-between p-3">
         {" "}
         <FaLongArrowAltLeft onClick={() => navigate(-1)} />
         
-        <h1 className="mt-2 text-center text-2xl font-extrabold">
+        <h1 className="text-center text-2xl font-extrabold">
           {" "}
           {props.pageName}
         </h1>{" "}
