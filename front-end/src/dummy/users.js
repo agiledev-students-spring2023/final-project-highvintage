@@ -234,8 +234,8 @@ export const dummyUsers = [
       ],
       discussion: [
         {
-          id: 8,
-          title: "This is nice...",
+          id: 9,
+          title: "This spot is so nice!",
           content:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
             date: new Date("2019-1-21")
@@ -258,6 +258,15 @@ export const dummyUsers = [
         postLike: 102,
         postText: 'Thrift classic!'
       }
+    ],
+    discussion: [
+      {
+        id: 10,
+        title: "How's my fit y'all",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+          date: new Date("2018-1-21")
+      }
     ]
   },
   {
@@ -275,6 +284,15 @@ export const dummyUsers = [
           "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg"],
         postLike: 49,
         postText: 'Gems found this weekend!'
+      }
+    ],
+    discussion: [
+      {
+        id: 11,
+        title: "I need store recs!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+          date: new Date("2020-1-21")
       }
     ]
   }
