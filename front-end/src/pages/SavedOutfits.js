@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import GenericHeader from "../components/GenericHeader";
 import MainNav from "../components/MainNav";
 import SavedHeader from "../components/Saved/SavedHeader";
-import OutfitPreview from "../components/OutfitPreview";
+import OutfitPreview from "../components/OutfitPost/OutfitPreview";
 import { dummyUsers } from "../dummy/users";
 
 export default function SavedOutfits() {

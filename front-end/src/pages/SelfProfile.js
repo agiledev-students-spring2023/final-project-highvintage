@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProfileHeader from "../components/Profile/ProfileHeader.js";
 import ProfileShowPosts from "../components/Profile/ProfileShowPosts.js";
-import OutfitPreview from "../components/OutfitPreview.js";
+import OutfitPreview from "../components/OutfitPost/OutfitPreview.js";
 import GenericHeader from "../components/GenericHeader.js";
 import { dummyUsers } from "../dummy/users";
 import MainNav from "../components/MainNav.js";
