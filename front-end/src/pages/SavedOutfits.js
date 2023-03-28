@@ -18,9 +18,11 @@ const [users, setUsers] = useState(dummyUsers);
 
  
   return (
-    <div className="mb-16">
+    <div className="">
       <GenericHeader pageName="Saved"></GenericHeader>
-      <SavedHeader pageName="Outfits"></SavedHeader>
+      <SavedHeader
+        pageName="Outfits"
+      ></SavedHeader>
       {/* outfit grid */}
       <div className="ml-3 mr-3 mt-3 mb-3 grid grid-cols-3 gap-3">{OutfitPreviews}</div>
       <MainNav></MainNav>
