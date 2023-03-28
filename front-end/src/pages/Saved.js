@@ -6,7 +6,6 @@ import OutfitPreview from "../components/OutfitPreview";
 import { dummyUsers } from "../dummy/users";
 import { dummyDiscussions } from "../dummy/discussions";
 import DiscussionTitleOnly from "../components/Saved/DiscussionTitleOnly";
-import DiscussionPreviewFull from "../components/Saved/DiscussionPreviewFull";
 
 export default function SavedOutfits() {
   const [users, setUsers] = useState(dummyUsers);
