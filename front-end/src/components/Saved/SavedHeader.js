@@ -13,16 +13,16 @@ export default function SavedHeader(props) {
           justifyContent: "space-between",
         }}
       >
-        <h2 className="px-2 py-1 mt-7 ml-1 text-xl text-gray-900 font-bold">
+        <h2 className="px-2 py-1 mt-7 ml-2 text-xl text-gray-900 font-bold">
           {props.pageName}
         </h2>
         {props.showButton === "true" && (
-          <button className="mt-7 mb-1 mr-2 bg-gray-300 text-black px-2 py-2 rounded-lg ml-8 text-sm">
+          <button className="mt-7 m-1.5 mr-2 bg-gray-300 text-black px-3 py-1 rounded-lg ml-8 text-sm">
             <Link to={props.page}>View All</Link>
           </button>
         )}
       </div>
-      <hr className="h-1 pb-1 bg-gray-300 border-0"></hr>
+      <hr className="h-0.5 bg-gray-300"></hr>
     </>
   );
 }
