@@ -9,10 +9,10 @@ function DiscussionTitleOnly(props) {
     return id
   }
   return (
-    <div className="mx-auto w-80 h-20">
+    <div className="ml-2 mr-2 h-20">
       <Link to="/discussion-view" id={props.id}>
-        <div className="grid grid-cols-1 gap-2 bg-white rounded-lg shadow-sm border-solid border-black border-2 h-full">
-          <h2 className="flex text-center justify-center items-center ml-2 pt-2 text-lg font-bold leading-none font-serif">
+        <div className="grid grid-cols-1 gap-2 bg-white shadow-sm border-solid border-black border h-full">
+          <h2 className="flex text-center justify-center items-center ml-2 pt-2 text-lg leading-none font-serif">
             {props.title}
           </h2>
         </div>
