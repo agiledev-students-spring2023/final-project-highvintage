@@ -46,7 +46,8 @@ export default function DiscussionFullView(props) {
       </div>
       </Link>
       
-      <div className="flex flex-row">
+      {/* Using the same code as in interactable buttons, not using the compoenent because "save" button is placed at a different margin*/}
+      <div className="flex flex-row ml-1 mb-1">
         <div className="grid grid-cols-2 px-2">
           <div className="flex space-x-2">
             {/* Like */}
@@ -68,8 +69,9 @@ export default function DiscussionFullView(props) {
             <FaRegBookmark size={24} />
           </div>
         </div>
+
         <div className="justify-self-end ml-10 "></div>
-        <div className="text-right text-gray-400 text-sm ml-28 mt-4 mb-2">
+        <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
           {props.date.toLocaleDateString()}
         </div>
       </div>
