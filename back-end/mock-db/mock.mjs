@@ -2,7 +2,7 @@
 // using dummy users and posts, conglomerating them all together
 // to make a fake database
 
-export const dummyUsers = [
+const dummyUsers = [
   // simple dummy users, with no information other than usernames, photos, and ID
   {
     id: 1,
@@ -41,7 +41,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1630208232589-e42b29428b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1538&q=80",
     posts: [
       {
-        postId: 1,
+        postId: 2,
         postDate: "Mar 23, 2023",
         postLoc: "",
         postMedia: [
@@ -71,7 +71,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1622842182823-28bfbfba47e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1400&q=60",
     posts: [
       {
-        postId: 1,
+        postId: 3,
         postDate: "Mar 23, 2023",
         postLoc: "cool thrift",
         postMedia: [
@@ -101,7 +101,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1317&q=80",
     posts: [
       {
-        postId: 1,
+        postId: 4,
         postDate: "Mar 23, 2023",
         postLoc: "hi thrift",
         postMedia: [
@@ -131,7 +131,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
     posts: [
       {
-        postId: 1,
+        postId: 5,
         postDate: "Mar 23, 2023",
         postLoc: "great thrift",
         postMedia: [
@@ -161,7 +161,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200&q=60",
     posts: [
       {
-        postId: 1,
+        postId: 6,
         postDate: "Mar 23, 2023",
         postLoc: "thrift cool",
         postMedia: [
@@ -191,7 +191,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1670272504471-61a632484750?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     posts: [
       {
-        postId: 1,
+        postId: 7,
         postDate: "Mar 23, 2023",
         postLoc: "vintage cool",
         postMedia: [
@@ -221,7 +221,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1467043237213-65f2da53396f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y2xvdGhlc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1200&q=60",
     posts: [
       {
-        postId: 1,
+        postId: 8,
         postDate: "Mar 23, 2023",
         postLoc: "yes thrift",
         postMedia: [
@@ -251,7 +251,7 @@ export const dummyUsers = [
       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     posts: [
       {
-        postId: 1,
+        postId: 9,
         postDate: "Mar 23, 2023",
         postLoc: "best thrift",
         postMedia: [
@@ -265,7 +265,7 @@ export const dummyUsers = [
     ],
     discussion: [
       {
-        id: 8,
+        id: 9,
         title: "This is nice...",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -275,3 +275,5 @@ export const dummyUsers = [
     ],
   },
 ];
+
+export default dummyUsers;
