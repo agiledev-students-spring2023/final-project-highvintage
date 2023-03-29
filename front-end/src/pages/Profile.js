@@ -27,24 +27,6 @@ const Profile = () => {
     posts: [],
   });
 
-  function headerComp() {
-    return (
-      <>
-        <ProfileHeader
-          isSelf={header.isSelf}
-          username={header.username}
-          profilePicture={header.profilePicture}
-          style={header.style}
-          favoriteThrift={header.favoriteThrift}
-          bio={header.bio}
-          followers={header.followers}
-          following={header.following}
-          posts={header.posts}
-        />
-      </>
-    );
-  }
-
   // fetch the profile on page render, using useEffect
   useEffect(() => {
     async function fetchProfile(query) {
@@ -60,7 +42,17 @@ const Profile = () => {
   return (
     <div className="mb-16">
       <GenericHeader pageName="Profile"></GenericHeader>
-      {headerComp}
+      <ProfileHeader
+        isSelf={header.isSelf}
+        username={header.username}
+        profilePicture={header.profilePicture}
+        style={header.style}
+        favoriteThrift={header.favoriteThrift}
+        bio={header.bio}
+        followers={header.followers}
+        following={header.following}
+        posts={header.posts}
+      />
       <ProfileShowPosts></ProfileShowPosts>
       <MainNav></MainNav>
     </div>

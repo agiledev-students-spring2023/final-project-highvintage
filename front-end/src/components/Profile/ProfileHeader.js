@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditProfile from "../../pages/EditProfile";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 /**
  * A React component that represents a user's profile header
@@ -18,7 +18,9 @@ export default function ProfileHeader(props) {
     followers,
     following,
   } = props;
-  
+
+  console.log(props);
+
   return (
     <div>
       <div className="flex flex-row items-center space-x-16 mt-12">
@@ -34,9 +36,7 @@ export default function ProfileHeader(props) {
             <h2 className="text-2xl font-bold">{username}</h2>
             {isSelf ? (
               <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
-                <Link to="/edit-profile">
-                  Edit Profile
-                </Link>
+                <Link to="/edit-profile">Edit Profile</Link>
               </button>
             ) : (
               <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
@@ -44,22 +44,24 @@ export default function ProfileHeader(props) {
               </button>
             )}
           </div>
-  
+
           <ul className="flex flex-row mt-4">
             <li className="mr-6">
-              <span className="font-bold">{posts}</span> posts
+              <span className="font-bold">{posts.length}</span> posts
             </li>
             <button>
               <li className="mr-6">
                 <Link to="/followers">
-                <span className="font-bold">{followers}</span> followers
+                  <span className="font-bold">{followers.length}</span>{" "}
+                  followers
                 </Link>
               </li>
             </button>
             <button>
               <li className="mr-6">
                 <Link to="/following">
-                <span className="font-bold">{following }</span> following
+                  <span className="font-bold">{following.length}</span>{" "}
+                  following
                 </Link>
               </li>
             </button>
