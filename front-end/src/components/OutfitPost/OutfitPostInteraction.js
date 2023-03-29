@@ -14,6 +14,11 @@ export default function OutfitPostInfo(props) {
   const navigate = useNavigate();
   let likes = props.likes;
 
+  async function handleSave() {
+    console.log(requestURL);
+    await axios.put(requestURL + "posts/save", { postID: props.postID });
+  }
+
   const useLikeToggle = (initialState = false) => {
     const [state, setState] = useState(initialState);
     const toggle = useCallback(() => {
@@ -38,10 +43,6 @@ export default function OutfitPostInfo(props) {
     return [state, toggle];
   };
 
-  async function handleSave() {
-    await axios.put(requestURL + "posts/save", { postID: props.postID });
-  }
-
   const [isLiked, setisLiked] = useLikeToggle();
   const [isSaved, setisSaved] = useSaveToggle();
 
@@ -60,19 +61,14 @@ export default function OutfitPostInfo(props) {
       </div>
 
       {/* Save */}
-      <div className="justify-self-end my-auto" onClick={setisSaved}>
+      <div
+        className="justify-self-end my-auto"
+        onClick={async (e) => {
+          setisSaved();
+          await handleSave();
+        }}
+      >
         {!isSaved ? <FaRegBookmark size={24} /> : <FaBookmark size={24} />}
-
-        <div
-          className="justify-self-end my-auto"
-          onClick={(e) => {
-            handleSave(e);
-            setisSaved();
-          }}
-        >
-          {/* Save */}
-          <FaRegBookmark size={24} />
-        </div>
       </div>
     </div>
   );
