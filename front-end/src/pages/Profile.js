@@ -11,7 +11,7 @@ import MainNav from "../components/MainNav.js";
  * @returns The contents of this component, in JSX form.
  */
 const Profile = () => {
-  const [header, setHeader] = useState([
+  const [user, setUser] = useState([
     {
       isSelf: false,
       username: "lisa_li",
@@ -25,6 +25,14 @@ const Profile = () => {
       posts: "67",
     },
   ]);
+
+  useEffect(() => {
+    first;
+
+    return () => {
+      second;
+    };
+  }, [third]);
 
   const headerComp = header.map((header) => (
     <ProfileHeader
@@ -46,7 +54,6 @@ const Profile = () => {
       {headerComp}
       <ProfileShowPosts></ProfileShowPosts>
       <MainNav></MainNav>
-
     </div>
   );
 };

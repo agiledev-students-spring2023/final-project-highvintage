@@ -39,8 +39,6 @@ export default function OutfitPostInfo(props) {
   };
 
   async function handleSave() {
-    console.log("savssse");
-    console.log(requestURL);
     await axios.put(requestURL + "posts/save", { postID: props.postID });
   }
 
