@@ -17,9 +17,9 @@ export const dummyUsers = [
         postText: 'I love thrifting!'
       }
     ],
-    discussion:[
+    discussion: [
       {
-        id:1,
+        id: 1,
         title: "I love this place!",
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
         date: new Date("2023-3-20")
@@ -49,9 +49,9 @@ export const dummyUsers = [
         title: "Second Street is OVERRATED!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-        date: new Date("2023-4-20")
-      }
-    ]
+        date: new Date("2023-4-20"),
+      },
+    ],
   },
   {
     id: 3,
@@ -76,9 +76,9 @@ export const dummyUsers = [
         title: "This new thrift shop it's amazing!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-        date: new Date("2023-3-21")
-        }
-      ]
+        date: new Date("2023-3-21"),
+      },
+    ],
   },
   {
     id: 4,
@@ -103,9 +103,9 @@ export const dummyUsers = [
         title: "this new thrift shop it's BAD!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-        date: new Date("2023-5-21")
-        }
-      ]
+        date: new Date("2023-5-21"),
+      },
+    ],
   },
   {
     id: 5,
@@ -130,9 +130,9 @@ export const dummyUsers = [
         title: "I found this new thrift shop!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-        date: new Date("2021-5-21")
-        }
-      ]
+        date: new Date("2021-5-21"),
+      },
+    ],
   },
   {
     id: 6,
@@ -157,9 +157,9 @@ export const dummyUsers = [
         title: "I found this new thrift shop!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
-        date: new Date("2021-5-21")
-        }
-      ]
+        date: new Date("2021-5-21"),
+      },
+    ],
   },
   {
     id: 7,

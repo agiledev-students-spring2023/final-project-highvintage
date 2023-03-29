@@ -4,11 +4,11 @@ import MainNav from "../components/MainNav";
 import SavedHeader from "../components/Saved/SavedHeader";
 import OutfitPreview from "../components//OutfitPost/OutfitPreview";
 import { dummyUsers } from "../dummy/users";
-import DiscussionTitleOnly from "../components/Saved/DiscussionTitleOnly";
 import { dummyDiscussions } from "../dummy/discussions";
+import DiscussionTitleOnly from "../components/Saved/DiscussionTitleOnly";
 
 export default function SavedOutfits() {
-const [users, setUsers] = useState(dummyUsers);
+  const [users, setUsers] = useState(dummyUsers);
 
   const OutfitPreviews = users.map((user) => (
     <OutfitPreview
@@ -23,22 +23,31 @@ const [users, setUsers] = useState(dummyUsers);
       key={discussion.id}
       id={discussion.id}
       title={discussion.title}
-      date={discussion.date}
     ></DiscussionTitleOnly>
   ));
 
- 
   return (
     <>
       <GenericHeader pageName="Saved"></GenericHeader>
-      <SavedHeader pageName="Outfits"></SavedHeader>
-      {/* outfit grid */}
-      <div className="grid grid-cols-3 gap-1">{OutfitPreviews}</div>
-      <div className="-mt-8"><SavedHeader pageName="Discussions"></SavedHeader></div>
+      <SavedHeader
+        pageName="Outfits"
+        showButton="true"
+        page="/saved-outfits"
+      ></SavedHeader>
+      <div className="ml-3 mr-3 mt-3 mb-3 grid grid-cols-3 gap-3">
+        {OutfitPreviews.slice(0, 3)}
+      </div>
+      <div className="-mt-7">
+        <SavedHeader
+          pageName="Discussions"
+          showButton="true"
+          page="/saved-discussion"
+        ></SavedHeader>
+      </div>
       <div className="grid grid-cols-1 gap-3 my-1 mt-2 mb-16">
         {discussionComponents}
       </div>
       <MainNav></MainNav>
-      </>
+    </>
   );
 }
