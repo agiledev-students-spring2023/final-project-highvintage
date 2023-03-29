@@ -1,40 +1,50 @@
-import { React, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import {FaRegHeart, FaHeart, FaRegCommentDots, FaRegBookmark, FaBookmark} from "react-icons/fa";
+import { React, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  FaRegHeart,
+  FaHeart,
+  FaRegCommentDots,
+  FaRegBookmark,
+  FaBookmark,
+} from "react-icons/fa";
 
-export default function OutfitPostInfo() {
-  const navigate = useNavigate()
+import axios from "axios";
+import { requestURL } from "../../requestURL";
+
+export default function OutfitPostInfo(props) {
+  const navigate = useNavigate();
 
   const handleLike = () => {
-    console.log('handle like')
-  }
+    console.log("handle like");
+  };
   const handleComment = () => {
-    console.log('handle comment')
-  }
-  const handleSave = () => {
-    console.log('handle save')
+    console.log("handle comment");
+  };
+
+  async function handleSave() {
+    console.log("savssse");
+    console.log(requestURL);
+    await axios.put(requestURL + "posts/save", { postID: props.postID });
   }
 
   return (
-    <div className='grid grid-cols-2 px-2'>
-
-      <div className='flex space-x-2'>
+    <div className="grid grid-cols-2 px-2">
+      <div className="flex space-x-2">
         {/* Like */}
-        <div className='my-auto' onClick={handleLike}>
+        <div className="my-auto" onClick={handleLike}>
           <FaRegHeart size={25} />
         </div>
 
         {/* Comment */}
-        <div className='my-auto' onClick={handleComment}>
-          <FaRegCommentDots size={24} onClick={()=>navigate('/comments')} />
+        <div className="my-auto" onClick={handleComment}>
+          <FaRegCommentDots size={24} onClick={() => navigate("/comments")} />
         </div>
       </div>
 
-      <div className='justify-self-end my-auto' onClick={handleSave}>
+      <div className="justify-self-end my-auto" onClick={(e) => handleSave(e)}>
         {/* Save */}
         <FaRegBookmark size={24} />
       </div>
-
     </div>
-  )
+  );
 }

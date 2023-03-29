@@ -6,6 +6,7 @@ const dummyUsers = [
   // simple dummy users, with no information other than usernames, photos, and ID
   {
     id: 1,
+    isLoggedIn: true,
     username: "user93028394",
     photo:
       "https://images.unsplash.com/photo-1517849845537-4d257902454a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1335&q=80",
