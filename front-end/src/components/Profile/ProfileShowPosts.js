@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import DiscussionFullView from "../Saved/DiscussionFullView.js";
-import OutfitPreview from "../OutfitPreview.js";
+import OutfitPreview from "../OutfitPost/OutfitPreview.js";
 import { dummyUsers } from "../../dummy/users.js";
 
 export default function ProfileShowPosts(props) {

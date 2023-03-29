@@ -11,7 +11,7 @@ export default function Home() {
         <GenericHeader pageName = "HighVintage"></GenericHeader>
         
         
-        <div className="mt-20 mb-20 flex flex-col items-start justify-center items-center space-y-4">
+        <div className="mt-20 mb-20 flex flex-col justify-center items-center space-y-4">
             <OutfitPost></OutfitPost>
             <OutfitPost></OutfitPost>
             <OutfitPost></OutfitPost>

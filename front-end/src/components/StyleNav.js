@@ -1,9 +1,10 @@
 import React from 'react'
+import { dummyStyles } from '../dummy/styles'
 // import React, { useState } from 'react'
 
 
 export default function StyleNav() {
-    const styles = ['All', 'Sporty & Athleisure', 'Streetwear', 'Classic', 'Funk', 'Minimal']
+    const styles = dummyStyles
     
     return (
         <div>
