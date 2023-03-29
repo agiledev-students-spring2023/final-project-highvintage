@@ -19,7 +19,7 @@ export default function OutfitPost() {
         postDate={users[0].posts[0].postDate}
       />
 
-      <div className='flex flex-row overflow-x-auto justify-self-center'>
+      <div className='flex flex-row overflow-x-auto'>
         <OutfitMedia username={users[0].username} media={users[0].posts[0].postMedia} />
       </div>
 
