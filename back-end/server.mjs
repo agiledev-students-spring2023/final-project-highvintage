@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 5000;
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
+  user.followers = [];
+  user.following = [];
   for (const post of user.posts) {
     post.author = user.username;
   }

@@ -36,7 +36,7 @@ root.render(
       <Route path="/home" element={<Home />}></Route>
 
       <Route path="/self" element={<SelfProfile />}></Route>
-      <Route path="/profile" element={<Profile />}></Route>
+      <Route path="/profile/:username" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
       <Route path="/comments" element={<Comments />}></Route>
