@@ -1,6 +1,6 @@
 import { React, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import {FaRegHeart, FaHeart, FaRegCommentDots, FaRegBookmark, FaBookmark} from "react-icons/fa";
+import { FaRegHeart, FaHeart, FaRegCommentDots, FaRegBookmark, FaBookmark } from "react-icons/fa";
 
 export default function OutfitPostInfo(props) {
   const navigate = useNavigate()
