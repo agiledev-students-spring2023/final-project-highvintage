@@ -12,6 +12,7 @@ import Following from "./pages/Following";
 import Contactus from "./pages/Contactus";
 import Termsofservice from "./pages/Termsofservice";
 import OutfitCollection from "./pages/OutfitCollection";
+import OutfitForm from "./pages/OutfitForm";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
@@ -41,6 +42,7 @@ root.render(
       <Route path="/contact-us" element={<Contactus />}></Route>
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
+      <Route path="/outfit-form" element={<OutfitForm />}></Route>
       <Route path="/outfit-view" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
