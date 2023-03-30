@@ -19,8 +19,6 @@ export default function ProfileHeader(props) {
     following,
   } = props;
 
-  console.log(props);
-
   return (
     <div>
       <div className="flex flex-row items-center space-x-16 mt-12">

@@ -13,7 +13,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 1,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "bklyn thrift",
         postMedia: [
           "https://ln-site.nyc3.cdn.digitaloceanspaces.com/public/prod/2021/08/image/metcha_OnlyThrift_internal_18-custom.min.jpg",
@@ -43,7 +43,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 2,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "",
         postMedia: [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
@@ -73,7 +73,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 3,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "cool thrift",
         postMedia: [
           "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
@@ -103,7 +103,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 4,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "hi thrift",
         postMedia: [
           "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
@@ -133,7 +133,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 5,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "great thrift",
         postMedia: [
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1",
@@ -163,7 +163,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 6,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "thrift cool",
         postMedia: [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w",
@@ -193,7 +193,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 7,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "vintage cool",
         postMedia: [
           "https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg",
@@ -223,7 +223,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 8,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "yes thrift",
         postMedia: [
           "https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg",
@@ -253,7 +253,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 9,
-        postDate: "Mar 23, 2023",
+        date: new Date("2023-3-20"),
         postLoc: "best thrift",
         postMedia: [
           "https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg",
