@@ -23,7 +23,7 @@ export default function DiscussionFullView(props) {
   return (
     <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">
       <div className="flex items-center px-4 py-2 border-b border-gray-200">
-        <h2 className="text-lg font-serif leading-none font-bold text-gray-800 mr-auto">
+        <h2 className="text-lg leading-none font-bold text-gray-800 mr-auto">
           {props.title}
         </h2>
         <div className="flex items-center">
@@ -39,13 +39,13 @@ export default function DiscussionFullView(props) {
         </div>
       </div>
       <Link to="/discussion-view">
-      <div className="p-4">
-        <p className="text-gray-700 leading-relaxed text-justify">
-          {props.content}
-        </p>
-      </div>
+        <div className="p-4">
+          <p className="text-gray-700 leading-relaxed text-justify">
+            {props.content}
+          </p>
+        </div>
       </Link>
-      
+
       {/* Using the same code as in interactable buttons, not using the compoenent because "save" button is placed at a different margin*/}
       <div className="flex flex-row ml-1 mb-1">
         <div className="grid grid-cols-2 px-2">
@@ -72,7 +72,7 @@ export default function DiscussionFullView(props) {
 
         <div className="justify-self-end ml-10 "></div>
         <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
-          {props.date.toLocaleDateString()}
+          {props.date.toLocaleString()}
         </div>
       </div>
     </div>

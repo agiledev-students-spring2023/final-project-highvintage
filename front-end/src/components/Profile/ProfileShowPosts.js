@@ -11,24 +11,21 @@ export default function ProfileShowPosts(props) {
     setCurrTab(tab);
   };
 
-  const [users, setUsers] = useState(dummyUsers);
+  const [discussions, setDiscussions] = useState(props.discussions);
 
-  const OutfitPreviews = users.map((user) => (
-    <OutfitPreview
-      key={user.id}
-      id={user.id}
-      photo={user.posts[0].postMedia[0]}
-    />
+  const OutfitPreviews = props.userPosts.map((post) => (
+    <OutfitPreview key={post.id} id={post.id} photo={post.postMedia} />
   ));
 
-  const discussionComponents = users.map((user) => (
+  console.log(props.discussions[0]);
+  const discussionComponents = props.discussions.map((discussion) => (
     <DiscussionFullView
-      key={user.id}
-      title={user.discussion[0].title}
-      photo={user.photo}
-      content={user.discussion[0].content}
-      username={user.username}
-      date={user.discussion[0].date}
+      key={discussion.id}
+      title={discussion.title}
+      photo={props.authorPhoto}
+      content={discussion.content}
+      username={props.authorUsername}
+      date={discussion.date}
     ></DiscussionFullView>
   ));
 

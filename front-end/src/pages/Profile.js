@@ -24,6 +24,7 @@ const Profile = () => {
     bio: "",
     followers: [],
     following: [],
+    discussion: [],
     posts: [],
   });
 
@@ -52,8 +53,14 @@ const Profile = () => {
         followers={header.followers}
         following={header.following}
         posts={header.posts}
+        discussions={header.discussion}
       />
-      <ProfileShowPosts></ProfileShowPosts>
+      <ProfileShowPosts
+        userPosts={header.posts}
+        discussions={header.discussion}
+        authorPhoto={header.profilePicture}
+        authorUsername={header.username}
+      ></ProfileShowPosts>
       <MainNav></MainNav>
     </div>
   );
