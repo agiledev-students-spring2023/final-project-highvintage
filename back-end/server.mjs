@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import UsersRoute from "./routes/users.mjs";
 import PostsRoute from "./routes/posts.mjs";
-
 import mockUsers from "./mock-db/mock.mjs";
 
 const PORT = process.env.PORT || 5000;
@@ -34,6 +33,10 @@ app.use(persistUser);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+app.get('/api/dummyUsers', (req, res) => {
+  res.json(mockUsers);
 });
 
 app.use("/api/users", UsersRoute);
