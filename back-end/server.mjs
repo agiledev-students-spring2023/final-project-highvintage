@@ -43,6 +43,10 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+app.get('/api/dummyUsers', (req, res) => {
+  res.json(mockUsers);
+});
+
 app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);

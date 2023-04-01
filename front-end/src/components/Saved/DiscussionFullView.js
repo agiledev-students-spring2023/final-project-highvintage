@@ -64,7 +64,7 @@ export default function DiscussionFullView(props) {
             </div>
           </div>
 
-          <div className="my-auto ml-2" onClick={handleSave}>
+          <div className="my-auto ml-4" onClick={handleSave}>
             {/* Save */}
             <FaRegBookmark size={24} />
           </div>
