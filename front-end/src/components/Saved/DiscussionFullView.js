@@ -3,10 +3,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
-  FaHeart,
   FaRegCommentDots,
   FaRegBookmark,
-  FaBookmark,
 } from "react-icons/fa";
 export default function DiscussionFullView(props) {
   const navigate = useNavigate();
@@ -38,7 +36,7 @@ export default function DiscussionFullView(props) {
           </span>
         </div>
       </div>
-      <Link to="/discussion-view">
+      <Link to={`/discussion-view/${props.username}/${props.postID}`}>
         <div className="p-4">
           <p className="text-gray-700 leading-relaxed text-justify">
             {props.content}

@@ -3,7 +3,7 @@ import GenericHeader from "../components/GenericHeader";
 import { dummyUsers } from "../dummy/users";
 import DiscussionFullView from "../components/Saved/DiscussionFullView";
 
-export default function DiscussionView(props) {
+export default function DiscussionView() {
   const [user, setUser] = useState(dummyUsers);
 
   return (
