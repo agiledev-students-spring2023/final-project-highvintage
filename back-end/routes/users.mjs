@@ -39,14 +39,11 @@ router.get("/profile", function (req, res) {
 router.get("/search", function (req, res) {
   // input is cleaned in front end, before call is made
 
-  console.log("click!");
-
   if (!req.query.query) {
     return res.sendStatus(500);
   }
 
   const findUsers = dummyUsers.filter((user) => {
-    console.log(user.username);
     return user.username.includes(req.query.query);
   });
 
