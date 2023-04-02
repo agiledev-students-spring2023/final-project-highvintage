@@ -8,17 +8,28 @@ router.put("/save", function (req, res) {
   const user = req.user;
   const postID = req.body.postID;
 
-  console.log("press");
-
   user.savedPosts.push(postID);
-  res.send(200);
+  res.sendStatus(200);
+
+  // todo: 404 error if resource not found
 });
 
 // api/posts/
-router.get("/view", function (req, res) {
+router.get("/view/:id", function (req, res) {
   const user = req.user;
-  const postID = req.body.postID;
 
-  res.json(dummyPosts);
+  const postID = +req.params.id;
+
+  const found = dummyPosts.find((post) => {
+    return post.postId === postID;
+  });
+
+  if (found) {
+    // 200 OK
+    return res.json(found);
+  } else {
+    // 404 Not Found
+    return res.sendStatus(404);
+  }
 });
 export default router;
