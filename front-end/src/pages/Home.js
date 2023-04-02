@@ -3,6 +3,7 @@ import { useState } from "react";
 import GenericHeader from "../components/GenericHeader";
 import MainNav from '../components/MainNav';
 import OutfitPost from '../components/OutfitPost/OutfitPost'
+import {useLocation, useNavigate} from 'react-router-dom'
 
 
 export default function Home() {
