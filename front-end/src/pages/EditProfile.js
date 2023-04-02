@@ -19,28 +19,31 @@ export default function EditProfile() {
 
   const [update, setUpdate] = useState({});
 
-  function handleSubmit() {
+  async function handleSubmit() {
     // dont change things that are empty
-    const cleanedUpdate = {};
+    const changes = {};
 
     if (update["username"] && update["username"].length >= 3) {
-      cleanedUpdate["username"] = update["username"];
+      changes["username"] = update["username"].toLowerCase();
     }
 
     if (update["favoriteThrift"] && update["favoriteThrift"].length >= 3) {
-      cleanedUpdate["favoriteThrift"] = update["favoriteThrift"];
+      changes["favoriteThrift"] = update["favoriteThrift"];
     }
 
     if (update["style"]) {
-      cleanedUpdate["style"] = update["style"];
+      changes["style"] = update["style"];
     }
 
-    if (update["bio"] && update["bio"] > 0) {
+    if (update["bio"] && update["bio"].length > 0) {
       // do not update bio if empty
-      cleanedUpdate["bio"] = update["bio"];
+      changes["bio"] = update["bio"];
     }
 
-    console.log(cleanedUpdate);
+    // send changes with cleaned changes as the request body
+    const response = await axios.put(requestURL + "users/edit-profile", {
+      changes,
+    });
 
     // check non-empty strings
   }
