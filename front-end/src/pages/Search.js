@@ -44,6 +44,7 @@ export default function Search() {
             username={user.username}
             photo={user.photo}
             key={user.id}
+            id={user.id}
           />
         ));
 
