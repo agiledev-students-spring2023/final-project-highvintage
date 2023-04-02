@@ -39,4 +39,32 @@ router.get("/view/:id", function (req, res) {
     return res.sendStatus(404);
   }
 });
+
+// api/posts/
+router.get("/feed", function (req, res) {
+  // check if req.user exists
+
+  // curate feed from who the user follows
+  const following = req.user.following;
+
+  const gatherFollowing = dummyUsers.filter(
+    (user) => following.indexOf(user.id) !== -1
+  );
+
+  const feedPosts = [];
+
+  for (const user of gatherFollowing) {
+    for (const post of user.posts) {
+      post.authorPhoto = user.photo;
+      post.authorUsername = user.username;
+      post.postLoc = post.postLoc ? post.postLoc : " ";
+      feedPosts.push(post);
+    }
+  }
+
+  // should be sorted
+
+  res.json(feedPosts);
+});
+
 export default router;
