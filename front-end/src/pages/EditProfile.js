@@ -5,6 +5,7 @@ import { requestURL } from "../requestURL";
 
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
+  const [err, setErr] = useState(false);
 
   useEffect(() => {
     async function fetchMe() {
@@ -23,12 +24,22 @@ export default function EditProfile() {
     // dont change things that are empty
     const changes = {};
 
-    if (update["username"] && update["username"].length >= 3) {
-      changes["username"] = update["username"].toLowerCase();
+    if (update["username"]) {
+      if (update["username"].length <= 2) {
+        setErr(true);
+      } else {
+        changes["username"] = update["username"];
+        setErr(false);
+      }
     }
 
-    if (update["favoriteThrift"] && update["favoriteThrift"].length >= 3) {
-      changes["favoriteThrift"] = update["favoriteThrift"];
+    if (update["favoriteThrift"]) {
+      if (update["favoriteThrift"].length <= 2) {
+        setErr(true);
+      } else {
+        changes["favoriteThrift"] = update["favoriteThrift"];
+        setErr(false);
+      }
     }
 
     if (update["style"]) {
@@ -40,10 +51,14 @@ export default function EditProfile() {
       changes["bio"] = update["bio"];
     }
 
-    // send changes with cleaned changes as the request body
-    const response = await axios.put(requestURL + "users/edit-profile", {
-      changes,
-    });
+    if (!err && changes) {
+      // send changes with cleaned changes as the request body
+      const response = await axios
+        .put(requestURL + "users/edit-profile", {
+          changes,
+        })
+        .catch((err) => console.log(err));
+    }
 
     // check non-empty strings
   }
