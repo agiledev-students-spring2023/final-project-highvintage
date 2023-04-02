@@ -10,7 +10,7 @@ export default function OutfitMedia(props) {
     const [users, setUsers] = useState(dummyUsers);
     const images = users.map((user) => (
         <SwiperSlide>
-            <img className='object-cover aspect-square' src={props.media} alt="img"/>
+            <img className='object-cover aspect-square mx-auto' src={props.media} alt="img"/>
         </SwiperSlide> // show the first photo as preview
       ));
     return (

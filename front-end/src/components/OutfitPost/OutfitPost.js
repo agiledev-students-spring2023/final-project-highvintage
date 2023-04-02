@@ -26,6 +26,7 @@ export default function OutfitPost(props) {
         postDate={users[0].posts[0].postDate}
       />
 
+
       <div className="flex flex-row overflow-x-auto justify-self-center">
         <OutfitMedia
           username={details.authorUsername}
