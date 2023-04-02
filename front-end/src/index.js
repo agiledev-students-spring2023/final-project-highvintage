@@ -50,7 +50,7 @@ root.render(
       <Route path="/saved" element={<Saved />}></Route>
       <Route path="/saved-outfits" element={<SavedOutfits />}></Route>
       <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
-      <Route path="/discussion-view/users/:username/discussions/:discussionId" element={<DiscussionView />}></Route>
+      <Route path="/discussion-view/discussions/:discussionID" element={<DiscussionView />}></Route>
       <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
       <Route path="/discussion-form" element={<Discussionform />}></Route>
     </Routes>

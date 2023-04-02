@@ -33,7 +33,7 @@ export default function DiscussionFullView(props) {
         </div>
       </div>
       <Link
-        to={`/discussion-view/users/${props.username}/discussions/${props.discussionId}`}
+        to={`/discussion-view/discussions/${props.discussionId}`}
       >
         <div className="p-4">
           <p className="text-gray-700 leading-relaxed text-justify">

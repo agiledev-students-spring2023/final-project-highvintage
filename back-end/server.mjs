@@ -6,9 +6,7 @@ import UsersRoute from "./routes/users.mjs";
 import PostsRoute from "./routes/posts.mjs";
 import DiscussionsRoute from "./routes/discussions.mjs";
 import CommentsRoute from "./routes/comments.mjs";
-
 import mockUsers from "./mock-db/mock.mjs";
-import DiscussionsRoute from "./routes/discussions.mjs"
 const PORT = process.env.PORT || 5000;
 
 // adding post author to all mock users
@@ -52,8 +50,6 @@ app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);
 app.use("/api/posts", PostsRoute);
-
-app.use("/api/discussions", DiscussionsRoute)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,30 +1,33 @@
 import express from "express";
 import dummyUsers from "../mock-db/mock.mjs";
-import dummyPosts from "../mock-db/mock_posts.mjs";
+import dummyDiscussions from "../mock-db/mock_discussions.mjs";
+
 
 const router = express.Router();
 // api/users/
-router.get("/:username/discussion/:discussionId", (req, res) => {
-  const { username, discussionId } = req.params;
-  const foundUser = dummyUsers.find(
-    (user) => user.username == username.toLowerCase()
-  );
-  //currently only handling one discussion per user, may need to add discussion.find in future for multiple discussions under one user
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
-  }else {
-    return res.json({
-      status: 200,
-      user: {
-        photo: foundUser.photo,
-        username: foundUser.username,
-        discussion: foundUser.discussion,
-      },
+router.get("/view/:discussionID", function (req, res) {
+  const discussionID = +req.params.id;
+
+  const found = dummyDiscussions.find((discussion) => {
+    return discussion.id === discussionID;
+  });
+
+  if (found) {
+    // get author object
+    const author = dummyUsers.find((user) => {
+      return user.id === found.author;
     });
+    // 200 OK
+    return res.json({
+      found,
+      authorUsername: author.username,
+      authorID: author.id,
+      authorPhoto: author.photo,
+    });
+  } else {
+    // 404 Not Found
+    return res.sendStatus(404);
   }
-    
-  }
-  
-);
+});
 
 export default router;
