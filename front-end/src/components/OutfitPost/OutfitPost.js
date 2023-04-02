@@ -15,7 +15,6 @@ export default function OutfitPost(props) {
 
   const details = props.post;
 
-  console.log(details.postLoc);
   return (
     // full outfit post - 4 children components combined
     <div className="grid grid-row-4 py-2 bg-white rounded-lg shadow-md">
@@ -25,7 +24,6 @@ export default function OutfitPost(props) {
         location={details.postLoc}
         postDate={users[0].posts[0].postDate}
       />
-
 
       <div className="flex flex-row overflow-x-auto justify-self-center">
         <OutfitMedia

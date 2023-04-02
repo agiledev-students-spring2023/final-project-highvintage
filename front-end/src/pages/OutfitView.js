@@ -21,18 +21,19 @@ export default function OutfitView() {
     postText: "",
     comments: [],
     author: 0,
+    authorPhoto: "",
+    authorUsername: "",
   });
   useEffect(() => {
     async function fetchPost(query) {
       const response = await axios.get(requestURL + "posts/view/" + query);
+      setPost(response.data.post);
       setIsFetched(true);
       return response.data;
     }
 
     // still needs err handling
-    fetchPost(params.id)
-      .then((res) => setPost(res))
-      .catch((err) => console.log(err));
+    fetchPost(params.id);
 
     return () => {};
   }, []);
