@@ -1,17 +1,34 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MainNav from "../components/MainNav";
 import DiscussionFullView from "../components/Saved/DiscussionFullView";
 import DropDownMenuTwo from "../components/ShareDiscussion/DropDownSort";
-import { dummyUsers } from "../dummy/users";
+import axios from "axios";
+import { requestURL } from "../requestURL.js";
 export default function ShareDiscussion() {
-  const [users, setUsers] = useState(dummyUsers);
+
   const navigate = useNavigate();
   //only using the first two dummy users since I did not put discussion posts in others
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(requestURL + 'dummyUsers');
+        // console.log(response.data);
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   const discussionComponents = users.map((user) => (
     <DiscussionFullView
       key={user.id}
+      discussionId = {user.discussion[0].id}
       title={user.discussion[0].title}
       photo={user.photo}
       content={user.discussion[0].content}
@@ -52,6 +69,7 @@ export default function ShareDiscussion() {
       <br></br>
       <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">
         {/* Only links to one demo discussion page */}
+        
         {discussionComponents}
       </div>
       <div className="flex flex-col">
