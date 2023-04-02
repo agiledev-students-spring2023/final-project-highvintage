@@ -3,10 +3,11 @@ import dummyUsers from "../mock-db/mock.mjs";
 
 const router = express.Router();
 // api/users/
-router.get("/:username", function (req, res) {
+router.get("/profile", function (req, res) {
   // input is cleaned in front end, before call is made
+
   const foundUser = dummyUsers.find(
-    (user) => user.username == req.params.username.toLowerCase()
+    (user) => user.username == req.query.username.toLowerCase()
   );
 
   if (!foundUser) {
@@ -28,6 +29,12 @@ router.get("/:username", function (req, res) {
       },
     });
   }
+});
+
+router.get("/search", function (req, res) {
+  // input is cleaned in front end, before call is made
+
+  res.send("hi");
 });
 
 export default router;

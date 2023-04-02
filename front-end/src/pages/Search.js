@@ -11,48 +11,9 @@ export default function Search() {
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  function handleSearch() {
-    if (isSearching) {
-      return (
-        <button
-          className="underline text-neutral-400 ml-10"
-          onClick={(e) => {
-            setIsSearching(false);
-          }}
-        >
-          clear search{" "}
-        </button>
-      );
-    }
+  async function search(query) {
+    console.log(query);
   }
-
-  useEffect(() => {
-    if (query === "") {
-      setIsSearching(false);
-      setResults([]);
-      handleSearch();
-    } else {
-      setIsSearching(true);
-      handleSearch();
-
-      const cleanQuery = query.toLowerCase();
-
-      const foundUsers = dummyUsers
-        .filter((user) => user.username.toLowerCase().includes(cleanQuery))
-        .map((user) => (
-          <ProfilePreview
-            username={user.username}
-            photo={user.photo}
-            key={user.id}
-            id={user.id}
-          />
-        ));
-
-      setResults(foundUsers);
-    }
-
-    return () => {};
-  }, [query]);
 
   return (
     <>
@@ -75,12 +36,11 @@ export default function Search() {
           className="bg-gray-400 p-1"
           onClick={(e) => {
             e.preventDefault();
-            setIsSearching(true);
+            search(query.toLowerCase());
           }}
         />
       </form>
 
-      {handleSearch()}
       {results}
     </>
   );
