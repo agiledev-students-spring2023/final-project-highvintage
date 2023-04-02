@@ -16,6 +16,7 @@ export default function ShareDiscussion() {
     const fetchData = async () => {
       try {
         const response = await axios.get(requestURL + 'dummyUsers');
+        // console.log(response.data);
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -27,6 +28,7 @@ export default function ShareDiscussion() {
   const discussionComponents = users.map((user) => (
     <DiscussionFullView
       key={user.id}
+      discussionId = {user.discussion[0].id}
       title={user.discussion[0].title}
       photo={user.photo}
       content={user.discussion[0].content}
@@ -67,6 +69,7 @@ export default function ShareDiscussion() {
       <br></br>
       <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">
         {/* Only links to one demo discussion page */}
+        
         {discussionComponents}
       </div>
       <div className="flex flex-col">

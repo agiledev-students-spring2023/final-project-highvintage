@@ -8,7 +8,7 @@ import DiscussionsRoute from "./routes/discussions.mjs";
 import CommentsRoute from "./routes/comments.mjs";
 
 import mockUsers from "./mock-db/mock.mjs";
-
+import DiscussionsRoute from "./routes/discussions.mjs"
 const PORT = process.env.PORT || 5000;
 
 // adding post author to all mock users
@@ -29,6 +29,7 @@ for (const user of mockUsers) {
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
@@ -51,6 +52,8 @@ app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);
 app.use("/api/posts", PostsRoute);
+
+app.use("/api/discussions", DiscussionsRoute)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
