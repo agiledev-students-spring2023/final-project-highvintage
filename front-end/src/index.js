@@ -44,7 +44,7 @@ root.render(
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
       <Route path="/outfit-form" element={<OutfitForm />}></Route>
-      <Route path="/outfit-view" element={<OutfitView />}></Route>
+      <Route path="/outfit-view/:id" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
       <Route path="/saved" element={<Saved />}></Route>

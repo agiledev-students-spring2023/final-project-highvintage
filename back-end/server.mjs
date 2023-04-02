@@ -15,7 +15,10 @@ for (const user of mockUsers) {
   user.followers = [];
   user.following = [];
   for (const post of user.posts) {
-    post.author = user.username;
+    post.author = user.id;
+    if (!post.postLoc) {
+      post.postLoc = "";
+    }
   }
 }
 

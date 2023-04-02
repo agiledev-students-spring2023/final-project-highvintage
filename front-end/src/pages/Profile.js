@@ -31,7 +31,7 @@ const Profile = () => {
   // fetch the profile on page render, using useEffect
   useEffect(() => {
     async function fetchProfile(query) {
-      let response = await axios.get(requestURL + "users/" + query);
+      const response = await axios.get(requestURL + "users/" + query);
       setHeader(response.data.user);
     }
 
