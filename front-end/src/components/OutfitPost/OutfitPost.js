@@ -10,8 +10,6 @@ import OutfitText from "./OutfitText";
 export default function OutfitPost(props) {
   const [users, setUsers] = useState(dummyUsers);
 
-  console.log(props);
-
   // authorID , authorPhoto, authorUsername
   // and post
 
