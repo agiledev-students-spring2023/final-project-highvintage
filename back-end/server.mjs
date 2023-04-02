@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import UsersRoute from "./routes/users.mjs";
 import PostsRoute from "./routes/posts.mjs";
+import DiscussionsRoute from "./routes/discussions.mjs";
+import CommentsRoute from "./routes/comments.mjs";
 
 import mockUsers from "./mock-db/mock.mjs";
 
@@ -40,6 +42,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", UsersRoute);
+app.use("/api/posts", PostsRoute);
+app.use("/api/discussions", DiscussionsRoute);
 app.use("/api/posts", PostsRoute);
 
 app.listen(PORT, () => {
