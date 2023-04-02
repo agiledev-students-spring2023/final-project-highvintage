@@ -7,7 +7,10 @@ export default function ProfilePreview(props) {
         className="h-20 object-cover aspect-square justify-self-end"
         src={props.photo}
       />
-      <p className="ml-3 align-center"> {props.username} </p>
+      <a className="ml-3 align-center" href={"/profile/" + props.username}>
+        {" "}
+        {props.username}{" "}
+      </a>
     </div>
   );
 }
