@@ -4,6 +4,8 @@ import { useState } from "react";
 import { dummyUsers } from "../dummy/users";
 import { useEffect } from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
 export default function Search() {
   const [found, setFound] = useState([]);
@@ -12,7 +14,16 @@ export default function Search() {
   const [isSearching, setIsSearching] = useState(false);
 
   async function search(query) {
-    console.log(query);
+    const response = await axios.get(
+      requestURL + "users/search?query=" + query
+    );
+    setFound(response.data);
+
+    const viewable = found.map((user, idx) => (
+      <ProfilePreview key={idx} photo={user.photo} username={user.username} />
+    ));
+
+    setResults(viewable);
   }
 
   return (
@@ -36,7 +47,9 @@ export default function Search() {
           className="bg-gray-400 p-1"
           onClick={(e) => {
             e.preventDefault();
-            search(query.toLowerCase());
+            if (query !== "") {
+              search(query.toLowerCase());
+            }
           }}
         />
       </form>

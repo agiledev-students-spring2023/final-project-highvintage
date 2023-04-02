@@ -5,6 +5,11 @@ const router = express.Router();
 // api/users/
 router.get("/profile", function (req, res) {
   // input is cleaned in front end, before call is made
+  // no params = error
+
+  if (!req.query) {
+    return res.sendStatus(500);
+  }
 
   const foundUser = dummyUsers.find(
     (user) => user.username == req.query.username.toLowerCase()
@@ -34,7 +39,18 @@ router.get("/profile", function (req, res) {
 router.get("/search", function (req, res) {
   // input is cleaned in front end, before call is made
 
-  res.send("hi");
+  console.log("click!");
+
+  if (!req.query.query) {
+    return res.sendStatus(500);
+  }
+
+  const findUsers = dummyUsers.filter((user) => {
+    console.log(user.username);
+    return user.username.includes(req.query.query);
+  });
+
+  return res.json(findUsers);
 });
 
 export default router;
