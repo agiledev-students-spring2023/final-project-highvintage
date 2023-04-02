@@ -56,7 +56,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 2,
         title: "Second Street is OVERRATED!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -86,7 +86,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 3,
         title: "This new thrift shop it's amazing!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -116,7 +116,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 4,
         title: "this new thrift shop it's BAD!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -146,7 +146,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 5,
         title: "I found this new thrift shop!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -176,7 +176,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 6,
         title: "I found this new thrift shop!",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -206,7 +206,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 7,
         title: "what do you think about ...",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -236,7 +236,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 8,
         title: "This is cool...",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
@@ -266,7 +266,7 @@ const dummyUsers = [
     ],
     discussion: [
       {
-        id: 1,
+        id: 9,
         title: "This is nice...",
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
