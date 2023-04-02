@@ -6,8 +6,6 @@ import { requestURL } from "../requestURL";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
 
-  console.log(loggedIn);
-
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
@@ -22,11 +20,27 @@ export default function EditProfile() {
   const [update, setUpdate] = useState({});
 
   function handleSubmit() {
-    // ignore all empty strings - besides bio
+    // dont change things that are empty
+    const cleanedUpdate = {};
 
-    // logic prior to update DB api call is made
-    for (const prop in update) {
+    if (update["username"] && update["username"].length >= 3) {
+      cleanedUpdate["username"] = update["username"];
     }
+
+    if (update["favoriteThrift"] && update["favoriteThrift"].length >= 3) {
+      cleanedUpdate["favoriteThrift"] = update["favoriteThrift"];
+    }
+
+    if (update["style"]) {
+      cleanedUpdate["style"] = update["style"];
+    }
+
+    if (update["bio"] && update["bio"] > 0) {
+      // do not update bio if empty
+      cleanedUpdate["bio"] = update["bio"];
+    }
+
+    console.log(cleanedUpdate);
 
     // check non-empty strings
   }
@@ -56,6 +70,7 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.username}
               size="10"
+              minLength={3}
               onChange={(e) =>
                 setUpdate({ ...update, username: e.target.value })
               }
