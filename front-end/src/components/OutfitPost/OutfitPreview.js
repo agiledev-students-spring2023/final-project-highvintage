@@ -2,8 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function OutfitPreview(props) {
-  const navigateTo = useNavigate();
-
+  console.log(props);
   // individual preview within the grid - appears in OutfitCollection page
   return (
     <div className="w-full h-full">

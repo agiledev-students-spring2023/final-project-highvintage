@@ -28,11 +28,13 @@ router.get("/view/:id", function (req, res) {
       return user.id === found.author;
     });
     // 200 OK
+    const post = found;
+    post.authorPhoto = author.photo;
+    post.authorUsername = author.username;
+    post.postLoc = post.postLoc ? post.postLoc : " ";
+
     return res.json({
-      found,
-      authorUsername: author.username,
-      authorID: author.id,
-      authorPhoto: author.photo,
+      post,
     });
   } else {
     // 404 Not Found
