@@ -14,6 +14,9 @@ const PORT = process.env.PORT || 5000;
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
+  user.bio = "This is my bio made from the server.mjs file!";
+  user.style = "Server.mjs";
+  user.favoriteThrift = "nodemon server.mjs";
   if (!user.followers) {
     user.followers = [];
     user.following = [];
