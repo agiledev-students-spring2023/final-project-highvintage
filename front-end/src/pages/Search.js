@@ -54,7 +54,11 @@ export default function Search() {
         />
       </form>
 
-      {results}
+      {results.length > 0 ? (
+        results
+      ) : (
+        <p className="text-center"> No users found. </p>
+      )}
     </>
   );
 }
