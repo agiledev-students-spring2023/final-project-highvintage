@@ -22,6 +22,9 @@ for (const user of mockUsers) {
       post.postLoc = "";
     }
   }
+  for (const discussion of user.discussion){
+    discussion.author = user.id;
+  }
 }
 
 const app = express();

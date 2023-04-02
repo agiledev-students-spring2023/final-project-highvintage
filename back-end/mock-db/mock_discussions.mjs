@@ -5,8 +5,8 @@ import dummyUsers from "./mock.mjs";
 
 const dummyDiscussions = [];
 dummyUsers.forEach((user) =>
-  user.discussion.forEach((post) => {
-    dummyDiscussions.push(post);
+  user.discussion.forEach((discussion) => {
+    dummyDiscussions.push(discussion);
   })
 );
 

@@ -9,55 +9,28 @@ import moment from "moment";
 export default function DiscussionView() {
   const navigate = useNavigate();
   // const [user, setUser] = useState();
-  const { username, discussionId } = useParams();
-  const [loading, setLoading] = useState(true);
-  // const [discussion, setDiscussion] = useState(null);
-  //set discussion
-  // useEffect(() => {
-  //   const fetchDiscussion = async () => {
-  //     try {
-  //       const res = await axios.get(
-  //         requestURL + `users/${username}/discussions/${discussionId}`
-  //       );
-  //       console.log(res.data);
-  //       setDiscussion(res.data);
-  //       if(res.data == null){
-  //         console.error('error null', 404 );
-  //       }
-  //     } catch (err) {
-  //       console.error(err.response.data);
-  //     }
-  //   };
-
-  //   fetchDiscussion();
-  // }, [username, discussionId]);
-  const [header, setHeader] = useState({
-    isSelf: false,
-    username: "",
-    profilePicture: "",
-    style: "",
-    favoriteThrift: "",
-    bio: "",
-    followers: [],
-    following: [],
-    discussion: [],
-    posts: [],
+  const params = useParams();
+  const [isFetched, setIsFetched] = useState(false);
+  const [discussion, setDiscussion] = useState({
+    id: 0,
+    comments:[],
+    date: "",
+    title: "",
+    content: "",
+    author:0,
   });
-  //get user
+  //get discussion
   useEffect(() => {
-    async function fetchProfile(query) {
-      try {
-        let response = await axios.get(requestURL + "users/" + query);
-        setHeader(response.data.user);
-        console.log(response.data.user);
-      } catch (err) {
-        console.error(err.response.data);
-      } finally {
-        setLoading(false);
-      }
+    async function fetchDiscussion(query) {
+      const response = await axios.get(requestURL + "discussions/view/" + query);
+      setIsFetched(true);
+      return response.data;
     }
 
-    fetchProfile(username.toLowerCase());
+    // still needs err handling
+    fetchDiscussion(params.id)
+      .then((res) => setDiscussion(res))
+      .catch((err) => console.log(err));
 
     return () => {};
   }, []);
@@ -71,7 +44,7 @@ export default function DiscussionView() {
   const handleSave = () => {
     console.log("handle save");
   };
-  if (loading) {
+  if (!isFetched) {
     return <div>Loading...</div>;
   }
   return (
@@ -82,24 +55,24 @@ export default function DiscussionView() {
       <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">
         <div className="flex items-center px-4 py-2 border-b border-gray-200">
           <h2 className="text-lg leading-none font-bold text-gray-800 mr-auto">
-            {header.discussion[0].title}
+            {discussion.found.title}
           </h2>
           <div className="flex items-center">
             <img
-              src={header.profilePicture}
+              src={discussion.authorPhoto}
               alt="User Avatar"
               className="w-8 h-8 rounded-full mr-2"
             />
             {/* need link to the profile when click on */}
             <span className="overflow-hidden truncate text-gray-600">
-              {header.username}
+              {discussion.authorUsername}
             </span>
           </div>
         </div>
 
         <div className="p-4">
           <p className="text-gray-700 leading-relaxed text-justify">
-            {header.discussion[0].content}
+            {discussion.found.content}
           </p>
         </div>
 
@@ -121,19 +94,19 @@ export default function DiscussionView() {
               </div>
             </div>
 
-            <div className="my-auto ml-4" onClick={handleSave}>
+            <div className="my-auto ml-2" onClick={handleSave}>
               {/* Save */}
               <FaRegBookmark size={24} />
             </div>
           </div>
 
-          <div className="justify-self-end ml-10 "></div>
+          <div className="justify-self-end ml-20 "></div>
           <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
-            {moment.utc(header.discussion[0].date).format('MM/DD/YY')}
+            {moment.utc(discussion.found.date).format('MM/DD/YY')}
           </div>
         </div>
       </div>
-      ); {/* comment component goes here */}
+       {/* comment component goes here */}
     </>
   );
 }

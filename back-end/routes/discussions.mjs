@@ -5,7 +5,7 @@ import dummyDiscussions from "../mock-db/mock_discussions.mjs";
 
 const router = express.Router();
 // api/users/
-router.get("/view/:discussionID", function (req, res) {
+router.get("/view/:id", function (req, res) {
   const discussionID = +req.params.id;
 
   const found = dummyDiscussions.find((discussion) => {
@@ -26,6 +26,7 @@ router.get("/view/:discussionID", function (req, res) {
     });
   } else {
     // 404 Not Found
+    
     return res.sendStatus(404);
   }
 });
