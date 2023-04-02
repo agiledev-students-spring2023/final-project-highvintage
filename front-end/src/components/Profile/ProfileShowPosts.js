@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DiscussionFullView from "../Saved/DiscussionFullView.js";
 import OutfitPreview from "../OutfitPost/OutfitPreview.js";
-import { dummyUsers } from "../../dummy/users.js";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProfileShowPosts(props) {
   //set initial tab to outfits
@@ -14,13 +14,13 @@ export default function ProfileShowPosts(props) {
   const [discussions, setDiscussions] = useState(props.discussions);
 
   const OutfitPreviews = props.userPosts.map((post) => (
-    <OutfitPreview key={post.id} id={post.id} photo={post.postMedia} />
+    <OutfitPreview key={post.postID} id={post.postId} photo={post.postMedia} />
   ));
 
-  console.log(props.discussions[0]);
   const discussionComponents = props.discussions.map((discussion) => (
     <DiscussionFullView
       key={discussion.id}
+      discussionId = {discussion.id}
       title={discussion.title}
       photo={props.authorPhoto}
       content={discussion.content}

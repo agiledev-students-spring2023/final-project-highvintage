@@ -6,6 +6,8 @@ const dummyUsers = [
   // simple dummy users, with no information other than usernames, photos, and ID
   {
     id: 1,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
     isLoggedIn: true,
     username: "user93028394",
     photo:
