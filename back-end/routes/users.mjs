@@ -1,6 +1,5 @@
 import express from "express";
 import dummyUsers from "../mock-db/mock.mjs";
-
 const router = express.Router();
 // api/users/
 router.get("/profile", function (req, res) {
@@ -50,4 +49,15 @@ router.get("/search", function (req, res) {
   return res.json(findUsers);
 });
 
+router.get("/me", function (req, res) {
+  // input is cleaned in front end, before call is made
+
+  if (!req.user) {
+    res.sendStatus(500);
+  }
+
+  // should not send over any passwords in the case
+  // that we have to code this with mongodb
+  res.json({ user: req.user });
+});
 export default router;

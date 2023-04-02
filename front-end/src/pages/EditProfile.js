@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GenericHeader from "../components/GenericHeader";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({
@@ -13,6 +15,14 @@ export default function EditProfile() {
     following: "302",
     posts: "67",
   });
+
+  useEffect(() => {
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+    }
+
+    return () => {};
+  }, []);
 
   const [update, setUpdate] = useState({});
 
@@ -41,7 +51,7 @@ export default function EditProfile() {
 
         <form className="mt-6">
           <div className="mb-2">
-            <label className="p-1 w-1/4" for="name">
+            <label className="p-1 w-1/4" htmlFor="name">
               Username{" "}
             </label>
             <input
