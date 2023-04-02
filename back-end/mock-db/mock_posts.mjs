@@ -5,7 +5,9 @@ import dummyUsers from "./mock.mjs";
 
 const dummyPosts = [];
 dummyUsers.forEach((user) =>
-  user.posts.forEach((post) => dummyPosts.push(post))
+  user.posts.forEach((post) => {
+    dummyPosts.push(post);
+  })
 );
 
 export default dummyPosts;

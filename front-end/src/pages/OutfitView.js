@@ -8,6 +8,10 @@ import { useParams } from "react-router-dom";
 export default function OutfitView() {
   // fetch on page load - useEffect
   const params = useParams();
+
+  const [isFetched, setIsFetched] = useState(false);
+
+  // this matches the response with all of the same properties!
   const [post, setPost] = useState({
     postId: 0,
     date: "",
@@ -16,15 +20,19 @@ export default function OutfitView() {
     postLike: [],
     postText: "",
     comments: [],
-    author: "",
+    author: 0,
   });
   useEffect(() => {
     async function fetchPost(query) {
       const response = await axios.get(requestURL + "posts/view/" + query);
+      setIsFetched(true);
       return response.data;
     }
 
-    fetchPost(params.id).then((res) => setPost(res));
+    // still needs err handling
+    fetchPost(params.id)
+      .then((res) => setPost(res))
+      .catch((err) => console.log(err));
 
     return () => {};
   }, []);
@@ -33,7 +41,7 @@ export default function OutfitView() {
     <div>
       <GenericHeader pageName="View Post"></GenericHeader>
       <div className="mt-20">
-        <OutfitPost post={post}></OutfitPost>
+        {isFetched ? <OutfitPost post={post}></OutfitPost> : null}
       </div>
     </div>
   );

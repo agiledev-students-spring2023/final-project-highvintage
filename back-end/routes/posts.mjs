@@ -1,4 +1,5 @@
 import express from "express";
+import dummyUsers from "../mock-db/mock.mjs";
 import dummyPosts from "../mock-db/mock_posts.mjs";
 
 const router = express.Router();
@@ -15,8 +16,6 @@ router.put("/save", function (req, res) {
 
 // api/posts/
 router.get("/view/:id", function (req, res) {
-  const user = req.user;
-
   const postID = +req.params.id;
 
   const found = dummyPosts.find((post) => {
@@ -24,8 +23,17 @@ router.get("/view/:id", function (req, res) {
   });
 
   if (found) {
+    // get author object
+    const author = dummyUsers.find((user) => {
+      return user.id === found.author;
+    });
     // 200 OK
-    return res.json(found);
+    return res.json({
+      found,
+      authorUsername: author.username,
+      authorID: author.id,
+      authorPhoto: author.photo,
+    });
   } else {
     // 404 Not Found
     return res.sendStatus(404);
