@@ -1,26 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GenericHeader from "../components/GenericHeader";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
 export default function EditProfile() {
-  const [loggedIn, setLoggedIn] = useState({
-    username: "lisa_li",
-    profilePicture:
-      "https://images.unsplash.com/photo-1541823709867-1b206113eafd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    style: "Streetwear",
-    favoriteThrift: "Urban Jungle",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    followers: "623",
-    following: "302",
-    posts: "67",
-  });
+  const [loggedIn, setLoggedIn] = useState({});
+  const [err, setErr] = useState(false);
+
+  useEffect(() => {
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+      setLoggedIn(response.data.user);
+    }
+
+    fetchMe();
+
+    return () => {};
+  }, []);
 
   const [update, setUpdate] = useState({});
 
-  function handleSubmit() {
-    // ignore all empty strings - besides bio
+  async function handleSubmit() {
+    // dont change things that are empty
+    const changes = {};
 
-    // logic prior to update DB api call is made
-    for (const prop in update) {
+    if (update["username"]) {
+      if (update["username"].length <= 2) {
+        setErr(true);
+      } else {
+        changes["username"] = update["username"];
+        setErr(false);
+      }
+    }
+
+    if (update["favoriteThrift"]) {
+      if (update["favoriteThrift"].length <= 2) {
+        setErr(true);
+      } else {
+        changes["favoriteThrift"] = update["favoriteThrift"];
+        setErr(false);
+      }
+    }
+
+    if (update["style"]) {
+      changes["style"] = update["style"];
+    }
+
+    if (update["bio"] && update["bio"].length > 0) {
+      // do not update bio if empty
+      changes["bio"] = update["bio"];
+    }
+
+    if (!err && changes) {
+      // send changes with cleaned changes as the request body
+      const response = await axios
+        .put(requestURL + "users/edit-profile", {
+          changes,
+        })
+        .catch((err) => console.log(err));
     }
 
     // check non-empty strings
@@ -33,7 +70,7 @@ export default function EditProfile() {
         {" "}
         <img
           className="h-32 object-cover aspect-square mt-20 rounded-full"
-          src={loggedIn.profilePicture}
+          src={loggedIn.photo}
         />{" "}
       </div>{" "}
       <div className="mt-4 text-center">
@@ -41,7 +78,7 @@ export default function EditProfile() {
 
         <form className="mt-6">
           <div className="mb-2">
-            <label className="p-1 w-1/4" for="name">
+            <label className="p-1 w-1/4" htmlFor="name">
               Username{" "}
             </label>
             <input
@@ -51,6 +88,7 @@ export default function EditProfile() {
               className="ml-2 w-2/4 p-1"
               placeholder={loggedIn.username}
               size="10"
+              minLength={3}
               onChange={(e) =>
                 setUpdate({ ...update, username: e.target.value })
               }
