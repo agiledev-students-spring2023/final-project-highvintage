@@ -20,6 +20,7 @@ export default function ProfileShowPosts(props) {
   const discussionComponents = props.discussions.map((discussion) => (
     <DiscussionFullView
       key={discussion.id}
+      discussionId = {discussion.id}
       title={discussion.title}
       photo={props.authorPhoto}
       content={discussion.content}

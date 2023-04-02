@@ -10,7 +10,7 @@ function DiscussionPreviewFull(props) {
   };
   return (
     <>
-      <Link to="/discussion-view" id={props.id}>
+      <Link  to={`/discussion-view/${props.id}`}>
         <div className="grid grid-cols-1 bg-white rounded-lg mx-auto shadow-sm border-solid border-black border-2 w-80">
           <div className="flex flex-col gap-2 overflow-auto ">
             <h2 className="ml-2 pt-2 text-lg font-serif leading-none font-bold">
@@ -20,7 +20,6 @@ function DiscussionPreviewFull(props) {
             <p className="mx-1 px-2 pb-0 text-base text-justify line-clamp-3 ">
               {props.discuss}
             </p>
-            <p className="text-end mr-1">{props.date}</p>
           </div>
         </div>
       </Link>
