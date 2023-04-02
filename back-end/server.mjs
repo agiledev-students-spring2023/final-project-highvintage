@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import UsersRoute from "./routes/users.mjs";
 import PostsRoute from "./routes/posts.mjs";
+import DiscussionsRoute from "./routes/discussions.mjs";
+import CommentsRoute from "./routes/comments.mjs";
 
 import mockUsers from "./mock-db/mock.mjs";
 
@@ -12,8 +14,13 @@ const PORT = process.env.PORT || 5000;
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
+  user.followers = [];
+  user.following = [];
   for (const post of user.posts) {
-    post.author = user.username;
+    post.author = user.id;
+    if (!post.postLoc) {
+      post.postLoc = "";
+    }
   }
 }
 
@@ -35,6 +42,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", UsersRoute);
+app.use("/api/posts", PostsRoute);
+app.use("/api/discussions", DiscussionsRoute);
 app.use("/api/posts", PostsRoute);
 
 app.listen(PORT, () => {

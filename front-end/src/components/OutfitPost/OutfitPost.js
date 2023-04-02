@@ -7,28 +7,41 @@ import OutfitMedia from "./OutfitMedia";
 import OutfitPostInteraction from "./OutfitPostInteraction";
 import OutfitText from "./OutfitText";
 
-export default function OutfitPost() {
+export default function OutfitPost(props) {
   const [users, setUsers] = useState(dummyUsers);
+
+  console.log(props);
+
+  // authorID , authorPhoto, authorUsername
+  // and post
+
+  const details = props.post;
   return (
     // full outfit post - 4 children components combined
     <div className="grid grid-row-4 py-2 bg-white rounded-lg shadow-md">
       <OutfitUserInfo
-        photo={users[0].photo}
-        username={users[0].username}
-        location={users[0].posts[0].postLoc}
+        photo={details.authorPhoto}
+        username={details.authorUsername}
+        location={details.found.postLoc}
         postDate={users[0].posts[0].postDate}
       />
-      <div className='flex flex-row overflow-x-auto'>
-        <OutfitMedia username={users[0].username} media={users[0].posts[0].postMedia} />
+
+
+      <div className="flex flex-row overflow-x-auto justify-self-center">
+        <OutfitMedia
+          username={details.authorUsername}
+          media={details.found.postMedia}
+        />
       </div>
 
       <OutfitPostInteraction
-        postID={users[0].posts[0].postId}
-        likes={users[0].posts[0].postLike}
+        postID={details.found.postId}
+        likes={details.found.postLike.length}
+        likeArray={details.found.postLike}
       />
       <OutfitText
-        likes={users[0].posts[0].postLike}
-        text={users[0].posts[0].postText}
+        likes={details.found.postLike.length}
+        text={details.found.postText}
       />
     </div>
   );

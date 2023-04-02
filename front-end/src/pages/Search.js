@@ -4,6 +4,8 @@ import { useState } from "react";
 import { dummyUsers } from "../dummy/users";
 import { useEffect } from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
 export default function Search() {
   const [found, setFound] = useState([]);
@@ -11,47 +13,18 @@ export default function Search() {
   const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  function handleSearch() {
-    if (isSearching) {
-      return (
-        <button
-          className="underline text-neutral-400 ml-10"
-          onClick={(e) => {
-            setIsSearching(false);
-          }}
-        >
-          clear search{" "}
-        </button>
-      );
-    }
+  async function search(query) {
+    const response = await axios.get(
+      requestURL + "users/search?query=" + query
+    );
+    setFound(response.data);
+
+    const viewable = found.map((user, idx) => (
+      <ProfilePreview key={idx} photo={user.photo} username={user.username} />
+    ));
+
+    setResults(viewable);
   }
-
-  useEffect(() => {
-    if (query === "") {
-      setIsSearching(false);
-      setResults([]);
-      handleSearch();
-    } else {
-      setIsSearching(true);
-      handleSearch();
-
-      const cleanQuery = query.toLowerCase();
-
-      const foundUsers = dummyUsers
-        .filter((user) => user.username.toLowerCase().includes(cleanQuery))
-        .map((user) => (
-          <ProfilePreview
-            username={user.username}
-            photo={user.photo}
-            key={user.id}
-          />
-        ));
-
-      setResults(foundUsers);
-    }
-
-    return () => {};
-  }, [query]);
 
   return (
     <>
@@ -74,13 +47,18 @@ export default function Search() {
           className="bg-gray-400 p-1"
           onClick={(e) => {
             e.preventDefault();
-            setIsSearching(true);
+            if (query !== "") {
+              search(query.toLowerCase());
+            }
           }}
         />
       </form>
 
-      {handleSearch()}
-      {results}
+      {results.length > 0 ? (
+        results
+      ) : (
+        <p className="text-center"> No users found. </p>
+      )}
     </>
   );
 }
