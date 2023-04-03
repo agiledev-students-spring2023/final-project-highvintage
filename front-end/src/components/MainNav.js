@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 
-export default function MainNav() {
+export default function MainNav(props) {
   return (
     <div className="fixed bottom-0 grid grid-cols-5 items-center w-full px-2 py-4 text-center font-semibold rounded-t-md bg-white">
       <div>
@@ -24,7 +24,7 @@ export default function MainNav() {
       </div>
 
       <div>
-        <Link to="/profile/krunker">Profile</Link>
+        <Link to={"/profile/" + props.linkToMe}>Profile</Link>
       </div>
     </div>
   );

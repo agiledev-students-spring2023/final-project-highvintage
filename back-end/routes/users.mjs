@@ -20,7 +20,7 @@ router.get("/profile", function (req, res) {
     return res.json({
       status: 200,
       user: {
-        isSelf: req.user.username == req.params.username,
+        isSelf: req.user.username == req.query.username,
         profilePicture: foundUser.photo,
         style: "Streetwear",
         favoriteThrift: "L Train Vintage",
