@@ -54,11 +54,12 @@ const Profile = () => {
       let updatedHeader = { ...header };
       if (isFollowing) {
         await unfollowUser(header.username);
-        updatedHeader.followers = updatedHeader.followers.filter((id) => id !== header._id);
+        updatedHeader.followers = updatedHeader.followers.filter((id) => id !== header.id);
       } else {
         await followUser(header.username);
-        updatedHeader.followers = [...updatedHeader.followers, header._id];
+        updatedHeader.followers = [...updatedHeader.followers, header.id];
       }
+      console.log(updatedHeader);
       setIsFollowing(!isFollowing);
       setHeader(updatedHeader);
     } catch (error) {
@@ -79,7 +80,7 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    setIsFollowing(header.followers.includes(header._id));
+    setIsFollowing(header.followers.includes(header.id));
   }, [header]);
 
   return (
