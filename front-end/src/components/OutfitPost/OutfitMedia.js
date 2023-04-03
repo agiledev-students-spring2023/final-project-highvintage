@@ -7,8 +7,8 @@ import 'swiper/css';
 import 'swiper/css/navigation'
 
 export default function OutfitMedia(props) {
-    const images = props.media.map((media) => (
-        <SwiperSlide>
+    const images = props.media.map((media, i) => (
+        <SwiperSlide key={i}>
             <img className='object-cover aspect-square mx-auto' src={media} alt="img"/>
         </SwiperSlide> // show the first photo as preview
       ));
