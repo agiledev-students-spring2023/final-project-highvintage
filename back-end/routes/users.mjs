@@ -88,4 +88,49 @@ router.get("/me", function (req, res) {
   res.json({ user: req.user });
 });
 
+// api/users/:username/follow
+router.put("/:username/follow", function (req, res) {
+  const currentUser = dummyUsers.find(
+    (user) => user.username === req.user.username.toLowerCase()
+  );
+  const toFollow = dummyUsers.find(
+    (user) => user.username === req.params.username.toLowerCase()
+  );
+
+  if (!currentUser || !toFollow) {
+    return res.json({ status: 401, message: "Unknown User ID" });
+  }
+
+  if (!currentUser.following.includes(toFollow._id)) {
+    currentUser.following.push(toFollow._id);
+    toFollow.followers.push(currentUser._id);
+  }
+
+  return res.json({ status: 200, message: "User followed successfully" });
+});
+
+// api/users/:username/unfollow
+router.put("/:username/unfollow", function (req, res) {
+  const currentUser = dummyUsers.find(
+    (user) => user.username === req.user.username
+  );
+  const toFollow = dummyUsers.find(
+    (user) => user.username === req.params.username
+  );
+
+  if (!currentUser || !toFollow) {
+    return res.json({ status: 401, message: "Unknown User ID" });
+  }
+
+  if (currentUser.following.includes(toFollow._id)) {
+    currentUser.following = currentUser.following.filter(
+      (id) => id !== toFollow._id
+    );
+    toFollow.followers = toFollow.followers.filter(
+      (id) => id !== currentUser._id
+    );
+  }
+  return res.json({ status: 200, message: "User unfollowed successfully" });
+});
+
 export default router;
