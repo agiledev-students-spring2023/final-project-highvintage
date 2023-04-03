@@ -14,6 +14,7 @@ import { requestURL } from "../requestURL.js";
  */
 const Profile = () => {
   const username = useParams();
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const [header, setHeader] = useState({
     isSelf: false,
@@ -28,6 +29,40 @@ const Profile = () => {
     posts: [],
   });
 
+  async function followUser(username) {
+    axios.put(requestURL + 'users/' + username + '/follow')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+  
+  async function unfollowUser(username) {
+    axios.put(requestURL + 'users/' + username + '/unfollow')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+  
+
+  const handleFollow = async () => {
+    try {
+      if (isFollowing) {
+        await unfollowUser(header.username);
+      } else {
+        await followUser(header.username);
+      }
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error("Error trying to follow/unfollow:", error.message);
+    }
+  };
+
   // fetch the profile on page render, using useEffect
   useEffect(() => {
     async function fetchProfile(query) {
@@ -38,9 +73,11 @@ const Profile = () => {
     }
 
     fetchProfile(username.username.toLowerCase());
-
-    return () => {};
   }, []);
+
+  useEffect(() => {
+    setIsFollowing(header.followers.includes(header._id));
+  }, [header]);
 
   return (
     <div className="mb-16">
@@ -56,6 +93,8 @@ const Profile = () => {
         following={header.following}
         posts={header.posts}
         discussions={header.discussion}
+        isFollowing = {isFollowing}
+        handleFollow={handleFollow}
       />
       <ProfileShowPosts
         userPosts={header.posts}
