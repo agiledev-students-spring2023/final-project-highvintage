@@ -107,7 +107,7 @@ router.put("/:username/follow", function (req, res) {
     toFollow.followers.push(currentUser.id);
   }
 
-  return res.json({ status: 200, message: "User followed successfully" });
+  return res.json({ status: 200, message: "User followed successfully", user: toFollow });
 });
 
 // api/users/:username/unfollow
@@ -131,7 +131,8 @@ router.put("/:username/unfollow", function (req, res) {
       (id) => id !== currentUser.id
     );
   }
-  return res.json({ status: 200, message: "User unfollowed successfully" });
+
+  return res.json({ status: 200, message: "User unfollowed successfully", user: toUnfollow });
 });
 
 export default router;
