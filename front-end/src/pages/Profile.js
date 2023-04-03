@@ -49,15 +49,18 @@ const Profile = () => {
     });
   }
   
-
   const handleFollow = async () => {
     try {
+      let updatedHeader = { ...header };
       if (isFollowing) {
         await unfollowUser(header.username);
+        updatedHeader.followers = updatedHeader.followers.filter((id) => id !== header._id);
       } else {
         await followUser(header.username);
+        updatedHeader.followers = [...updatedHeader.followers, header._id];
       }
       setIsFollowing(!isFollowing);
+      setHeader(updatedHeader);
     } catch (error) {
       console.error("Error trying to follow/unfollow:", error.message);
     }
