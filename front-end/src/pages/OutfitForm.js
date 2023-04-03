@@ -10,7 +10,7 @@ export default function OutfitForm() {
   const styles = dummyStyles;
   const [success, setSuccess] = useState(null);
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, { resetForm }) => {
     const response = await axios
       .post(requestURL + "posts/create", values)
       .catch((err) => {
@@ -22,6 +22,7 @@ export default function OutfitForm() {
       console.log("values", values);
       console.log("response.data", response.data);
       setSuccess(response.data.message);
+      resetForm(); // Reset the form after successful submission
     }
   };
 
