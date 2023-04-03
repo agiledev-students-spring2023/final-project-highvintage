@@ -39,6 +39,8 @@ const dummyUsers = [
   },
   {
     id: 2,
+    followers: [3, 4, 5],
+    following: [1, 3, 6],
     username: "thriftlover",
     photo:
       "https://images.unsplash.com/photo-1630208232589-e42b29428b19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1538&q=80",
@@ -69,6 +71,8 @@ const dummyUsers = [
   },
   {
     id: 3,
+    followers: [2, 4, 5],
+    following: [2, 4, 6],
     username: "kate7725",
     photo:
       "https://images.unsplash.com/photo-1622842182823-28bfbfba47e3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mjh8fHByb2ZpbGUlMjBwaG90b3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1400&q=60",
@@ -99,6 +103,8 @@ const dummyUsers = [
   },
   {
     id: 4,
+    followers: [3, 2, 5],
+    following: [2, 3, 6],
     username: "big_dinner",
     photo:
       "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1317&q=80",
@@ -159,6 +165,8 @@ const dummyUsers = [
   },
   {
     id: 6,
+    followers: [3, 4, 5],
+    following: [2, 3, 4],
     username: "user30943",
     photo:
       "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=1200&q=60",
@@ -189,6 +197,8 @@ const dummyUsers = [
   },
   {
     id: 7,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
     username: "iloveshopping",
     photo:
       "https://images.unsplash.com/photo-1670272504471-61a632484750?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
@@ -219,6 +229,8 @@ const dummyUsers = [
   },
   {
     id: 8,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
     username: "awesomesauce8384",
     photo:
       "https://images.unsplash.com/photo-1467043237213-65f2da53396f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8Y2xvdGhlc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1200&q=60",
@@ -249,6 +261,8 @@ const dummyUsers = [
   },
   {
     id: 9,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
     username: "krunker",
     photo:
       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
