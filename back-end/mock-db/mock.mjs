@@ -47,7 +47,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 2,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-3-23"),
         postLoc: "",
         postMedia: [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
@@ -79,11 +79,11 @@ const dummyUsers = [
     posts: [
       {
         postId: 3,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-1-20"),
         postLoc: "cool thrift",
         postMedia: [
           "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
-          "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
+          "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg"
         ],
         postLike: [],
         postText: "I love thrifting!",
@@ -111,11 +111,11 @@ const dummyUsers = [
     posts: [
       {
         postId: 4,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-3-24"),
         postLoc: "hi thrift",
         postMedia: [
           "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
-          "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
+          "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg"
         ],
         postLike: [],
         postText: "I love thrifting!",
@@ -141,7 +141,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 5,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-02-20"),
         postLoc: "great thrift",
         postMedia: [
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1",
@@ -173,7 +173,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 6,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-02-10"),
         postLoc: "thrift cool",
         postMedia: [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w",
@@ -205,11 +205,11 @@ const dummyUsers = [
     posts: [
       {
         postId: 7,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-01-07"),
         postLoc: "vintage cool",
         postMedia: [
-          "https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg",
-          "https://pbs.twimg.com/media/FNbwlvGVIAQYMhg.jpg",
+          "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom",
+          "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom"
         ],
         postLike: [],
         postText: "I love thrifting!",
@@ -237,7 +237,7 @@ const dummyUsers = [
     posts: [
       {
         postId: 8,
-        date: new Date("2023-3-20"),
+        date: new Date("2023-3-11"),
         postLoc: "yes thrift",
         postMedia: [
           "https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg",
