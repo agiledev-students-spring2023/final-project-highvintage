@@ -5,9 +5,12 @@ import MainNav from "../components/MainNav";
 import OutfitPost from "../components/OutfitPost/OutfitPost";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [viewable, setViewable] = useState([]);
+  const [me, setMe] = useState("");
+
   useEffect(() => {
     async function fetchFeed() {
       const response = await axios.get(requestURL + "posts/feed");
@@ -16,7 +19,13 @@ export default function Home() {
         return <OutfitPost post={post} />;
       });
 
+      async function fetchMe() {
+        const response = await axios.get(requestURL + "users/me");
+        setMe(response.data.user.username);
+      }
+
       setViewable(results);
+      fetchMe();
     }
 
     fetchFeed();
@@ -29,7 +38,7 @@ export default function Home() {
       <GenericHeader pageName="HighVintage"></GenericHeader>
       <div className="mt-20 mb-20 flex flex-col justify-center items-center space-y-4"></div>
       {viewable}
-      <MainNav />
+      <MainNav linkToMe={me} />
     </div>
   );
 }

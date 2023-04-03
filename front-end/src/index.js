@@ -20,6 +20,7 @@ import SavedOutfits from "./pages/SavedOutfits";
 import Saved from "./pages/Saved";
 
 import Home from "./pages/Home";
+import Register from "./Register";
 
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
@@ -32,6 +33,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+      <Route path="/Register" element={<Register />}></Route>
+
 
       <Route path="/home" element={<Home />}></Route>
 
@@ -50,7 +53,7 @@ root.render(
       <Route path="/saved" element={<Saved />}></Route>
       <Route path="/saved-outfits" element={<SavedOutfits />}></Route>
       <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
-      <Route path="/discussion-view" element={<DiscussionView />}></Route>
+      <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
       <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
       <Route path="/discussion-form" element={<Discussionform />}></Route>
     </Routes>

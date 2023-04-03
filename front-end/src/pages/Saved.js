@@ -6,9 +6,13 @@ import OutfitPreview from "../components//OutfitPost/OutfitPreview";
 import { dummyUsers } from "../dummy/users";
 import { dummyDiscussions } from "../dummy/discussions";
 import DiscussionTitleOnly from "../components/Saved/DiscussionTitleOnly";
+import axios from "axios";
+import { useEffect } from "react";
+import { requestURL } from "../requestURL";
 
 export default function SavedOutfits() {
   const [users, setUsers] = useState(dummyUsers);
+  const [me, setMe] = useState("");
 
   const OutfitPreviews = users.map((user) => (
     <OutfitPreview
@@ -25,6 +29,15 @@ export default function SavedOutfits() {
       title={discussion.title}
     ></DiscussionTitleOnly>
   ));
+
+  useEffect(() => {
+      async function fetchMe() {
+        const response = await axios.get(requestURL + "users/me");
+        setMe(response.data.user.username);
+      }
+
+      fetchMe();
+  });
 
   return (
     <>
@@ -47,7 +60,7 @@ export default function SavedOutfits() {
       <div className="grid grid-cols-1 gap-3 my-1 mt-2 mb-16">
         {discussionComponents}
       </div>
-      <MainNav></MainNav>
+      <MainNav linkToMe={me} />
     </>
   );
 }

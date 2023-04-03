@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function OutfitUserInfo(props) {
+  const navigate = useNavigate();
   const showProfile = () => {
-    console.log(`to ${props.username}'s profile`);
+    const path = "/profile/" + props.username;
+    navigate(path);
   };
 
   return (
