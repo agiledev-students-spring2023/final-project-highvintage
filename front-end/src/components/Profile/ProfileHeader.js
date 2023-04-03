@@ -17,6 +17,8 @@ export default function ProfileHeader(props) {
     posts,
     followers,
     following,
+    isFollowing,
+    handleFollow,
   } = props;
 
   return (
@@ -37,9 +39,9 @@ export default function ProfileHeader(props) {
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
             ) : (
-              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
-                Follow
-              </button>
+              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8" onClick={handleFollow}>
+              {isFollowing ? "Unfollow" : "Follow"}
+            </button>
             )}
           </div>
 
