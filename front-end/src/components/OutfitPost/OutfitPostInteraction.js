@@ -56,7 +56,7 @@ export default function OutfitPostInfo(props) {
 
         {/* Comment */}
         <div className="my-auto">
-          <FaRegCommentDots size={24} onClick={() => navigate("/comments")} />
+        <FaRegCommentDots size={24} onClick={() => navigate("/comments")}></FaRegCommentDots>
         </div>
       </div>
 
