@@ -1,8 +1,34 @@
 import express from "express";
+import { v4 as uuidv4 } from "uuid";
 import dummyUsers from "../mock-db/mock.mjs";
 import dummyPosts from "../mock-db/mock_posts.mjs";
 
 const router = express.Router();
+
+// saving in an array for mock-up purpose, later needs to be replaced using MongoDB
+let posts = [];
+
+const createPost = (user, location, content, style) => {
+  const id = uuidv4(); // generate a unique id using uuid
+  const newPost = {
+    id,
+    user,
+    location,
+    content,
+    style,
+  };
+  posts.push(newPost);
+  return newPost;
+};
+
+router.post("/create", (req, res) => {
+  const user = req.user;
+  const { location, content, style } = req.body;
+  console.log("req.body", req.body);
+  const newPost = createPost(user, location, content, style);
+  res.status(201).json({ newPost, message: "Successfully posted!" });
+});
+
 // api/posts/
 router.put("/save", function (req, res) {
   const user = req.user;
