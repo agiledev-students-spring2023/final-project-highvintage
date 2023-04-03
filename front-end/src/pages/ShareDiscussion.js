@@ -11,6 +11,7 @@ export default function ShareDiscussion() {
   const navigate = useNavigate();
   //only using the first two dummy users since I did not put discussion posts in others
   const [users, setUsers] = useState([]);
+  const [me, setMe] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +24,13 @@ export default function ShareDiscussion() {
       }
     };
 
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+      setMe(response.data.user.username);
+    }
+
     fetchData();
+    fetchMe();
   }, []);
   const discussionComponents = users.map((user) => (
     <DiscussionFullView
@@ -79,7 +86,7 @@ export default function ShareDiscussion() {
         >
           Post
         </button>
-        <MainNav></MainNav>
+      <MainNav linkToMe={me} />
       </div>
     </>
   );
