@@ -4,6 +4,37 @@ import dummyDiscussions from "../mock-db/mock_discussions.mjs";
 
 
 const router = express.Router();
+
+let discussions = [];
+const createDiscussion = (user, title, content) => {
+  const id = uuidv4(); // generate a unique id using uuid
+  const newDiscussion = {
+    id,
+    user,
+    title,
+    content,
+  };
+  discussions.push(newDiscussion);
+  return newDiscussion;
+};
+
+router.post("/create", (req, res, next) => {
+  const user = req.user; // needs to be revisited
+  const { title, content } = req.body;
+  console.log("req.body", req.body);
+  try {
+    const newDiscussion = createDiscussion(user, title, content);
+    res.status(201).json({ newDiscussion, message: "Successfully posted!" });
+  } catch (err) {
+    next(error);
+  }
+});
+
+router.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
 // api/users/
 router.get("/view/:id", function (req, res) {
   const discussionID = +req.params.id;
