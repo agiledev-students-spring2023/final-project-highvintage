@@ -1,32 +1,35 @@
 import express from "express";
 import dummyUsers from "../mock-db/mock.mjs";
 import dummyDiscussions from "../mock-db/mock_discussions.mjs";
-
+import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+const upload = multer();
 
 const router = express.Router();
 
-let discussions = [];
-const createDiscussion = (user, title, content) => {
+const createDiscussion = (title, content, date, comments) => {
   const id = uuidv4(); // generate a unique id using uuid
   const newDiscussion = {
     id,
-    user,
     title,
     content,
+    date,
+    comments,
   };
-  discussions.push(newDiscussion);
+ dummyDiscussions.push(newDiscussion);
   return newDiscussion;
 };
 
-router.post("/create", (req, res, next) => {
-  const user = req.user; // needs to be revisited
-  const { title, content } = req.body;
+router.post("/create", upload.none(),(req, res, next) => {
+  // const user = req.user; // needs to be revisited
+  const { date, title, content } = req.body;
+  const comments = JSON.parse(req.body.comments)
   console.log("req.body", req.body);
   try {
-    const newDiscussion = createDiscussion(user, title, content);
+    const newDiscussion = createDiscussion(title, content,date,comments);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
-    next(error);
+    next(err);
   }
 });
 
