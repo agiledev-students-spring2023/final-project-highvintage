@@ -1,8 +1,69 @@
 import express from "express";
+import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+import path from 'path';
 import dummyUsers from "../mock-db/mock.mjs";
 import dummyPosts from "../mock-db/mock_posts.mjs";
 
 const router = express.Router();
+router.use("/static", express.static("public"));
+
+// enable file uploads saved to disk in a directory named 'public/uploads'
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../back-end/public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+const upload = multer({ storage: storage });
+
+// saving in an array for mock-up purpose, later needs to be replaced using MongoDB
+let posts = [];
+const createPost = (user, location, content, style, files) => {
+  const id = uuidv4(); // generate a unique id using uuid
+  const newPost = {
+    id,
+    user,
+    location,
+    content,
+    style,
+    files,
+  };
+  posts.push(newPost);
+  return newPost;
+};
+
+// api/posts/ (outfit posts)
+router.post(
+  "/create",
+  upload.fields([
+    { name: "my_files", maxCount: 5 }
+  ]),
+  (req, res, next) => {
+    const user = req.user; // needs to be revisited
+    const files = req.files;
+    const { location, content, style } = req.body;
+    console.log("req.body", req.body);
+    try {
+      const newPost = createPost(user, location, content, style, files);
+      res.status(201).json({ newPost, message: "Successfully posted!" });
+    } catch (err) {
+      next(error);
+    }
+  }
+);
+
+// error handling middleware
+router.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
 // api/posts/
 router.put("/save", function (req, res) {
   const user = req.user;
