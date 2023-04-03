@@ -291,6 +291,70 @@ const dummyUsers = [
       },
     ],
   },
+  {
+    id: 10,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
+    username: "wiizii",
+    photo:
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    posts: [
+      {
+        postId: 10,
+        date: new Date("2023-3-20"),
+        postLoc: "thrift nyc",
+        postMedia: [
+          "https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg",
+          "https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg",
+        ],
+        postLike: [],
+        postText: "Thrift classic!",
+        comments: [],
+      },
+    ],
+    discussion: [
+      {
+        id: 10,
+        title: "How's my fit y'all",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2018-1-21"),
+        comments: [],
+      },
+    ],
+  },
+  {
+    id: 11,
+    followers: [3, 4, 5],
+    following: [2, 3, 6],
+    username: "sassiii",
+    photo:
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    posts: [
+      {
+        postId: 11,
+        date: new Date("2023-3-20"),
+        postLoc: "how2thrift",
+        postMedia: [
+          "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg",
+          "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg",
+        ],
+        postLike: [],
+        postText: "Gems found this weekend!",
+        comments: [],
+      },
+    ],
+    discussion: [
+      {
+        id: 11,
+        title: "I need store recs!",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
+        date: new Date("2020-1-21"),
+        comments: [],
+      },
+    ],
+  }
 ];
 
 export default dummyUsers;
