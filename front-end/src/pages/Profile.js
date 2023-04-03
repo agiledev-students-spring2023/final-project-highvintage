@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ProfileHeader from "../components/Profile/ProfileHeader.js";
 import ProfileShowPosts from "../components/Profile/ProfileShowPosts.js";
 import GenericHeader from "../components/GenericHeader.js";
@@ -7,17 +7,12 @@ import MainNav from "../components/MainNav.js";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 
-/**
- * A React component that represents a user's profile page
- * NOTE: currently filled with placeholders for user information
- * @returns The contents of this component, in JSX form.
- */
 const Profile = () => {
   const username = useParams();
-  const [isFollowing, setIsFollowing] = useState(false);
+  const [isFollowing, setIsFollowing] = useState();
+  const [loggedInUser, setLoggedInUser] = useState(null);
 
   const [header, setHeader] = useState({
-    isSelf: false,
     username: "",
     profilePicture: "",
     style: "",
@@ -38,7 +33,7 @@ const Profile = () => {
       console.error(error);
     });
   }
-  
+
   async function unfollowUser(username) {
     axios.put(requestURL + 'users/' + username + '/unfollow')
     .then(response => {
@@ -48,7 +43,7 @@ const Profile = () => {
       console.error(error);
     });
   }
-  
+
   const handleFollow = async () => {
     try {
       let updatedHeader = { ...header };
@@ -67,27 +62,51 @@ const Profile = () => {
     }
   };
 
-  // fetch the profile on page render, using useEffect
-  useEffect(() => {
-    async function fetchProfile(query) {
-      const response = await axios.get(
-        requestURL + "users/profile?username=" + query
-      );
-      setHeader(response.data.user);
+  async function fetchLoggedInUser() {
+    const response = await axios.get(requestURL + "users/me");
+    return response.data.user;
+  }
+
+  async function fetchProfile(query) {
+    const response = await axios.get(
+      requestURL + "users/profile?username=" + query
+    );
+    const fetchedProfile = response.data.user;
+
+    if (loggedInUser && loggedInUser.username === fetchedProfile.username) {
+      fetchedProfile.isLoggedIn = true;
+    } else {
+      fetchedProfile.isLoggedIn = false;
     }
 
-    fetchProfile(username.username.toLowerCase());
+    setHeader(fetchedProfile);
+  }
+
+
+  useEffect(() => {
+    async function fetchAndSetLoggedInUser() {
+      const user = await fetchLoggedInUser();
+      setLoggedInUser(user);
+    }
+    fetchAndSetLoggedInUser();
   }, []);
 
   useEffect(() => {
     setIsFollowing(header.followers.includes(header.id));
   }, [header]);
 
+  useEffect(() => {
+    if (loggedInUser) {
+      fetchProfile(username.username.toLowerCase());
+    }
+  }, [loggedInUser]);
+
+
   return (
     <div className="mb-16">
       <GenericHeader pageName="Profile"></GenericHeader>
       <ProfileHeader
-        isSelf={header.isSelf}
+        isLoggedIn={header.isLoggedIn}
         username={header.username}
         profilePicture={header.profilePicture}
         style={header.style}

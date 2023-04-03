@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
  */
 export default function ProfileHeader(props) {
   const {
-    isSelf,
+    isLoggedIn,
     username,
     profilePicture,
     bio,
@@ -34,7 +34,7 @@ export default function ProfileHeader(props) {
         <div className="flex flex-col">
           <div className="flex flex-row items-center mt-4">
             <h2 className="text-2xl font-bold">{username}</h2>
-            {isSelf ? (
+            {isLoggedIn ? (
               <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
