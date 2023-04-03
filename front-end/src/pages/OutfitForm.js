@@ -37,11 +37,9 @@ export default function OutfitForm() {
 
   // console.log(formik.values);
   return (
-    <>
-      <GenericHeader pageName="Share Outfits" />
 
       <div className="relative">
-
+      <GenericHeader pageName="Share Outfits" />
         {success && (
           <div className="absolute inset-0 z-20 flex justify-center items-center">
             <OutfitPostMsg
@@ -127,6 +125,6 @@ export default function OutfitForm() {
           </form>
         </div>
       </div>
-    </>
+
   );
 }
