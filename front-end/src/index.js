@@ -20,6 +20,7 @@ import SavedOutfits from "./pages/SavedOutfits";
 import Saved from "./pages/Saved";
 
 import Home from "./pages/Home";
+import Register from "./Register";
 
 import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
@@ -32,6 +33,8 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}></Route>
+      <Route path="/Register" element={<Register />}></Route>
+
 
       <Route path="/home" element={<Home />}></Route>
 

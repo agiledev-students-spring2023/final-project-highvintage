@@ -5,6 +5,7 @@ import MainNav from "../components/MainNav";
 import OutfitPost from "../components/OutfitPost/OutfitPost";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import {useLocation, useNavigate} from 'react-router-dom'
 
 export default function Home() {
   const [viewable, setViewable] = useState([]);

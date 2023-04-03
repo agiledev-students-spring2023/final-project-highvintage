@@ -1,9 +1,11 @@
 import React from "react";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"
+import {useLocation} from 'react-router-dom';
 
 export default function GenericHeader(props) {
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <>
       {" "}
