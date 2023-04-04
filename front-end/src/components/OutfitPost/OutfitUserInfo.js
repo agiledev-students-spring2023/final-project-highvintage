@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export default function OutfitUserInfo(props) {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ export default function OutfitUserInfo(props) {
     const path = "/profile/" + props.username;
     navigate(path);
   };
-
+  console.log(props.postDate)
   return (
     <div className="grid grid-cols-2 px-3 py-2">
       <div className="flex gap-x-4">
@@ -35,7 +36,7 @@ export default function OutfitUserInfo(props) {
       </div>
 
       <div className="my-auto">
-        <p className="text-xs text-right font-normal"> {props.postDate} </p>
+        <p className="text-xs text-right font-normal"> {moment.utc(props.postDate).format('MM/DD/YY')} </p>
       </div>
     </div> // end of grid
   );

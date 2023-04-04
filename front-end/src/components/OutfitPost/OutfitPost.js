@@ -22,7 +22,7 @@ export default function OutfitPost(props) {
         photo={details.authorPhoto}
         username={details.authorUsername}
         location={details.postLoc}
-        postDate={users[0].posts[0].postDate}
+        postDate={details.date}
       />
 
       <div className="flex flex-row overflow-x-auto justify-self-center">

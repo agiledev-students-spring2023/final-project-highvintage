@@ -1,8 +1,93 @@
 import express from "express";
+import { v4 as uuidv4 } from "uuid";
+import multer from "multer";
+import path from "path";
 import dummyUsers from "../mock-db/mock.mjs";
 import dummyPosts from "../mock-db/mock_posts.mjs";
 
 const router = express.Router();
+router.use("/static", express.static("public"));
+
+// enable file uploads saved to disk in a directory named 'public/uploads'
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../back-end/public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+const upload = multer({ storage: storage });
+
+// saving in an array for mock-up purpose, later needs to be replaced using MongoDB
+let posts = [];
+const createPost = (author, postLoc, postText, style, postMedia) => {
+  const postId = uuidv4(); // generate a unique id using uuid
+  const newPost = {
+    postId,
+    author,
+    postLoc,
+    postText,
+    style,
+    postMedia,
+  };
+  posts.push(newPost);
+  return newPost;
+};
+
+// api/posts/ (outfit posts)
+router.post(
+  "/create",
+  upload.fields([{ name: "my_files", maxCount: 5 }]),
+  (req, res, next) => {
+    const user = req.user; // needs to be revisited
+    const files = req.files;
+    const { location, content, style } = req.body;
+    console.log("req.body", req.body);
+    try {
+      const newPost = createPost(user.username, location, content, style, files);
+      user.posts.push(newPost);
+      console.log('user', user)
+      // console.log('newPost.author',newPost.author)
+      res.status(201).json({ newPost, message: "Successfully posted!" });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// error handling middleware
+router.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
+// api/posts/
+router.post("/:postID/like", (req, res) => {
+  const { postId } = req.body;
+  console.log('postID', postId)
+
+  // Todo: Update the like status of the post in the database
+
+  // Get the updated number of likes and like state from the database
+  let numLikes = 0; // get the current number of likes from the database
+  let isLiked = true; // get the current like state from the database
+
+  // Update the number of likes based on the toggle
+  if (isLiked) {
+    numLikes++;
+  } else {
+    numLikes--;
+  }
+  isLiked = !isLiked;
+
+  // Return the updated number of likes and like state in the response
+  res.json({ numLikes, isLiked });
+});
+
 // api/posts/
 router.put("/save", function (req, res) {
   const user = req.user;
