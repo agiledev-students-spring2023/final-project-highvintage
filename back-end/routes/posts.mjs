@@ -1,7 +1,7 @@
 import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import multer from "multer";
-import path from 'path';
+import path from "path";
 import dummyUsers from "../mock-db/mock.mjs";
 import dummyPosts from "../mock-db/mock_posts.mjs";
 
@@ -24,15 +24,15 @@ const upload = multer({ storage: storage });
 
 // saving in an array for mock-up purpose, later needs to be replaced using MongoDB
 let posts = [];
-const createPost = (user, location, content, style, files) => {
-  const id = uuidv4(); // generate a unique id using uuid
+const createPost = (author, postLoc, postText, style, postMedia) => {
+  const postId = uuidv4(); // generate a unique id using uuid
   const newPost = {
-    id,
-    user,
-    location,
-    content,
+    postId,
+    author,
+    postLoc,
+    postText,
     style,
-    files,
+    postMedia,
   };
   posts.push(newPost);
   return newPost;
@@ -41,19 +41,20 @@ const createPost = (user, location, content, style, files) => {
 // api/posts/ (outfit posts)
 router.post(
   "/create",
-  upload.fields([
-    { name: "my_files", maxCount: 5 }
-  ]),
+  upload.fields([{ name: "my_files", maxCount: 5 }]),
   (req, res, next) => {
     const user = req.user; // needs to be revisited
     const files = req.files;
     const { location, content, style } = req.body;
     console.log("req.body", req.body);
     try {
-      const newPost = createPost(user, location, content, style, files);
+      const newPost = createPost(user.username, location, content, style, files);
+      user.posts.push(newPost);
+      console.log('user', user)
+      // console.log('newPost.author',newPost.author)
       res.status(201).json({ newPost, message: "Successfully posted!" });
     } catch (err) {
-      next(error);
+      next(err);
     }
   }
 );
@@ -63,6 +64,8 @@ router.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Internal Server Error" });
 });
+
+
 
 // api/posts/
 router.put("/save", function (req, res) {
