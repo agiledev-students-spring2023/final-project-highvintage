@@ -8,7 +8,7 @@ export default function OutfitPreview(props) {
     <div className="w-full h-full">
       <Link to={"/outfit-view/" + props.id}>
         <img
-          className="object-cover aspect-square justify-self-end"
+          className="object-cover w-full h-full aspect-square justify-self-end"
           src={props.photo}
         />
       </Link>
