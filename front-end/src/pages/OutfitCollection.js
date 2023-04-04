@@ -41,11 +41,6 @@ export default function OutfitCollection() {
       }
       fetchMe();
     });
-
-  // which post (postID) which user
-  // POST request
-  // pass the id
-  // axios - post request
  
   return (
     <div>
