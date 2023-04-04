@@ -12,6 +12,7 @@ export default function OutfitForm() {
   const [post, setPost] = useState(null);
 
   post && console.log("post", post);
+  post && console.log("post.postMedia", post.postMedia)
 
   const onSubmit = async (values, { resetForm, setFieldValue }) => {
     const formData = new FormData();
@@ -71,11 +72,11 @@ export default function OutfitForm() {
           ></OutfitPostMsg>
           {/* just to verify that post is created - to be deleted */}
           <div className="grid grid-rows-3 mt-4 bg-orange-100 p-4 rounded-lg">
-            {post.files.my_files[0].filename && (
-              <div>{`FILES: ${post.files.my_files[0].filename}`}</div>
+            {post.postMedia.my_files[0].filename && (
+              <div>{`FILES: ${post.postMedia.my_files[0].filename}`}</div>
             )}
             <div>{`STYLE: ${post.style}`}</div>
-            <div>{`CONTENT: ${post.content}`}</div>
+            <div>{`CONTENT: ${post.postText}`}</div>
           </div>
         </div>
       )}
