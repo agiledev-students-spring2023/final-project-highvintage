@@ -135,4 +135,57 @@ router.put("/:username/unfollow", function (req, res) {
   return res.json({ status: 200, message: "User unfollowed successfully", user: toUnfollow });
 });
 
+// get user's followers
+router.get("/:username/followers", function(req, res) {
+  const foundUser = dummyUsers.find(
+    (user) => user.username === req.params.username.toLowerCase()
+  );
+
+  if (!foundUser) {
+    return res.json({ status: 401, message: "Unknown User ID" });
+  }
+
+  const followers = foundUser.followers.map((followerId) => {
+    return dummyUsers.find((user) => user.id === followerId);
+  });
+
+  // returning what's needed for profile preview component
+  return res.json({
+    status: 200,
+    followers: followers.map((follower) => {
+      return {
+        username: follower.username,
+        photo: follower.photo,
+      };
+    }),
+  });
+});
+
+// get user's following
+router.get("/:username/following", function(req, res) {
+  const foundUser = dummyUsers.find(
+    (user) => user.username === req.params.username.toLowerCase()
+  );
+
+  if (!foundUser) {
+    return res.json({ status: 401, message: "Unknown User ID" });
+  }
+
+  const following = foundUser.following.map((followingId) => {
+    return dummyUsers.find((user) => user.id === followingId);
+  });
+
+  // returning what's needed for profile preview component
+  return res.json({
+    status: 200,
+    following: following.map((following) => {
+      return {
+        username: following.username,
+        photo: following.photo,
+      };
+    }),
+  });
+});
+
+
 export default router;

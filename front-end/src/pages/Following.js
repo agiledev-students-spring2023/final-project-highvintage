@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ProfilePreview from "../components/Profile/ProfilePreview";
-import { useState } from "react";
-import { dummyUsers } from "../dummy/users";
 import GenericHeader from "../components/GenericHeader";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
 export default function Following() {
-  // this page uses a different API call to get user's list of following
-  // thats why i made it a seperate page
-  const [followers, setFollowers] = useState(dummyUsers);
+  const [following, setFollowing] = useState([]);
+  const location = useLocation();
+  const { currentUser } = location.state;
 
-  const followerComponents = followers.map((follower) => (
-    <ProfilePreview username={follower.username} photo={follower.photo} />
+  useEffect(() => {
+    async function fetchFollowing() {
+      try {
+        const response = await axios.get(
+            requestURL +
+            "users/" +
+            currentUser.username +
+            "/following"
+        );
+        //const response = await axios.get('${requestURL}api/users/${props.username}/followings');
+        setFollowing(response.data.following);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchFollowing();
+  });
+
+  const followingComponents = following.map((following) => (
+    <ProfilePreview username={following.username} photo={following.photo} />
   ));
+
   return (
     <>
       <GenericHeader pageName="Following" />
-      <div className="grid grid-cols-1 mt-12">{followerComponents}</div>{" "}
+      <div className="grid grid-cols-1 mt-12">{followingComponents}</div>{" "}
     </>
   );
 }

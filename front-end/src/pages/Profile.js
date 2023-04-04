@@ -10,6 +10,7 @@ import { requestURL } from "../requestURL.js";
 const Profile = () => {
   const username = useParams();
   const [isFollowing, setIsFollowing] = useState();
+  const [me, setMe] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   const [header, setHeader] = useState({
@@ -24,24 +25,35 @@ const Profile = () => {
     posts: [],
   });
 
+  useEffect(() => {
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+      setMe(response.data.user.username);
+    }
+
+    fetchMe();
+});
+
   async function followUser(username) {
-    axios.put(requestURL + 'users/' + username + '/follow')
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    axios
+      .put(requestURL + "users/" + username + "/follow")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   async function unfollowUser(username) {
-    axios.put(requestURL + 'users/' + username + '/unfollow')
-    .then(response => {
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.error(error);
-    });
+    axios
+      .put(requestURL + "users/" + username + "/unfollow")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   const handleFollow = async () => {
@@ -49,7 +61,9 @@ const Profile = () => {
       let updatedHeader = { ...header };
       if (isFollowing) {
         await unfollowUser(header.username);
-        updatedHeader.followers = updatedHeader.followers.filter((id) => id !== header.id);
+        updatedHeader.followers = updatedHeader.followers.filter(
+          (id) => id !== header.id
+        );
       } else {
         await followUser(header.username);
         updatedHeader.followers = [...updatedHeader.followers, header.id];
@@ -82,7 +96,6 @@ const Profile = () => {
     setHeader(fetchedProfile);
   }
 
-
   useEffect(() => {
     async function fetchAndSetLoggedInUser() {
       const user = await fetchLoggedInUser();
@@ -101,7 +114,6 @@ const Profile = () => {
     }
   }, [loggedInUser]);
 
-
   return (
     <div className="mb-16">
       <GenericHeader pageName="Profile"></GenericHeader>
@@ -116,7 +128,7 @@ const Profile = () => {
         following={header.following}
         posts={header.posts}
         discussions={header.discussion}
-        isFollowing = {isFollowing}
+        isFollowing={isFollowing}
         handleFollow={handleFollow}
       />
       <ProfileShowPosts
@@ -125,7 +137,7 @@ const Profile = () => {
         authorPhoto={header.profilePicture}
         authorUsername={header.username}
       ></ProfileShowPosts>
-      <MainNav></MainNav>
+      <MainNav linkToMe={me} />
     </div>
   );
 };
