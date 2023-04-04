@@ -39,9 +39,12 @@ export default function ProfileHeader(props) {
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
             ) : (
-              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8" onClick={handleFollow}>
-              {isFollowing ? "Unfollow" : "Follow"}
-            </button>
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8"
+                onClick={handleFollow}
+              >
+                {isFollowing ? "Unfollow" : "Follow"}
+              </button>
             )}
           </div>
 
@@ -51,7 +54,7 @@ export default function ProfileHeader(props) {
             </li>
             <button>
               <li className="mr-6">
-                <Link to="/followers">
+                <Link to="/followers" state={{ currentUser: { username } }}>
                   <span className="font-bold">{followers.length}</span>{" "}
                   followers
                 </Link>
@@ -59,7 +62,7 @@ export default function ProfileHeader(props) {
             </button>
             <button>
               <li className="mr-6">
-                <Link to="/following">
+                <Link to="/following" state={{ currentUser: { username } }}>
                   <span className="font-bold">{following.length}</span>{" "}
                   following
                 </Link>
