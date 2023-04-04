@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ProfilePreview from "../components/Profile/ProfilePreview";
 import GenericHeader from "../components/GenericHeader";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 
-export default function Followers(props) {
+export default function Followers() {
   const [followers, setFollowers] = useState([]);
+  const location = useLocation();
+  const { currentUser } = location.state;
 
   useEffect(() => {
     async function fetchFollowers() {
       try {
-        const response = await axios.get(requestURL + "users/krunker/followers")
-        //const response = await axios.get('${requestURL}api/users/${props.username}/followers');
+        const response = await axios.get(
+          requestURL + "users/" + currentUser.username + "/followers"
+        );
         setFollowers(response.data.followers);
       } catch (error) {
         console.error(error);
