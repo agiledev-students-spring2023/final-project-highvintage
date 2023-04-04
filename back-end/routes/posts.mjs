@@ -65,7 +65,28 @@ router.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
+// api/posts/
+router.post("/:postID/like", (req, res) => {
+  const { postId } = req.body;
+  console.log('postID', postId)
 
+  // Todo: Update the like status of the post in the database
+
+  // Get the updated number of likes and like state from the database
+  let numLikes = 0; // get the current number of likes from the database
+  let isLiked = true; // get the current like state from the database
+
+  // Update the number of likes based on the toggle
+  if (isLiked) {
+    numLikes++;
+  } else {
+    numLikes--;
+  }
+  isLiked = !isLiked;
+
+  // Return the updated number of likes and like state in the response
+  res.json({ numLikes, isLiked });
+});
 
 // api/posts/
 router.put("/save", function (req, res) {
