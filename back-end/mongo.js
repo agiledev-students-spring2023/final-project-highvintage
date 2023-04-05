@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://admin:secret@localhost:27017/')
 .then(()=>{
-    console.log("successfully connected")
+    console.log("mongodb successfully connected")
 })
 .catch(()=>{
-    console.log('failed')
+    console.log('mongodb failed')
 })
 
 const newSchema = new mongoose.Schema({
