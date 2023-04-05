@@ -61,7 +61,7 @@ export default function Form() {
                 <div className='mt-8 flex flex-col gap-y-4'>
                     
                     
-                    <button onClick={submit} className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'><a href="home">Sign In</a></button>
+                    <button onClick={submit} className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'><a href="/home">Sign In</a></button>
                     
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all'>Join As Guest</button>
                 </div>
