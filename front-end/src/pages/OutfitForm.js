@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import OutfitPostMsg from "../components/OutfitPost/OutfitPostMsg";
 import { dummyStyles } from "../dummy/styles";
@@ -7,6 +8,8 @@ import axios from "axios";
 import { requestURL } from "../requestURL";
 
 export default function OutfitForm() {
+  const navigate = useNavigate();
+
   const styles = dummyStyles;
   const [success, setSuccess] = useState(null);
   const [post, setPost] = useState(null);
@@ -42,6 +45,7 @@ export default function OutfitForm() {
       // setFieldValue("my_files", []); // clear the file input field.. not working yet
       resetForm(); // Reset the form after successful submission
       setPost(response.data.newPost);
+      navigate('/outfit-collection'); // redirect user after posting
     }
   };
 
@@ -64,6 +68,7 @@ export default function OutfitForm() {
       </div>
 
       {/* Success Message */}
+      
       {success && (
         <div className="absolute inset-0 z-20 flex flex-col justify-center items-center ">
           <OutfitPostMsg
@@ -80,6 +85,7 @@ export default function OutfitForm() {
           </div>
         </div>
       )}
+      
 
       {/* Form */}
       <div className="flex justify-center items-center relative z-0 h-screen">
@@ -89,18 +95,6 @@ export default function OutfitForm() {
         >
           {/* File Upload */}
           <div className="mb-4">
-            {/* <label htmlFor="upload" className="text-gray-700 font-bold mb-2">
-              Upload
-            </label>
-            <input
-              type="file"
-              name="my_files"
-              className="pl-6"
-              onChange={(e) => {
-                formik.setFieldValue("my_files", e.currentTarget.files);
-              }}
-              multiple
-            /> */}
             <label
               htmlFor="upload"
               className="block text-gray-700 font-bold mb-2"
@@ -120,12 +114,6 @@ export default function OutfitForm() {
               }}
               multiple
             />
-            {/* <label
-                htmlFor="upload"
-                className="block px-4 py-2 bg-green border border-gray-400 rounded-md cursor-pointer hover:border-gray-500"
-              >
-                <span className="truncate">Photo / Video</span>
-              </label> */}
           </div>
           {/* Style */}
           <div className="mb-4">
@@ -160,19 +148,16 @@ export default function OutfitForm() {
               htmlFor="style"
               className="block text-gray-700 font-bold mb-2"
             >
-              Location
+              Store Name
             </label>
-            <select
+            <input
+              placeholder="Where was it?"
               name="location"
               value={formik.values.location}
               onChange={formik.handleChange}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              <option disabled value="">
-                Add Location
-              </option>
-              {/* Integrate Gmaps */}
-            </select>
+            </input>
           </div>
 
           {/* Content */}

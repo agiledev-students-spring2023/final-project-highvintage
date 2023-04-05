@@ -14,45 +14,34 @@ export default function OutfitPostInfo(props) {
   const navigate = useNavigate();
   let likes = props.likes;
 
-  async function handleSave() {
-    console.log(requestURL);
-    await axios.put(requestURL + "posts/save", { postID: props.postID });
-  }
+  const [isLiked, setIsLiked] = useState(false);
+  const [numLikes, setNumLikes] = useState(likes);
 
-  const useLikeToggle = (initialState = false, postID) => {
-    const [isLiked, setIsLiked] = useState(initialState);
-    const [numLikes, setNumLikes] = useState(0);
+  const useLikeToggle = (postID) => {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
           requestURL + `posts/${props.postID}/like`,
           {
-            postId: props.postID,
+            userID: props.username,
+            postID: props.postID,
+            liked: !isLiked,
+            postLikes: numLikes
           }
         );
-        setIsLiked(response.data.isLiked);
+        setIsLiked(!isLiked);
         setNumLikes(response.data.numLikes);
       } catch (error) {
         console.log(error);
       }
     }, [isLiked]);
-    return [isLiked, toggle, numLikes];
+    return [toggle];
   };
 
-  const useSaveToggle = (initialState = false) => {
-    const [state, setState] = useState(initialState);
-    const toggle = useCallback(() => {
-      setState((state) => !state);
-    }, []);
-    console.log("saved state", state);
-    return [state, toggle];
-  };
-
-  const [isLiked, toggleLike, numLikes] = useLikeToggle(false, props.postID);
-  const [isSaved, setIsSaved] = useSaveToggle();
+  const [toggleLike] = useLikeToggle(false, props.postID);
 
   return (
-    <div className="grid grid-cols-2 px-2">
+    <div className="grid grid-cols-1 px-2">
       <div className="flex space-x-2">
         {/* Like */}
         <div className="my-auto" onClick={toggleLike}>
@@ -68,17 +57,7 @@ export default function OutfitPostInfo(props) {
         </div>
       </div>
 
-      {/* Save */}
-      <div
-        className="justify-self-end my-auto"
-        onClick={async (e) => {
-          setIsSaved();
-          await handleSave();
-        }}
-      >
-        {!isSaved ? <FaRegBookmark size={24} /> : <FaBookmark size={24} />}
-      </div>
-
+      {/* Num of Likes */}
       <div className="mt-2">
         <p className="font-semibold">{numLikes} Likes</p>
       </div>
