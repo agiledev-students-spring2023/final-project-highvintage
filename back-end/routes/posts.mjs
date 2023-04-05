@@ -33,6 +33,7 @@ const createPost = (author, postLoc, postText, style, postMedia) => {
     postText,
     style,
     postMedia,
+    // date
   };
   posts.push(newPost);
   return newPost;
@@ -48,9 +49,16 @@ router.post(
     const { location, content, style } = req.body;
     console.log("req.body", req.body);
     try {
-      const newPost = createPost(user.username, location, content, style, files);
+      const newPost = createPost(
+        user.username,
+        location,
+        content,
+        style,
+        files,
+        // date
+      );
       user.posts.push(newPost);
-      console.log('user', user)
+      console.log("user", user);
       // console.log('newPost.author',newPost.author)
       res.status(201).json({ newPost, message: "Successfully posted!" });
     } catch (err) {
@@ -67,25 +75,22 @@ router.use((err, req, res, next) => {
 
 // api/posts/
 router.post("/:postID/like", (req, res) => {
-  const { postId } = req.body;
-  console.log('postID', postId)
-
+  const { userID, postID, liked, postLikes } = req.body;
+  console.log('userId', userID)
+  console.log("postId", postID);
   // Todo: Update the like status of the post in the database
 
   // Get the updated number of likes and like state from the database
-  let numLikes = 0; // get the current number of likes from the database
-  let isLiked = true; // get the current like state from the database
+  let numLikes = postLikes; // get the current number of likes from the database
 
-  // Update the number of likes based on the toggle
-  if (isLiked) {
+  if (liked) {
     numLikes++;
   } else {
     numLikes--;
   }
-  isLiked = !isLiked;
 
   // Return the updated number of likes and like state in the response
-  res.json({ numLikes, isLiked });
+  res.json({ numLikes });
 });
 
 // api/posts/
