@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
+import {useNavigate, Link } from "react-router-dom"
 
 
 export default function Form() {
+    const history=useNavigate();
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
@@ -14,6 +16,18 @@ export default function Form() {
 
             await axios.post("http://localhost:5000/Register", {
                 email,password
+            })
+            .then(res=>{
+                if(res.data=="exist"){
+                    alert("User already exists")
+                }
+                else if(res.data=="notexist"){
+                    history("/home",{state:{id:email}})
+                }
+            })
+            .catch(e=>{
+                alert("wrong username or password")
+                console.log(e);
             })
 
         }

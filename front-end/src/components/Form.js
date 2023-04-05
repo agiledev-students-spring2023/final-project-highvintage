@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
+import {useNavigate, Link } from "react-router-dom"
 
 
 export default function Form() {
+
+    const history=useNavigate();
 
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
@@ -14,6 +17,18 @@ export default function Form() {
 
             await axios.post("http://localhost:5000/", {
                 email,password
+            })
+            .then(res=>{
+                if(res.data=="exist"){
+                    history("/home",{state:{id:email}})
+                }
+                else if(res.data=="notexist"){
+                    alert("User does not exist")
+                }
+            })
+            .catch(e=>{
+                alert("wrong username or password")
+                console.log(e);
             })
 
         }
@@ -61,13 +76,13 @@ export default function Form() {
                 <div className='mt-8 flex flex-col gap-y-4'>
                     
                     
-                    <button onClick={submit} className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'><a href="home">Sign In</a></button>
+                    <button onClick={submit} className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'>Sign In</button>
                     
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all'>Join As Guest</button>
                 </div>
                 <form className='mt-8 flex justify-center items-center'>
                     <p className='font-medium text-base'>Don't have an account?</p>
-                    <button className='text-blue-500 text-base font-medium ml-2'><a href="/">Sign Up</a></button>
+                    <button className='text-blue-500 text-base font-medium ml-2'><a href="/register">Sign Up</a></button>
                 </form>
             </div>
         </div>
