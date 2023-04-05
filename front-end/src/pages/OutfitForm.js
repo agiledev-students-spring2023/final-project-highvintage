@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import OutfitPostMsg from "../components/OutfitPost/OutfitPostMsg";
 import { dummyStyles } from "../dummy/styles";
@@ -7,6 +8,8 @@ import axios from "axios";
 import { requestURL } from "../requestURL";
 
 export default function OutfitForm() {
+  const navigate = useNavigate();
+
   const styles = dummyStyles;
   const [success, setSuccess] = useState(null);
   const [post, setPost] = useState(null);
@@ -42,6 +45,7 @@ export default function OutfitForm() {
       // setFieldValue("my_files", []); // clear the file input field.. not working yet
       resetForm(); // Reset the form after successful submission
       setPost(response.data.newPost);
+      navigate('/outfit-collection');
     }
   };
 
@@ -64,6 +68,7 @@ export default function OutfitForm() {
       </div>
 
       {/* Success Message */}
+      
       {success && (
         <div className="absolute inset-0 z-20 flex flex-col justify-center items-center ">
           <OutfitPostMsg
@@ -80,6 +85,7 @@ export default function OutfitForm() {
           </div>
         </div>
       )}
+      
 
       {/* Form */}
       <div className="flex justify-center items-center relative z-0 h-screen">
