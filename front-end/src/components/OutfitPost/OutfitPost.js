@@ -33,6 +33,7 @@ export default function OutfitPost(props) {
       </div>
 
       <OutfitPostInteraction
+        username={details.authorUsername}
         postID={details.postId}
         likes={details.postLike.length}
         likeArray={details.postLike}
