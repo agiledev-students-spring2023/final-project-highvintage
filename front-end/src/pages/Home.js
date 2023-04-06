@@ -36,9 +36,11 @@ export default function Home() {
   return (
     <div>
       <GenericHeader pageName="HighVintage"></GenericHeader>
-      <div className="mt-20 mb-20 flex flex-col justify-center items-center space-y-4"></div>
+      <div className="-mt-6 flex flex-col justify-center items-center space-y-4"></div>
       {viewable}
-      <MainNav linkToMe={me} />
+      <div className="mt-14">
+        <MainNav linkToMe={me} />
+      </div>
     </div>
   );
 }
