@@ -9,7 +9,7 @@ export default function GenericHeader(props) {
   return (
     <>
       {" "}
-      <div className="fixed bg-white items-center top-0 left-0 right-0 w-full flex justify-between p-3">
+      <div className="fixed bg-white items-center z-50 top-0 left-0 right-0 w-full flex justify-between p-3">
         {" "}
         <FaLongArrowAltLeft onClick={() => navigate(-1)} />
         
