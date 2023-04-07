@@ -3,26 +3,13 @@ import GenericHeader from "../components/GenericHeader";
 import { useFormik } from "formik";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 
 export default function DiscussionForm() {
-  //state variables for title
-  // const [title, setTitle] = useState("");
-  // const [discussionContent, setDiscussionContent] = useState("");
-
+  const navigate = useNavigate();
   const [showMessage, setShowMessage] = useState(false);
 
-  //Handling form submit
-  // const handleSubmit = (e) => {
-  //   e.preventDefault(); // prevent the default browser form submission stuff
-
-  //   //error mmessage needed
-  //   setShowMessage(true);
-  //   setTimeout(() => setShowMessage(false), 3000);
-  //   console.log(`Title: ${title}`);
-  //   console.log(`Discussion content: ${discussionContent}`);
-  //   //backend stuff for later goes here
-  // };
   const [success, setSuccess] = useState(null);
   const [discussion, setDiscussion] = useState(null);
 
@@ -52,6 +39,7 @@ export default function DiscussionForm() {
         setSuccess(response.data.message);
         resetForm(); // Reset the form after successful submission
         setDiscussion(response.data.newDiscussion);
+        navigate("/discussion-home");
       }
     } catch (error) {
       console.error(error);

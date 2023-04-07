@@ -16,23 +16,25 @@ const createDiscussion = (title, content, date, comments) => {
     date,
     comments,
   };
- dummyDiscussions.push(newDiscussion);
+  dummyDiscussions.push(newDiscussion);
   return newDiscussion;
 };
 
-router.post("/create", upload.none(),(req, res, next) => {
-  // const user = req.user; // needs to be revisited
+router.post("/create", upload.none(), (req, res, next) => {
+  const user = req.user; // needs to be revisited
+
   const { date, title, content } = req.body;
-  const comments = JSON.parse(req.body.comments)
+  const comments = JSON.parse(req.body.comments);
   console.log("req.body", req.body);
   try {
-    const newDiscussion = createDiscussion(title, content,date,comments);
+    const newDiscussion = createDiscussion(title, content, date, comments);
+    user.discussion.push(newDiscussion);
+    newDiscussion.author = user.username;
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
   }
 });
-
 router.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Internal Server Error" });
@@ -60,7 +62,7 @@ router.get("/view/:id", function (req, res) {
     });
   } else {
     // 404 Not Found
-    
+
     return res.sendStatus(404);
   }
 });
