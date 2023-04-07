@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div>
       <GenericHeader pageName="HighVintage"></GenericHeader>
-      <div className="-mt-6 flex flex-col justify-center items-center space-y-4"></div>
+      <div className="mt-14 flex flex-col justify-center items-center space-y-4"></div>
       {viewable}
       <div className="mt-14">
         <MainNav linkToMe={me} />
