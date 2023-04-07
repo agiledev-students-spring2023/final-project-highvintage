@@ -33,7 +33,9 @@
   },
   "homepage": "https://github.com/agiledev-students-spring-2023/final-project-highvintage#readme",
   "devDependencies": {
+    "chai": "^4.3.7",
     "dotenv": "^16.0.3",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.22"
   }
 }
