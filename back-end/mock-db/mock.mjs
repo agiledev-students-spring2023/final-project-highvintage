@@ -35,7 +35,10 @@ const dummyUsers = [
         content:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercit ation ullamco laboris nisi ut aliquip ex ea commodo consequat?",
         date: new Date("2023-3-20"),
-        comments: [],
+        comments: [
+          { author: 5, body: "Same man" },
+          { author: 8, body: "Weird take but OK" },
+        ],
       },
     ],
   },

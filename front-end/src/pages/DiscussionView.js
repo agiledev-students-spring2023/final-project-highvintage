@@ -13,16 +13,19 @@ export default function DiscussionView() {
   const [isFetched, setIsFetched] = useState(false);
   const [discussion, setDiscussion] = useState({
     id: 0,
-    comments:[],
+    comments: [],
     date: "",
     title: "",
     content: "",
-    author:0,
+    author: 0,
   });
   //get discussion
+
   useEffect(() => {
     async function fetchDiscussion(query) {
-      const response = await axios.get(requestURL + "discussions/view/" + query);
+      const response = await axios.get(
+        requestURL + "discussions/view/" + query
+      );
       setIsFetched(true);
       return response.data;
     }
@@ -89,7 +92,13 @@ export default function DiscussionView() {
               <div className="my-auto" onClick={handleComment}>
                 <FaRegCommentDots
                   size={24}
-                  onClick={() => navigate("/comments")}
+                  onClick={() =>
+                    navigate(
+                      "/comments/" +
+                        discussion.found.id +
+                        "?discussionPost=true"
+                    )
+                  }
                 />
               </div>
             </div>
@@ -102,11 +111,11 @@ export default function DiscussionView() {
 
           <div className="justify-self-end ml-20 "></div>
           <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
-            {moment.utc(discussion.found.date).format('MM/DD/YY')}
+            {moment.utc(discussion.found.date).format("MM/DD/YY")}
           </div>
         </div>
       </div>
-       {/* comment component goes here */}
+      {/* comment component goes here */}
     </>
   );
 }

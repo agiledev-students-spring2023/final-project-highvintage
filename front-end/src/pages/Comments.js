@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import { dummyComments } from "../dummy/comments";
 import Comment from "../components/Comments/Comment";
@@ -14,10 +14,12 @@ export default function Comments(props) {
 
   const params = useParams();
 
+  const toFetch = useLocation().search;
+
   useEffect(() => {
     async function fetchComments(query) {
       const response = await axios.get(
-        requestURL + "comments/view/" + query + "?photoComments=true"
+        requestURL + "comments/view/" + query + toFetch
       );
       setComments(response.data.comments);
       setUserPhoto(response.data.userPhoto);

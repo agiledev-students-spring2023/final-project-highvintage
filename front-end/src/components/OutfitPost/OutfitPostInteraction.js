@@ -52,7 +52,9 @@ export default function OutfitPostInfo(props) {
         <div className="my-auto">
           <FaRegCommentDots
             size={24}
-            onClick={() => navigate("/comments/" + props.postID)}
+            onClick={() =>
+              navigate("/comments/" + props.postID + "?photoPost=true")
+            }
           ></FaRegCommentDots>
         </div>
       </div>
