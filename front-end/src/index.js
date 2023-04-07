@@ -35,14 +35,13 @@ root.render(
       <Route path="/" element={<App />}></Route>
       <Route path="/register" element={<Register />}></Route>
 
-
       <Route path="/home" element={<Home />}></Route>
 
       <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile/:username" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
-      <Route path="/comments" element={<Comments />}></Route>
+      <Route path="/comments/:postID" element={<Comments />}></Route>
       <Route path="/contact-us" element={<Contactus />}></Route>
       <Route path="/tos" element={<Termsofservice />}></Route>
       <Route path="/outfit-collection" element={<OutfitCollection />}></Route>

@@ -20,9 +20,12 @@ const dummyUsers = [
           "https://ln-site.nyc3.cdn.digitaloceanspaces.com/public/prod/2021/08/image/metcha_OnlyThrift_internal_18-custom.min.jpg",
           "https://ln-site.nyc3.cdn.digitaloceanspaces.com/public/prod/2021/08/image/metcha_OnlyThrift_internal_18-custom.min.jpg",
         ],
-        postLike: [2, 3,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "I love thrifting!",
-        comments: [],
+        comments: [
+          { author: 9, body: "You slayed!!" },
+          { author: 4, body: "where do u find these clothes?!" },
+        ],
       },
     ],
     discussion: [
@@ -52,7 +55,7 @@ const dummyUsers = [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1584913604452-VFGS28EV3HZ2QGZOOA6G/men+thrift+store?format=1000w",
         ],
-        postLike: [3, 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [3, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -82,9 +85,12 @@ const dummyUsers = [
         postLoc: "cool thrift",
         postMedia: [
           "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
-          "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg"
+          "https://cdn.cliqueinc.com/posts/276545/winter-thrift-store-finds-276545-1548447304321-main.700x0c.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1,
+        ],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -114,9 +120,9 @@ const dummyUsers = [
         postLoc: "hi thrift",
         postMedia: [
           "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
-          "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg"
+          "https://i0.wp.com/theurbandarling.com/wp-content/uploads/2021/09/IMG_2812-3.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -146,7 +152,7 @@ const dummyUsers = [
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1",
           "https://i0.wp.com/static1.squarespace.com/static/5a93aadf36099bbdddfe2c35/t/5ebbed4f3f8d853f2163bfb5/1589375352017/thrift+store+style+thrift+store+clothing+finds+.jpg?resize=360%2C480&ssl=1",
         ],
-        postLike: [1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -178,7 +184,7 @@ const dummyUsers = [
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w",
           "https://images.squarespace-cdn.com/content/v1/5726544ef85082b93e0f14c1/1594409397034-493NXIBKFQZO7STH338L/second+hand+stores?format=1000w",
         ],
-        postLike: [1,1,1,1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1, 1, 1, 1],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -208,9 +214,12 @@ const dummyUsers = [
         postLoc: "vintage cool",
         postMedia: [
           "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom",
-          "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom"
+          "https://www.ispo.com/sites/default/files/styles/listicle_header_square_phone/public/2021-09/Athleisure%20Wear.jpg?h=c4dd14e7&itok=h5DuMdom",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 11, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        ],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -242,7 +251,7 @@ const dummyUsers = [
           "https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg",
           "https://i.pinimg.com/736x/53/06/f8/5306f88a58b8577fa57675ad83b1771c.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -274,7 +283,10 @@ const dummyUsers = [
           "https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg",
           "https://cdn.lookastic.com/looks/olive-long-sleeve-t-shirt-khaki-dress-pants-white-high-top-sneakers-large-59230.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1,
+        ],
         postText: "I love thrifting!",
         comments: [],
       },
@@ -306,7 +318,7 @@ const dummyUsers = [
           "https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg",
           "https://40plusstyle.com/wp-content/uploads/2022/07/nikkiclassicstyle.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "Thrift classic!",
         comments: [],
       },
@@ -338,7 +350,7 @@ const dummyUsers = [
           "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg",
           "https://i.pinimg.com/564x/2b/70/e0/2b70e0a63689425f8bde1acdc7bdf291.jpg",
         ],
-        postLike: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        postLike: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         postText: "Gems found this weekend!",
         comments: [],
       },
@@ -353,7 +365,7 @@ const dummyUsers = [
         comments: [],
       },
     ],
-  }
+  },
 ];
 
 export default dummyUsers;

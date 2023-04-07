@@ -37,6 +37,7 @@ export default function OutfitPost(props) {
         postID={details.postId}
         likes={details.postLike.length}
         likeArray={details.postLike}
+        comments={details.comments}
       />
       <OutfitText likes={details.postLike.length} text={details.postText} />
     </div>

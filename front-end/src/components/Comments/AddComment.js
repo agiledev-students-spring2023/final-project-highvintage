@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { dummyComments } from "../../dummy/comments";
-import { lisa } from "../../dummy/lisaLi";
-export default function AddComment() {
+export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
 
@@ -53,14 +52,14 @@ export default function AddComment() {
           {" "}
           <img
             className="h-14 ml-4 object-cover aspect-square"
-            src={lisa.photo}
+            src={props.photo}
           />
         </div>
         <input
           onInput={(e) => handleInput(e.target.value)}
           className="border col-span-8 p-2"
           type="text"
-          placeholder={"Add a comment as " + lisa.username}
+          placeholder={"Add a comment as " + props.username}
         />{" "}
         {generateButton()}
       </div>

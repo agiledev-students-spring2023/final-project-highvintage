@@ -26,7 +26,7 @@ export default function OutfitPostInfo(props) {
             userID: props.username,
             postID: props.postID,
             liked: !isLiked,
-            postLikes: numLikes
+            postLikes: numLikes,
           }
         );
         setIsLiked(!isLiked);
@@ -52,7 +52,7 @@ export default function OutfitPostInfo(props) {
         <div className="my-auto">
           <FaRegCommentDots
             size={24}
-            onClick={() => navigate("/comments")}
+            onClick={() => navigate("/comments/" + props.postID)}
           ></FaRegCommentDots>
         </div>
       </div>
