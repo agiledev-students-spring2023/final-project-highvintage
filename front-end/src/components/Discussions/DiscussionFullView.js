@@ -56,7 +56,13 @@ export default function DiscussionFullView(props) {
             <div className="my-auto" onClick={handleComment}>
               <FaRegCommentDots
                 size={24}
-                onClick={() => navigate("/comments")}
+                onClick={() =>
+                  navigate(
+                    "/comments/" +
+                      props.id +
+                      "?discussionPost=true"
+                  )
+                }
               />
             </div>
           </div>
