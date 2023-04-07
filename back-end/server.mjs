@@ -27,6 +27,7 @@ for (const user of mockUsers) {
       post.postLoc = "";
     }
   }
+  //store user.id as discussion author
   for (const discussion of user.discussion) {
     discussion.author = user.id;
   }

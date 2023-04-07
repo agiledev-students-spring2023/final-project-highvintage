@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaRegCommentDots, FaRegBookmark } from "react-icons/fa";
+import moment from "moment";
 export default function DiscussionFullView(props) {
   const navigate = useNavigate();
 
@@ -60,7 +61,7 @@ export default function DiscussionFullView(props) {
             </div>
           </div>
 
-          <div className="my-auto ml-4" onClick={handleSave}>
+          <div className="my-auto ml-2" onClick={handleSave}>
             {/* Save */}
             <FaRegBookmark size={24} />
           </div>
@@ -68,7 +69,7 @@ export default function DiscussionFullView(props) {
 
         <div className="justify-self-end ml-10 "></div>
         <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
-          {props.date.toLocaleString()}
+          {moment.utc(props.date).format("MM/DD/YY")}
         </div>
       </div>
     </div>
