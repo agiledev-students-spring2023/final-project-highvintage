@@ -14,11 +14,11 @@ export default function Comments(props) {
 
   const params = useParams();
 
-  console.log(comments);
-
   useEffect(() => {
     async function fetchComments(query) {
-      const response = await axios.get(requestURL + "comments/view/" + query);
+      const response = await axios.get(
+        requestURL + "comments/view/" + query + "?photoComments=true"
+      );
       setComments(response.data.comments);
       setUserPhoto(response.data.userPhoto);
       setUserName(response.data.username);
@@ -29,12 +29,13 @@ export default function Comments(props) {
     return () => {};
   }, []);
 
-  const commentComponents = comments.map((comment) => (
+  const commentComponents = comments.map((comment, idx) => (
     <Comment
       username={comment.user}
       body={comment.body}
       photo={comment.photo}
       id={comment.id}
+      key={idx}
     />
   ));
   return (
