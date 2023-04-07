@@ -16,6 +16,7 @@ export default function DiscussionForm() {
   // discussion && console.log("Discussion", discussion);
   const onSubmit = async (values, { resetForm }) => {
     try {
+      //date object not storing the same format as in mockdb
       var newdate = new Date();
       const formData = new FormData();
       var dateFormat = newdate.getFullYear() + "-" + (newdate.getMonth()+1) + "-" + newdate.getDate();
@@ -41,6 +42,7 @@ export default function DiscussionForm() {
         setSuccess(response.data.message);
         resetForm(); // Reset the form after successful submission
         setDiscussion(response.data.newDiscussion);
+        //navigate back to discussion-home.
         navigate("/discussion-home");
       }
     } catch (error) {
