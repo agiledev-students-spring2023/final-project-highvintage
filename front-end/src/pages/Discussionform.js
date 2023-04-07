@@ -16,8 +16,11 @@ export default function DiscussionForm() {
   // discussion && console.log("Discussion", discussion);
   const onSubmit = async (values, { resetForm }) => {
     try {
+      var newdate = new Date();
       const formData = new FormData();
-      values.date = new Date().toISOString();
+      var dateFormat = newdate.getFullYear() + "-" + (newdate.getMonth()+1) + "-" + newdate.getDate();
+      
+      values.date = new Date(dateFormat);
       formData.append("content", values.content);
       formData.append("title", values.title);
       formData.append("date", values.date);
@@ -34,7 +37,6 @@ export default function DiscussionForm() {
           }
         });
       if (response && response.data) {
-        console.log("values", values);
         console.log("response.data", response.data);
         setSuccess(response.data.message);
         resetForm(); // Reset the form after successful submission

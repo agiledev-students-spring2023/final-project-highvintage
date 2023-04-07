@@ -16,7 +16,6 @@ const createDiscussion = (title, content, date, comments) => {
     date,
     comments,
   };
-  dummyDiscussions.push(newDiscussion);
   return newDiscussion;
 };
 
@@ -28,8 +27,9 @@ router.post("/create", upload.none(), (req, res, next) => {
   console.log("req.body", req.body);
   try {
     const newDiscussion = createDiscussion(title, content, date, comments);
+    newDiscussion.author = user.id;
     user.discussion.push(newDiscussion);
-    newDiscussion.author = user.username;
+    dummyDiscussions.push(newDiscussion);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
