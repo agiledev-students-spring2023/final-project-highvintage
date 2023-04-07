@@ -9,8 +9,8 @@ import CommentsRoute from "./routes/comments.mjs";
 import mockUsers from "./mock-db/mock.mjs";
 const PORT = process.env.PORT || 5000;
 
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
@@ -27,17 +27,17 @@ for (const user of mockUsers) {
       post.postLoc = "";
     }
   }
-  for (const discussion of user.discussion){
+  for (const discussion of user.discussion) {
     discussion.author = user.id;
   }
 }
 
 const app = express();
-const collection = require("./mongo.js")
+const collection = require("./mongo.js");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
@@ -48,59 +48,54 @@ const persistUser = function (req, res, next) {
 
 app.use(persistUser);
 
-app.get("/", cors(), (req, res) => {
-  
+app.get("/", cors(), (req, res) => {});
+
+app.post("/", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const check = await collection.findOne({ email: email });
+
+    if (check) {
+      res.json("exist");
+    } else {
+      res.json("notexist");
+    }
+  } catch (e) {
+    res.json("notexist");
+  }
 });
 
-app.post("/", async(req, res)=>{
-  const{email,password}=req.body
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
 
-  try{
-    const check=await collection.findOne({email:email})
+  const data = {
+    email: email,
+    password: password,
+  };
 
-    if(check){
-      res.json("exist")
+  try {
+    const check = await collection.findOne({ email: email });
+
+    if (check) {
+      res.json("exist");
+    } else {
+      res.json("notexist");
+      await collection.insertMany([data]);
     }
-    else{
-      res.json("notexist")
-    }
+  } catch (e) {
+    res.json("notexist");
   }
-  catch(e){
-    res.json("notexist")
-  }
-})
+});
 
-app.post("/register", async(req, res)=>{
-  const{email,password}=req.body
-
-  const data={
-    email:email,
-    password:password
-  }
-
-  try{
-    const check=await collection.findOne({email:email})
-
-    if(check){
-      res.json("exist")
-    }
-    else{
-      res.json("notexist")
-      await collection.insertMany([data])
-    }
-  }
-  catch(e){
-    res.json("notexist")
-  }
-})
-
-app.get('/api/dummyUsers', (req, res) => {
+app.get("/api/dummyUsers", (req, res) => {
   res.json(mockUsers);
 });
 
 app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);
+app.use("/api/comments", CommentsRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

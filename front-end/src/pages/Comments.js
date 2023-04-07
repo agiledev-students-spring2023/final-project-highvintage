@@ -1,24 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import { dummyComments } from "../dummy/comments";
 import Comment from "../components/Comments/Comment";
 import AddComment from "../components/Comments/AddComment";
+import axios from "axios";
+import { requestURL } from "../requestURL";
 
-export default function Comments() {
-  const [comments, setComments] = useState(dummyComments);
+export default function Comments(props) {
+  const [comments, setComments] = useState([]);
+  const [userPhoto, setUserPhoto] = useState("");
+  const [userName, setUserName] = useState("");
 
-  const commentComponents = comments.map((comment) => (
-    <Comment user={comment.user} key={comment.id} body={comment.body} />
+  const params = useParams();
+
+  const toFetch = useLocation().search;
+
+  useEffect(() => {
+    async function fetchComments(query) {
+      const response = await axios.get(
+        requestURL + "comments/view/" + query + toFetch
+      );
+      setComments(response.data.comments);
+      setUserPhoto(response.data.userPhoto);
+      setUserName(response.data.username);
+    }
+
+    fetchComments(params.postID);
+
+    return () => {};
+  }, []);
+
+  const commentComponents = comments.map((comment, idx) => (
+    <Comment
+      username={comment.user}
+      body={comment.body}
+      photo={comment.photo}
+      id={comment.id}
+      key={idx}
+    />
   ));
   return (
     <>
       <GenericHeader pageName="Comments" />
 
       <section className="mt-16 w-10/12 mr-auto ml-auto">
-        {commentComponents}
+        {comments.length > 0 ? (
+          commentComponents
+        ) : (
+          <p className="text-center mt-24">
+            {" "}
+            No comments on this post. Be the first to comment!
+          </p>
+        )}
       </section>
 
-      <AddComment />
+      <AddComment photo={userPhoto} username={userName} />
     </>
   );
 }
