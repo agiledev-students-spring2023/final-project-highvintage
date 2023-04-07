@@ -45,12 +45,13 @@ router.post(
   upload.fields([{ name: "my_files", maxCount: 5 }]),
   (req, res, next) => {
     const user = req.user; // needs to be revisited
+    const author = user.username;
     const files = req.files;
     const { location, content, style } = req.body;
     console.log("req.body", req.body);
     try {
       const newPost = createPost(
-        user.username,
+        author,
         location,
         content,
         style,
