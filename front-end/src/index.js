@@ -5,7 +5,6 @@ import "./swiper.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import SelfProfile from "./pages/SelfProfile";
 import Profile from "./pages/Profile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
@@ -16,13 +15,10 @@ import OutfitForm from "./pages/OutfitForm";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
 import Search from "./pages/Search";
-import SavedOutfits from "./pages/SavedOutfits";
-import Saved from "./pages/Saved";
 
 import Home from "./pages/Home";
 import Register from "./Register";
 
-import SavedDiscussion from "./pages/Saveddiscussion";
 import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
 import Discussionform from "./pages/Discussionform";
@@ -37,7 +33,6 @@ root.render(
 
       <Route path="/home" element={<Home />}></Route>
 
-      <Route path="/self" element={<SelfProfile />}></Route>
       <Route path="/profile/:username" element={<Profile />}></Route>
       <Route path="/followers" element={<Followers />}></Route>
       <Route path="/following" element={<Following />}></Route>
@@ -49,9 +44,6 @@ root.render(
       <Route path="/outfit-view/:id" element={<OutfitView />}></Route>
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/search" element={<Search />} />
-      <Route path="/saved" element={<Saved />}></Route>
-      <Route path="/saved-outfits" element={<SavedOutfits />}></Route>
-      <Route path="/saved-discussion" element={<SavedDiscussion />}></Route>
       <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
       <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
       <Route path="/discussion-form" element={<Discussionform />}></Route>
