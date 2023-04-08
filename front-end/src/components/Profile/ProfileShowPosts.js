@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DiscussionFullView from "../Saved/DiscussionFullView.js";
+import DiscussionFullView from "../Discussions/DiscussionFullView.js";
 import OutfitPreview from "../OutfitPost/OutfitPreview.js";
 import { Link, useNavigate } from "react-router-dom";
 
