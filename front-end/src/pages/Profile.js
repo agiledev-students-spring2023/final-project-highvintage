@@ -9,7 +9,7 @@ import { requestURL } from "../requestURL.js";
 
 const Profile = () => {
   const username = useParams();
-  const [isFollowing, setIsFollowing] = useState();
+  const [isFollowing, setIsFollowing] = useState(false);
   const [me, setMe] = useState("");
   const [loggedInUser, setLoggedInUser] = useState(null);
 
@@ -62,11 +62,11 @@ const Profile = () => {
       if (isFollowing) {
         await unfollowUser(header.username);
         updatedHeader.followers = updatedHeader.followers.filter(
-          (id) => id !== header.id
+          (id) => id !== loggedInUser.id
         );
       } else {
         await followUser(header.username);
-        updatedHeader.followers = [...updatedHeader.followers, header.id];
+        updatedHeader.followers = [...updatedHeader.followers, loggedInUser.id];
       }
       console.log(updatedHeader);
       setIsFollowing(!isFollowing);
@@ -105,8 +105,8 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    setIsFollowing(header.followers.includes(header.id));
-  }, [header]);
+    setIsFollowing(header.followers.includes(loggedInUser?.id));
+  }, [header, loggedInUser]);
 
   useEffect(() => {
     if (loggedInUser) {
