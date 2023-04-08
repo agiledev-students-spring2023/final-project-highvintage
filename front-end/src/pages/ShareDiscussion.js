@@ -2,8 +2,8 @@ import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MainNav from "../components/MainNav";
-import DiscussionFullView from "../components/Saved/DiscussionFullView";
-import DropDownMenuTwo from "../components/ShareDiscussion/DropDownSort";
+import DiscussionFullView from "../components/Discussions/DiscussionFullView";
+import DropDownMenuTwo from "../components/Discussions/DropDownSort";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 export default function ShareDiscussion() {
