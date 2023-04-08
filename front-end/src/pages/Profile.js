@@ -112,7 +112,7 @@ const Profile = () => {
     if (loggedInUser) {
       fetchProfile(username.username.toLowerCase());
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, username]);
 
   return (
     <div className="mb-16">
