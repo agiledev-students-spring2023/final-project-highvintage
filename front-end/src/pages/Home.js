@@ -37,7 +37,19 @@ export default function Home() {
     <div>
       <GenericHeader pageName="HighVintage"></GenericHeader>
       <div className="mt-14 flex flex-col justify-center items-center space-y-4"></div>
-      {viewable}
+      {viewable.length > 0 ? (
+        viewable
+      ) : (
+        <div className="flex flex-col items-center justify-center h-40">
+          <p className="text-gray-500 text-sm text-center mb-2">
+            You aren't following anyone yet!
+          </p>
+          <p className="text-gray-500 text-sm text-center">
+            Try following other users to view your home feed and discover new
+            content that you'll love.
+          </p>
+        </div>
+      )}
       <div className="mt-14">
         <MainNav linkToMe={me} />
       </div>
