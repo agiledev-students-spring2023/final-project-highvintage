@@ -56,6 +56,7 @@ The ultimate goal of this project is to build a community where users can help e
 ## **How do we collaborate?**
 Kindly refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
+</br>
 
 ## Running this app locally
 
