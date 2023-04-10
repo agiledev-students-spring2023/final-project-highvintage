@@ -33,9 +33,7 @@ export default function DiscussionFullView(props) {
           </span>
         </div>
       </div>
-      <Link
-        to={`/discussion-view/${props.discussionId}`}
-      >
+      <Link to={`/discussion-view/${props.discussionId}`}>
         <div className="p-4">
           <p className="text-gray-700 leading-relaxed text-justify">
             {props.content}
@@ -57,19 +55,10 @@ export default function DiscussionFullView(props) {
               <FaRegCommentDots
                 size={24}
                 onClick={() =>
-                  navigate(
-                    "/comments/" +
-                      props.id +
-                      "?discussionPost=true"
-                  )
+                  navigate("/comments/" + props.id + "?discussionPost=true")
                 }
               />
             </div>
-          </div>
-
-          <div className="my-auto ml-2" onClick={handleSave}>
-            {/* Save */}
-            <FaRegBookmark size={24} />
           </div>
         </div>
 

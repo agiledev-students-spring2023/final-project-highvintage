@@ -17,7 +17,7 @@ export default function DiscussionView() {
     date: "",
     title: "",
     content: "",
-    discussionLike:[],
+    discussionLike: [],
     author: 0,
   });
   //get discussion
@@ -102,11 +102,6 @@ export default function DiscussionView() {
                   }
                 />
               </div>
-            </div>
-
-            <div className="my-auto ml-2" onClick={handleSave}>
-              {/* Save */}
-              <FaRegBookmark size={24} />
             </div>
           </div>
 
