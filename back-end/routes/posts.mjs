@@ -48,7 +48,7 @@ router.post(
     const author = user.username;
     const files = req.files;
     const { location, content, style } = req.body;
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     try {
       const newPost = createPost(
         author,
@@ -59,7 +59,7 @@ router.post(
         // date
       );
       user.posts.push(newPost);
-      console.log("user", user);
+      // console.log("user", user);
       // console.log('newPost.author',newPost.author)
       res.status(201).json({ newPost, message: "Successfully posted!" });
     } catch (err) {
@@ -77,8 +77,8 @@ router.use((err, req, res, next) => {
 // api/posts/
 router.post("/:postID/like", (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
-  console.log('userId', userID)
-  console.log("postId", postID);
+  // console.log('userId', userID)
+  // console.log("postId", postID);
   // Todo: Update the like status of the post in the database
 
   // Get the updated number of likes and like state from the database
