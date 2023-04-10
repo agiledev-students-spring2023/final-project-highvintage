@@ -101,3 +101,5 @@ app.use("/api/comments", CommentsRoute);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
