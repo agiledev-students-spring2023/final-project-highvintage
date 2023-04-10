@@ -35,6 +35,7 @@ export default function ShareDiscussion() {
   const discussionComponents = users.map((user) => (
     <DiscussionFullView
       key={user.id}
+      id = {user.id}
       discussionId = {user.discussion[0].id}
       title={user.discussion[0].title}
       photo={user.photo}

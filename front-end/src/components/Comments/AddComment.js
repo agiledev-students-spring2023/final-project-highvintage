@@ -1,16 +1,42 @@
 import React, { useState } from "react";
 import { dummyComments } from "../../dummy/comments";
+import axios from "axios";
+import { requestURL } from "../../requestURL";
+import { useNavigate } from "react-router-dom";
+
 export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
+  const navigate = useNavigate();
+
+  console.log(props);
 
   function handleInput(value) {
-    console.log(value.length);
     if (value.length <= 0) {
       setEmpty(true);
     } else {
       setComment(value);
       setEmpty(false);
+    }
+  }
+
+  async function handleComment() {
+    const commentObject = {
+      type: props.type,
+      postID: props.postID,
+      comment: {
+        author: props.id,
+        body: comment,
+      },
+    };
+
+    const response = await axios.post(
+      requestURL + "comments/add",
+      commentObject
+    );
+
+    if (response.status === 200) {
+      navigate(0);
     }
   }
 
@@ -33,9 +59,8 @@ export default function AddComment(props) {
         <button
           type="submit"
           className="col-span-2 text-blue-400 "
-          onSubmit={(e) => {
-            e.preventDefault();
-            // post comment here
+          onClick={async (e) => {
+            await handleComment();
           }}
         >
           {" "}

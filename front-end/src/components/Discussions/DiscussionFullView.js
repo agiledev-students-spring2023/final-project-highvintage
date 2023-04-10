@@ -33,9 +33,7 @@ export default function DiscussionFullView(props) {
           </span>
         </div>
       </div>
-      <Link
-        to={`/discussion-view/${props.discussionId}`}
-      >
+      <Link to={`/discussion-view/${props.discussionId}`}>
         <div className="p-4">
           <p className="text-gray-700 leading-relaxed text-justify">
             {props.content}
@@ -43,35 +41,11 @@ export default function DiscussionFullView(props) {
         </div>
       </Link>
 
-      {/* Using the same code as in interactable buttons, not using the compoenent because "save" button is placed at a different margin*/}
-      <div className="flex flex-row ml-1 mb-1">
-        <div className="grid grid-cols-2 px-2">
-          <div className="flex space-x-2">
-            {/* Like */}
-            <div className="my-auto" onClick={handleLike}>
-              <FaRegHeart size={25} />
-            </div>
-
-            {/* Comment */}
-            <div className="my-auto" onClick={handleComment}>
-              <FaRegCommentDots
-                size={24}
-                onClick={() => navigate("/comments")}
-              />
-            </div>
-          </div>
-
-          <div className="my-auto ml-2" onClick={handleSave}>
-            {/* Save */}
-            <FaRegBookmark size={24} />
-          </div>
-        </div>
-
-        <div className="justify-self-end ml-10 "></div>
-        <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
-          {moment.utc(props.date).format("MM/DD/YY")}
-        </div>
+      <div className="justify-self-end"></div>
+      <div className="text-right text-xs font-normal pr-4 mt-4 mb-2">
+        {moment.utc(props.date).format("MM/DD/YY")}
       </div>
     </div>
+    // </div>
   );
 }
