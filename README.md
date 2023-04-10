@@ -56,8 +56,6 @@ The ultimate goal of this project is to build a community where users can help e
 ## **How do we collaborate?**
 Kindly refer to [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
-</br>
-
 ## Running this app locally
 
 The app runs on Node.js. If you are unfamiliar with Node, you can find instructions
@@ -74,5 +72,3 @@ Then navigate to the front-end directory. Then run:
 
 Following these instructions should open a new tab in your default browser with the app running on http://localhost:3000.
 
-As of now, the login page is not fully functional.
-For now navigate to the main home page by clicking join as guest in the login page.
