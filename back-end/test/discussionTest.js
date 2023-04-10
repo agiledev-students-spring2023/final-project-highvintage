@@ -1,8 +1,7 @@
-import chai from "chai";
-import chaiHttp from "chai-http";
-import app from "../back-end/server.mjs";
-import dummyDiscussions from "../back-end/mock-db/mock_discussions.mjs";
-import { createDiscussion } from "../back-end/routes/discussions.mjs";
+const chai =require ("chai");
+const chaiHttp = require("chai-http");
+const app = require("../server.js");
+const { createDiscussion } = require ("../routes/discussions.js");
 // import { requestURL } from "../front-end/requestURL.js";
 const { expect } = chai;
 chai.use(chaiHttp);
