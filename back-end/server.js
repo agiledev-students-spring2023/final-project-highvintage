@@ -9,13 +9,6 @@ const CommentsRoute = require("./routes/comments.js");
 const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
 
-const mongodb = require("mongodb");
-const MongoClient = mongodb.MongoClient;
-const uri = process.env.DB_URI || "mongodb://localhost:27017";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // adding post author to all mock users
 for (const user of mockUsers) {
@@ -41,15 +34,6 @@ for (const user of mockUsers) {
 
 const app = express();
 let collection;
-
-client.connect((err) => {
-  if (err) {
-    console.log("Error connecting to database", err);
-    return;
-  }
-  collection = client.db("sample_users").collection("users");
-  console.log("Connected to database");
-});
 
 app.use(cors());
 app.use(bodyParser.json());
