@@ -118,5 +118,9 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+// export for testing
+export default app;
+
+
 
 module.exports = app;
