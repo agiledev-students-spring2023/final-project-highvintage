@@ -5,10 +5,10 @@ import { FaHome } from "react-icons/fa";
 export default function MainNav(props) {
   const location = useLocation();
   const currpath = location.pathname;
-  const activeEl = 'flex gap-2 py-3 bg-slate-500 text-white -mx-10 px-10 rounded-md shadow-md';
-  const nonActiveEl = 'flex gap-2 py-3 hover:bg-gray-300 -mx-10 px-10 rounded-md transition-all hover:scale-105 hover:shadow-md';
+  const activeEl = 'flex gap-1 py-2 bg-slate-500 text-white -mx-10 px-2 rounded-md shadow-md';
+  const nonActiveEl = 'flex gap-1 py-2 hover:bg-gray-300 -mx-10 px-2 rounded-md transition-all hover:scale-105 hover:shadow-md';
   return (
-    <div className="fixed bottom-0 z-50 flex mx-auto justify-between items-center w-full px-40 py-1 text-center font-semibold rounded-t-md bg-white">
+    <div className="fixed bottom-0 z-50 flex mx-auto justify-between items-center w-full px-10 py-1 text-center font-semibold rounded-t-md bg-white">
       <div>
         <Link to="/discussion-home" className={currpath === '/discussion-home' ? activeEl : nonActiveEl}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
