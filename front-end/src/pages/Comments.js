@@ -57,7 +57,13 @@ export default function Comments(props) {
         )}
       </section>
 
-      <AddComment id={userID} photo={userPhoto} username={userName} />
+      <AddComment
+        type={toFetch.includes("photo") ? "photo" : "discussion"}
+        id={userID}
+        photo={userPhoto}
+        username={userName}
+        postID={params.postID}
+      />
     </>
   );
 }

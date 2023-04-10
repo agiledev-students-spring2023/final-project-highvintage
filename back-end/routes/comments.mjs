@@ -68,6 +68,21 @@ router.get("/view/:postID", function (req, res) {
   }
 });
 
-router.post("/add", function (req, res) {});
+router.post("/add", function (req, res) {
+  if (req.body.type === "photo") {
+    const findPost = dummyPosts.find((post) => {
+      return post.postId === +req.body.postID;
+    });
+    findPost.comments.push({
+      author: req.body.comment.author,
+      body: req.body.comment.body,
+    });
+
+    res.send(200);
+  }
+
+  if (req.body.type === "discussion") {
+  }
+});
 
 export default router;

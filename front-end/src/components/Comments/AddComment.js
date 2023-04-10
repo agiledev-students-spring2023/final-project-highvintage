@@ -17,9 +17,19 @@ export default function AddComment(props) {
   }
 
   async function handleComment() {
-    console.log(props);
-    const comment = {};
-    //const response = await axios.post(requestURL + "api/comments/add");
+    const commentObject = {
+      type: props.type,
+      postID: props.postID,
+      comment: {
+        author: props.id,
+        body: comment,
+      },
+    };
+
+    const response = await axios.post(
+      requestURL + "comments/add",
+      commentObject
+    );
   }
 
   function generateButton() {
@@ -62,13 +72,15 @@ export default function AddComment(props) {
             src={props.photo}
           />
         </div>
-        <input
-          onInput={(e) => handleInput(e.target.value)}
-          className="border col-span-8 p-2"
-          type="text"
-          placeholder={"Add a comment as " + props.username}
-        />{" "}
-        {generateButton()}
+        <form>
+          <input
+            onInput={(e) => handleInput(e.target.value)}
+            className="border col-span-8 p-2"
+            type="text"
+            placeholder={"Add a comment as " + props.username}
+          />{" "}
+          {generateButton()}
+        </form>
       </div>
     </div>
   );
