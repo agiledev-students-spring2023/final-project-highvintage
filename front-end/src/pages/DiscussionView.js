@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import GenericHeader from "../components/GenericHeader";
-import { FaRegHeart, FaRegCommentDots, FaRegBookmark } from "react-icons/fa";
+import { FaRegHeart, FaRegCommentDots, FaHeart } from "react-icons/fa";
 import { useParams } from "react-router";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import DiscussionInteraction from "../components/Discussions/DiscussionInteraction";
 export default function DiscussionView() {
   const navigate = useNavigate();
   // const [user, setUser] = useState();
@@ -45,11 +46,10 @@ export default function DiscussionView() {
   const handleComment = () => {
     console.log("handle comment");
   };
-  const handleSave = () => {
-    console.log("handle save");
-  };
   if (!isFetched) {
     return <div>Loading...</div>;
+  }else{
+    console.log("discussionfound", discussion.found);
   }
   return (
     <>
@@ -82,29 +82,13 @@ export default function DiscussionView() {
 
         {/* Using the same code as in interactable buttons, not using the compoenent because "save" button is placed at a different margin*/}
         <div className="flex flex-row ml-1 mb-1">
-          <div className="grid grid-cols-2 px-2">
-            <div className="flex space-x-2">
-              {/* Like */}
-              <div className="my-auto" onClick={handleLike}>
-                <FaRegHeart size={25} />
-              </div>
-
-              {/* Comment */}
-              <div className="my-auto" onClick={handleComment}>
-                <FaRegCommentDots
-                  size={24}
-                  onClick={() =>
-                    navigate(
-                      "/comments/" +
-                        discussion.found.id +
-                        "?discussionPost=true"
-                    )
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
+          <DiscussionInteraction
+            authorUsername={discussion.authorUsername}
+            discussionID={discussion.found.id}
+            likes={discussion.found.discussionLike.length}
+            likeArray={discussion.found.discussionLike}
+            comments={discussion.found.comments}
+          />
           <div className="justify-self-end ml-20 "></div>
           <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
             {/* Better MM-DD-*/}
