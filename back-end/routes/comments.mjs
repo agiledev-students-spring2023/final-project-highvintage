@@ -36,6 +36,7 @@ router.get("/view/:postID", function (req, res) {
     res.send({
       userPhoto: req.user.photo,
       username: req.user.username,
+      id: req.user.id,
       comments: commentsToAppend,
     });
   }
@@ -73,15 +74,19 @@ router.post("/add", function (req, res) {
     const findPost = dummyPosts.find((post) => {
       return post.postId === +req.body.postID;
     });
-    findPost.comments.push({
-      author: req.body.comment.author,
-      body: req.body.comment.body,
-    });
+    findPost.comments.push(req.body.comment);
 
-    res.send(200);
+    res.sendStatus(200);
   }
 
   if (req.body.type === "discussion") {
+    const findPost = dummyDiscussions.find((post) => {
+      return post.id === +req.body.postID;
+    });
+
+    findPost.comments.push(req.body.comment);
+
+    res.sendStatus(200);
   }
 });
 
