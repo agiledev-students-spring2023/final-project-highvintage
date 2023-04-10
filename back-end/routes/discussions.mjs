@@ -68,3 +68,4 @@ router.get("/view/:id", function (req, res) {
 });
 
 export default router;
+export {createDiscussion};
