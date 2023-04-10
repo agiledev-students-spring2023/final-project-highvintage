@@ -71,4 +71,3 @@ Then navigate to the front-end directory. Then run:
 ```$ npm start```
 
 Following these instructions should open a new tab in your default browser with the app running on http://localhost:3000.
-
