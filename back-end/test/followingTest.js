@@ -1,7 +1,7 @@
-import chai from "chai";
-import chaiHttp from "chai-http";
-import app from "../back-end/server.mjs";
-import dummyUsers from "../back-end/mock-db/mock.mjs";
+const chai = require ("chai");
+const chaiHttp = require ("chai-http");
+const app  = require ("../server.js");
+const dummyUsers =  require( "../mock-db/mock.js");
 
 chai.use(chaiHttp);
 const { expect } = chai;
