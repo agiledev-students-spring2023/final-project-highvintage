@@ -1,4 +1,4 @@
-import dummyUsers from "./mock.mjs";
+const dummyUsers = require("./mock.js");
 
 // mocks the mongoDB collection we would need to fetch posts with out
 // having to go through a user first!
@@ -10,4 +10,4 @@ dummyUsers.forEach((user) =>
   })
 );
 
-export default dummyPosts;
+module.exports = dummyPosts;

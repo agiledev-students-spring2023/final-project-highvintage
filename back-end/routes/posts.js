@@ -1,9 +1,9 @@
-import express from "express";
-import { v4 as uuidv4 } from "uuid";
-import multer from "multer";
-import path from "path";
-import dummyUsers from "../mock-db/mock.mjs";
-import dummyPosts from "../mock-db/mock_posts.mjs";
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+const path = require('path');
+const dummyUsers = require('../mock-db/mock.js');
+const dummyPosts = require('../mock-db/mock_posts.js');
 
 const router = express.Router();
 router.use("/static", express.static("public"));
@@ -48,7 +48,7 @@ router.post(
     const author = user.username;
     const files = req.files;
     const { location, content, style } = req.body;
-    console.log("req.body", req.body);
+    // console.log("req.body", req.body);
     try {
       const newPost = createPost(
         author,
@@ -59,7 +59,7 @@ router.post(
         // date
       );
       user.posts.push(newPost);
-      console.log("user", user);
+      // console.log("user", user);
       // console.log('newPost.author',newPost.author)
       res.status(201).json({ newPost, message: "Successfully posted!" });
     } catch (err) {
@@ -77,8 +77,8 @@ router.use((err, req, res, next) => {
 // api/posts/
 router.post("/:postID/like", (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
-  console.log('userId', userID)
-  console.log("postId", postID);
+  // console.log('userId', userID)
+  // console.log("postId", postID);
   // Todo: Update the like status of the post in the database
 
   // Get the updated number of likes and like state from the database
@@ -160,4 +160,4 @@ router.get("/feed", function (req, res) {
   res.json(feedPosts);
 });
 
-export default router;
+module.exports = router;

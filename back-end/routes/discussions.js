@@ -1,8 +1,9 @@
-import express from "express";
-import dummyUsers from "../mock-db/mock.mjs";
-import dummyDiscussions from "../mock-db/mock_discussions.mjs";
-import { v4 as uuidv4 } from "uuid";
-import multer from "multer";
+const express = require('express');
+const dummyUsers = require('../mock-db/mock.js');
+const dummyDiscussions = require('../mock-db/mock_discussions.js');
+const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+
 const upload = multer();
 
 const router = express.Router();
@@ -99,4 +100,4 @@ router.get("/view/:id", function (req, res) {
   }
 });
 
-export default router;
+module.exports = router;

@@ -1,5 +1,6 @@
-import express from "express";
-import dummyUsers from "../mock-db/mock.mjs";
+const express = require('express');
+const dummyUsers = require('../mock-db/mock.js');
+
 const router = express.Router();
 // api/users/
 router.get("/profile", function (req, res) {
@@ -187,4 +188,4 @@ router.get("/:username/following", function(req, res) {
 });
 
 
-export default router;
+module.exports = router;
