@@ -76,3 +76,6 @@ Following these instructions should open a new tab in your default browser with 
 
 As of now, the login page is not fully functional.
 For now navigate to the main home page by clicking join as guest in the login page.
+
+As of now, the login page is not fully functional.
+For now navigate to the main home page by clicking join as guest in the login page.
