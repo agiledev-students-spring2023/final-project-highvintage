@@ -10,6 +10,11 @@ export default function Form() {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
 
+    let navigate = useNavigate();
+    function temp(){
+        navigate('/home')
+    }
+
     async function submit(e){
         e.preventDefault();
 
@@ -73,7 +78,7 @@ export default function Form() {
                     </div>
                     <button className='font-medium text-base text-blue-500'>Forgot password</button>
                 </div>
-                <div onClick={submit} className='mt-8 flex flex-col gap-y-4'>
+                <div onClick={temp} className='mt-8 flex flex-col gap-y-4'>
                     
                     
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'>Sign In</button>
