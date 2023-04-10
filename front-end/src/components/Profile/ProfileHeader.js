@@ -23,55 +23,36 @@ export default function ProfileHeader(props) {
 
   return (
     <div>
-      <div className="flex flex-row items-center space-x-16 mt-12">
+      <div className="flex flex-row items-center mt-20 ml-6 mr-6">
         <div className="flex-shrink-0">
           <img
             src={profilePicture}
             alt="profile-picture"
-            className="rounded-full object-cover w-40 h-40 ml-8 mt-8"
+            className="rounded-full object-cover w-24 h-24"
           />
         </div>
-        <div className="flex flex-col">
-          <div className="flex flex-row items-center mt-4">
-            <h2 className="text-2xl font-bold">{username}</h2>
+        <div className="flex flex-col ml-8 w-full">
+          <h2 className="text-2xl ">{username}</h2>
+          <div className="flex flex-col mt-2">
             {isLoggedIn ? (
-              <button className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8">
+              <button className="bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ">
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
             ) : (
               <button
-                className="bg-gray-300 text-black px-4 py-2 rounded-lg ml-8"
+                className={`bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ${
+                  isFollowing ? "bg-gray-400" : ""
+                } text-sm`}
                 onClick={handleFollow}
               >
                 {isFollowing ? "Unfollow" : "Follow"}
               </button>
             )}
           </div>
-
-          <ul className="flex flex-row mt-4">
-            <li className="mr-6">
-              <span className="font-bold">{posts.length}</span> posts
-            </li>
-            <button>
-              <li className="mr-6">
-                <Link to="/followers" state={{ currentUser: { username } }}>
-                  <span className="font-bold">{followers.length}</span>{" "}
-                  followers
-                </Link>
-              </li>
-            </button>
-            <button>
-              <li className="mr-6">
-                <Link to="/following" state={{ currentUser: { username } }}>
-                  <span className="font-bold">{following.length}</span>{" "}
-                  following
-                </Link>
-              </li>
-            </button>
-          </ul>
         </div>
       </div>
-      <div className="ml-9">
+    
+      <div className="ml-8 mr-8">
         <div className="text-gray-500">
           <p className="mt-3">
             <span className="font-semibold">Style:</span> {style}
@@ -83,6 +64,29 @@ export default function ProfileHeader(props) {
         </div>
         <p className="mt-1">{bio}</p>
       </div>
+      
+      <ul className="flex justify-center w-full mt-2">
+        <li className="flex flex-col items-center flex-1">
+          <span className="leading-tight font-bold">{posts.length}</span>
+          <span className="text-gray-500">{`post${posts.length !== 1 ? "s" : ""}`}</span>
+        </li>
+        <li className="flex flex-col items-center flex-1">
+          <span className="leading-tight font-bold">{followers.length}</span>
+          <button className="mx-auto">
+            <Link to="/followers" state={{ currentUser: { username } }} className="text-gray-500">
+              followers
+            </Link>
+          </button>
+        </li>
+        <li className="flex flex-col items-center flex-1">
+          <span className=" leading-tight font-bold">{following.length}</span>
+          <button className="mx-auto">
+            <Link to="/following" state={{ currentUser: { username } }} className="text-gray-500">
+              following
+            </Link>
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }
