@@ -90,7 +90,6 @@ router.get("/me", function (req, res) {
 
 // api/users/:username/follow
 router.put("/:username/follow", function (req, res) {
-  console.log("req.user:", req.user); 
   const currentUser = dummyUsers.find(
     (user) => user.username === req.user.username.toLowerCase()
   );
