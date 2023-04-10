@@ -2,7 +2,7 @@
 // using dummy users and posts, conglomerating them all together
 // to make a fake database
 
-const dummyUsers = [
+let dummyUsers = [
   {
     id: 1,
     followers: [3, 4, 5],
@@ -371,4 +371,4 @@ const dummyUsers = [
   },
 ];
 
-export default dummyUsers;
+module.exports = dummyUsers;

@@ -1,7 +1,7 @@
-import express from "express";
-import dummyUsers from "../mock-db/mock.mjs";
-import dummyPosts from "../mock-db/mock_posts.mjs";
-import dummyDiscussions from "../mock-db/mock_discussions.mjs";
+const express = require('express');
+const dummyUsers = require('../mock-db/mock.js');
+const dummyPosts = require('../mock-db/mock_posts.js');
+const dummyDiscussions = require('../mock-db/mock_discussions.js');
 
 const router = express.Router();
 
@@ -67,4 +67,5 @@ router.get("/view/:postID", function (req, res) {
   }
 });
 
-export default router;
+module.exports = router;
+

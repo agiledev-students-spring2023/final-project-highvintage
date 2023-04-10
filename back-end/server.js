@@ -1,22 +1,28 @@
-import express from "express";
-import session from "express";
-import bodyParser from "body-parser";
-import cors from "cors";
-import UsersRoute from "./routes/users.mjs";
-import PostsRoute from "./routes/posts.mjs";
-import DiscussionsRoute from "./routes/discussions.mjs";
-import CommentsRoute from "./routes/comments.mjs";
-import mockUsers from "./mock-db/mock.mjs";
+const express = require("express");
+// const session = require("express-session");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const UsersRoute = require("./routes/users.js");
+const PostsRoute = require("./routes/posts.js");
+const DiscussionsRoute = require("./routes/discussions.js");
+const CommentsRoute = require("./routes/comments.js");
+const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
 
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
+const uri = process.env.DB_URI || "mongodb://localhost:27017";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
-  user.bio = "This is my bio made from the server.mjs file!";
-  user.style = "Server.mjs";
-  user.favoriteThrift = "nodemon server.mjs";
+  user.bio = "This is my bio made from the server.js file!";
+  user.style = "Server.js";
+  user.favoriteThrift = "nodemon server.js";
   if (!user.followers) {
     user.followers = [];
     user.following = [];
@@ -34,7 +40,17 @@ for (const user of mockUsers) {
 }
 
 const app = express();
-const collection = require("./mongo.js");
+let collection;
+
+client.connect((err) => {
+  if (err) {
+    console.log("Error connecting to database", err);
+    return;
+  }
+  collection = client.db("sample_users").collection("users");
+  console.log("Connected to database");
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
@@ -102,4 +118,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-export default app;
+module.exports = app;

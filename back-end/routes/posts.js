@@ -1,9 +1,9 @@
-import express from "express";
-import { v4 as uuidv4 } from "uuid";
-import multer from "multer";
-import path from "path";
-import dummyUsers from "../mock-db/mock.mjs";
-import dummyPosts from "../mock-db/mock_posts.mjs";
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+const path = require('path');
+const dummyUsers = require('../mock-db/mock.js');
+const dummyPosts = require('../mock-db/mock_posts.js');
 
 const router = express.Router();
 router.use("/static", express.static("public"));
@@ -160,4 +160,4 @@ router.get("/feed", function (req, res) {
   res.json(feedPosts);
 });
 
-export default router;
+module.exports = router;
