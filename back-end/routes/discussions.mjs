@@ -28,8 +28,11 @@ router.post("/create", upload.none(), (req, res, next) => {
   try {
     const newDiscussion = createDiscussion(title, content, date, comments);
     newDiscussion.author = user.id;
+    const likes = [];
+    newDiscussion.discussionLike = likes;
     user.discussion.push(newDiscussion);
     dummyDiscussions.push(newDiscussion);
+    // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
@@ -42,12 +45,22 @@ router.use((err, req, res, next) => {
 
 // api/users/
 router.get("/view/:id", function (req, res) {
-  const discussionID = +req.params.id;
-
+  function parseDiscussionID(id) {
+    // Check if the id is an integer (using regex to check for integer string)
+    if (/^-?\d+$/.test(id)) {
+      return parseInt(id, 10); // Parse the integer string to an integer
+    }
+  
+    // If it's not an integer, return it as a string
+    return id;
+  }
+  
+  const discussionID = parseDiscussionID(req.params.id);
   const found = dummyDiscussions.find((discussion) => {
-    return discussion.id === discussionID;
+    //type coericon due to using uuid and normal integer ids.
+      return discussion.id == discussionID;
   });
-
+  console.log(found);
   if (found) {
     // get author object
     const author = dummyUsers.find((user) => {

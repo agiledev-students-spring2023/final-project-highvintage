@@ -17,6 +17,7 @@ export default function DiscussionView() {
     date: "",
     title: "",
     content: "",
+    discussionLike:[],
     author: 0,
   });
   //get discussion
