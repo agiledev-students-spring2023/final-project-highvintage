@@ -5,7 +5,7 @@ import { FaRegHeart, FaRegCommentDots, FaRegBookmark } from "react-icons/fa";
 import moment from "moment";
 export default function DiscussionFullView(props) {
   const navigate = useNavigate();
-
+  let likes = props.likes;
   const handleLike = () => {
     console.log("handle like");
   };
@@ -40,12 +40,15 @@ export default function DiscussionFullView(props) {
           </p>
         </div>
       </Link>
-
-      <div className="justify-self-end"></div>
-      <div className="text-right text-xs font-normal pr-4 mt-4 mb-2">
-        {moment.utc(props.date).format("MM/DD/YY")}
+      <div className="flex flex-row">
+        <div className="pt-1 pl-4">
+          <p className="font-semibold text-base">{likes} Likes</p>
+        </div>
+        <div className="justify-self-end"></div>
+        <div className="text-right text-base font-normal pl-56 pt-1 mb-3">
+          {moment.utc(props.date).format("MM/DD/YY")}
+        </div>
       </div>
     </div>
-    // </div>
   );
 }

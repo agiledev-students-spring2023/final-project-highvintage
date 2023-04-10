@@ -90,7 +90,7 @@ export default function DiscussionView() {
             comments={discussion.found.comments}
           />
           <div className="justify-self-end ml-20 "></div>
-          <div className="text-right text-xs font-normal ml-28 mt-4 mb-2">
+          <div className="text-right text-base font-normal pl-24 mt-4 mb-2">
             {/* Better MM-DD-*/}
             {moment.utc(discussion.found.date).format("MM/DD/YY")}
           </div>
