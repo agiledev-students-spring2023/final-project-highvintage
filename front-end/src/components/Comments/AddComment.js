@@ -1,17 +1,25 @@
 import React, { useState } from "react";
 import { dummyComments } from "../../dummy/comments";
+import axios from "axios";
+import { requestURL } from "../../requestURL";
+
 export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
 
   function handleInput(value) {
-    console.log(value.length);
     if (value.length <= 0) {
       setEmpty(true);
     } else {
       setComment(value);
       setEmpty(false);
     }
+  }
+
+  async function handleComment() {
+    console.log(props);
+    const comment = {};
+    //const response = await axios.post(requestURL + "api/comments/add");
   }
 
   function generateButton() {
@@ -33,9 +41,8 @@ export default function AddComment(props) {
         <button
           type="submit"
           className="col-span-2 text-blue-400 "
-          onSubmit={(e) => {
-            e.preventDefault();
-            // post comment here
+          onClick={async (e) => {
+            await handleComment();
           }}
         >
           {" "}

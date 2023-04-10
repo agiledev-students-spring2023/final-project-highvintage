@@ -11,6 +11,7 @@ export default function Comments(props) {
   const [comments, setComments] = useState([]);
   const [userPhoto, setUserPhoto] = useState("");
   const [userName, setUserName] = useState("");
+  const [userID, setUserID] = useState(0);
 
   const params = useParams();
 
@@ -24,6 +25,7 @@ export default function Comments(props) {
       setComments(response.data.comments);
       setUserPhoto(response.data.userPhoto);
       setUserName(response.data.username);
+      setUserID(response.data.id);
     }
 
     fetchComments(params.postID);
@@ -55,7 +57,7 @@ export default function Comments(props) {
         )}
       </section>
 
-      <AddComment photo={userPhoto} username={userName} />
+      <AddComment id={userID} photo={userPhoto} username={userName} />
     </>
   );
 }

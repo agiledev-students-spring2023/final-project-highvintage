@@ -62,9 +62,12 @@ router.get("/view/:postID", function (req, res) {
     res.send({
       userPhoto: req.user.photo,
       username: req.user.username,
+      id: req.user.id,
       comments: commentsToAppend,
     });
   }
 });
+
+router.post("/add", function (req, res) {});
 
 export default router;
