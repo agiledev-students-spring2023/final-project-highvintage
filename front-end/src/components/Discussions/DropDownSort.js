@@ -31,12 +31,14 @@ export default function DropDownMenuTwo(props) {
               aria-labelledby="options-menu"
             >
               <button
+                onClick={props.handleOptionOneClick}
                 className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
                 role="menuitem"
               >
                 {props.optionOne}
               </button>
               <button
+                onClick={props.handleOptionTwoClick}
                 className="block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-100 hover:text-gray-900"
                 role="menuitem"
               >

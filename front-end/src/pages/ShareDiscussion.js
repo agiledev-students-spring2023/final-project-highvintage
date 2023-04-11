@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MainNav from "../components/MainNav";
@@ -7,20 +7,20 @@ import DropDownMenuTwo from "../components/Discussions/DropDownSort";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 export default function ShareDiscussion() {
-
   const navigate = useNavigate();
-  //only using the first two dummy users since I did not put discussion posts in others
+  const [sortedDiscussions, setSortedDiscussions] = useState([]);
   const [users, setUsers] = useState([]);
   const [me, setMe] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(requestURL + 'dummyUsers');
+        const response = await axios.get(requestURL + "dummyUsers");
         // console.log(response.data);
         setUsers(response.data);
+        setSortedDiscussions(response.data);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -32,18 +32,38 @@ export default function ShareDiscussion() {
     fetchData();
     fetchMe();
   }, []);
-  const discussionComponents = users.map((user) => (
+
+  const sortByMostRecent = () => {
+    const sorted = [...users].sort((a, b) =>
+      a.discussion[0].date < b.discussion[0].date ? 1 : -1
+    );
+    setSortedDiscussions(sorted);
+  };
+
+  const sortByMostPopular = () => {
+    const sorted = [...users].sort((a, b) =>
+      a.discussion[0].discussionLike.length <
+      b.discussion[0].discussionLike.length
+        ? 1
+        : -1
+    );
+    setSortedDiscussions(sorted);
+  };
+
+  const discussionComponents = sortedDiscussions.map((user) => (
     <DiscussionFullView
       key={user.id}
-      id = {user.id}
-      discussionId = {user.discussion[0].id}
+      id={user.id}
+      discussionId={user.discussion[0].id}
       title={user.discussion[0].title}
       photo={user.photo}
       content={user.discussion[0].content}
       username={user.username}
       date={user.discussion[0].date}
+      likes={user.discussion[0].discussionLike.length}
     ></DiscussionFullView>
   ));
+
   return (
     <>
       <div className="flex flex-col">
@@ -72,22 +92,24 @@ export default function ShareDiscussion() {
         menuName="Sort By"
         optionOne="Most Recent"
         optionTwo="Most Popular"
+        handleOptionOneClick={sortByMostRecent}
+        handleOptionTwoClick={sortByMostPopular}
       ></DropDownMenuTwo>
 
       <br></br>
       <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">
         {/* Only links to one demo discussion page */}
-        
+
         {discussionComponents}
       </div>
       <div className="flex flex-col">
         <button
           onClick={() => navigate("/discussion-form")}
-          className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3"
+          className="fixed bottom-4 left-0 mb-8 w-full text-l font-bold bg-gray-500 text-white py-3"
         >
           Post
         </button>
-      <MainNav linkToMe={me} />
+        <MainNav linkToMe={me} />
       </div>
     </>
   );
