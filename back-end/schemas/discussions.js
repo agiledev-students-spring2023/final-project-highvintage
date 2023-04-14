@@ -9,4 +9,4 @@ const DiscussionSchema = new Schema({
   // date
 });
 
-export const DiscussionModel = model("Discussion", DiscussionSchema);
+export const Discussion = model("Discussion", DiscussionSchema);

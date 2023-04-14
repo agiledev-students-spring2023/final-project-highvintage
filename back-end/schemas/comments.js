@@ -7,4 +7,4 @@ const CommentSchema = new Schema({
   body: { type: String, required: true },
 });
 
-export const CommentModel = model("Comment", CommentSchema);
+export const Comment = model("Comment", CommentSchema);
