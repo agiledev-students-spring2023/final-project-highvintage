@@ -42,6 +42,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const mongoClient = new MongoClient(process.env.DB_URI);
+const db = mongoClient.db("app");
+
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
 const persistUser = function (req, res, next) {
