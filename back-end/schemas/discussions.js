@@ -1,12 +1,16 @@
-import { model, Schema } from "mongoose";
+const { ObjectId } = require("mongodb");
+const mongoose = require("mongoose");
 
 const DiscussionSchema = new Schema({
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true }, // reference to author
+  author: { type: ObjectId, ref: "User", required: true }, // reference to author
+  title: { type: String, required: true },
   content: { type: String, required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
-  likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  comments: [{ type: ObjectId, ref: "Comment" }],
+  likes: [{ type: ObjectId, ref: "User" }],
   posted: { type: Date, required: true },
   // date
 });
 
-export const Discussion = model("Discussion", DiscussionSchema);
+const Discussion = model("Discussion", DiscussionSchema);
+
+module.exports = Discussion;

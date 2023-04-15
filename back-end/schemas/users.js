@@ -1,15 +1,18 @@
-import { model, Schema } from "mongoose";
+const { ObjectId } = require("mongodb");
+const mongoose = require("mongoose");
 
-const UserSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   // profile photo
   bio: { type: String, required: true },
   favThrift: { type: String, required: true },
   style: { type: String, required: true },
-  posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
-  discussion: [{ type: Schema.Types.ObjectId, ref: "Discussion" }],
-  followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  posts: [{ type: ObjectId, ref: "Post" }],
+  discussions: [{ type: ObjectId, ref: "Discussion" }],
+  followers: [{ type: ObjectId, ref: "User" }],
+  following: [{ type: ObjectId, ref: "User" }],
 });
 
-export const User = model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;

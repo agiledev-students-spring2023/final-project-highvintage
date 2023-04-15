@@ -1,10 +1,12 @@
-import { ObjectId } from "mongodb";
-import { model, Schema } from "mongoose";
+const { ObjectId } = require("mongodb");
+const mongoose = require("mongoose");
 
-const CommentSchema = new Schema({
+const CommentSchema = new mongoose.Schema({
   type: { type: String, required: true }, // either POST or DISCUSSION
-  author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  author: { type: ObjectId, ref: "User", required: true },
   body: { type: String, required: true },
 });
 
-export const Comment = model("Comment", CommentSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
+
+module.exports = Comment;
