@@ -44,10 +44,19 @@ app.use(express.urlencoded({ extended: true }));
 const mongoClient = new MongoClient(process.env.DB_URI);
 const db = mongoClient.db("app");
 
+const oneUser = [];
+const set = async function (oneUser) {
+  const user = await db.collection("Users").findOne({ username: "krunker" });
+  oneUser.push(user);
+};
+
+set(oneUser);
+
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
 const persistUser = function (req, res, next) {
-  req.user = mockUsers[0];
+  //req.user = mockUsers[0];
+  const user = oneUser[0];
   next();
 };
 
