@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
   author: { type: ObjectId, ref: "User", required: true }, // reference to author
+  style: { type: String, required: true },
   caption: { type: String, required: true },
   // photos
   comments: [{ type: ObjectId, ref: "Comment" }],
