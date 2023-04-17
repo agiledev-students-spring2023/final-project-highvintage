@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const Discussion = require("../schemas/discussions.js");
 const upload = multer();
-
+const db = require("../db.js");
 const router = express.Router();
 
 router.post("/create", upload.none(), async (req, res, next) => {
@@ -27,7 +27,7 @@ router.post("/create", upload.none(), async (req, res, next) => {
     await newDiscussion.save();
 
     console.log("newDiscussion", newDiscussion);
-    user.discussion.push(newDiscussion);
+    user.discussions.push(newDiscussion);
     await user.save();
     // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
