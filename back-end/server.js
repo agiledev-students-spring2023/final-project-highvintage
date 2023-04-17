@@ -32,26 +32,23 @@ for (const user of mockUsers) {
 }
 
 const app = express();
-let collection;
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const oneUser = [];
-const set = async function (oneUser) {
+const set = async function () {
   const user = await db.collection("Users").findOne({ username: "krunker" });
-  oneUser.push(user);
+  return user;
 };
-
-set(oneUser);
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
-const persistUser = function (req, res, next) {
+const persistUser = async function (req, res, next) {
   req.user = mockUsers[0];
-  //const user = oneUser[0];
+  //req.user = await set();
+  console.log(req.user);
   next();
 };
 

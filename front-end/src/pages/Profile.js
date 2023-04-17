@@ -28,11 +28,12 @@ const Profile = () => {
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
+      console.log(response.data);
       setMe(response.data.user.username);
     }
 
     fetchMe();
-});
+  });
 
   async function followUser(username) {
     axios

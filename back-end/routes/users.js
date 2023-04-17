@@ -1,5 +1,5 @@
-const express = require('express');
-const dummyUsers = require('../mock-db/mock.js');
+const express = require("express");
+const dummyUsers = require("../mock-db/mock.js");
 
 const router = express.Router();
 // api/users/
@@ -80,6 +80,8 @@ router.get("/search", function (req, res) {
 router.get("/me", function (req, res) {
   // input is cleaned in front end, before call is made
 
+  console.log("here");
+
   if (!req.user) {
     res.sendStatus(500);
   }
@@ -107,7 +109,11 @@ router.put("/:username/follow", function (req, res) {
     toFollow.followers.push(currentUser.id);
   }
 
-  return res.json({ status: 200, message: "User followed successfully", user: toFollow });
+  return res.json({
+    status: 200,
+    message: "User followed successfully",
+    user: toFollow,
+  });
 });
 
 // api/users/:username/unfollow
@@ -132,11 +138,15 @@ router.put("/:username/unfollow", function (req, res) {
     );
   }
 
-  return res.json({ status: 200, message: "User unfollowed successfully", user: toUnfollow });
+  return res.json({
+    status: 200,
+    message: "User unfollowed successfully",
+    user: toUnfollow,
+  });
 });
 
 // get user's followers
-router.get("/:username/followers", function(req, res) {
+router.get("/:username/followers", function (req, res) {
   const foundUser = dummyUsers.find(
     (user) => user.username === req.params.username.toLowerCase()
   );
@@ -162,7 +172,7 @@ router.get("/:username/followers", function(req, res) {
 });
 
 // get user's following
-router.get("/:username/following", function(req, res) {
+router.get("/:username/following", function (req, res) {
   const foundUser = dummyUsers.find(
     (user) => user.username === req.params.username.toLowerCase()
   );
@@ -186,6 +196,5 @@ router.get("/:username/following", function(req, res) {
     }),
   });
 });
-
 
 module.exports = router;
