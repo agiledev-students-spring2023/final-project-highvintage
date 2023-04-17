@@ -13,6 +13,6 @@ const UserSchema = new mongoose.Schema({
   following: [{ type: ObjectId, ref: "User" }],
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema, "Users");
 
 module.exports = User;

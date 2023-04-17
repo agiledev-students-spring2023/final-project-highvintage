@@ -1,38 +1,34 @@
-const express = require('express');
-const dummyUsers = require('../mock-db/mock.js');
-const dummyDiscussions = require('../mock-db/mock_discussions.js');
-const { v4: uuidv4 } = require('uuid');
-const multer = require('multer');
-
+const express = require("express");
+const dummyUsers = require("../mock-db/mock.js");
+const dummyDiscussions = require("../mock-db/mock_discussions.js");
+const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const Discussion = require("../schemas/discussions.js");
 const upload = multer();
-
+const db = require("../db.js");
 const router = express.Router();
 
-const createDiscussion = (title, content, date, comments) => {
-  const id = uuidv4(); // generate a unique id using uuid
-  const newDiscussion = {
-    id,
-    title,
-    content,
-    date,
-    comments,
-  };
-  return newDiscussion;
-};
-
-router.post("/create", upload.none(), (req, res, next) => {
+router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
-
+  console.log("user:", user);
   const { date, title, content } = req.body;
   const comments = JSON.parse(req.body.comments);
-  console.log("req.body", req.body);
   try {
-    const newDiscussion = createDiscussion(title, content, date, comments);
-    newDiscussion.author = user.id;
-    const likes = [];
-    newDiscussion.discussionLike = likes;
-    user.discussion.push(newDiscussion);
-    dummyDiscussions.push(newDiscussion);
+    // Create a new discussion instance
+    const newDiscussion = new Discussion({
+      author: user._id,
+      title: title,
+      content: content,
+      comments: comments,
+      likes: [],
+      posted: date,
+    });
+    //save the new discussion to the database
+    await newDiscussion.save();
+
+    console.log("newDiscussion", newDiscussion);
+    user.discussions.push(newDiscussion);
+    await user.save();
     // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {

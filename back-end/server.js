@@ -9,6 +9,7 @@ const CommentsRoute = require("./routes/comments.js");
 const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
 const db = require("./db.js");
+const User = require("./schemas/users.js");
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
@@ -41,16 +42,25 @@ app.use(express.urlencoded({ extended: true }));
 
 const oneUser = [];
 const set = async function (oneUser) {
-  const user = await db.collection("Users").findOne({ username: "krunker" });
-  oneUser.push(user);
+  try {
+    const user = await User.findOne({ username: "krunker" });
+    if (user) {
+      oneUser.push(user);
+      console.log("user found:", user);
+    } else {
+      console.error('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+  }
 };
-
 set(oneUser);
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
 const persistUser = function (req, res, next) {
-  req.user = mockUsers[0];
+  // req.user = mockUsers[0];
+  req.user = oneUser[0];
   //const user = oneUser[0];
   next();
 };
