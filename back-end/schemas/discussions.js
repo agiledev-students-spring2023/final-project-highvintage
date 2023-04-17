@@ -1,7 +1,8 @@
 const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
+// const { Schema, model } = mongoose;
 
-const DiscussionSchema = new Schema({
+const DiscussionSchema = new mongoose.Schema({
   author: { type: ObjectId, ref: "User", required: true }, // reference to author
   title: { type: String, required: true },
   content: { type: String, required: true },
@@ -11,6 +12,6 @@ const DiscussionSchema = new Schema({
   // date
 });
 
-const Discussion = model("Discussion", DiscussionSchema);
+const Discussion = mongoose.model("Discussion", DiscussionSchema);
 
 module.exports = Discussion;
