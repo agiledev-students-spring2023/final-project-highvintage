@@ -14,7 +14,7 @@ export default function Form() {
 
         try{
 
-            await axios.post("http://localhost:5000/Register", {
+            await axios.post("http://localhost:5000/register", {
                 email,password
             })
             .then(res=>{
@@ -66,7 +66,7 @@ export default function Form() {
                 <div onClick={submit} className='mt-8 flex flex-col gap-y-4'>
                     
                     
-                    <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'><a href="home">Register</a></button>
+                    <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'><a href="/">Register</a></button>
                     
                     
                 </div>

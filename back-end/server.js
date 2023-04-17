@@ -68,7 +68,7 @@ app.post("/", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const check = await collection.findOne({ email: email });
+    const check = await db.collection("Auth").findOne({ email: email });
 
     if (check) {
       res.json("exist");
@@ -89,13 +89,13 @@ app.post("/register", async (req, res) => {
   };
 
   try {
-    const check = await collection.findOne({ email: email });
+    const check = await db.collection("Auth").findOne({ email: email });
 
     if (check) {
       res.json("exist");
     } else {
       res.json("notexist");
-      await collection.insertMany([data]);
+      await db.collection("Auth").insertMany([data]);
     }
   } catch (e) {
     res.json("notexist");
