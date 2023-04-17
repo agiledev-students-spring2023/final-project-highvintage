@@ -8,9 +8,7 @@ const DiscussionsRoute = require("./routes/discussions.js");
 const CommentsRoute = require("./routes/comments.js");
 const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
-const { MongoClient } = require("mongodb");
-require("dotenv").config();
-
+const db = require("./db.js");
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
@@ -41,9 +39,6 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const mongoClient = new MongoClient(process.env.DB_URI);
-const db = mongoClient.db("app");
-
 const oneUser = [];
 const set = async function (oneUser) {
   const user = await db.collection("Users").findOne({ username: "krunker" });
@@ -68,7 +63,7 @@ app.post("/", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const check = await collection.findOne({ email: email });
+    const check = await db.collection("Auth").findOne({ email: email });
 
     if (check) {
       res.json("exist");
@@ -89,13 +84,13 @@ app.post("/register", async (req, res) => {
   };
 
   try {
-    const check = await collection.findOne({ email: email });
+    const check = await db.collection("Auth").findOne({ email: email });
 
     if (check) {
       res.json("exist");
     } else {
       res.json("notexist");
-      await collection.insertMany([data]);
+      await db.collection("Auth").insertMany([data]);
     }
   } catch (e) {
     res.json("notexist");
