@@ -13,13 +13,13 @@ export default function DiscussionView() {
   const params = useParams();
   const [isFetched, setIsFetched] = useState(false);
   const [discussion, setDiscussion] = useState({
-    id: 0,
+    id: "",
     comments: [],
     date: "",
     title: "",
     content: "",
     discussionLike: [],
-    author: 0,
+    author: "",
   });
   //get discussion
 
@@ -85,8 +85,8 @@ export default function DiscussionView() {
           <DiscussionInteraction
             authorUsername={discussion.authorUsername}
             discussionID={discussion.found.id}
-            likes={discussion.found.discussionLike.length}
-            likeArray={discussion.found.discussionLike}
+            likes={discussion.found.likes.length}
+            likeArray={discussion.found.likes}
             comments={discussion.found.comments}
           />
           <div className="justify-self-end ml-20 "></div>

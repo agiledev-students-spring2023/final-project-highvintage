@@ -6,18 +6,20 @@ import DiscussionFullView from "../components/Discussions/DiscussionFullView";
 import DropDownMenuTwo from "../components/Discussions/DropDownSort";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
+
+// const { ObjectId } = require("mongodb");
 export default function ShareDiscussion() {
   const navigate = useNavigate();
   const [sortedDiscussions, setSortedDiscussions] = useState([]);
   const [users, setUsers] = useState([]);
   const [me, setMe] = useState("");
-
+  const [discussions, setDiscussions] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDiscussion = async () => {
       try {
-        const response = await axios.get(requestURL + "dummyUsers");
+        const response = await axios.get(requestURL + "allDiscussions");
         // console.log(response.data);
-        setUsers(response.data);
+        setDiscussions(response.data);
         setSortedDiscussions(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -29,38 +31,37 @@ export default function ShareDiscussion() {
       setMe(response.data.user.username);
     }
 
-    fetchData();
+    fetchDiscussion();
     fetchMe();
   }, []);
 
   const sortByMostRecent = () => {
-    const sorted = [...users].sort((a, b) =>
-      a.discussion[0].date < b.discussion[0].date ? 1 : -1
+    const sorted = [...discussions].sort((a, b) =>
+      a.date < b.date ? 1 : -1
     );
     setSortedDiscussions(sorted);
   };
 
   const sortByMostPopular = () => {
-    const sorted = [...users].sort((a, b) =>
-      a.discussion[0].discussionLike.length <
-      b.discussion[0].discussionLike.length
+    const sorted = [...discussions].sort((a, b) =>
+      a.likes.length <
+      b.likes.length
         ? 1
         : -1
     );
     setSortedDiscussions(sorted);
   };
 
-  const discussionComponents = sortedDiscussions.map((user) => (
+  const discussionComponents = sortedDiscussions.map((discussion) => (
     <DiscussionFullView
-      key={user.id}
-      id={user.id}
-      discussionId={user.discussion[0].id}
-      title={user.discussion[0].title}
-      photo={user.photo}
-      content={user.discussion[0].content}
-      username={user.username}
-      date={user.discussion[0].date}
-      likes={user.discussion[0].discussionLike.length}
+      key={discussion._id}
+      discussionId={discussion._id}
+      title={discussion.title}
+      // photo={user.photo}
+      content={discussion.content}
+      userID={discussion.author}
+      date={discussion.date}
+      likes={discussion.likes.length}
     ></DiscussionFullView>
   ));
 
