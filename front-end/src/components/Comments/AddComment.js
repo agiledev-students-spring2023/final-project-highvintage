@@ -9,8 +9,6 @@ export default function AddComment(props) {
   const [empty, setEmpty] = useState(true);
   const navigate = useNavigate();
 
-  console.log(props);
-
   function handleInput(value) {
     if (value.length <= 0) {
       setEmpty(true);
