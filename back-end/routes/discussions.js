@@ -4,9 +4,11 @@ const dummyDiscussions = require("../mock-db/mock_discussions.js");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const Discussion = require("../schemas/discussions.js");
+const User = require("../schemas/users.js");
 const upload = multer();
 const db = require("../db.js");
 const router = express.Router();
+const { ObjectId } = require("mongodb");
 
 router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
@@ -60,34 +62,18 @@ router.post("/:id/like", (req, res) => {
 });
 
 // api/users/
-router.get("/view/:id", function (req, res) {
-  function parseDiscussionID(id) {
-    // Check if the id is an integer (using regex to check for integer string)
-    if (/^-?\d+$/.test(id)) {
-      return parseInt(id, 10); // Parse the integer string to an integer
-    }
-
-    // If it's not an integer, return it as a string
-    return id;
-  }
-
-  const discussionID = parseDiscussionID(req.params.id);
-  const found = dummyDiscussions.find((discussion) => {
-    //type coericon due to using uuid and normal integer ids.
-    return discussion.id == discussionID;
-  });
-  console.log(found);
+router.get("/view/:id", async (req, res) => {
+  const discussionID = req.params.id;
+  const found = await Discussion.findOne({ _id: new ObjectId(discussionID) });
   if (found) {
     // get author object
-    const author = dummyUsers.find((user) => {
-      return user.id === found.author;
-    });
+    const author = await User.findOne({ _id: found.author });
     // 200 OK
     return res.json({
       found,
       authorUsername: author.username,
-      authorID: author.id,
-      authorPhoto: author.photo,
+      authorID: author._id,
+      // authorPhoto: author.photo,
     });
   } else {
     // 404 Not Found

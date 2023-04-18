@@ -10,6 +10,7 @@ const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
 const db = require("./db.js");
 const User = require("./schemas/users.js");
+const Discussion = require("./schemas/discussions.js");
 // adding post author to all mock users
 for (const user of mockUsers) {
   user.savedPosts = [];
@@ -46,7 +47,7 @@ const set = async function (oneUser) {
     const user = await User.findOne({ username: "krunker" });
     if (user) {
       oneUser.push(user);
-      console.log("user found:", user);
+      // console.log("user found:", user);
     } else {
       console.error('User not found');
     }
@@ -107,10 +108,19 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.get("/api/allUsers", async(req, res) => {
+  const allUsers= await User.find({});
+  res.json(allUsers);
+});
+
+app.get("/api/allDiscussions", async(req, res) => {
+  const allDiscussions= await Discussion.find({});
+  res.json(allDiscussions);
+});
+
 app.get("/api/dummyUsers", (req, res) => {
   res.json(mockUsers);
 });
-
 app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);

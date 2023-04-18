@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaRegCommentDots, FaRegBookmark } from "react-icons/fa";
+import axios from "axios";
 import moment from "moment";
+import { requestURL } from "../../requestURL.js";
 export default function DiscussionFullView(props) {
+
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const response = await axios.get(requestURL + `users/${props.userID}`);
+        setUsername(response.data.username);
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+
+    fetchUsername();
+  }, [props.userID]);
   let likes = props.likes;
   const handleLike = () => {
     console.log("handle like");
@@ -22,14 +39,14 @@ export default function DiscussionFullView(props) {
           {props.title}
         </h2>
         <div className="flex items-center">
-          <img
+          {/* <img
             src={props.photo}
             alt="User Avatar"
             className="w-8 h-8 rounded-full mr-2"
-          />
+          /> */}
           {/* need link to the profile when click on */}
           <span className="overflow-hidden truncate text-gray-600">
-            {props.username}
+            {username}
           </span>
         </div>
       </div>

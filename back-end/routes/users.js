@@ -1,5 +1,6 @@
 const express = require('express');
 const dummyUsers = require('../mock-db/mock.js');
+const User = require("../schemas/users.js");
 
 const router = express.Router();
 // api/users/
@@ -187,5 +188,13 @@ router.get("/:username/following", function(req, res) {
   });
 });
 
-
+//retrieve username
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.json({ username: user.username });
+  } catch (err) {
+    res.status(404).json({ error: 'User not found' });
+  }
+});
 module.exports = router;

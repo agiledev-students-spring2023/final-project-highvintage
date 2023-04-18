@@ -17,11 +17,10 @@ export default function DiscussionForm() {
   const onSubmit = async (values, { resetForm }) => {
     try {
       //date object not storing the same format as in mockdb
-      var newdate = new Date();
+      // values.date = new Date();
       const formData = new FormData();
-      var dateFormat = newdate.getFullYear() + "-" + (newdate.getMonth()+1) + "-" + newdate.getDate();
       
-      values.date = new Date(dateFormat);
+      values.date = new Date();
       formData.append("content", values.content);
       formData.append("title", values.title);
       formData.append("date", values.date);
