@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { ObjectId } = require("mongodb");
-const Discussion = require('../schemas/discussions');
-const Comment = require('../schemas/comments');
-const Post = require('../schemas/posts');
+const Discussion = require("../schemas/discussions");
+const Comment = require("../schemas/comments");
+const Post = require("../schemas/posts");
 
 router.get("/view/:postID", async function (req, res) {
   if (!req.params.postID) {
@@ -82,26 +82,20 @@ router.post("/add", async function (req, res) {
       author: req.user.id,
       body: comment.body,
     });
-    
+
     // save the comment to Comment collection
     const savedComment = await newComment.save();
 
     // update post's comment array
     if (type == "discussion") {
-      await Discussion.findByIdAndUpdate(
-        postID,
-        { $push: { comments: savedComment._id } },
-      );
-    } 
-    
-    else if (type == "post") {
-      await Post.findByIdAndUpdate(
-        postID,
-        { $push: { comments: savedComment._id } },
-      );
-    }
-
-    else {
+      await Discussion.findByIdAndUpdate(postID, {
+        $push: { comments: savedComment._id },
+      });
+    } else if (type == "post") {
+      await Post.findByIdAndUpdate(postID, {
+        $push: { comments: savedComment._id },
+      });
+    } else {
       console.log("type error");
     }
 
@@ -111,6 +105,5 @@ router.post("/add", async function (req, res) {
     return res.sendStatus(500);
   }
 });
-
 
 module.exports = router;
