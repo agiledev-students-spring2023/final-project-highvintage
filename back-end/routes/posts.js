@@ -64,7 +64,9 @@ router.post(
 
       try { 
         await user.save();
-        console.log('* User with updated post info', user);
+        // Populate posts field in User
+        const populatedUser = await User.findById(user._id).populate("posts");
+        console.log('* Populated User', populatedUser);
       } catch (err) {
         console.log('* Issue saving user', err);
       }
