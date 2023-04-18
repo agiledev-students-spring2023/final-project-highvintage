@@ -49,26 +49,27 @@ router.post(
           caption: content,
           location: location
         }
-      ).save()
+      ).save();
 
       if (newPost) {
-        console.log('newPost', newPost);
+        console.log('* newPost', newPost);
+        console.log('* date format', newPost.posted);
       } else (
-        console.log('Failed to create post')
+        console.log('* Failed to create post')
       )
 
-      // update user's posts
-      user.posts.push(newPost);
-      await user.save();
-      // newPost
-      //   ?
-      //   console.log('newPost', newPost) &&
-      //   await newPost.save({ timeout: 20000 })
-      //     .then((p) => console.log('Post saved!', p))
-      //     .catch((err) => console.log('Post not saved', err))
-      //   : console.log("No post created")
+      // Populate the author field in the newPost object
+      const populatedPost = await Post.populate(newPost, { path: "author", model: "User" });
+      user.posts.push(populatedPost);
 
-      res.status(201).json({ newPost, message: "Successfully posted!" });
+      try { 
+        await user.save();
+        console.log('* User with updated post info', user);
+      } catch (err) {
+        console.log('* Issue saving user', err);
+      }
+
+      res.status(201).json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
       console.log('Error:', err);
       next(err);
