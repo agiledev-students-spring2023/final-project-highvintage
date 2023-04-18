@@ -75,26 +75,42 @@ router.get("/view/:postID", async function (req, res) {
 });
 
 router.post("/add", async function (req, res) {
-  if (req.body.type === "PHOTO") {
-    const findPost = dummyPosts.find((post) => {
-      return post.postId === +req.body.postID;
+  try {
+    const { type, postID, comment } = req.body;
+    const newComment = new Comment({
+      type: type,
+      author: req.user.id,
+      body: comment.body,
     });
-    findPost.comments.push(req.body.comment);
+    
+    // save the comment to Comment collection
+    const savedComment = await newComment.save();
 
-    res.sendStatus(200);
-  }
-
-  if (req.body.type === "DISCUSSION") {
-    const findPost = await Discussion.findOne({ _id: new ObjectId(id) });
-
-    if (!findPost) {
-      return res.status(404).send("Post not found");
+    // update post's comment array
+    if (type == "discussion") {
+      await Discussion.findByIdAndUpdate(
+        postID,
+        { $push: { comments: savedComment._id } },
+      );
+    } 
+    
+    else if (type == "post") {
+      await Post.findByIdAndUpdate(
+        postID,
+        { $push: { comments: savedComment._id } },
+      );
     }
 
-    findPost.comments.push(req.body.comment);
+    else {
+      console.log("type error");
+    }
 
     res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
   }
 });
+
 
 module.exports = router;
