@@ -36,9 +36,18 @@ router.post(
     console.log('req.user', user)
     const author = user.username;
     console.log('author', author) // krunker
-    const files = req.files;
+    const files = req.files.my_files; // array of photo(s)
+    console.log('files', files);
     const { location, content, style } = req.body;
     // console.log("req.body", req.body);
+
+    // save array of photo paths in Post Schema
+    const photoPaths = [];
+    files.forEach((f) => {
+      // console.log('* f.path',f.path)
+      photoPaths.push(f.path)
+    })
+    console.log('* photoPaths', photoPaths);
 
     try {
       // create new Post and save
@@ -47,6 +56,7 @@ router.post(
           author: user._id,
           style: style,
           caption: content,
+          photos: photoPaths,
           location: location
         }
       ).save();
@@ -62,7 +72,7 @@ router.post(
       const populatedPost = await Post.populate(newPost, { path: "author", model: "User" });
       user.posts.push(populatedPost);
 
-      try { 
+      try {
         await user.save();
         // Populate posts field in User
         const populatedUser = await User.findById(user._id).populate("posts");
@@ -88,6 +98,7 @@ router.use((err, req, res, next) => {
 // api/posts/
 router.post("/:postID/like", (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
+  const user = req.user;
   // console.log('userId', userID)
   // console.log("postId", postID);
   // Todo: Update the like status of the post in the database
@@ -105,6 +116,7 @@ router.post("/:postID/like", (req, res) => {
   res.json({ numLikes });
 });
 
+
 // api/posts/
 router.put("/save", function (req, res) {
   const user = req.user;
@@ -119,6 +131,7 @@ router.put("/save", function (req, res) {
 // api/posts/
 router.get("/view/:id", async (req, res) => {
   const postID = +req.params.id;
+  console.log('postID', postID)
   // const found = await Post.findOne({ _id: new ObjectId(postID) });
   const found = dummyPosts.find((post) => {
     return post.postId === postID;
