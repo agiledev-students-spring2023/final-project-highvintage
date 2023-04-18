@@ -119,17 +119,17 @@ router.put("/save", function (req, res) {
 // api/posts/
 router.get("/view/:id", async (req, res) => {
   const postID = +req.params.id;
-  const found = await Post.findOne({ _id: new ObjectId(postID) });
-  // const found = dummyPosts.find((post) => {
-  //   return post.postId === postID;
-  // });
+  // const found = await Post.findOne({ _id: new ObjectId(postID) });
+  const found = dummyPosts.find((post) => {
+    return post.postId === postID;
+  });
 
   if (found) {
     // get author object
-    // const author = dummyUsers.find((user) => {
-    //   return user.id === found.author;
-    // });
-    const author = await User.findOne({ _id: found.author });
+    const author = dummyUsers.find((user) => {
+      return user.id === found.author;
+    });
+    // const author = await User.findOne({ _id: found.author });
     // 200 OK
     const post = found;
     post.authorPhoto = author.photo;
