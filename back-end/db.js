@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const mongoClient = new MongoClient(process.env.DB_URI);
+const mongoClient = new MongoClient(process.env.DB_APP_URI);
 const db = mongoClient.db("app");
 //connection
 const connectDB = async () => {
