@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { dummyComments } from "../../dummy/comments";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";

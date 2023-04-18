@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
-import { dummyComments } from "../dummy/comments";
 import Comment from "../components/Comments/Comment";
 import AddComment from "../components/Comments/AddComment";
 import axios from "axios";
