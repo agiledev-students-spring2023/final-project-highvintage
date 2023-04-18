@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { dummyComments } from "../../dummy/comments";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +7,6 @@ export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
   const navigate = useNavigate();
-
-  console.log(props);
 
   function handleInput(value) {
     if (value.length <= 0) {

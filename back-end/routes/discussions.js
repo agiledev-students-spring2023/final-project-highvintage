@@ -1,38 +1,36 @@
-const express = require('express');
-const dummyUsers = require('../mock-db/mock.js');
-const dummyDiscussions = require('../mock-db/mock_discussions.js');
-const { v4: uuidv4 } = require('uuid');
-const multer = require('multer');
-
+const express = require("express");
+const dummyUsers = require("../mock-db/mock.js");
+const dummyDiscussions = require("../mock-db/mock_discussions.js");
+const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const Discussion = require("../schemas/discussions.js");
+const User = require("../schemas/users.js");
 const upload = multer();
-
+const db = require("../db.js");
 const router = express.Router();
+const { ObjectId } = require("mongodb");
 
-const createDiscussion = (title, content, date, comments) => {
-  const id = uuidv4(); // generate a unique id using uuid
-  const newDiscussion = {
-    id,
-    title,
-    content,
-    date,
-    comments,
-  };
-  return newDiscussion;
-};
-
-router.post("/create", upload.none(), (req, res, next) => {
+router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
-
+  console.log("user:", user);
   const { date, title, content } = req.body;
   const comments = JSON.parse(req.body.comments);
-  console.log("req.body", req.body);
   try {
-    const newDiscussion = createDiscussion(title, content, date, comments);
-    newDiscussion.author = user.id;
-    const likes = [];
-    newDiscussion.discussionLike = likes;
-    user.discussion.push(newDiscussion);
-    dummyDiscussions.push(newDiscussion);
+    // Create a new discussion instance
+    const newDiscussion = new Discussion({
+      author: user._id,
+      title: title,
+      content: content,
+      comments: comments,
+      likes: [],
+      posted: date,
+    });
+    //save the new discussion to the database
+    await newDiscussion.save();
+
+    console.log("newDiscussion", newDiscussion);
+    user.discussions.push(newDiscussion);
+    await user.save();
     // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
@@ -64,34 +62,18 @@ router.post("/:id/like", (req, res) => {
 });
 
 // api/users/
-router.get("/view/:id", function (req, res) {
-  function parseDiscussionID(id) {
-    // Check if the id is an integer (using regex to check for integer string)
-    if (/^-?\d+$/.test(id)) {
-      return parseInt(id, 10); // Parse the integer string to an integer
-    }
-
-    // If it's not an integer, return it as a string
-    return id;
-  }
-
-  const discussionID = parseDiscussionID(req.params.id);
-  const found = dummyDiscussions.find((discussion) => {
-    //type coericon due to using uuid and normal integer ids.
-    return discussion.id == discussionID;
-  });
-  console.log(found);
+router.get("/view/:id", async (req, res) => {
+  const discussionID = req.params.id;
+  const found = await Discussion.findOne({ _id: new ObjectId(discussionID) });
   if (found) {
     // get author object
-    const author = dummyUsers.find((user) => {
-      return user.id === found.author;
-    });
+    const author = await User.findOne({ _id: found.author });
     // 200 OK
     return res.json({
       found,
       authorUsername: author.username,
-      authorID: author.id,
-      authorPhoto: author.photo,
+      authorID: author._id,
+      // authorPhoto: author.photo,
     });
   } else {
     // 404 Not Found

@@ -1,5 +1,4 @@
 import React from "react";
-import { dummyComments } from "../../dummy/comments";
 
 export default function Comment(props) {
   // keep from accessing many props all the time
