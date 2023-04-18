@@ -43,10 +43,7 @@ router.post(
 
     // save array of photo paths in Post Schema
     const photoPaths = [];
-    files.forEach((f) => {
-      // console.log('* f.path',f.path)
-      photoPaths.push(f.path)
-    })
+    files.forEach((f) => {photoPaths.push(f.path)})
     console.log('* photoPaths', photoPaths);
 
     try {
@@ -116,6 +113,20 @@ router.post("/:postID/like", (req, res) => {
   res.json({ numLikes });
 });
 
+// api/posts/
+router.get("/collection", async (req, res) => {
+  try {
+    await User.find()
+      .then(
+        (fetchedUsers) => {
+          console.log(fetchedUsers);
+          res.json({ fetchedUsers });
+        })
+      .catch((err) => console.log('* Cannot fetch all users', err));
+  } catch (err) {
+    console.log(err);
+  }
+})
 
 // api/posts/
 router.put("/save", function (req, res) {
