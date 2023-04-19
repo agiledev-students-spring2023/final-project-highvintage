@@ -76,11 +76,9 @@ router.post(
         const populatedUser = await User.findById(user._id).populate("posts");
         console.log('* Populated User', populatedUser);
 
-        
         // await Post.deleteMany({});
         // // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
-      
       } catch (err) {
         console.log('* Issue saving user', err);
       }
