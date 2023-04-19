@@ -1,7 +1,7 @@
-const express = require('express');
-const dummyUsers = require('../mock-db/mock.js');
+const express = require("express");
+const dummyUsers = require("../mock-db/mock.js");
 const User = require("../schemas/users.js");
-
+const db = require("../db.js");
 const router = express.Router();
 // api/users/
 router.get("/profile", function (req, res) {
@@ -108,7 +108,11 @@ router.put("/:username/follow", function (req, res) {
     toFollow.followers.push(currentUser.id);
   }
 
-  return res.json({ status: 200, message: "User followed successfully", user: toFollow });
+  return res.json({
+    status: 200,
+    message: "User followed successfully",
+    user: toFollow,
+  });
 });
 
 // api/users/:username/unfollow
@@ -133,37 +137,37 @@ router.put("/:username/unfollow", function (req, res) {
     );
   }
 
-  return res.json({ status: 200, message: "User unfollowed successfully", user: toUnfollow });
+  return res.json({
+    status: 200,
+    message: "User unfollowed successfully",
+    user: toUnfollow,
+  });
 });
 
 // get user's followers
-router.get("/:username/followers", function(req, res) {
-  const foundUser = dummyUsers.find(
-    (user) => user.username === req.params.username.toLowerCase()
-  );
+router.get("/:username/followers", async function (req, res) {
+  const username = req.params.username.toLowerCase();
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const user = await User.findOne({ username }).populate({ path: "followers" });
+
+  if (!user) {
+    return res.sendStatus(500);
   }
 
-  const followers = foundUser.followers.map((followerId) => {
-    return dummyUsers.find((user) => user.id === followerId);
+  const response = user.followers.map((follower) => {
+    return {
+      username: follower.username,
+      photo: follower.photo
+        ? follower.photo
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+    };
   });
 
-  // returning what's needed for profile preview component
-  return res.json({
-    status: 200,
-    followers: followers.map((follower) => {
-      return {
-        username: follower.username,
-        photo: follower.photo,
-      };
-    }),
-  });
+  res.json({ followers: response });
 });
 
 // get user's following
-router.get("/:username/following", function(req, res) {
+router.get("/:username/following", function (req, res) {
   const foundUser = dummyUsers.find(
     (user) => user.username === req.params.username.toLowerCase()
   );
@@ -189,12 +193,12 @@ router.get("/:username/following", function(req, res) {
 });
 
 //retrieve username
-router.get('/:id', async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json({ username: user.username });
   } catch (err) {
-    res.status(404).json({ error: 'User not found' });
+    res.status(404).json({ error: "User not found" });
   }
 });
 module.exports = router;

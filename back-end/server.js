@@ -34,7 +34,6 @@ for (const user of mockUsers) {
 }
 
 const app = express();
-let collection;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -44,15 +43,15 @@ app.use(express.urlencoded({ extended: true }));
 const oneUser = [];
 const set = async function (oneUser) {
   try {
-    const user = await User.findOne({ username: "krunker" });
+    const user = await db.collection("Users").findOne({ username: "krunker" });
     if (user) {
       oneUser.push(user);
       // console.log("user found:", user);
     } else {
-      console.error('User not found');
+      console.error("User not found");
     }
   } catch (error) {
-    console.error('Error fetching user:', error);
+    console.error("Error fetching user:", error);
   }
 };
 set(oneUser);
@@ -107,13 +106,13 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.get("/api/allUsers", async(req, res) => {
-  const allUsers= await User.find({});
+app.get("/api/allUsers", async (req, res) => {
+  const allUsers = await User.find({});
   res.json(allUsers);
 });
 
-app.get("/api/allDiscussions", async(req, res) => {
-  const allDiscussions= await Discussion.find({});
+app.get("/api/allDiscussions", async (req, res) => {
+  const allDiscussions = await Discussion.find({});
   res.json(allDiscussions);
 });
 
