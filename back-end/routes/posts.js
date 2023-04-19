@@ -7,8 +7,6 @@ const dummyPosts = require('../mock-db/mock_posts.js');
 const Post = require('../schemas/posts.js');
 const User = require('../schemas/users.js');
 const db = require('../db.js');
-const PostCollection = db.collection("Posts");
-const UserCollection = db.collection("Users");
 
 const router = express.Router();
 router.use("/static", express.static("public"));
@@ -43,7 +41,10 @@ router.post(
 
     // save array of photo paths in Post Schema
     const photoPaths = [];
-    files.forEach((f) => {photoPaths.push(f.path)})
+    files.forEach((f) => {
+      let newPath = `${f.path}` // CHECK
+      photoPaths.push(newPath)
+    })
     console.log('* photoPaths', photoPaths);
 
     try {
@@ -74,6 +75,12 @@ router.post(
         // Populate posts field in User
         const populatedUser = await User.findById(user._id).populate("posts");
         console.log('* Populated User', populatedUser);
+
+        
+        // await Post.deleteMany({});
+        // // remove post ids from user.posts array
+        // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
+      
       } catch (err) {
         console.log('* Issue saving user', err);
       }
@@ -115,12 +122,22 @@ router.post("/:postID/like", (req, res) => {
 
 // api/posts/
 router.get("/collection", async (req, res) => {
+  const user = req.user;
   try {
     await User.find()
       .then(
-        (fetchedUsers) => {
-          console.log(fetchedUsers);
-          res.json({ fetchedUsers });
+        async (fetchedUsers) => {
+          console.log('* fetchedUsers', fetchedUsers);
+          const populatedUsers = await User.findById(user._id).populate("posts");
+          console.log('* populatedUsers', populatedUsers)
+          let allPosts = [];
+          [populatedUsers].forEach((user) => {
+            user.posts.forEach((p) => {
+              allPosts.push(p);
+            })
+          })
+          console.log('* allPosts', allPosts);
+          res.json({ populatedUsers, allPosts });
         })
       .catch((err) => console.log('* Cannot fetch all users', err));
   } catch (err) {
