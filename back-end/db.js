@@ -1,12 +1,12 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const mongoose = require("mongoose");
-const mongoClient = new MongoClient(process.env.DB_APP_URI);
+const mongoClient = new MongoClient(process.env.DB_URI);
 const db = mongoClient.db("app");
 //connection
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.DB_APP_URI, {
+    await mongoose.connect(process.env.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

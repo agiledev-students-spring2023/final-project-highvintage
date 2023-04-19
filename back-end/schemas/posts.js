@@ -3,11 +3,21 @@ const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema({
   author: { type: ObjectId, ref: "User", required: true }, // reference to author
+  style: { type: String, required: true },
   caption: { type: String, required: true },
-  // photos
+  photos: [{ type: String }], // array of file paths
   comments: [{ type: ObjectId, ref: "Comment" }],
   likes: [{ type: ObjectId, ref: "User" }],
-  posted: { type: Date, required: true },
+  posted: {
+    type: Date,
+    default: Date.now,
+    get: function (value) {
+      return value ? value.toISOString().slice(0, 10) : null; // return the date portion of the ISO string
+    },
+    set: function (value) {
+      return new Date(value); // convert the string value to a Date object
+    }, required: true
+  },
   location: { type: String, required: true },
 });
 

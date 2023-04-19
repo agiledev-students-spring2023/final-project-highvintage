@@ -4,6 +4,9 @@ const multer = require('multer');
 const path = require('path');
 const dummyUsers = require('../mock-db/mock.js');
 const dummyPosts = require('../mock-db/mock_posts.js');
+const Post = require('../schemas/posts.js');
+const User = require('../schemas/users.js');
+const db = require('../db.js');
 
 const router = express.Router();
 router.use("/static", express.static("public"));
@@ -22,47 +25,67 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// saving in an array for mock-up purpose, later needs to be replaced using MongoDB
-let posts = [];
-const createPost = (author, postLoc, postText, style, postMedia) => {
-  const postId = uuidv4(); // generate a unique id using uuid
-  const newPost = {
-    postId,
-    author,
-    postLoc,
-    postText,
-    style,
-    postMedia,
-    // date
-  };
-  posts.push(newPost);
-  return newPost;
-};
-
 // api/posts/ (outfit posts)
 router.post(
   "/create",
   upload.fields([{ name: "my_files", maxCount: 5 }]),
-  (req, res, next) => {
-    const user = req.user; // needs to be revisited
+  async (req, res, next) => {
+    const user = req.user; // temporarily 'krunker' obj
+    console.log('req.user', user)
     const author = user.username;
-    const files = req.files;
+    console.log('author', author) // krunker
+    const files = req.files.my_files; // array of photo(s)
+    console.log('files', files);
     const { location, content, style } = req.body;
     // console.log("req.body", req.body);
+
+    // save array of photo paths in Post Schema
+    const photoPaths = [];
+    files.forEach((f) => {
+      let newPath = `${f.path}` // CHECK
+      photoPaths.push(newPath)
+    })
+    console.log('* photoPaths', photoPaths);
+
     try {
-      const newPost = createPost(
-        author,
-        location,
-        content,
-        style,
-        files,
-        // date
-      );
-      user.posts.push(newPost);
-      // console.log("user", user);
-      // console.log('newPost.author',newPost.author)
-      res.status(201).json({ newPost, message: "Successfully posted!" });
+      // create new Post and save
+      const newPost = await new Post(
+        {
+          author: user._id,
+          style: style,
+          caption: content,
+          photos: photoPaths,
+          location: location
+        }
+      ).save();
+
+      if (newPost) {
+        console.log('* newPost', newPost);
+        console.log('* date format', newPost.posted);
+      } else (
+        console.log('* Failed to create post')
+      )
+
+      // Populate the author field in the newPost object
+      const populatedPost = await Post.populate(newPost, { path: "author", model: "User" });
+      user.posts.push(populatedPost);
+
+      try {
+        await user.save();
+        // Populate posts field in User
+        const populatedUser = await User.findById(user._id).populate("posts");
+        console.log('* Populated User', populatedUser);
+
+        // await Post.deleteMany({});
+        // // remove post ids from user.posts array
+        // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
+      } catch (err) {
+        console.log('* Issue saving user', err);
+      }
+
+      res.status(201).json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
+      console.log('Error:', err);
       next(err);
     }
   }
@@ -77,6 +100,7 @@ router.use((err, req, res, next) => {
 // api/posts/
 router.post("/:postID/like", (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
+  const user = req.user;
   // console.log('userId', userID)
   // console.log("postId", postID);
   // Todo: Update the like status of the post in the database
@@ -95,6 +119,31 @@ router.post("/:postID/like", (req, res) => {
 });
 
 // api/posts/
+router.get("/collection", async (req, res) => {
+  const user = req.user;
+  try {
+    await User.find()
+      .then(
+        async (fetchedUsers) => {
+          console.log('* fetchedUsers', fetchedUsers);
+          const populatedUsers = await User.findById(user._id).populate("posts");
+          console.log('* populatedUsers', populatedUsers)
+          let allPosts = [];
+          [populatedUsers].forEach((user) => {
+            user.posts.forEach((p) => {
+              allPosts.push(p);
+            })
+          })
+          console.log('* allPosts', allPosts);
+          res.json({ populatedUsers, allPosts });
+        })
+      .catch((err) => console.log('* Cannot fetch all users', err));
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+// api/posts/
 router.put("/save", function (req, res) {
   const user = req.user;
   const postID = req.body.postID;
@@ -106,9 +155,10 @@ router.put("/save", function (req, res) {
 });
 
 // api/posts/
-router.get("/view/:id", function (req, res) {
+router.get("/view/:id", async (req, res) => {
   const postID = +req.params.id;
-
+  console.log('postID', postID)
+  // const found = await Post.findOne({ _id: new ObjectId(postID) });
   const found = dummyPosts.find((post) => {
     return post.postId === postID;
   });
@@ -118,6 +168,7 @@ router.get("/view/:id", function (req, res) {
     const author = dummyUsers.find((user) => {
       return user.id === found.author;
     });
+    // const author = await User.findOne({ _id: found.author });
     // 200 OK
     const post = found;
     post.authorPhoto = author.photo;
@@ -125,7 +176,7 @@ router.get("/view/:id", function (req, res) {
     post.postLoc = post.postLoc ? post.postLoc : " ";
 
     return res.json({
-      post,
+      post
     });
   } else {
     // 404 Not Found

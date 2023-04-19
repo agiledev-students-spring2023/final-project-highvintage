@@ -61,7 +61,6 @@ set(oneUser);
 const persistUser = function (req, res, next) {
   // req.user = mockUsers[0];
   req.user = oneUser[0];
-  //const user = oneUser[0];
   next();
 };
 
