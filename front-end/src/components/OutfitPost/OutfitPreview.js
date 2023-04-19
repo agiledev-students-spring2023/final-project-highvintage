@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+// import myImg from '../../../../back-end/public/uploads/my_files-1681848421971.png';
 
 export default function OutfitPreview(props) {
-  console.log(props);
+  console.log('props',props);
   // individual preview within the grid - appears in OutfitCollection page
   return (
     <div className="w-full h-full">
