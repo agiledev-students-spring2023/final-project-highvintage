@@ -12,12 +12,13 @@ import { requestURL } from "../requestURL";
 
 export default function OutfitCollection() {
   const navigate = useNavigate();
-  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [users, setUsers] = useState(dummyUsers);
+  const [filteredPosts, setFilteredPosts] = useState(users);
   const [me, setMe] = useState("");
   const [style, setStyle] = useState("");
 
   const [allPosts, setAllPosts] = useState([]);
-
+/*
   const filterByStyle = useCallback((style) => {
     console.log("Style", style);
     console.log('allPosts', allPosts)
@@ -37,7 +38,7 @@ export default function OutfitCollection() {
       setFilteredPosts(newPosts);
     }
   }, [allPosts]);
-
+/*
   useEffect(() => {
     async function fetchCollection() {
       const response = await axios
@@ -65,7 +66,7 @@ export default function OutfitCollection() {
   }, [allPosts, style, filterByStyle]);
  
   console.log('filteredPosts', filteredPosts);
-
+/*
   const OutfitPreviews = filteredPosts.map((post) => (
     post.photos.length > 0 &&
     <OutfitPreview
@@ -74,7 +75,27 @@ export default function OutfitCollection() {
       photo={post.photos[0]} // first photo as preview
     />
   ));
+  */
+  
+  // dummy user
+  const filterByStyle = (style) => {
+    console.log(style)
+    let newPosts
 
+    style == 'All'
+      ? newPosts = users
+      : newPosts = users.filter((user) => user.posts[0].postStyle == style)
+    setFilteredPosts(newPosts)
+  };
+
+  const OutfitPreviews = filteredPosts.map((user) => (
+    <OutfitPreview
+      key={user.id}
+      id={user.id}
+      photo={user.posts[0].postMedia[0]} // first photo as preview
+    /> 
+  ));
+  
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
