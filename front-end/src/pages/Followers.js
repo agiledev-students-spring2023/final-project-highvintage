@@ -23,7 +23,7 @@ export default function Followers() {
     }
 
     fetchFollowers();
-  });
+  }, []);
 
   const followerComponents = followers.map((follower) => (
     <ProfilePreview username={follower.username} photo={follower.photo} />
