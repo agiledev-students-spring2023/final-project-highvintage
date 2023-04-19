@@ -1,92 +1,108 @@
-const express = require('express');
-const dummyUsers = require('../mock-db/mock.js');
-const dummyPosts = require('../mock-db/mock_posts.js');
-const dummyDiscussions = require('../mock-db/mock_discussions.js');
-
+const express = require("express");
 const router = express.Router();
+const { ObjectId } = require("mongodb");
+const Discussion = require("../schemas/discussions");
+const Comment = require("../schemas/comments");
+const Post = require("../schemas/posts");
 
-// api/comments
-router.get("/view/:postID", function (req, res) {
+router.get("/view/:postID", async function (req, res) {
   if (!req.params.postID) {
     res.send(500);
   }
 
-  const id = +req.params.postID;
+  const id = req.params.postID;
 
   if (req.query.discussionPost) {
-    const post = dummyDiscussions.find((post) => {
-      return post.id === id;
-    });
+    try {
+      const post = await Discussion.findOne({ _id: new ObjectId(id) });
 
-    const comments = post.comments;
+      if (!post) {
+        return res.status(404).send("Post not found");
+      }
 
-    const commentsToAppend = [];
+      const comments = await Comment.find({ _id: { $in: post.comments } })
+        .populate("author", "id photo username")
+        .lean();
 
-    comments.forEach((comment) => {
-      const author = dummyUsers.find((user) => user.id === comment.author);
-      const body = comment.body;
-      commentsToAppend.push({
-        id: author.id,
-        photo: author.photo,
-        user: author.username,
-        body,
+      const commentsToAppend = comments.map((comment) => ({
+        id: comment.author.id,
+        photo: comment.author.photo,
+        user: comment.author.username,
+        body: comment.body,
+      }));
+
+      res.send({
+        userPhoto: req.user.photo,
+        username: req.user.username,
+        id: req.user.id,
+        comments: commentsToAppend,
       });
-    });
-
-    res.send({
-      userPhoto: req.user.photo,
-      username: req.user.username,
-      id: req.user.id,
-      comments: commentsToAppend,
-    });
+    } catch (err) {
+      console.error(err);
+      return res.status(500);
+    }
   }
   if (req.query.photoPost) {
-    const post = dummyPosts.find((post) => {
-      return post.postId === id;
-    });
+    try {
+      const post = await Post.findOne({ _id: new ObjectId(id) });
 
-    const comments = post.comments;
+      if (!post) {
+        return res.status(404).send("Post not found");
+      }
 
-    const commentsToAppend = [];
+      const comments = await Comment.find({ _id: { $in: post.comments } })
+        .populate("author", "id photo username")
+        .lean();
 
-    comments.forEach((comment) => {
-      const author = dummyUsers.find((user) => user.id === comment.author);
-      const body = comment.body;
-      commentsToAppend.push({
-        id: author.id,
-        photo: author.photo,
-        user: author.username,
-        body,
+      const commentsToAppend = comments.map((comment) => ({
+        id: comment.author.id,
+        photo: comment.author.photo,
+        user: comment.author.username,
+        body: comment.body,
+      }));
+
+      res.send({
+        userPhoto: req.user.photo,
+        username: req.user.username,
+        id: req.user.id,
+        comments: commentsToAppend,
       });
-    });
-
-    res.send({
-      userPhoto: req.user.photo,
-      username: req.user.username,
-      id: req.user.id,
-      comments: commentsToAppend,
-    });
+    } catch (err) {
+      console.error(err);
+      return res.status(500);
+    }
   }
 });
 
-router.post("/add", function (req, res) {
-  if (req.body.type === "photo") {
-    const findPost = dummyPosts.find((post) => {
-      return post.postId === +req.body.postID;
-    });
-    findPost.comments.push(req.body.comment);
-
-    res.sendStatus(200);
-  }
-
-  if (req.body.type === "discussion") {
-    const findPost = dummyDiscussions.find((post) => {
-      return post.id === +req.body.postID;
+router.post("/add", async function (req, res) {
+  try {
+    const { type, postID, comment } = req.body;
+    const newComment = new Comment({
+      type: type,
+      author: req.user.id,
+      body: comment.body,
     });
 
-    findPost.comments.push(req.body.comment);
+    // save the comment to Comment collection
+    const savedComment = await newComment.save();
+
+    // update post's comment array
+    if (type == "discussion") {
+      await Discussion.findByIdAndUpdate(postID, {
+        $push: { comments: savedComment._id },
+      });
+    } else if (type == "post") {
+      await Post.findByIdAndUpdate(postID, {
+        $push: { comments: savedComment._id },
+      });
+    } else {
+      console.log("type error");
+    }
 
     res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(500);
   }
 });
 

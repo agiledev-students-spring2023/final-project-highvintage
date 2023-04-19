@@ -84,7 +84,7 @@ export default function DiscussionView() {
         <div className="flex flex-row ml-1 mb-1">
           <DiscussionInteraction
             authorUsername={discussion.authorUsername}
-            discussionID={discussion.found.id}
+            discussionID={discussion.found._id}
             likes={discussion.found.likes.length}
             likeArray={discussion.found.likes}
             comments={discussion.found.comments}
