@@ -12,17 +12,17 @@ import { requestURL } from "../requestURL";
 
 export default function OutfitCollection() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState(dummyUsers);
-  const [filteredPosts, setFilteredPosts] = useState(users);
+  // const [users, setUsers] = useState(dummyUsers);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [me, setMe] = useState("");
   const [style, setStyle] = useState("");
 
   const [allPosts, setAllPosts] = useState([]);
-/*
+
   const filterByStyle = useCallback((style) => {
     console.log("Style", style);
     console.log('allPosts', allPosts)
-    // iterate thru every user, get all posts and push
+
     let newPosts = [];
     if (allPosts.length > 0) {
       if (style === "All" || style === "") {
@@ -38,7 +38,7 @@ export default function OutfitCollection() {
       setFilteredPosts(newPosts);
     }
   }, [allPosts]);
-/*
+
   useEffect(() => {
     async function fetchCollection() {
       const response = await axios
@@ -49,6 +49,8 @@ export default function OutfitCollection() {
             console.log("Error :", err);
           }
         });
+      
+      console.log('response', response);
 
       if (response) {
         console.log("* Fetched Posts", response.data.allPosts);
@@ -64,9 +66,9 @@ export default function OutfitCollection() {
       filterByStyle(style);
     }
   }, [allPosts, style, filterByStyle]);
- 
+
   console.log('filteredPosts', filteredPosts);
-/*
+
   const OutfitPreviews = filteredPosts.map((post) => (
     post.photos.length > 0 &&
     <OutfitPreview
@@ -75,8 +77,8 @@ export default function OutfitCollection() {
       photo={post.photos[0]} // first photo as preview
     />
   ));
-  */
-  
+
+  /*
   // dummy user
   const filterByStyle = (style) => {
     console.log(style)
@@ -95,7 +97,7 @@ export default function OutfitCollection() {
       photo={user.posts[0].postMedia[0]} // first photo as preview
     /> 
   ));
-  
+  */
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
