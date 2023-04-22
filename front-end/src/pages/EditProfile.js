@@ -32,11 +32,11 @@ export default function EditProfile() {
       }
     }
 
-    if (update["favoriteThrift"]) {
-      if (update["favoriteThrift"].length <= 2) {
+    if (update["favThrift"]) {
+      if (update["favThrift"].length <= 2) {
         setErr(true);
       } else {
-        changes["favoriteThrift"] = update["favoriteThrift"];
+        changes["favThrift"] = update["favThrift"];
         setErr(false);
       }
     }
@@ -110,9 +110,9 @@ export default function EditProfile() {
                   type="text"
                   id="favThrift"
                   className="w-full border rounded py-2 px-3 text-gray-700 leading-tight"
-                  placeholder={loggedIn.favoriteThrift}
+                  placeholder={loggedIn.favThrift}
                   onChange={(e) =>
-                    setUpdate({ ...update, favoriteThrift: e.target.value })
+                    setUpdate({ ...update, favThrift: e.target.value })
                   }
                 />
               </div>
@@ -170,7 +170,7 @@ export default function EditProfile() {
                   type="submit"
                   className={
                     !update.username &&
-                    !update.favoriteThrift &&
+                    !update.favThrift &&
                     !update.style &&
                     !update.bio
                       ? "bg-gray-400 text-white font-bold py-2 px-4 rounded"
@@ -178,7 +178,7 @@ export default function EditProfile() {
                   }
                   disabled={
                     !update.username &&
-                    !update.favoriteThrift &&
+                    !update.favThrift &&
                     !update.style &&
                     !update.bio
                   }
