@@ -188,6 +188,18 @@ export default function EditProfile() {
       ) : (
         <p>Loading...</p> // added this just in case the loggedIn state isn't rendered yet to avoid
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="colored"
+      />
     </>
   );
 }
