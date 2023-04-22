@@ -12,31 +12,23 @@ export default function OutfitView() {
   const [isFetched, setIsFetched] = useState(false);
 
   // this matches the response with all of the same properties!
-  const [post, setPost] = useState({
-    postId: 0,
-    date: "",
-    postLoc: "",
-    postMedia: [],
-    postLike: [],
-    postText: "",
-    comments: [],
-    author: 0,
-    authorPhoto: "",
-    authorUsername: "",
-  });
+  const [post, setPost] = useState({});
   useEffect(() => {
     async function fetchPost(query) {
-      const response = await axios.get(requestURL + "posts/view/" + query);
-      setPost(response.data.post);
-      setIsFetched(true);
-      return response.data;
+      try {
+        const response = await axios.get(requestURL + "posts/view/?id=" + query);
+        setPost(response.data.post);
+        setIsFetched(true);
+        return response.data;
+      } catch (error) {
+        console.log('Cannot fetch', error);
+      }
     }
-
     // still needs err handling
+    console.log('params.id', params.id);
     fetchPost(params.id);
-
-    return () => {};
-  }, []);
+    return () => { };
+  }, [params.id]);
 
   return (
     <div>
