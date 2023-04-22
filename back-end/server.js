@@ -38,7 +38,7 @@ for (const user of mockUsers) {
 }
 
 const app = express();
-const path = require("path")
+const path = require("path");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -47,33 +47,31 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 //app.use(express.urlencoded({ extended: true }));
 
-const publicPath = path.join(__dirname,"../front-end/src/pages")
+const publicPath = path.join(__dirname, "../front-end/src/pages");
 
 //app.set('view engine', 'hbs')
 //app.set('views', templatePath)
 
-app.use(express.static(publicPath))
+app.use(express.static(publicPath));
 
-async function hashPass(password){
-
-    const res=await bcryptjs.hash(password,10)
-    return res
-
+async function hashPass(password) {
+  const res = await bcryptjs.hash(password, 10);
+  return res;
 }
 
-async function compare(userPass, hashPass){
-
-  const res=await bcryptjs.compare(userPass, hashPass)
-  return res
-
+async function compare(userPass, hashPass) {
+  const res = await bcryptjs.compare(userPass, hashPass);
+  return res;
 }
-
 
 const oneUser = [];
 const set = async function (oneUser) {
   try {
     const user = await User.findOne({ username: "krunker" });
+    const user2 = await User.findOne({ username: "picklejuice" });
+
     console.log(user);
+
     if (user) {
       oneUser.push(user);
       // console.log("user found:", user);
@@ -97,16 +95,16 @@ const persistUser = function (req, res, next) {
 app.use(persistUser);
 
 app.get("/", (req, res) => {
-
-  if(req.cookies.jwt){
-    const verify = jwt.verify(req.cookies.jwt, "qwertyuiopasdfghjklzxcvbnmqwertyu")
-    res.render("home", {name:verify.email})
-  }
-  else{
-    res.render("/")
+  if (req.cookies.jwt) {
+    const verify = jwt.verify(
+      req.cookies.jwt,
+      "qwertyuiopasdfghjklzxcvbnmqwertyu"
+    );
+    res.render("home", { name: verify.email });
+  } else {
+    res.render("/");
   }
   // res.render("/signin")
-
 });
 
 // app.post("/", async (req, res) => {
@@ -126,18 +124,17 @@ app.get("/", (req, res) => {
 // });
 
 app.post("/", async (req, res) => {
-
   try {
-    const check = await db.collection("Auth").findOne({ email: req.body.email });
-    const passCheck = await compare(req.body.password, check.password)
-
+    const check = await db
+      .collection("Auth")
+      .findOne({ email: req.body.email });
+    const passCheck = await compare(req.body.password, check.password);
 
     if (check && passCheck) {
-
-      res.cookie("jwt", check.token,{
-        maxAge:600000,
-        httpOnly:true
-      })
+      res.cookie("jwt", check.token, {
+        maxAge: 600000,
+        httpOnly: true,
+      });
 
       res.json("exist");
     } else {
@@ -149,29 +146,29 @@ app.post("/", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, password} = req.body;
+  const { email, password } = req.body;
 
   try {
     const check = await db.collection("Auth").findOne({ email: email });
 
     if (check) {
       res.json("exist");
-    } 
-    
-    else {
+    } else {
+      const token = jwt.sign(
+        { email: email },
+        "qwertyuiopasdfghjklzxcvbnmqwertyu"
+      );
 
-      const token = jwt.sign({email:email},"qwertyuiopasdfghjklzxcvbnmqwertyu")
-
-      res.cookie("jwt", token,{
-        maxAge:600000,
-        httpOnly:true
-      })
+      res.cookie("jwt", token, {
+        maxAge: 600000,
+        httpOnly: true,
+      });
 
       const data = {
         email: email,
         password: await hashPass(password),
-        token: token
-      }
+        token: token,
+      };
 
       res.json("notexist");
       await db.collection("Auth").insertMany([data]);

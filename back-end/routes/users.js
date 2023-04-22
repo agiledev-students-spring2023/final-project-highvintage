@@ -167,29 +167,25 @@ router.get("/:username/followers", async function (req, res) {
 });
 
 // get user's following
-router.get("/:username/following", function (req, res) {
-  const foundUser = dummyUsers.find(
-    (user) => user.username === req.params.username.toLowerCase()
-  );
+router.get("/:username/following", async function (req, res) {
+  const username = req.params.username.toLowerCase();
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const user = await User.findOne({ username }).populate({ path: "following" });
+
+  if (!user) {
+    return res.sendStatus(500);
   }
 
-  const following = foundUser.following.map((followingId) => {
-    return dummyUsers.find((user) => user.id === followingId);
+  const response = user.following.map((following) => {
+    return {
+      username: following.username,
+      photo: following.photo
+        ? following.photo
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+    };
   });
 
-  // returning what's needed for profile preview component
-  return res.json({
-    status: 200,
-    following: following.map((following) => {
-      return {
-        username: following.username,
-        photo: following.photo,
-      };
-    }),
-  });
+  return res.json({ following: response });
 });
 
 //retrieve username
