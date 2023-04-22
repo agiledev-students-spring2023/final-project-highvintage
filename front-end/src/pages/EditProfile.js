@@ -74,9 +74,9 @@ export default function EditProfile() {
             <img
               className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
               // src={loggedIn.photo}
-              alt="Profile"
+              //alt="profile-picture"
             />
-            <a className="text-blue-500 font-semibold mb-4 cursor-pointer">
+            <a className="text-blue-500 font-semibold mb-4">
               Change profile photo
             </a>
             <form className="w-full px-4">
@@ -131,13 +131,21 @@ export default function EditProfile() {
                     setUpdate({ ...update, style: e.target.value })
                   }
                 >
-                  <option> {loggedIn.style} </option>
-                  <option> Sporty and Athlesuire </option>
-                  <option> Streetwear </option>
-                  <option> Classic </option>
-                  <option> Funk </option>
-                  <option> Minimal </option>
-                  <option> Other </option>
+                  <option value={loggedIn.style}>{loggedIn.style}</option>
+                  {[
+                    "Sporty and Athlesuire",
+                    "Streetwear",
+                    "Classic",
+                    "Funk",
+                    "Minimal",
+                    "Other",
+                  ]
+                    .filter((option) => option !== loggedIn.style)  // makes sure the selected style isn't shown twice in the list
+                    .map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                 </select>
               </div>
               <div className="mb-4">
