@@ -37,18 +37,16 @@ router.get("/profile", function (req, res) {
   }
 });
 
-router.put("/edit-profile", function (req, res) {
+router.put("/edit-profile", async function (req, res) {
   const toChange = req.body.changes;
 
   if (toChange["username"]) {
     // does a user already have an existing username?
-    const usernameExists = dummyUsers.find(
-      (user) => user.username === toChange.username
-    );
+    const usernameExists = await User.findOne({ username: toChange.username });
 
     if (usernameExists) {
       // 409 conflict
-      res.status(409).send({ error: "Username already exists." });
+      return res.status(409).send({ error: "Username already exists." });
     }
   }
 
