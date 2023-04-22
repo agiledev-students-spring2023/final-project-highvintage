@@ -50,16 +50,17 @@ router.put("/edit-profile", async function (req, res) {
     }
   }
 
-  // update req.user
-  for (const prop in toChange) {
-    req.user[prop] = toChange[prop];
+  // update user in the database
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, toChange, {
+      new: true,
+    });
+
+    res.json({ message: "Sucessfully updated profile", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
   }
-
-  // update user in mockDB
-  const updateIdx = dummyUsers.findIndex((user) => user.id === req.user.id);
-  dummyUsers[updateIdx] = req.user;
-
-  res.json({ message: "Profile update was a success!" });
 });
 
 router.get("/search", function (req, res) {
