@@ -5,38 +5,22 @@ const db = require("../db.js");
 const Post = require("../schemas/posts.js");
 const router = express.Router();
 // api/users/
-router.get("/profile", function (req, res) {
+router.get("/profile/:username", async function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
-  console.log(req.query);
-
-  if (!req.query) {
+  if (!req.params) {
     return res.sendStatus(500);
   }
 
-  const foundUser = dummyUsers.find(
-    (user) => user.username == req.query.username
-  );
+  const username = req.params.username;
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const findUser = await User.findOne({ username });
+
+  if (findUser) {
+    return res.send({ user: findUser });
   } else {
-    return res.json({
-      status: 200,
-      user: {
-        isSelf: req.user.username == req.query.username,
-        profilePicture: foundUser.photo,
-        style: "Streetwear",
-        favoriteThrift: "L Train Vintage",
-        bio: "I love clothes!",
-        username: foundUser.username,
-        posts: foundUser.posts,
-        discussion: foundUser.discussion,
-        followers: foundUser.followers,
-        following: foundUser.following,
-      },
-    });
+    return res.sendStatus(404);
   }
 });
 

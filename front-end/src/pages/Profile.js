@@ -36,19 +36,18 @@ const Profile = () => {
       }
 
       async function fetchAnother(cleanUsername) {
-        const response = await axios.get(requestURL + "users/profile", {
-          username: cleanUsername,
-        });
-
+        const response = await axios.get(
+          requestURL + "users/profile/" + cleanUsername
+        );
         return response.data;
       }
       const cleanUsername = username.username.toLowerCase();
-      const myProfile = await fetchMe(cleanUsername);
+      const myProfile = await fetchMe();
+      setMe(myProfile.username);
+
       const isDoneFetching = myProfile.username === cleanUsername;
 
       if (isDoneFetching) {
-        console.log(myProfile);
-
         // cleaning response to fit state
         const userState = {
           username: myProfile.username,
@@ -66,7 +65,23 @@ const Profile = () => {
         };
         setHeader(userState);
       } else {
-        fetchAnother(cleanUsername);
+        const other = await fetchAnother(cleanUsername);
+        const otherProfile = other.user;
+        const userState = {
+          username: otherProfile.username,
+          profilePicture: otherProfile.photo
+            ? otherProfile.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+          style: otherProfile.style,
+          favoriteThrift: otherProfile.favThrift,
+          bio: otherProfile.bio,
+          followers: otherProfile.followers,
+          following: otherProfile.following,
+          discussion: otherProfile.discussions,
+          posts: otherProfile.posts,
+          isLoggedIn: false,
+        };
+        setHeader(userState);
       }
     }
 
