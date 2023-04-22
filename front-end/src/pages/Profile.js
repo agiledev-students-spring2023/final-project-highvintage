@@ -86,7 +86,7 @@ const Profile = () => {
     }
 
     fetchPage();
-  }, []);
+  }, [username]);
 
   return (
     <div className="mb-16">
