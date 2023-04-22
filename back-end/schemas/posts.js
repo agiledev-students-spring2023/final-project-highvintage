@@ -5,7 +5,11 @@ const PostSchema = new mongoose.Schema({
   author: { type: ObjectId, ref: "User", required: true }, // reference to author
   style: { type: String, required: true },
   caption: { type: String, required: true },
-  photos: [{ type: String }], // array of file paths
+  // photos: [{ type: String }], // array of file paths
+  photos: [{ 
+    data: Buffer, 
+    contentType: String 
+ }],
   comments: [{ type: ObjectId, ref: "Comment" }],
   likes: [{ type: ObjectId, ref: "User" }],
   posted: {
