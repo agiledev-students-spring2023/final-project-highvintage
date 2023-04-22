@@ -43,7 +43,8 @@ app.use(express.urlencoded({ extended: true }));
 const oneUser = [];
 const set = async function (oneUser) {
   try {
-    const user = await db.collection("Users").findOne({ username: "krunker" });
+    const user = await User.findOne({ username: "krunker" });
+    console.log(user);
     if (user) {
       oneUser.push(user);
       // console.log("user found:", user);
