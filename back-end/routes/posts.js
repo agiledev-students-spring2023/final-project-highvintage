@@ -9,6 +9,7 @@ const Post = require('../schemas/posts.js');
 const User = require('../schemas/users.js');
 const db = require('../db.js');
 
+
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
@@ -32,6 +33,7 @@ router.post(
   "/create",
   upload.fields([{ name: "my_files", maxCount: 5 }]),
   async (req, res, next) => {
+
     const user = req.user;
     console.log('user', user)
     const author = user.username;
@@ -70,25 +72,35 @@ router.post(
         console.log('* Failed to create post')
       )
 
+
       // Populate the author field in the newPost object
-      const populatedPost = await Post.populate(newPost, { path: "author", model: "User" });
+      const populatedPost = await Post.populate(newPost, {
+        path: "author",
+        model: "User",
+      });
       user.posts.push(populatedPost);
 
       try {
         await user.save();
         // Populate posts field in User
         const populatedUser = await User.findById(user._id).populate("posts");
+
         console.log('* Populated User', populatedUser);
+
         // await Post.deleteMany({});
         // // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
       } catch (err) {
-        console.log('* Issue saving user', err);
+        console.log("* Issue saving user", err);
       }
 
-      res.status(201).json({ newPost: populatedPost, message: "Successfully posted!" });
+      res
+        .status(201)
+        .json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
+
       console.log('Server Error:', err);
+
       next(err);
     }
   }
@@ -126,25 +138,24 @@ router.get("/collection", async (req, res) => {
   const user = req.user;
   try {
     await User.find()
-      .then(
-        async (fetchedUsers) => {
-          console.log('* fetchedUsers', fetchedUsers);
-          const populatedUsers = await User.findById(user._id).populate("posts");
-          console.log('* populatedUsers', populatedUsers)
-          let allPosts = [];
-          [populatedUsers].forEach((user) => {
-            user.posts.forEach((p) => {
-              allPosts.push(p);
-            })
-          })
-          console.log('* allPosts', allPosts);
-          res.json({ populatedUsers, allPosts });
-        })
-      .catch((err) => console.log('* Cannot fetch all users', err));
+      .then(async (fetchedUsers) => {
+        console.log("* fetchedUsers", fetchedUsers);
+        const populatedUsers = await User.findById(user._id).populate("posts");
+        console.log("* populatedUsers", populatedUsers);
+        let allPosts = [];
+        [populatedUsers].forEach((user) => {
+          user.posts.forEach((p) => {
+            allPosts.push(p);
+          });
+        });
+        console.log("* allPosts", allPosts);
+        res.json({ populatedUsers, allPosts });
+      })
+      .catch((err) => console.log("* Cannot fetch all users", err));
   } catch (err) {
     console.log(err);
   }
-})
+});
 
 // api/posts/
 router.put("/save", function (req, res) {
@@ -158,6 +169,7 @@ router.put("/save", function (req, res) {
 });
 
 // api/posts/
+
 router.get("/view", async (req, res) => {
   console.log("FINDING USER", req.user)
 
@@ -179,6 +191,7 @@ router.get("/view", async (req, res) => {
     post.postLoc = post.location ? post.location : " ";
     post.date
     return res.json({ post });
+
   } else {
     // 404 Not Found
     return res.sendStatus(404);

@@ -68,9 +68,11 @@ const oneUser = [];
 const set = async function (oneUser) {
   try {
     const user = await User.findOne({ username: "krunker" });
+
     const user2 = await User.findOne({ username: "picklejuice" });
 
     console.log(user);
+
 
     if (user) {
       oneUser.push(user);

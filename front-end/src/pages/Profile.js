@@ -11,7 +11,7 @@ const Profile = () => {
   const username = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
   const [me, setMe] = useState("");
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [isMyProfile, setIsMyProfile] = useState(false);
 
   const [header, setHeader] = useState({
     username: "",
@@ -23,96 +23,70 @@ const Profile = () => {
     following: [],
     discussion: [],
     posts: [],
+    isLoggedIn: false,
   });
 
+  // fetchMe
+
   useEffect(() => {
-    async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
-      setMe(response.data.user.username);
-    }
-
-    fetchMe();
-});
-
-  async function followUser(username) {
-    axios
-      .put(requestURL + "users/" + username + "/follow")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  async function unfollowUser(username) {
-    axios
-      .put(requestURL + "users/" + username + "/unfollow")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  const handleFollow = async () => {
-    try {
-      let updatedHeader = { ...header };
-      if (isFollowing) {
-        await unfollowUser(header.username);
-        updatedHeader.followers = updatedHeader.followers.filter(
-          (id) => id !== loggedInUser.id
-        );
-      } else {
-        await followUser(header.username);
-        updatedHeader.followers = [...updatedHeader.followers, loggedInUser.id];
+    async function fetchPage() {
+      async function fetchMe() {
+        const response = await axios.get(requestURL + "users/me");
+        return response.data.user;
       }
-      console.log(updatedHeader);
-      setIsFollowing(!isFollowing);
-      setHeader(updatedHeader);
-    } catch (error) {
-      console.error("Error trying to follow/unfollow:", error.message);
+
+      async function fetchAnother(cleanUsername) {
+        const response = await axios.get(
+          requestURL + "users/profile/" + cleanUsername
+        );
+        return response.data;
+      }
+      const cleanUsername = username.username.toLowerCase();
+      const myProfile = await fetchMe();
+      setMe(myProfile.username);
+
+      const isDoneFetching = myProfile.username === cleanUsername;
+
+      if (isDoneFetching) {
+        // cleaning response to fit state
+        const userState = {
+          username: myProfile.username,
+          profilePicture: myProfile.photo
+            ? myProfile.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+          style: myProfile.style,
+          favoriteThrift: myProfile.favThrift,
+          bio: myProfile.bio,
+          followers: myProfile.followers,
+          following: myProfile.following,
+          discussion: myProfile.discussions,
+          posts: myProfile.posts,
+          isLoggedIn: true,
+        };
+        setHeader(userState);
+      } else {
+        const other = await fetchAnother(cleanUsername);
+        const otherProfile = other.user;
+        const userState = {
+          username: otherProfile.username,
+          profilePicture: otherProfile.photo
+            ? otherProfile.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+          style: otherProfile.style,
+          favoriteThrift: otherProfile.favThrift,
+          bio: otherProfile.bio,
+          followers: otherProfile.followers,
+          following: otherProfile.following,
+          discussion: otherProfile.discussions,
+          posts: otherProfile.posts,
+          isLoggedIn: false,
+        };
+        setHeader(userState);
+      }
     }
-  };
 
-  async function fetchLoggedInUser() {
-    const response = await axios.get(requestURL + "users/me");
-    return response.data.user;
-  }
-
-  async function fetchProfile(query) {
-    const response = await axios.get(
-      requestURL + "users/profile?username=" + query
-    );
-    const fetchedProfile = response.data.user;
-
-    if (loggedInUser && loggedInUser.username === fetchedProfile.username) {
-      fetchedProfile.isLoggedIn = true;
-    } else {
-      fetchedProfile.isLoggedIn = false;
-    }
-
-    setHeader(fetchedProfile);
-  }
-
-  useEffect(() => {
-    async function fetchAndSetLoggedInUser() {
-      const user = await fetchLoggedInUser();
-      setLoggedInUser(user);
-    }
-    fetchAndSetLoggedInUser();
-  }, []);
-
-  useEffect(() => {
-    setIsFollowing(header.followers.includes(loggedInUser?.id));
-  }, [header, loggedInUser]);
-
-  useEffect(() => {
-    if (loggedInUser) {
-      fetchProfile(username.username.toLowerCase());
-    }
-  }, [loggedInUser, username]);
+    fetchPage();
+  }, [username]);
 
   return (
     <div className="mb-16">
@@ -129,7 +103,7 @@ const Profile = () => {
         posts={header.posts}
         discussions={header.discussion}
         isFollowing={isFollowing}
-        handleFollow={handleFollow}
+        // handleFollow
       />
       <ProfileShowPosts
         userPosts={header.posts}

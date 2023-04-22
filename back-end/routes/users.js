@@ -2,38 +2,25 @@ const express = require("express");
 const dummyUsers = require("../mock-db/mock.js");
 const User = require("../schemas/users.js");
 const db = require("../db.js");
+const Post = require("../schemas/posts.js");
 const router = express.Router();
 // api/users/
-router.get("/profile", function (req, res) {
+router.get("/profile/:username", async function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
-  if (!req.query) {
+  if (!req.params) {
     return res.sendStatus(500);
   }
 
-  const foundUser = dummyUsers.find(
-    (user) => user.username == req.query.username.toLowerCase()
-  );
+  const username = req.params.username;
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const findUser = await User.findOne({ username });
+
+  if (findUser) {
+    return res.send({ user: findUser });
   } else {
-    return res.json({
-      status: 200,
-      user: {
-        isSelf: req.user.username == req.query.username,
-        profilePicture: foundUser.photo,
-        style: "Streetwear",
-        favoriteThrift: "L Train Vintage",
-        bio: "I love clothes!",
-        username: foundUser.username,
-        posts: foundUser.posts,
-        discussion: foundUser.discussion,
-        followers: foundUser.followers,
-        following: foundUser.following,
-      },
-    });
+    return res.sendStatus(404);
   }
 });
 
@@ -78,7 +65,7 @@ router.get("/search", function (req, res) {
   return res.json(findUsers);
 });
 
-router.get("/me", function (req, res) {
+router.get("/me", async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.user) {
@@ -87,7 +74,8 @@ router.get("/me", function (req, res) {
 
   // should not send over any passwords in the case
   // that we have to code this with mongodb
-  res.json({ user: req.user });
+
+  res.json({ user: await req.user.populate("posts") });
 });
 
 // api/users/:username/follow
