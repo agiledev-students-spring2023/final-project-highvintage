@@ -2,18 +2,21 @@ const express = require("express");
 const dummyUsers = require("../mock-db/mock.js");
 const User = require("../schemas/users.js");
 const db = require("../db.js");
+const Post = require("../schemas/posts.js");
 const router = express.Router();
 // api/users/
 router.get("/profile", function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
+  console.log(req.query);
+
   if (!req.query) {
     return res.sendStatus(500);
   }
 
   const foundUser = dummyUsers.find(
-    (user) => user.username == req.query.username.toLowerCase()
+    (user) => user.username == req.query.username
   );
 
   if (!foundUser) {
@@ -78,7 +81,7 @@ router.get("/search", function (req, res) {
   return res.json(findUsers);
 });
 
-router.get("/me", function (req, res) {
+router.get("/me", async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.user) {
@@ -87,7 +90,8 @@ router.get("/me", function (req, res) {
 
   // should not send over any passwords in the case
   // that we have to code this with mongodb
-  res.json({ user: req.user });
+
+  res.json({ user: await req.user.populate("posts") });
 });
 
 // api/users/:username/follow

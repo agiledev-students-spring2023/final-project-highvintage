@@ -1,12 +1,12 @@
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-const multer = require('multer');
-const path = require('path');
-const dummyUsers = require('../mock-db/mock.js');
-const dummyPosts = require('../mock-db/mock_posts.js');
-const Post = require('../schemas/posts.js');
-const User = require('../schemas/users.js');
-const db = require('../db.js');
+const express = require("express");
+const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const path = require("path");
+const dummyUsers = require("../mock-db/mock.js");
+const dummyPosts = require("../mock-db/mock_posts.js");
+const Post = require("../schemas/posts.js");
+const User = require("../schemas/users.js");
+const db = require("../db.js");
 
 const router = express.Router();
 router.use("/static", express.static("public"));
@@ -31,61 +31,62 @@ router.post(
   upload.fields([{ name: "my_files", maxCount: 5 }]),
   async (req, res, next) => {
     const user = req.user; // temporarily 'krunker' obj
-    console.log('req.user', user)
+    console.log("req.user", user);
     const author = user.username;
-    console.log('author', author) // krunker
+    console.log("author", author); // krunker
     const files = req.files.my_files; // array of photo(s)
-    console.log('files', files);
+    console.log("files", files);
     const { location, content, style } = req.body;
     // console.log("req.body", req.body);
 
     // save array of photo paths in Post Schema
     const photoPaths = [];
     files.forEach((f) => {
-      let newPath = `${f.path}` // CHECK
-      photoPaths.push(newPath)
-    })
-    console.log('* photoPaths', photoPaths);
+      let newPath = `${f.path}`; // CHECK
+      photoPaths.push(newPath);
+    });
+    console.log("* photoPaths", photoPaths);
 
     try {
       // create new Post and save
-      const newPost = await new Post(
-        {
-          author: user._id,
-          style: style,
-          caption: content,
-          photos: photoPaths,
-          location: location
-        }
-      ).save();
+      const newPost = await new Post({
+        author: user._id,
+        style: style,
+        caption: content,
+        photos: photoPaths,
+        location: location,
+      }).save();
 
       if (newPost) {
-        console.log('* newPost', newPost);
-        console.log('* date format', newPost.posted);
-      } else (
-        console.log('* Failed to create post')
-      )
+        console.log("* newPost", newPost);
+        console.log("* date format", newPost.posted);
+      } else console.log("* Failed to create post");
 
       // Populate the author field in the newPost object
-      const populatedPost = await Post.populate(newPost, { path: "author", model: "User" });
+      const populatedPost = await Post.populate(newPost, {
+        path: "author",
+        model: "User",
+      });
       user.posts.push(populatedPost);
 
       try {
         await user.save();
         // Populate posts field in User
         const populatedUser = await User.findById(user._id).populate("posts");
-        console.log('* Populated User', populatedUser);
+        console.log("* Populated User", populatedUser);
 
         // await Post.deleteMany({});
         // // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
       } catch (err) {
-        console.log('* Issue saving user', err);
+        console.log("* Issue saving user", err);
       }
 
-      res.status(201).json({ newPost: populatedPost, message: "Successfully posted!" });
+      res
+        .status(201)
+        .json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
-      console.log('Error:', err);
+      console.log("Error:", err);
       next(err);
     }
   }
@@ -123,25 +124,24 @@ router.get("/collection", async (req, res) => {
   const user = req.user;
   try {
     await User.find()
-      .then(
-        async (fetchedUsers) => {
-          console.log('* fetchedUsers', fetchedUsers);
-          const populatedUsers = await User.findById(user._id).populate("posts");
-          console.log('* populatedUsers', populatedUsers)
-          let allPosts = [];
-          [populatedUsers].forEach((user) => {
-            user.posts.forEach((p) => {
-              allPosts.push(p);
-            })
-          })
-          console.log('* allPosts', allPosts);
-          res.json({ populatedUsers, allPosts });
-        })
-      .catch((err) => console.log('* Cannot fetch all users', err));
+      .then(async (fetchedUsers) => {
+        console.log("* fetchedUsers", fetchedUsers);
+        const populatedUsers = await User.findById(user._id).populate("posts");
+        console.log("* populatedUsers", populatedUsers);
+        let allPosts = [];
+        [populatedUsers].forEach((user) => {
+          user.posts.forEach((p) => {
+            allPosts.push(p);
+          });
+        });
+        console.log("* allPosts", allPosts);
+        res.json({ populatedUsers, allPosts });
+      })
+      .catch((err) => console.log("* Cannot fetch all users", err));
   } catch (err) {
     console.log(err);
   }
-})
+});
 
 // api/posts/
 router.put("/save", function (req, res) {
@@ -157,7 +157,7 @@ router.put("/save", function (req, res) {
 // api/posts/
 router.get("/view/:id", async (req, res) => {
   const postID = +req.params.id;
-  console.log('postID', postID)
+  console.log("postID", postID);
   // const found = await Post.findOne({ _id: new ObjectId(postID) });
   const found = dummyPosts.find((post) => {
     return post.postId === postID;
@@ -176,7 +176,7 @@ router.get("/view/:id", async (req, res) => {
     post.postLoc = post.postLoc ? post.postLoc : " ";
 
     return res.json({
-      post
+      post,
     });
   } else {
     // 404 Not Found
