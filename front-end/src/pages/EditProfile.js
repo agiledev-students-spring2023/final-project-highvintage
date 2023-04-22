@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import GenericHeader from "../components/GenericHeader";
 import axios from "axios";
 import { requestURL } from "../requestURL";
@@ -6,16 +8,13 @@ import { requestURL } from "../requestURL";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
+  async function fetchMe() {
+    const response = await axios.get(requestURL + "users/me");
+    setLoggedIn(response.data.user);
+  }
 
   useEffect(() => {
-    async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
-      setLoggedIn(response.data.user);
-    }
-
     fetchMe();
-
-    return () => {};
   }, []);
 
   const [update, setUpdate] = useState({});
@@ -52,109 +51,143 @@ export default function EditProfile() {
     }
 
     if (!err && changes) {
-      // send changes with cleaned changes as the request body
-      const response = await axios
-        .put(requestURL + "users/edit-profile", {
+      try {
+        const response = await axios.put(requestURL + "users/edit-profile", {
           changes,
-        })
-        .catch((err) => console.log(err));
+        });
+        setLoggedIn(response.data.user);
+        await fetchMe();
+        toast.success("Changes saved!");
+      } catch (error) {
+        console.error(error);
+        toast.error("Unable to save changes!");
+      }
     }
-
-    // check non-empty strings
   }
+
   return (
     <>
-      {" "}
-      <GenericHeader pageName="Edit profile" />{" "}
-      <div className="flex flex-wrap justify-center">
-        {" "}
-        <img
-          className="h-32 object-cover aspect-square mt-20 rounded-full"
-          src={loggedIn.photo}
-        />{" "}
-      </div>{" "}
-      <div className="mt-4 text-center">
-        <a className="text-sky-800 font-semibold"> Change profile photo </a>
-
-        <form className="mt-6">
-          <div className="mb-2">
-            <label className="p-1 w-1/4" htmlFor="name">
-              Username{" "}
-            </label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              className="ml-2 w-2/4 p-1"
-              placeholder={loggedIn.username}
-              size="10"
-              minLength={3}
-              onChange={(e) =>
-                setUpdate({ ...update, username: e.target.value })
-              }
+      {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
+        <div>
+          <GenericHeader pageName="Edit profile" />
+          <div className="flex flex-col items-center">
+            <img
+              className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
+              // src={loggedIn.photo}
+              alt="Profile"
             />
+            <a className="text-blue-500 font-semibold mb-4 cursor-pointer">
+              Change profile photo
+            </a>
+            <form className="w-full px-4">
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                  htmlFor="username"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="w-full border rounded py-2 px-3 text-gray-700 leading-tight"
+                  placeholder={loggedIn.username}
+                  minLength={3}
+                  onChange={(e) =>
+                    setUpdate({ ...update, username: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                  htmlFor="name"
+                >
+                  Favorite Thrift
+                </label>
+                <input
+                  type="text"
+                  id="favThrift"
+                  className="w-full border rounded py-2 px-3 text-gray-700 leading-tight"
+                  placeholder={loggedIn.favoriteThrift}
+                  onChange={(e) =>
+                    setUpdate({ ...update, favoriteThrift: e.target.value })
+                  }
+                />
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                  htmlFor="style"
+                >
+                  Style
+                </label>
+                <select
+                  id="style"
+                  name="style"
+                  className="w-full border rounded py-2 px-3 text-gray-700 leading-tight"
+                  onChange={(e) =>
+                    setUpdate({ ...update, style: e.target.value })
+                  }
+                >
+                  <option> {loggedIn.style} </option>
+                  <option> Sporty and Athlesuire </option>
+                  <option> Streetwear </option>
+                  <option> Classic </option>
+                  <option> Funk </option>
+                  <option> Minimal </option>
+                  <option> Other </option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 font-bold mb-2"
+                  htmlFor="bio"
+                >
+                  Bio
+                </label>
+                <textarea
+                  className="w-full border rounded py-2 px-3 text-gray-700 leading-tight"
+                  rows="4"
+                  id="bio"
+                  placeholder={loggedIn.bio}
+                  onChange={(e) =>
+                    setUpdate({ ...update, bio: e.target.value })
+                  }
+                />
+              </div>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className={`bg-${
+                    !update.username &&
+                    !update.favoriteThrift &&
+                    !update.style &&
+                    !update.bio
+                      ? "gray-400"
+                      : '"blue-500"'
+                  } text-white font-bold py-2 px-4 rounded`}
+                  disabled={
+                    !update.username &&
+                    !update.favoriteThrift &&
+                    !update.style &&
+                    !update.bio
+                  }
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
+                >
+                  Save changes
+                </button>
+              </div>
+            </form>
           </div>
-
-          <div className="mb-2">
-            <label className="p-1  w-1/4" for="name">
-              Favorite Thrift{" "}
-            </label>
-            <input
-              type="text"
-              id="favThrift"
-              className="ml-2 w-2/4 p-1"
-              placeholder={loggedIn.favoriteThrift}
-              size="10"
-              onChange={(e) =>
-                setUpdate({ ...update, favoriteThrift: e.target.value })
-              }
-            />
-          </div>
-
-          <div className="mb-2">
-            <label className="p-1  w-1/4" for="name">
-              Style{" "}
-            </label>
-            <select
-              type="text"
-              id="style"
-              name="style"
-              className="ml-2 w-2/4 p-1"
-              onChange={(e) => setUpdate({ ...update, style: e.target.value })}
-            >
-              <option> {loggedIn.style} </option>
-              <option> Athlesuire </option>
-              <option> X </option>
-              <option> Y </option>
-              <option> Z </option>
-            </select>
-          </div>
-
-          <div className="mb-2">
-            <label className="p-1 align-top" for="bio">
-              Bio{" "}
-            </label>{" "}
-            <textarea
-              className="p-1 w-2/4"
-              rows="10"
-              id="bio"
-              placeholder={loggedIn.bio}
-              onChange={(e) => setUpdate({ ...update, bio: e.target.value })}
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-2 text-sky-800 font-semibold"
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }}
-          >
-            {" "}
-            Save changes
-          </button>
-        </form>
-      </div>
+        </div>
+      ) : (
+        <p>Loading...</p> // added this just in case the loggedIn state isn't rendered yet to avoid
+      )}
     </>
   );
 }
