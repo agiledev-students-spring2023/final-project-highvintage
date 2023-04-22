@@ -181,7 +181,7 @@ app.get("/api/allUsers", async (req, res) => {
 });
 
 app.get("/api/allDiscussions", async (req, res) => {
-  const allDiscussions = await Discussion.find({});
+  const allDiscussions = await Discussion.find({}).populate();
   res.json(allDiscussions);
 });
 

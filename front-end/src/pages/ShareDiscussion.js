@@ -60,7 +60,7 @@ export default function ShareDiscussion() {
       // photo={user.photo}
       content={discussion.content}
       userID={discussion.author}
-      date={discussion.date}
+      date={discussion.posted}
       likes={discussion.likes.length}
     ></DiscussionFullView>
   ));
