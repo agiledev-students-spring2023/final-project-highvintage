@@ -89,7 +89,7 @@ router.get("/me", async function (req, res) {
     .populate("discussions");
   // console.log("Populated", populateUser);
 
-  res.json({ user: req.user });
+  res.json({ user: me });
 });
 
 // api/users/:username/follow
