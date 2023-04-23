@@ -86,7 +86,6 @@ export default function DiscussionView() {
             authorID={discussion.found.author}
             discussionID={discussion.found._id}
             likes={discussion.found.likes.length}
-            likeArray={discussion.found.likes}
             comments={discussion.found.comments}
           />
           <div className="justify-self-end ml-20 "></div>

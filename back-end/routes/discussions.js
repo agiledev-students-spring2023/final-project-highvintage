@@ -26,21 +26,23 @@ router.post("/create", upload.none(), async (req, res, next) => {
       posted: date,
     });
     //save the new discussion to the database
-    if(newDiscussion){
-    await newDiscussion.save();
-    }else console.log("* Failed to create discussion");
+    if (newDiscussion) {
+      await newDiscussion.save();
+    } else console.log("* Failed to create discussion");
 
-    const populatedDiscussion = await Discussion.populate(newDiscussion, {path : "author", model: "User",})
+    const populatedDiscussion = await Discussion.populate(newDiscussion, {
+      path: "author",
+      model: "User",
+    });
     user.discussions.push(populatedDiscussion._id);
-   
+
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
   }
-  try{
-  await user.save();
- 
-  }catch(err){
+  try {
+    await user.save();
+  } catch (err) {
     console.log("* Issue saving user", err);
   }
 });
@@ -49,25 +51,74 @@ router.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
-router.post("/:id/like", (req, res) => {
-  const { userID, discussionID, liked, discussionLikes } = req.body;
+router.post("/:id/like", async (req, res) => {
+  const { userID, discussionID, isLiked, discussionLikes } = req.body;
   console.log("userId", userID);
   console.log("discussionId", discussionID);
-  // Todo: Update the status of the post in the database
-
-  // Get the updated number of likes and like state from the database
-  let numLikes = discussionLikes; // get the current number of likes from the database
-
-  if (liked) {
-    numLikes++;
-  } else {
-    numLikes--;
+  //finds user performing like
+  try {
+    const likeUser = await User.findById(userID);
+    console.log("LikeUser", likeUser);
+  } catch (err) {
+    console.log("* Cannot find user performing like", err);
   }
 
-  // Return the updated number of likes and like state in the response
-  res.json({ numLikes });
-});
 
+  let numLikes = discussionLikes; 
+  //isLiked true = not liked, since passed in !isLiked
+  if (isLiked) {
+    //adds user objectID to like array
+    try {
+      await Discussion.findByIdAndUpdate(discussionID, {
+        $push: { likes: new ObjectId(userID) },
+      })
+        .populate()
+        .then((discussion) => {
+          console.log("Likes", discussion.likes);
+        });
+    } catch (err) {
+      console.log("* Error adding user to like array", err);
+    }
+  } else {
+    //deletes user from like array
+    try {
+      await Discussion.findByIdAndUpdate(discussionID, {
+        $pull: { likes: new ObjectId(userID) },
+      });
+    } catch (err) {
+      console.log("* Error deleting user from like array", err);
+    }
+  }
+  //getting likes data
+  Discussion.findById(discussionID)
+    .populate()
+    .then((discussion) => {
+      numLikes = discussion.likes.length;
+      // Check if the current user has already liked the discussion
+      isLiked = discussion.likes.some((like) => like.equals(userID));
+    })
+    .catch((err) => {
+      console.error("* Error getting likes length", err);
+    });
+  // Return the updated number of likes and like state in the response
+  res.json({ numLikes, isLiked });
+});
+//initial like state
+router.get("/:id/like", async (req, res) => {
+  const userID = req.query.userID;
+  const discussionID = req.params.id;
+
+  try {
+    const discussion = await Discussion.findById(discussionID);
+    const numLikes = discussion.likes.length;
+    //determine if it is liked
+    const isLiked = discussion.likes.some((like) => like.equals(userID));
+    res.json({ numLikes, isLiked });
+  } catch (err) {
+    console.log("* Cannot get initial like state", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 // api/users/
 router.get("/view/:id", async (req, res) => {
   const discussionID = req.params.id;
