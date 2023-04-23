@@ -52,25 +52,26 @@ router.use((err, req, res, next) => {
 });
 
 router.post("/:id/like", async (req, res) => {
-  const { userID, discussionID, isLiked, discussionLikes } = req.body;
+  const { userID, discussionID, liked, discussionLikes } = req.body;
   console.log("userId", userID);
   console.log("discussionId", discussionID);
+  const user = req.user
   //finds user performing like
   try {
-    const likeUser = await User.findById(userID);
+    const likeUser = await User.findById(user._id);
     console.log("LikeUser", likeUser);
   } catch (err) {
     console.log("* Cannot find user performing like", err);
   }
 
-
+  let isLiked = liked;
   let numLikes = discussionLikes; 
   //isLiked true = not liked, since passed in !isLiked
   if (isLiked) {
     //adds user objectID to like array
     try {
       await Discussion.findByIdAndUpdate(discussionID, {
-        $push: { likes: new ObjectId(userID) },
+        $push: { likes: new ObjectId(user._id) },
       })
         .populate()
         .then((discussion) => {
@@ -83,7 +84,7 @@ router.post("/:id/like", async (req, res) => {
     //deletes user from like array
     try {
       await Discussion.findByIdAndUpdate(discussionID, {
-        $pull: { likes: new ObjectId(userID) },
+        $pull: { likes: new ObjectId(user._id) },
       });
     } catch (err) {
       console.log("* Error deleting user from like array", err);
@@ -95,7 +96,7 @@ router.post("/:id/like", async (req, res) => {
     .then((discussion) => {
       numLikes = discussion.likes.length;
       // Check if the current user has already liked the discussion
-      isLiked = discussion.likes.some((like) => like.equals(userID));
+      isLiked = discussion.likes.some((like) => like.equals(user._id));
     })
     .catch((err) => {
       console.error("* Error getting likes length", err);
@@ -107,12 +108,13 @@ router.post("/:id/like", async (req, res) => {
 router.get("/:id/like", async (req, res) => {
   const userID = req.query.userID;
   const discussionID = req.params.id;
+  const user = req.user;
 
   try {
     const discussion = await Discussion.findById(discussionID);
     const numLikes = discussion.likes.length;
     //determine if it is liked
-    const isLiked = discussion.likes.some((like) => like.equals(userID));
+    const isLiked = discussion.likes.some((like) => like.equals(user._id));
     res.json({ numLikes, isLiked });
   } catch (err) {
     console.log("* Cannot get initial like state", err);
