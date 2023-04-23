@@ -76,7 +76,8 @@ router.get("/me", async function (req, res) {
   // that we have to code this with mongodb
 
   const populateUser = await req.user.populate("posts");
-  console.log(populateUser);
+  const populatedDiscussion = await req.user.populate("discussions");
+  // console.log("Populated", populateUser);
   res.json({ user: req.user });
 });
 
