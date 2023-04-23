@@ -12,7 +12,6 @@ router.get("/profile/:username", async function (req, res) {
   if (!req.params) {
     return res.sendStatus(500);
   }
-
   const username = req.params.username;
 
   const findUser = await User.findOne({ username });
@@ -20,8 +19,14 @@ router.get("/profile/:username", async function (req, res) {
   if (findUser) {
     // populate required fields
     const populatedUser = await findUser.populate("posts");
-    console.log(populatedUser);
-    return res.send({ user: findUser });
+    const findFollowers = await findUser.populate("followers");
+
+    const checkFollower = findFollowers.followers.find((user) => {
+      return user.username === req.user.username;
+    });
+
+    const isAFollower = checkFollower ? true : false;
+    return res.send({ user: findUser, isFollowing: isAFollower });
   } else {
     return res.sendStatus(404);
   }

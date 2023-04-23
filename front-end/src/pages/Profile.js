@@ -24,8 +24,8 @@ const Profile = () => {
     discussion: [],
     posts: [],
     isLoggedIn: false,
+    isFollowing: false,
   });
-
   // fetchMe
 
   useEffect(() => {
@@ -62,6 +62,7 @@ const Profile = () => {
           discussion: myProfile.discussions,
           posts: myProfile.posts,
           isLoggedIn: true,
+          isFollowing: false,
         };
         setHeader(userState);
       } else {
@@ -80,6 +81,7 @@ const Profile = () => {
           discussion: otherProfile.discussions,
           posts: otherProfile.posts,
           isLoggedIn: false,
+          isFollowing: other.isFollowing,
         };
         setHeader(userState);
       }
@@ -103,7 +105,6 @@ const Profile = () => {
         posts={header.posts}
         discussions={header.discussion}
         isFollowing={isFollowing}
-        // handleFollow
       />
       <ProfileShowPosts
         userPosts={header.posts}
