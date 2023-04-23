@@ -123,6 +123,22 @@ router.post("/:postID/like", (req, res) => {
   // Return the updated number of likes and like state in the response
   res.json({ numLikes });
 });
+//get like status
+router.get("/:id/like", async (req, res) => {
+  const userID = req.query.userID;
+  const postID = req.params.id;
+
+  try {
+    const post = await Post.findById(postID);
+    const numLikes = post.likes.length;
+    //determine if it is liked
+    const isLiked = post.likes.some((like) => like.equals(userID));
+    res.json({ numLikes, isLiked });
+  } catch (err) {
+    console.log("* Cannot get initial like state", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 // api/posts/
 router.get("/collection", async (req, res) => {

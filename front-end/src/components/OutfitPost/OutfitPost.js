@@ -49,8 +49,8 @@ export default function OutfitPost(props) {
       <OutfitPostInteraction
         username={details.authorUsername}
         postID={details.postId}
-        // likes={details.postLike.length}
-        likes={0}
+        likes={details.likes.length}
+        // likes={0}
         likeArray={details.postLike}
         comments={details.comments}
       />
