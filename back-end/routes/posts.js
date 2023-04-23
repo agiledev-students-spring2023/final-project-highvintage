@@ -27,6 +27,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+// TODO: file validation
+
 // api/posts/ (outfit posts)
 router.post(
   "/create",
@@ -36,10 +38,7 @@ router.post(
     console.log("user", user);
     const author = user.username;
     console.log("author", author);
-    // const files = req.files.my_files; // array of photo(s)
-    // console.log('files', files);
     const { location, content, style } = req.body;
-    // console.log("req.body", req.body);
 
     console.log("req.files.my_files", req.files.my_files);
 
@@ -47,7 +46,6 @@ router.post(
       data: fs.readFileSync(path.join(uploadDir + "/" + file.filename)),
       contentType: file.mimetype,
     }));
-    // console.log('photos', photos)
 
     try {
       // create new Post and save
@@ -59,11 +57,12 @@ router.post(
         location: location,
       }).save();
 
+      console.log('photos[0]', photos[0]);
+
       if (newPost) {
         // console.log('* newPost', newPost);
         console.log("* date format", newPost.posted);
         db.collection("Posts").insertOne(newPost);
-        // console.log('Post Collection', db.collection("Posts"))
       } else console.log("* Failed to create post");
 
       // Populate the author field in the newPost object
@@ -77,12 +76,12 @@ router.post(
         await user.save();
         // Populate posts field in User
         const populatedUser = await User.findById(user._id).populate("posts");
-
         console.log("* Populated User", populatedUser);
 
+        // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
-        // // remove post ids from user.posts array
-        // await User.updateMany({}, { $set: { posts: [] } }); // clear all user.posts array
+        // remove post ids from user.posts array
+        // await User.updateMany({}, { $set: { posts: [] } }); 
       } catch (err) {
         console.log("* Issue saving user", err);
       }
@@ -91,8 +90,7 @@ router.post(
         .status(201)
         .json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
-      console.log("Server Error:", err);
-
+      console.log("Error:", err);
       next(err);
     }
   }
