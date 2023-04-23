@@ -28,19 +28,30 @@ router.get("/profile/:username", async function (req, res) {
   if (!req.params) {
     return res.sendStatus(500);
   }
-
   const username = req.params.username;
 
   const findUser = await User.findOne({ username });
 
   if (findUser) {
-    return res.send({ user: findUser });
+    // populate required fields
+    const populatedUser = await findUser.populate("posts");
+    const findFollowers = await findUser.populate("followers");
+
+    const checkFollower = findFollowers.followers.find((user) => {
+      return user.username === req.user.username;
+    });
+
+    const isAFollower = checkFollower ? true : false;
+
+    return res.send({ user: findUser, isFollowing: isAFollower });
   } else {
     return res.sendStatus(404);
   }
 });
 
-router.post( "/upload-profile-photo", uploadProfile.single("profile_photo"),
+router.post(
+  "/upload-profile-photo",
+  uploadProfile.single("profile_photo"),
   async (req, res, next) => {
     const user = req.user;
     const file = req.file;
@@ -55,12 +66,10 @@ router.post( "/upload-profile-photo", uploadProfile.single("profile_photo"),
     try {
       user.photo = photoURL;
       await user.save();
-      res
-        .status(200)
-        .json({
-          photoURL: photoURL,
-          message: "Profile photo uploaded successfully!",
-        });
+      res.status(200).json({
+        photoURL: photoURL,
+        message: "Profile photo uploaded successfully!",
+      });
     } catch (err) {
       console.log("Error:", err);
       next(err);
@@ -118,69 +127,45 @@ router.get("/me", async function (req, res) {
   // should not send over any passwords in the case
   // that we have to code this with mongodb
 
-  try {
-    const user = await User.findOne({ _id: req.user._id })
-      .populate("posts")
-      .populate("discussions");
-    res.json({ user });
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
+  const me = await User.findById(req.user._id)
+    .populate("posts")
+    .populate("discussions");
+  // console.log("Populated", populateUser);
+
+  res.json({ user: me });
 });
 
 // api/users/:username/follow
-router.put("/:username/follow", function (req, res) {
-  const currentUser = dummyUsers.find(
-    (user) => user.username === req.user.username.toLowerCase()
+router.put("/:username/follow", async function (req, res) {
+  const username = req.params.username;
+  const gainedAFollower = await User.findOneAndUpdate(
+    { username },
+    { $push: { followers: req.user._id } }
   );
-  const toFollow = dummyUsers.find(
-    (user) => user.username === req.params.username.toLowerCase()
+
+  const gainedAFollowing = await User.findOneAndUpdate(
+    { username: req.user.username },
+    { $push: { following: gainedAFollower._id } }
   );
 
-  if (!currentUser || !toFollow) {
-    return res.json({ status: 401, message: "Unknown User ID" });
-  }
-
-  if (!currentUser.following.includes(toFollow.id)) {
-    currentUser.following.push(toFollow.id);
-    toFollow.followers.push(currentUser.id);
-  }
-
-  return res.json({
-    status: 200,
-    message: "User followed successfully",
-    user: toFollow,
-  });
+  res.sendStatus(200);
 });
 
 // api/users/:username/unfollow
-router.put("/:username/unfollow", function (req, res) {
-  const currentUser = dummyUsers.find(
-    (user) => user.username === req.user.username
+router.put("/:username/unfollow", async function (req, res) {
+  const toLoseFollower = req.params.username;
+
+  const losingAFollower = await User.findOneAndUpdate(
+    { username: toLoseFollower },
+    { $pull: { followers: req.user._id } }
   );
-  const toUnfollow = dummyUsers.find(
-    (user) => user.username === req.params.username
+
+  const losingAFollowing = await User.findOneAndUpdate(
+    { username: req.user.username },
+    { $pull: { following: losingAFollower._id } }
   );
 
-  if (!currentUser || !toUnfollow) {
-    return res.json({ status: 401, message: "Unknown User ID" });
-  }
-
-  if (currentUser.following.includes(toUnfollow.id)) {
-    currentUser.following = currentUser.following.filter(
-      (id) => id !== toUnfollow.id
-    );
-    toUnfollow.followers = toUnfollow.followers.filter(
-      (id) => id !== currentUser.id
-    );
-  }
-
-  return res.json({
-    status: 200,
-    message: "User unfollowed successfully",
-    user: toUnfollow,
-  });
+  res.sendStatus(200);
 });
 
 // get user's followers

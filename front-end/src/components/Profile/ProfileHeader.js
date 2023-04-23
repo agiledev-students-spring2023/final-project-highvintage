@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import EditProfile from "../../pages/EditProfile";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { requestURL } from "../../requestURL";
 /**
  * A React component that represents a user's profile header
  * @returns The contents of this component, in JSX form.
@@ -18,8 +19,24 @@ export default function ProfileHeader(props) {
     followers,
     following,
     isFollowing,
-    handleFollow,
   } = props;
+
+  const nav = useNavigate();
+  async function handleFollow() {
+    const response = await axios.put(
+      requestURL + "users/" + props.username + "/follow"
+    );
+
+    nav(0);
+  }
+
+  async function handleUnfollow() {
+    const response = await axios.put(
+      requestURL + "users/" + props.username + "/unfollow"
+    );
+
+    nav(0);
+  }
 
   return (
     <div>
@@ -43,7 +60,7 @@ export default function ProfileHeader(props) {
                 className={`bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ${
                   isFollowing ? "bg-gray-400" : ""
                 } text-sm`}
-                onClick={handleFollow}
+                onClick={isFollowing ? handleUnfollow : handleFollow}
               >
                 {isFollowing ? "Unfollow" : "Follow"}
               </button>
@@ -51,7 +68,7 @@ export default function ProfileHeader(props) {
           </div>
         </div>
       </div>
-    
+
       <div className="ml-8 mr-8">
         <div className="text-gray-500">
           <p className="mt-3">
@@ -64,16 +81,22 @@ export default function ProfileHeader(props) {
         </div>
         <p className="mt-1">{bio}</p>
       </div>
-      
+
       <ul className="flex justify-center w-full mt-2">
         <li className="flex flex-col items-center flex-1">
           <span className="leading-tight font-bold">{posts.length}</span>
-          <span className="text-gray-500">{`post${posts.length !== 1 ? "s" : ""}`}</span>
+          <span className="text-gray-500">{`post${
+            posts.length !== 1 ? "s" : ""
+          }`}</span>
         </li>
         <li className="flex flex-col items-center flex-1">
           <span className="leading-tight font-bold">{followers.length}</span>
           <button className="mx-auto">
-            <Link to="/followers" state={{ currentUser: { username } }} className="text-gray-500">
+            <Link
+              to="/followers"
+              state={{ currentUser: { username } }}
+              className="text-gray-500"
+            >
               followers
             </Link>
           </button>
@@ -81,7 +104,11 @@ export default function ProfileHeader(props) {
         <li className="flex flex-col items-center flex-1">
           <span className=" leading-tight font-bold">{following.length}</span>
           <button className="mx-auto">
-            <Link to="/following" state={{ currentUser: { username } }} className="text-gray-500">
+            <Link
+              to="/following"
+              state={{ currentUser: { username } }}
+              className="text-gray-500"
+            >
               following
             </Link>
           </button>
