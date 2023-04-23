@@ -1,4 +1,4 @@
-import { React, useCallback, useState } from "react";
+import { React, useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
@@ -16,22 +16,39 @@ export default function DiscussionInteraction(props) {
 
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
-
+   //fetch initial state to set heart status
+  useEffect(() => {
+    fetchInitialLikeState();
+  }, []);
+ 
+  const fetchInitialLikeState = async () => {
+    try {
+      const response = await axios.get(
+        requestURL + `discussions/${props.discussionID}/like`,
+        { params: { userID: props.authorID } }
+      );
+      setIsLiked(response.data.isLiked);
+      setNumLikes(response.data.numLikes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+   //handling liking
   const useLikeToggle = (discussionID) => {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
           requestURL + `discussions/${props.discussionID}/like`,
           {
-            userID: props.authorUsername,
+            userID: props.authorID,
             discussionID: props.discussionID,
-            liked: !isLiked,
+            isLiked: !isLiked,
             discussionLikes: numLikes,
           }
         );
         console.log("likesbefore", numLikes);
-        setIsLiked(!isLiked);
         setNumLikes(response.data.numLikes);
+        setIsLiked(response.data.isLiked);
         console.log("likesafter", response.data.numLikes);
       } catch (error) {
         console.log(error);
