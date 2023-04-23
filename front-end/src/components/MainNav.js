@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import { requestURL } from "../requestURL";
+import axios from "axios";
 
 export default function MainNav(props) {
   const location = useLocation();
   const currpath = location.pathname;
+  const [me, setMe] = useState({});
+
+  useEffect(() => {
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+      setMe(response.data.user.username);
+    }
+
+    fetchMe();
+
+    return () => {};
+  }, [currpath]);
+
   const activeEl =
     "flex gap-1 py-2 bg-slate-500 text-white -mx-10 px-2 rounded-md shadow-md";
   const nonActiveEl =
@@ -88,7 +103,7 @@ export default function MainNav(props) {
 
       <div>
         <Link
-          to={`/profile/${props.linkToMe}`}
+          to={`/profile/` + me}
           className={
             currpath.slice(0, 8) === "/profile" ? activeEl : nonActiveEl
           }
