@@ -108,8 +108,9 @@ router.post("/:postID/like", (req, res) => {
   const user = req.user;
   // console.log('userId', userID)
   // console.log("postId", postID);
-  // Todo: Update the like status of the post in the database
-  const likedPost = Post.findById("")
+
+  // TODO: Update the like status of the post in the database
+  
   // Get the updated number of likes and like state from the database
   let numLikes = postLikes; // get the current number of likes from the database
 
