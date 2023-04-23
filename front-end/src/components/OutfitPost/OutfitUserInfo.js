@@ -36,7 +36,7 @@ export default function OutfitUserInfo(props) {
       </div>
 
       <div className="my-auto">
-        <p className="text-xs text-right font-normal"> {moment.utc(props.postDate).format('MM/DD/YY')} </p>
+        <p className="text-xs text-right font-normal"> {props.postDate} </p>
       </div>
     </div> // end of grid
   );

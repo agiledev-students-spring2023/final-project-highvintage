@@ -73,12 +73,15 @@ export default function OutfitCollection() {
 
   useEffect(() => {
     const newImgSrcs = filteredPosts.map((post) => {
+      console.log('collection-post', post);
       const imageStr = arrayBufferToBase64(post.photos[0].data.data);
       return "data:image/jpeg;base64," + imageStr;
     });
     setImgSrcs(newImgSrcs);
   }, [filteredPosts]);
 
+  imgSrcs && console.log('imgSrcs in collection', imgSrcs)
+  
   const OutfitPreviews = filteredPosts.map((post, i) => (
     <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />
   ));
