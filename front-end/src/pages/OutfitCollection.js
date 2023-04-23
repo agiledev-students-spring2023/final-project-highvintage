@@ -59,7 +59,6 @@ export default function OutfitCollection() {
       if (response) {
         console.log("* Fetched Posts", response.data.allPosts);
         setAllPosts(response.data.allPosts);
-        console.log("* setAllPosts result", allPosts);
       }
     }
     fetchCollection();
@@ -79,6 +78,8 @@ export default function OutfitCollection() {
     setImgSrcs(newImgSrcs);
   }, [filteredPosts]);
 
+  // imgSrcs && console.log('imgSrcs in collection', imgSrcs)
+  
   const OutfitPreviews = filteredPosts.map((post, i) => (
     <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />
   ));

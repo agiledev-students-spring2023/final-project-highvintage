@@ -10,8 +10,8 @@ export default function OutfitUserInfo(props) {
   };
   console.log(props.postDate)
   return (
-    <div className="grid grid-cols-2 px-3 py-2">
-      <div className="flex gap-x-4">
+    <div className="grid grid-cols-3 px-3 py-2">
+      <div className="flex col-span-2 gap-x-4">
         <img
           className="h-12 my-auto object-cover aspect-square rounded-full justify-self-end"
           src={props.photo}
@@ -35,8 +35,8 @@ export default function OutfitUserInfo(props) {
         )}
       </div>
 
-      <div className="my-auto">
-        <p className="text-xs text-right font-normal"> {moment.utc(props.postDate).format('MM/DD/YY')} </p>
+      <div className="my-auto col-span-1">
+        <p className="text-xs text-right font-normal"> {props.postDate} </p>
       </div>
     </div> // end of grid
   );

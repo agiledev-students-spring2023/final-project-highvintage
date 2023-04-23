@@ -108,8 +108,9 @@ router.post("/:postID/like", (req, res) => {
   const user = req.user;
   // console.log('userId', userID)
   // console.log("postId", postID);
-  // Todo: Update the like status of the post in the database
 
+  // TODO: Update the like status of the post in the database
+  
   // Get the updated number of likes and like state from the database
   let numLikes = postLikes; // get the current number of likes from the database
 
@@ -148,17 +149,6 @@ router.get("/collection", async (req, res) => {
 });
 
 // api/posts/
-router.put("/save", function (req, res) {
-  const user = req.user;
-  const postID = req.body.postID;
-
-  user.savedPosts.push(postID);
-  res.sendStatus(200);
-
-  // todo: 404 error if resource not found
-});
-
-// api/posts/
 
 router.get("/view", async (req, res) => {
   console.log("FINDING USER", req.user);
@@ -167,19 +157,20 @@ router.get("/view", async (req, res) => {
   console.log("user", user);
   const author = user.username;
   console.log("author", author);
-  console.log(req.query);
+  console.log('req.query', req.query);
   const postID = req.query.id;
   console.log("postID", postID);
-  // return res.send("Here");
+
   const foundPost = await Post.findOne({ _id: postID });
 
   if (foundPost) {
-    console.log("* foundPost", foundPost);
-    const post = foundPost;
-    post.authorPhoto = user.photo;
-    post.authorUsername = user.username;
-    post.postLoc = post.location ? post.location : " ";
-    post.date;
+    const post = {
+      ...foundPost.toObject(),
+      authorPhoto: user.photo,
+      authorUsername: user.username,
+      postLoc: foundPost.location || " ",
+      date: foundPost.posted
+    };
     return res.json({ post });
   } else {
     // 404 Not Found

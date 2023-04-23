@@ -5,6 +5,7 @@ import "swiper/swiper-bundle.css";
 import "../../swiper.css";
 
 export default function OutfitMedia(props) {
+  console.log('props.media', props.media)
   const images = props.media.map((media, i) => (
     <SwiperSlide key={i}>
       <img
