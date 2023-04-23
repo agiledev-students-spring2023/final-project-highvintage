@@ -103,25 +103,54 @@ router.use((err, req, res, next) => {
 });
 
 // api/posts/
-router.post("/:postID/like", (req, res) => {
-  const { userID, postID, liked, postLikes } = req.body;
+router.post("/:postID/like", async(req, res) => {
+  const { userID, postID, isLiked, postLikes } = req.body;
   const user = req.user;
-  // console.log('userId', userID)
-  // console.log("postId", postID);
-
-  // TODO: Update the like status of the post in the database
-  
-  // Get the updated number of likes and like state from the database
-  let numLikes = postLikes; // get the current number of likes from the database
-
-  if (liked) {
-    numLikes++;
-  } else {
-    numLikes--;
+  try {
+    const likeUser = await User.findById(userID);
+    console.log("LikeUser", likeUser);
+  } catch (err) {
+    console.log("* Cannot find user performing like", err);
   }
 
+  let numLikes = postLikes;
+  //isLiked true = not liked, since passed in !isLiked
+  if (isLiked) {
+    //adds user objectID to like array
+    try {
+      await Post.findByIdAndUpdate(postID, {
+        $push: { likes: new ObjectId(userID) },
+      })
+        .populate()
+        .then((post) => {
+          console.log("Likes", post.likes);
+        });
+    } catch (err) {
+      console.log("* Error adding user to like array", err);
+    }
+  } else {
+    //deletes user from like array
+    try {
+      await Post.findByIdAndUpdate(postID, {
+        $pull: { likes: new ObjectId(userID) },
+      });
+    } catch (err) {
+      console.log("* Error deleting user from like array", err);
+    }
+  }
+  //getting likes data
+  Post.findById(postID)
+    .populate()
+    .then((post) => {
+      numLikes = post.likes.length;
+      // Check if the current user has already liked the discussion
+      isLiked = post.likes.some((like) => like.equals(userID));
+    })
+    .catch((err) => {
+      console.error("* Error getting likes length", err);
+    });
   // Return the updated number of likes and like state in the response
-  res.json({ numLikes });
+  res.json({ numLikes, isLiked });
 });
 //get like status
 router.get("/:id/like", async (req, res) => {
