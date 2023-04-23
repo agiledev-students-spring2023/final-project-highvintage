@@ -4,6 +4,22 @@ const User = require("../schemas/users.js");
 const db = require("../db.js");
 const Post = require("../schemas/posts.js");
 const router = express.Router();
+const multer = require("multer");
+
+// storage for user's profile photos
+const profileStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/profile_photos");
+  },
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+const uploadProfile = multer({ storage: profileStorage });
+
 // api/users/
 router.get("/profile/:username", async function (req, res) {
   // input is cleaned in front end, before call is made
@@ -24,31 +40,58 @@ router.get("/profile/:username", async function (req, res) {
   }
 });
 
-router.put("/edit-profile", function (req, res) {
+router.post( "/upload-profile-photo", uploadProfile.single("profile_photo"),
+  async (req, res, next) => {
+    const user = req.user;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Update the user's profile photo URL
+    const photoURL = `/profile_photos/${file.filename}`;
+
+    try {
+      user.photo = photoURL;
+      await user.save();
+      res
+        .status(200)
+        .json({
+          photoURL: photoURL,
+          message: "Profile photo uploaded successfully!",
+        });
+    } catch (err) {
+      console.log("Error:", err);
+      next(err);
+    }
+  }
+);
+
+router.put("/edit-profile", async function (req, res) {
   const toChange = req.body.changes;
 
   if (toChange["username"]) {
     // does a user already have an existing username?
-    const usernameExists = dummyUsers.find(
-      (user) => user.username === toChange.username
-    );
+    const usernameExists = await User.findOne({ username: toChange.username });
 
     if (usernameExists) {
       // 409 conflict
-      res.status(409).send({ error: "Username already exists." });
+      return res.status(409).send({ error: "Username already exists." });
     }
   }
 
-  // update req.user
-  for (const prop in toChange) {
-    req.user[prop] = toChange[prop];
+  // update user in the database
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, toChange, {
+      new: true,
+    });
+
+    res.json({ message: "Sucessfully updated profile", user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500);
   }
-
-  // update user in mockDB
-  const updateIdx = dummyUsers.findIndex((user) => user.id === req.user.id);
-  dummyUsers[updateIdx] = req.user;
-
-  res.json({ message: "Profile update was a success!" });
 });
 
 router.get("/search", function (req, res) {
@@ -75,10 +118,15 @@ router.get("/me", async function (req, res) {
   // should not send over any passwords in the case
   // that we have to code this with mongodb
 
-  const populateUser = await req.user.populate("posts");
-  const populatedDiscussion = await req.user.populate("discussions");
-  // console.log("Populated", populateUser);
-  res.json({ user: req.user });
+  try {
+    const user = await User.findOne({ _id: req.user._id })
+      .populate("posts")
+      .populate("discussions");
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 });
 
 // api/users/:username/follow
