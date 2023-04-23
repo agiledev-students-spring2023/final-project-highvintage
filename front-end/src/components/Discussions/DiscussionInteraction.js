@@ -23,7 +23,7 @@ export default function DiscussionInteraction(props) {
         const response = await axios.post(
           requestURL + `discussions/${props.discussionID}/like`,
           {
-            userID: props.authorUsername,
+            userID: props.authorID,
             discussionID: props.discussionID,
             liked: !isLiked,
             discussionLikes: numLikes,

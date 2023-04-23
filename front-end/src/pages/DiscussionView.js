@@ -83,7 +83,7 @@ export default function DiscussionView() {
         {/* Using the same code as in interactable buttons, not using the compoenent because "save" button is placed at a different margin*/}
         <div className="flex flex-row ml-1 mb-1">
           <DiscussionInteraction
-            authorUsername={discussion.authorUsername}
+            authorID={discussion.found.author}
             discussionID={discussion.found._id}
             likes={discussion.found.likes.length}
             likeArray={discussion.found.likes}

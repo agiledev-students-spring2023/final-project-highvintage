@@ -33,7 +33,6 @@ router.post("/create", upload.none(), async (req, res, next) => {
     const populatedDiscussion = await Discussion.populate(newDiscussion, {path : "author", model: "User",})
     user.discussions.push(populatedDiscussion._id);
    
-    // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
