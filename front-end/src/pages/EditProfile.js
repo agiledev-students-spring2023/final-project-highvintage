@@ -8,6 +8,9 @@ import { requestURL } from "../requestURL";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
+  const [updatedUsername, setUpdatedUsername] = useState(null);
+
+
   async function fetchMe() {
     const response = await axios.get(requestURL + "users/me");
     setLoggedIn(response.data.user);
@@ -58,9 +61,16 @@ export default function EditProfile() {
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");
+        // setting so that when you navigate back, it takes you to the corect profile
+        setUpdatedUsername(response.data.user.username);  
       } catch (error) {
-        console.error(error);
-        toast.error("Unable to save changes!");
+        if (error.response.status === 409) {
+          // special error message for taken username
+          toast.error("Username already in use.");
+          setErr(true);
+        } else {
+          toast.error("Unable to save changes!");
+        }
       }
     }
   }
@@ -69,17 +79,20 @@ export default function EditProfile() {
     <>
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
         <div>
-          <GenericHeader pageName="Edit profile" />
+          <GenericHeader
+            pageName="Edit profile"
+            updatedUsername={updatedUsername}
+          />
           <div className="flex flex-col items-center">
             <img
-            className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
-            src={
-              loggedIn.profilePhoto
-                ? loggedIn.profilePhoto
-                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-            }
-            alt="profile-picture"
-          />
+              className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
+              src={
+                loggedIn.profilePhoto
+                  ? loggedIn.profilePhoto
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              }
+              alt="profile-picture"
+            />
             <a className="text-blue-500 font-semibold mb-4">
               Change profile photo
             </a>
@@ -144,7 +157,7 @@ export default function EditProfile() {
                     "Minimal",
                     "Other",
                   ]
-                    .filter((option) => option !== loggedIn.style)  // makes sure the selected style isn't shown twice in the list
+                    .filter((option) => option !== loggedIn.style) // makes sure the selected style isn't shown twice in the list
                     .map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -202,7 +215,7 @@ export default function EditProfile() {
       )}
       <ToastContainer
         position="top-center"
-        autoClose={1000}
+        autoClose={3000}
         hideProgressBar
         newestOnTop={false}
         closeOnClick
