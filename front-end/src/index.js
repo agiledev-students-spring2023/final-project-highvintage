@@ -14,7 +14,6 @@ import OutfitCollection from "./pages/OutfitCollection";
 import OutfitForm from "./pages/OutfitForm";
 import OutfitView from "./pages/OutfitView";
 import EditProfile from "./pages/EditProfile";
-import ProfilePhotoForm from "./pages/ProfilePhotoForm";
 import Search from "./pages/Search";
 
 import Home from "./pages/Home";
@@ -50,7 +49,6 @@ root.render(
       <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
       <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
       <Route path="/discussion-form" element={<Discussionform />}></Route>
-      <Route path="/profile-photo-form" element={<ProfilePhotoForm />}></Route>
     </Routes>
   </BrowserRouter>
 );
