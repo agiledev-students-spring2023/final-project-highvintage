@@ -72,10 +72,14 @@ export default function EditProfile() {
           <GenericHeader pageName="Edit profile" />
           <div className="flex flex-col items-center">
             <img
-              className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
-              // src={loggedIn.photo}
-              //alt="profile-picture"
-            />
+            className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
+            src={
+              loggedIn.profilePhoto
+                ? loggedIn.profilePhoto
+                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            }
+            alt="profile-picture"
+          />
             <a className="text-blue-500 font-semibold mb-4">
               Change profile photo
             </a>
