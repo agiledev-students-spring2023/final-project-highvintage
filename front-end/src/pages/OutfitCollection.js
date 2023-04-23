@@ -5,40 +5,44 @@ import GenericHeader from "../components/GenericHeader";
 import MainNav from "../components/MainNav";
 import StyleNav from "../components/StyleNav";
 import OutfitPreview from "../components/OutfitPost/OutfitPreview";
-import { dummyUsers } from "../dummy/users";
 import axios from "axios";
 import { useEffect } from "react";
 import { requestURL } from "../requestURL";
 
 export default function OutfitCollection() {
   const navigate = useNavigate();
-  const [users, setUsers] = useState(dummyUsers);
-  const [filteredPosts, setFilteredPosts] = useState(users);
+
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [me, setMe] = useState("");
   const [style, setStyle] = useState("");
-
   const [allPosts, setAllPosts] = useState([]);
-/*
+  const [imgSrcs, setImgSrcs] = useState([]);
+
   const filterByStyle = useCallback((style) => {
-    console.log("Style", style);
-    console.log('allPosts', allPosts)
-    // iterate thru every user, get all posts and push
     let newPosts = [];
+
     if (allPosts.length > 0) {
       if (style === "All" || style === "") {
         newPosts = allPosts;
       } else {
-        allPosts.map((p) => {
+        allPosts.forEach((p) => {
           if (style === p.style) {
-            newPosts.push(p)
+            newPosts.push(p);
           }
-        })
+        });
       }
       setStyle(style);
       setFilteredPosts(newPosts);
     }
   }, [allPosts]);
-/*
+
+  function arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+
   useEffect(() => {
     async function fetchCollection() {
       const response = await axios
@@ -50,10 +54,11 @@ export default function OutfitCollection() {
           }
         });
 
+      console.log("response", response);
+
       if (response) {
         console.log("* Fetched Posts", response.data.allPosts);
         setAllPosts(response.data.allPosts);
-        console.log('* setAllPosts result', allPosts)
       }
     }
     fetchCollection();
@@ -64,38 +69,21 @@ export default function OutfitCollection() {
       filterByStyle(style);
     }
   }, [allPosts, style, filterByStyle]);
- 
-  console.log('filteredPosts', filteredPosts);
-/*
-  const OutfitPreviews = filteredPosts.map((post) => (
-    post.photos.length > 0 &&
-    <OutfitPreview
-      key={post._id}
-      id={post._id}
-      photo={post.photos[0]} // first photo as preview
-    />
-  ));
-  */
-  
-  // dummy user
-  const filterByStyle = (style) => {
-    console.log(style)
-    let newPosts
 
-    style == 'All'
-      ? newPosts = users
-      : newPosts = users.filter((user) => user.posts[0].postStyle == style)
-    setFilteredPosts(newPosts)
-  };
+  useEffect(() => {
+    const newImgSrcs = filteredPosts.map((post) => {
+      const imageStr = arrayBufferToBase64(post.photos[0].data.data);
+      return "data:image/jpeg;base64," + imageStr;
+    });
+    setImgSrcs(newImgSrcs);
+  }, [filteredPosts]);
 
-  const OutfitPreviews = filteredPosts.map((user) => (
-    <OutfitPreview
-      key={user.id}
-      id={user.id}
-      photo={user.posts[0].postMedia[0]} // first photo as preview
-    /> 
-  ));
+  // imgSrcs && console.log('imgSrcs in collection', imgSrcs)
   
+  const OutfitPreviews = filteredPosts.map((post, i) => (
+    <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />
+  ));
+
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");

@@ -14,10 +14,7 @@ export default function Following() {
     async function fetchFollowing() {
       try {
         const response = await axios.get(
-            requestURL +
-            "users/" +
-            currentUser.username +
-            "/following"
+          requestURL + "users/" + currentUser.username + "/following"
         );
         //const response = await axios.get('${requestURL}api/users/${props.username}/followings');
         setFollowing(response.data.following);
@@ -27,7 +24,7 @@ export default function Following() {
     }
 
     fetchFollowing();
-  });
+  }, []);
 
   const followingComponents = following.map((following) => (
     <ProfilePreview username={following.username} photo={following.photo} />

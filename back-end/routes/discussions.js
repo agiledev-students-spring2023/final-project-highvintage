@@ -14,27 +14,35 @@ router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
   console.log("user:", user);
   const { date, title, content } = req.body;
-  const comments = JSON.parse(req.body.comments);
+  // const comments = JSON.parse(req.body.comments);
   try {
     // Create a new discussion instance
     const newDiscussion = new Discussion({
       author: user._id,
       title: title,
       content: content,
-      comments: comments,
+      comments: [],
       likes: [],
       posted: date,
     });
     //save the new discussion to the database
+    if(newDiscussion){
     await newDiscussion.save();
+    }else console.log("* Failed to create discussion");
 
-    console.log("newDiscussion", newDiscussion);
-    user.discussions.push(newDiscussion);
-    await user.save();
+    const populatedDiscussion = await Discussion.populate(newDiscussion, {path : "author", model: "User",})
+    user.discussions.push(populatedDiscussion._id);
+   
     // console.log("dummyDiscussions", dummyDiscussions);
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
     next(err);
+  }
+  try{
+  await user.save();
+ 
+  }catch(err){
+    console.log("* Issue saving user", err);
   }
 });
 router.use((err, req, res, next) => {
@@ -64,7 +72,7 @@ router.post("/:id/like", (req, res) => {
 // api/users/
 router.get("/view/:id", async (req, res) => {
   const discussionID = req.params.id;
-  const found = await Discussion.findOne({ _id: new ObjectId(discussionID) });
+  const found = await Discussion.findById(discussionID);
   if (found) {
     // get author object
     const author = await User.findOne({ _id: found.author });

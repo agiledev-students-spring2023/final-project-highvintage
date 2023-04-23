@@ -2,38 +2,25 @@ const express = require("express");
 const dummyUsers = require("../mock-db/mock.js");
 const User = require("../schemas/users.js");
 const db = require("../db.js");
+const Post = require("../schemas/posts.js");
 const router = express.Router();
 // api/users/
-router.get("/profile", function (req, res) {
+router.get("/profile/:username", async function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
-  if (!req.query) {
+  if (!req.params) {
     return res.sendStatus(500);
   }
 
-  const foundUser = dummyUsers.find(
-    (user) => user.username == req.query.username.toLowerCase()
-  );
+  const username = req.params.username;
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const findUser = await User.findOne({ username });
+
+  if (findUser) {
+    return res.send({ user: findUser });
   } else {
-    return res.json({
-      status: 200,
-      user: {
-        isSelf: req.user.username == req.query.username,
-        profilePicture: foundUser.photo,
-        style: "Streetwear",
-        favoriteThrift: "L Train Vintage",
-        bio: "I love clothes!",
-        username: foundUser.username,
-        posts: foundUser.posts,
-        discussion: foundUser.discussion,
-        followers: foundUser.followers,
-        following: foundUser.following,
-      },
-    });
+    return res.sendStatus(404);
   }
 });
 
@@ -77,7 +64,7 @@ router.get("/search", function (req, res) {
   return res.json(findUsers);
 });
 
-router.get("/me", function (req, res) {
+router.get("/me", async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.user) {
@@ -86,6 +73,10 @@ router.get("/me", function (req, res) {
 
   // should not send over any passwords in the case
   // that we have to code this with mongodb
+
+  const populateUser = await req.user.populate("posts");
+  const populatedDiscussion = await req.user.populate("discussions");
+  // console.log("Populated", populateUser);
   res.json({ user: req.user });
 });
 
@@ -166,29 +157,25 @@ router.get("/:username/followers", async function (req, res) {
 });
 
 // get user's following
-router.get("/:username/following", function (req, res) {
-  const foundUser = dummyUsers.find(
-    (user) => user.username === req.params.username.toLowerCase()
-  );
+router.get("/:username/following", async function (req, res) {
+  const username = req.params.username.toLowerCase();
 
-  if (!foundUser) {
-    return res.json({ status: 401, message: "Unknown User ID" });
+  const user = await User.findOne({ username }).populate({ path: "following" });
+
+  if (!user) {
+    return res.sendStatus(500);
   }
 
-  const following = foundUser.following.map((followingId) => {
-    return dummyUsers.find((user) => user.id === followingId);
+  const response = user.following.map((following) => {
+    return {
+      username: following.username,
+      photo: following.photo
+        ? following.photo
+        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+    };
   });
 
-  // returning what's needed for profile preview component
-  return res.json({
-    status: 200,
-    following: following.map((following) => {
-      return {
-        username: following.username,
-        photo: following.photo,
-      };
-    }),
-  });
+  return res.json({ following: response });
 });
 
 //retrieve username

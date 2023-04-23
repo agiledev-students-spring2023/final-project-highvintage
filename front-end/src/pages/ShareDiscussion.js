@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MainNav from "../components/MainNav";
+import GenericHeader from "../components/GenericHeader.js";
 import DiscussionFullView from "../components/Discussions/DiscussionFullView";
 import DropDownMenuTwo from "../components/Discussions/DropDownSort";
 import axios from "axios";
@@ -36,18 +37,13 @@ export default function ShareDiscussion() {
   }, []);
 
   const sortByMostRecent = () => {
-    const sorted = [...discussions].sort((a, b) =>
-      a.date < b.date ? 1 : -1
-    );
+    const sorted = [...discussions].sort((a, b) => (a.date < b.date ? 1 : -1));
     setSortedDiscussions(sorted);
   };
 
   const sortByMostPopular = () => {
     const sorted = [...discussions].sort((a, b) =>
-      a.likes.length <
-      b.likes.length
-        ? 1
-        : -1
+      a.likes.length < b.likes.length ? 1 : -1
     );
     setSortedDiscussions(sorted);
   };
@@ -60,42 +56,26 @@ export default function ShareDiscussion() {
       // photo={user.photo}
       content={discussion.content}
       userID={discussion.author}
-      date={discussion.date}
+      date={discussion.posted}
       likes={discussion.likes.length}
+      username={me}
     ></DiscussionFullView>
   ));
 
   return (
     <>
       <div className="flex flex-col">
-        <div className="flex flex-row -mb-7 mt-8">
-          <div className="relative h-32 w-32">
-            <div className="absolute ml-5 py-1 left-0 top-0 h-20 w-24 border-4 rounded-lg">
-              <img
-                src="https://ventureasheville.com/wp-content/uploads/2015/09/logo-placeholder.jpg"
-                alt="logo"
-              ></img>
-            </div>
-          </div>
-
-          <div className="relative ml-10 mr-5 w-4/5 ">
-            <Link to="/search">
-              <button className="h-20 rounded-lg w-full p-4 text-gray-900 bg-gray-200 dark:bg-gray-600 dark:text-white">
-                Search HighVintage
-              </button>
-            </Link>
-          </div>
+        <GenericHeader pageName="Discuss"></GenericHeader>
+        <div className="mt-16">
+          <DropDownMenuTwo
+            menuName="Sort By"
+            optionOne="Most Recent"
+            optionTwo="Most Popular"
+            handleOptionOneClick={sortByMostRecent}
+            handleOptionTwoClick={sortByMostPopular}
+          ></DropDownMenuTwo>
         </div>
-        <hr className="w-full h-0 border-none pt-1 mb-4  bg-gray-700 border-0"></hr>
       </div>
-
-      <DropDownMenuTwo
-        menuName="Sort By"
-        optionOne="Most Recent"
-        optionTwo="Most Popular"
-        handleOptionOneClick={sortByMostRecent}
-        handleOptionTwoClick={sortByMostPopular}
-      ></DropDownMenuTwo>
 
       <br></br>
       <div className="grid grid-cols-1 gap-3 px-3 my-1 mt-2 mb-24 z-10 ">

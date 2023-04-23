@@ -18,6 +18,7 @@ import Search from "./pages/Search";
 
 import Home from "./pages/Home";
 import Register from "./Register";
+import Signin from "./signin"
 
 import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
@@ -30,6 +31,7 @@ root.render(
     <Routes>
       <Route path="/" element={<App />}></Route>
       <Route path="/register" element={<Register />}></Route>
+      <Route path="/signin" element={<Signin />}></Route>
 
       <Route path="/home" element={<Home />}></Route>
 
@@ -55,3 +57,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
