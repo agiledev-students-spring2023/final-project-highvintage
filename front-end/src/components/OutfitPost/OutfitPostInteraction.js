@@ -38,13 +38,13 @@ export default function OutfitPostInfo(props) {
         const response = await axios.post(
           requestURL + `posts/${props.postID}/like`,
           {
-            userID: props.username,
+            userID: props.author,
             postID: props.postID,
             liked: !isLiked,
             postLikes: numLikes,
           }
         );
-        setIsLiked(!isLiked);
+        setIsLiked(response.data.isLiked);
         setNumLikes(response.data.numLikes);
       } catch (error) {
         console.log(error);
