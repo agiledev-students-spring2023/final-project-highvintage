@@ -59,7 +59,6 @@ export default function OutfitCollection() {
       if (response) {
         console.log("* Fetched Posts", response.data.allPosts);
         setAllPosts(response.data.allPosts);
-        console.log("* setAllPosts result", allPosts);
       }
     }
     fetchCollection();
@@ -73,14 +72,13 @@ export default function OutfitCollection() {
 
   useEffect(() => {
     const newImgSrcs = filteredPosts.map((post) => {
-      console.log('collection-post', post);
       const imageStr = arrayBufferToBase64(post.photos[0].data.data);
       return "data:image/jpeg;base64," + imageStr;
     });
     setImgSrcs(newImgSrcs);
   }, [filteredPosts]);
 
-  imgSrcs && console.log('imgSrcs in collection', imgSrcs)
+  // imgSrcs && console.log('imgSrcs in collection', imgSrcs)
   
   const OutfitPreviews = filteredPosts.map((post, i) => (
     <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />
