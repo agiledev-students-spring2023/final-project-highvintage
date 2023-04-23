@@ -14,18 +14,12 @@ export default function Home() {
   useEffect(() => {
     async function fetchFeed() {
       const response = await axios.get(requestURL + "posts/feed");
-      const results = response.data.map((post) => {
+      const results = response.data.feed.map((post) => {
         // each element is a post by a followed user!
         return <OutfitPost post={post} />;
       });
 
-      async function fetchMe() {
-        const response = await axios.get(requestURL + "users/me");
-        setMe(response.data.user.username);
-      }
-
       setViewable(results);
-      fetchMe();
     }
 
     fetchFeed();
