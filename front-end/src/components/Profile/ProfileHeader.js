@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import EditProfile from "../../pages/EditProfile";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { requestURL } from "../../requestURL";
 /**
  * A React component that represents a user's profile header
  * @returns The contents of this component, in JSX form.
@@ -20,15 +21,22 @@ export default function ProfileHeader(props) {
     isFollowing,
   } = props;
 
-  function handleFollow() {
-    setIsFollowing(true);
+  const nav = useNavigate();
+  async function handleFollow() {
+    const response = await axios.put(
+      requestURL + "users/" + props.username + "/follow"
+    );
+
+    nav(0);
   }
 
-  function handleUnfollow() {
-    setIsFollowing(false);
-  }
+  async function handleUnfollow() {
+    const response = await axios.put(
+      requestURL + "users/" + props.username + "/unfollow"
+    );
 
-  const [follow, setIsFollowing] = useState(props.isFollowing);
+    nav(0);
+  }
 
   return (
     <div>
@@ -52,9 +60,9 @@ export default function ProfileHeader(props) {
                 className={`bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ${
                   isFollowing ? "bg-gray-400" : ""
                 } text-sm`}
-                onClick={follow ? handleUnfollow : handleFollow}
+                onClick={isFollowing ? handleUnfollow : handleFollow}
               >
-                {follow ? "Unfollow" : "Follow"}
+                {isFollowing ? "Unfollow" : "Follow"}
               </button>
             )}
           </div>

@@ -104,7 +104,7 @@ const Profile = () => {
         following={header.following}
         posts={header.posts}
         discussions={header.discussion}
-        isFollowing={isFollowing}
+        isFollowing={header.isFollowing}
       />
       <ProfileShowPosts
         userPosts={header.posts}
