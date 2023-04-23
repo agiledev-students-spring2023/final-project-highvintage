@@ -9,7 +9,7 @@ export default function MainNav(props) {
 
   const location = useLocation();
   const currpath = location.pathname;
-  // fetch me
+
   useEffect(() => {
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
@@ -101,7 +101,7 @@ export default function MainNav(props) {
 
       <div>
         <Link
-          to={`/profile/${me}`}
+          to={`/profile/` + me}
           className={
             currpath.slice(0, 8) === "/profile" ? activeEl : nonActiveEl
           }
