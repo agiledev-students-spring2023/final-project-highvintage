@@ -91,7 +91,7 @@ router.post("/:id/like", async (req, res) => {
     }
   }
   //getting likes data
-  Discussion.findById(discussionID)
+  await Discussion.findById(discussionID)
     .populate()
     .then((discussion) => {
       numLikes = discussion.likes.length;
