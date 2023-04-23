@@ -62,6 +62,7 @@ export default function ShareDiscussion() {
       userID={discussion.author}
       date={discussion.posted}
       likes={discussion.likes.length}
+      username = {me}
     ></DiscussionFullView>
   ));
 
