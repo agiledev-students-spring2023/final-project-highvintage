@@ -111,7 +111,7 @@ const Profile = () => {
         authorPhoto={header.profilePicture}
         authorUsername={header.username}
       ></ProfileShowPosts>
-      <MainNav linkToMe={me} />
+      <MainNav />
     </div>
   );
 };

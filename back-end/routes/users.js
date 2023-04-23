@@ -18,6 +18,9 @@ router.get("/profile/:username", async function (req, res) {
   const findUser = await User.findOne({ username });
 
   if (findUser) {
+    // populate required fields
+    const populatedUser = await findUser.populate("posts");
+    console.log(populatedUser);
     return res.send({ user: findUser });
   } else {
     return res.sendStatus(404);
@@ -75,9 +78,19 @@ router.get("/me", async function (req, res) {
   // should not send over any passwords in the case
   // that we have to code this with mongodb
 
-  const populateUser = await req.user.populate("posts");
-  const populatedDiscussion = await req.user.populate("discussions");
+  const populateUser = await req.user.populate([
+    {
+      path: "posts",
+      model: "Post",
+    },
+    {
+      path: "discussions",
+      model: "Discussion",
+    },
+  ]);
   // console.log("Populated", populateUser);
+
+  console.log(req.user);
   res.json({ user: req.user });
 });
 
