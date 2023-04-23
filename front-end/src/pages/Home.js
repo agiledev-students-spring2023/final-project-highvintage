@@ -16,8 +16,10 @@ export default function Home() {
       const response = await axios.get(requestURL + "posts/feed");
       const results = response.data.feed.map((post) => {
         // each element is a post by a followed user!
-        return <OutfitPost post={post} />;
+        return <OutfitPost key={post._id} post={post} />;
       });
+
+      console.log(response.data.feed);
 
       setViewable(results);
     }

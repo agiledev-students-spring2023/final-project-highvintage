@@ -183,8 +183,6 @@ router.get("/view", async (req, res) => {
 router.get("/feed", async function (req, res) {
   const populateFollowing = await req.user.populate("following");
 
-  console.log("**FEED**");
-
   const postsToDisplay = [];
 
   req.user.following.forEach((user) =>
@@ -197,7 +195,11 @@ router.get("/feed", async function (req, res) {
     feed.push(putInFeed);
   }
 
-  res.json({ feed });
+  const sorted = feed.sort(function (a, b) {
+    return new Date(b.posted) - new Date(a.posted);
+  });
+
+  res.json({ feed: sorted });
 });
 
 module.exports = router;
