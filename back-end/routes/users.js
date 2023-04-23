@@ -74,10 +74,15 @@ router.get("/me", async function (req, res) {
   // should not send over any passwords in the case
   // that we have to code this with mongodb
 
-  const populateUser = await req.user.populate("posts");
-  const populatedDiscussion = await req.user.populate("discussions");
-  // console.log("Populated", populateUser);
-  res.json({ user: req.user });
+  try {
+    const user = await User.findOne({ _id: req.user._id })
+      .populate("posts")
+      .populate("discussions");
+    res.json({ user });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
 });
 
 // api/users/:username/follow
