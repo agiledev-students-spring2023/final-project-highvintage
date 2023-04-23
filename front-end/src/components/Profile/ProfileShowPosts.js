@@ -14,7 +14,7 @@ export default function ProfileShowPosts(props) {
   const [discussions, setDiscussions] = useState(props.discussions);
 
   const OutfitPreviews = props.userPosts.map((post) => (
-    <OutfitPreview key={post.postID} id={post.postId} photo={post.postMedia} />
+    <OutfitPreview key={post._id} id={post._id} photo={post.photos[0]} />
   ));
 
   const discussionComponents = props.discussions.map((discussion) => (
@@ -26,7 +26,7 @@ export default function ProfileShowPosts(props) {
       content={discussion.content}
       username={props.authorUsername}
       date={discussion.posted}
-      likes = {discussion.likes.length}
+      likes={discussion.likes.length}
     ></DiscussionFullView>
   ));
 
