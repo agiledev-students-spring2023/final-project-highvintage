@@ -8,7 +8,7 @@ const dummyPosts = require("../mock-db/mock_posts.js");
 const Post = require("../schemas/posts.js");
 const User = require("../schemas/users.js");
 const db = require("../db.js");
-
+const { ObjectId } = require("mongodb");
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
@@ -104,22 +104,24 @@ router.use((err, req, res, next) => {
 
 // api/posts/
 router.post("/:postID/like", async(req, res) => {
-  const { userID, postID, isLiked, postLikes } = req.body;
+  const { userID, postID,liked, postLikes } = req.body;
   const user = req.user;
+  
   try {
-    const likeUser = await User.findById(userID);
+    const likeUser = await User.findById(user._id);
     console.log("LikeUser", likeUser);
   } catch (err) {
     console.log("* Cannot find user performing like", err);
   }
 
   let numLikes = postLikes;
+  let isLiked = liked;
   //isLiked true = not liked, since passed in !isLiked
   if (isLiked) {
     //adds user objectID to like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $push: { likes: new ObjectId(userID) },
+        $push: { likes: new ObjectId(user._id) },
       })
         .populate()
         .then((post) => {
@@ -132,19 +134,19 @@ router.post("/:postID/like", async(req, res) => {
     //deletes user from like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $pull: { likes: new ObjectId(userID) },
+        $pull: { likes: new ObjectId(user._id) },
       });
     } catch (err) {
       console.log("* Error deleting user from like array", err);
     }
   }
   //getting likes data
-  Post.findById(postID)
+  await Post.findById(postID)
     .populate()
     .then((post) => {
       numLikes = post.likes.length;
       // Check if the current user has already liked the discussion
-      isLiked = post.likes.some((like) => like.equals(userID));
+      isLiked = post.likes.some((like) => like.equals(user._id));
     })
     .catch((err) => {
       console.error("* Error getting likes length", err);
