@@ -5,9 +5,10 @@ import { requestURL } from "../requestURL";
 import axios from "axios";
 
 export default function MainNav(props) {
+  const [me, setMe] = useState("");
+
   const location = useLocation();
   const currpath = location.pathname;
-  const [me, setMe] = useState({});
 
   useEffect(() => {
     async function fetchMe() {
@@ -16,10 +17,7 @@ export default function MainNav(props) {
     }
 
     fetchMe();
-
-    return () => {};
   }, [currpath]);
-
   const activeEl =
     "flex gap-1 py-2 bg-slate-500 text-white -mx-10 px-2 rounded-md shadow-md";
   const nonActiveEl =

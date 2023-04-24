@@ -24,8 +24,8 @@ const Profile = () => {
     discussion: [],
     posts: [],
     isLoggedIn: false,
+    isFollowing: false,
   });
-
   // fetchMe
 
   useEffect(() => {
@@ -62,6 +62,7 @@ const Profile = () => {
           discussion: myProfile.discussions,
           posts: myProfile.posts,
           isLoggedIn: true,
+          isFollowing: false,
         };
         setHeader(userState);
       } else {
@@ -80,6 +81,7 @@ const Profile = () => {
           discussion: otherProfile.discussions,
           posts: otherProfile.posts,
           isLoggedIn: false,
+          isFollowing: other.isFollowing,
         };
         setHeader(userState);
       }
@@ -102,8 +104,7 @@ const Profile = () => {
         following={header.following}
         posts={header.posts}
         discussions={header.discussion}
-        isFollowing={isFollowing}
-        // handleFollow
+        isFollowing={header.isFollowing}
       />
       <ProfileShowPosts
         userPosts={header.posts}
@@ -111,7 +112,7 @@ const Profile = () => {
         authorPhoto={header.profilePicture}
         authorUsername={header.username}
       ></ProfileShowPosts>
-      <MainNav linkToMe={me} />
+      <MainNav />
     </div>
   );
 };

@@ -42,7 +42,7 @@ export default function DiscussionInteraction(props) {
           {
             userID: props.authorID,
             discussionID: props.discussionID,
-            isLiked: !isLiked,
+            liked: !isLiked,
             discussionLikes: numLikes,
           }
         );
