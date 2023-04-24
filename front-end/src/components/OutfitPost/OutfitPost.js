@@ -10,8 +10,6 @@ export default function OutfitPost(props) {
   const [imgSrcs, setImgSrcs] = useState([]);
 
   const details = props.post;
-  console.log('details', details);
-
   function arrayBufferToBase64(buffer) {
     const binary = "";
     let bytes = [].slice.call(new Uint8Array(buffer));
@@ -19,14 +17,14 @@ export default function OutfitPost(props) {
     return window.btoa(binary);
   }
 
-   useEffect(() => {
-     const newImgSrcs = details.photos.map((photo) => {
+  useEffect(() => {
+    const newImgSrcs = details.photos.map((photo) => {
       // console.log('photo', photo)
       return "data:image/jpeg;base64," + photo.data;
     });
     setImgSrcs(newImgSrcs);
-   }, []);
-  
+  }, []);
+
   // imgSrcs.length > 0 && console.log('imgSrcs', imgSrcs)
 
   return (
@@ -40,10 +38,7 @@ export default function OutfitPost(props) {
       />
 
       <div className="flex flex-row overflow-x-auto justify-self-center">
-        <OutfitMedia
-          username={details.authorUsername}
-          media={imgSrcs}
-        />
+        <OutfitMedia username={details.authorUsername} media={imgSrcs} />
       </div>
 
       <OutfitPostInteraction
@@ -53,7 +48,7 @@ export default function OutfitPost(props) {
         // likes={0}
         likeArray={details.postLike}
         comments={details.comments}
-        authorID = {details.author}
+        authorID={details.author}
       />
       <OutfitText likes={0} text={details.postText} />
     </div>

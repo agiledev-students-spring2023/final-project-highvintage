@@ -83,9 +83,9 @@ set(oneUser);
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
-const persistUser = function (req, res, next) {
+const persistUser = async function (req, res, next) {
   // req.user = mockUsers[0];
-  req.user = oneUser[0];
+  req.user = await User.findOne({ username: "krunker" });
 
   next();
 };

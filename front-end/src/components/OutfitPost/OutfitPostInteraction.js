@@ -1,4 +1,4 @@
-import { React, useCallback, useState,useEffect } from "react";
+import { React, useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
@@ -19,6 +19,8 @@ export default function OutfitPostInfo(props) {
   useEffect(() => {
     fetchInitialLikeState();
   }, []);
+
+  console.log("POST INTERACTION AA ", props);
 
   const fetchInitialLikeState = async () => {
     try {

@@ -11,15 +11,45 @@ export default function Home() {
   const [viewable, setViewable] = useState([]);
   const [me, setMe] = useState("");
 
+  function arrayBufferToBase64(buffer) {
+    let binary = "";
+    let bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+
   useEffect(() => {
     async function fetchFeed() {
       const response = await axios.get(requestURL + "posts/feed");
       const results = response.data.feed.map((post) => {
         // each element is a post by a followed user!
-        return <OutfitPost key={post._id} post={post} />;
-      });
 
-      console.log(response.data.feed);
+        // rewriting post for outfitPost
+        const thisPost = {
+          authorPhoto: post.author.photo
+            ? post.author.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+          authorUsername: post.author.username,
+          author: post.author._id,
+          postLoc: post.location,
+          postDate: post.posted,
+          photos: post.photos.map((photo) => {
+            return { data: arrayBufferToBase64(photo.data.data) };
+          }),
+          postID: post._id,
+          date: post.posted,
+          likes: post.likes,
+          postText: post.caption,
+          postLike: post.likes,
+          likeArray: post.likes,
+          comments: post.comments,
+          _id: post._id,
+        };
+
+        console.log("POST.PHOTOS", post.photos);
+
+        return <OutfitPost key={post._id} post={thisPost} />;
+      });
 
       setViewable(results);
     }

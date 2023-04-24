@@ -236,9 +236,11 @@ router.get("/feed", async function (req, res) {
 
   const feed = [];
   for (const post of postsToDisplay) {
-    const putInFeed = await Post.findById(post);
+    const putInFeed = await Post.findById(post).populate("author");
     feed.push(putInFeed);
   }
+
+  console.log(feed);
 
   const sorted = feed.sort(function (a, b) {
     return new Date(b.posted) - new Date(a.posted);
