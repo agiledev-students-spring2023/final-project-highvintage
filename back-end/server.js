@@ -39,6 +39,7 @@ for (const user of mockUsers) {
 
 const app = express();
 const path = require("path");
+const { nextTick } = require("process");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -83,14 +84,18 @@ set(oneUser);
 
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
-const persistUser = async function (req, res, next) {
-  // req.user = mockUsers[0];
-  req.user = await User.findOne({ username: "krunker" });
+// const persistUser = async function (req, res, next) {
+//   // req.user = mockUsers[0];
+//   req.user = await User.findOne({ username: "krunker" });
 
-  next();
-};
+//   next();
+// };
 
-app.use(persistUser);
+// app.use(persistUser);
+
+const currUser = async function (req,res,next) {
+  
+}
 
 app.get("/", (req, res) => {
   if (req.cookies.jwt) {
@@ -124,8 +129,8 @@ app.get("/", (req, res) => {
 app.post("/", async (req, res) => {
   try {
     const check = await db
-      .collection("Auth")
-      .findOne({email:req.body.email});
+      .collection("Users")
+      .findOne({username:req.body.email});
     const passCheck = await compare(req.body.password, check.password);
 
     if (check && passCheck) {
@@ -135,7 +140,7 @@ app.post("/", async (req, res) => {
       });
 
       // localStorage.setItem('jwt', check.token);
-
+      req.user = await User.findOne({username: req.body.email})
       res.json("exist");
     } else {
       res.json("notexist");
@@ -149,13 +154,13 @@ app.post("/register", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const check = await db.collection("Auth").findOne({ email: email });
+    const check = await db.collection("Users").findOne({ username: email });
 
     if (check) {
       res.json("exist");
     } else {
       const token = jwt.sign(
-        {email:req.body.email},
+        {username:req.body.email},
         "qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz"
       )
 
@@ -165,17 +170,20 @@ app.post("/register", async (req, res) => {
       });
 
       const data = {
-        email: email,
+        username: email,
         password: await hashPass(password),
         token: token,
+        bio: "",
+        favThrift: "",
+        style: ""
       };
 
       // localStorage.setItem('jwt', token);
 
 
       res.json("notexist");
-      await db.collection("Auth").insertMany([data]);
-      
+      await db.collection("Users").insertMany([data]);
+      req.user = await db.collection("Users").findOne({username: req.body.email}) 
     }
   } catch (e) {
     res.json("notexist");
