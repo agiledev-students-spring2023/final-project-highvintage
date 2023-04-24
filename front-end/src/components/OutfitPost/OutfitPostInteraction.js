@@ -1,4 +1,4 @@
-import { React, useCallback, useState } from "react";
+import { React, useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
@@ -16,20 +16,37 @@ export default function OutfitPostInfo(props) {
 
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
+  useEffect(() => {
+    fetchInitialLikeState();
+  }, []);
 
+  console.log("POST INTERACTION AA ", props);
+
+  const fetchInitialLikeState = async () => {
+    try {
+      const response = await axios.get(
+        requestURL + `posts/${props.postID}/like`,
+        { params: { userID: props.authorID } }
+      );
+      setIsLiked(response.data.isLiked);
+      setNumLikes(response.data.numLikes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const useLikeToggle = (postID) => {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
           requestURL + `posts/${props.postID}/like`,
           {
-            userID: props.username,
+            userID: props.author,
             postID: props.postID,
             liked: !isLiked,
             postLikes: numLikes,
           }
         );
-        setIsLiked(!isLiked);
+        setIsLiked(response.data.isLiked);
         setNumLikes(response.data.numLikes);
       } catch (error) {
         console.log(error);

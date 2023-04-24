@@ -21,12 +21,21 @@ export default function Comments(props) {
       const response = await axios.get(
         requestURL + "comments/view/" + query + toFetch
       );
-      setComments(response.data.comments);
-      setUserPhoto(response.data.userPhoto);
-      setUserName(response.data.username);
-      setUserID(response.data.id);
     }
 
+    async function fetchMe() {
+      const response = await axios.get(requestURL + "users/me");
+      const user = response.data.user;
+      setUserID(user._id);
+      setUserName(user.username);
+      setUserPhoto(
+        user.photo
+          ? user.photo
+          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+      );
+    }
+
+    fetchMe();
     fetchComments(params.postID);
 
     return () => {};

@@ -8,7 +8,7 @@ const dummyPosts = require("../mock-db/mock_posts.js");
 const Post = require("../schemas/posts.js");
 const User = require("../schemas/users.js");
 const db = require("../db.js");
-
+const { ObjectId } = require("mongodb");
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
@@ -57,7 +57,7 @@ router.post(
         location: location,
       }).save();
 
-      console.log('photos[0]', photos[0]);
+      console.log("photos[0]", photos[0]);
 
       if (newPost) {
         // console.log('* newPost', newPost);
@@ -81,7 +81,7 @@ router.post(
         // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
         // remove post ids from user.posts array
-        // await User.updateMany({}, { $set: { posts: [] } }); 
+        // await User.updateMany({}, { $set: { posts: [] } });
       } catch (err) {
         console.log("* Issue saving user", err);
       }
@@ -103,25 +103,71 @@ router.use((err, req, res, next) => {
 });
 
 // api/posts/
-router.post("/:postID/like", (req, res) => {
+router.post("/:postID/like", async (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
   const user = req.user;
   // console.log('userId', userID)
   // console.log("postId", postID);
 
   // TODO: Update the like status of the post in the database
-  
+
   // Get the updated number of likes and like state from the database
-  let numLikes = postLikes; // get the current number of likes from the database
 
-  if (liked) {
-    numLikes++;
+  let numLikes = postLikes;
+  let isLiked = liked;
+  //isLiked true = not liked, since passed in !isLiked
+  if (isLiked) {
+    //adds user objectID to like array
+    try {
+      await Post.findByIdAndUpdate(postID, {
+        $push: { likes: new ObjectId(user._id) },
+      })
+        .populate()
+        .then((post) => {
+          console.log("Likes", post.likes);
+        });
+    } catch (err) {
+      console.log("* Error adding user to like array", err);
+    }
   } else {
-    numLikes--;
+    //deletes user from like array
+    try {
+      await Post.findByIdAndUpdate(postID, {
+        $pull: { likes: new ObjectId(user._id) },
+      });
+    } catch (err) {
+      console.log("* Error deleting user from like array", err);
+    }
   }
-
+  //getting likes data
+  await Post.findById(postID)
+    .populate()
+    .then((post) => {
+      numLikes = post.likes.length;
+      // Check if the current user has already liked the discussion
+      isLiked = post.likes.some((like) => like.equals(user._id));
+    })
+    .catch((err) => {
+      console.error("* Error getting likes length", err);
+    });
   // Return the updated number of likes and like state in the response
-  res.json({ numLikes });
+  res.json({ numLikes, isLiked });
+});
+//get like status
+router.get("/:id/like", async (req, res) => {
+  const userID = req.query.userID;
+  const postID = req.params.id;
+
+  try {
+    const post = await Post.findById(postID);
+    const numLikes = post.likes.length;
+    //determine if it is liked
+    const isLiked = post.likes.some((like) => like.equals(userID));
+    res.json({ numLikes, isLiked });
+  } catch (err) {
+    console.log("* Cannot get initial like state", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 // api/posts/
@@ -157,7 +203,7 @@ router.get("/view", async (req, res) => {
   console.log("user", user);
   const author = user.username;
   console.log("author", author);
-  console.log('req.query', req.query);
+  console.log("req.query", req.query);
   const postID = req.query.id;
   console.log("postID", postID);
 
@@ -169,7 +215,7 @@ router.get("/view", async (req, res) => {
       authorPhoto: user.photo,
       authorUsername: user.username,
       postLoc: foundPost.location || " ",
-      date: foundPost.posted
+      date: foundPost.posted,
     };
     return res.json({ post });
   } else {
@@ -179,30 +225,28 @@ router.get("/view", async (req, res) => {
 });
 
 // api/posts/
-router.get("/feed", function (req, res) {
-  // check if req.user exists
+router.get("/feed", async function (req, res) {
+  const populateFollowing = await req.user.populate("following");
 
-  // curate feed from who the user follows
-  const following = req.user.following;
+  const postsToDisplay = [];
 
-  const gatherFollowing = dummyUsers.filter(
-    (user) => following.indexOf(user.id) !== -1
+  req.user.following.forEach((user) =>
+    user.posts.forEach((post) => postsToDisplay.push(post))
   );
 
-  const feedPosts = [];
-
-  for (const user of gatherFollowing) {
-    for (const post of user.posts) {
-      post.authorPhoto = user.photo;
-      post.authorUsername = user.username;
-      post.postLoc = post.postLoc ? post.postLoc : " ";
-      feedPosts.push(post);
-    }
+  const feed = [];
+  for (const post of postsToDisplay) {
+    const putInFeed = await Post.findById(post).populate("author");
+    feed.push(putInFeed);
   }
 
-  // should be sorted
+  console.log(feed);
 
-  res.json(feedPosts);
+  const sorted = feed.sort(function (a, b) {
+    return new Date(b.posted) - new Date(a.posted);
+  });
+
+  res.json({ feed: sorted });
 });
 
 module.exports = router;
