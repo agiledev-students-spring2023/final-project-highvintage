@@ -49,7 +49,7 @@ export default function Form() {
             <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your account details.</p>
             <div className='mt-8'>
                 <form action="POST">
-                    <label className='text-lg font-medium'>Email</label>
+                    <label className='text-lg font-medium'>Email/Username</label>
                     <input 
                         type="email"
                         className='w-full border-2 border-gray-100 rounded-l p-4 mt-1 bg-transparent'
@@ -66,7 +66,7 @@ export default function Form() {
                         placeholder='Enter your Password'
                     />
                 </div>
-                <div className='mt-8 flex justify-between items-center'>
+                {/* <div className='mt-8 flex justify-between items-center'>
                     <div>
                         <input 
                             type="checkbox"
@@ -75,7 +75,7 @@ export default function Form() {
                         <label className='ml-2 font-medium text-base' for="remember">Remember Me</label>
                     </div>
                     <button className='font-medium text-base text-blue-500'>Forgot password</button>
-                </div>
+                </div> */}
                 <div onClick={submit} className='mt-8 flex flex-col gap-y-4'>
                     
                     

@@ -170,6 +170,7 @@ app.post("/register", async (req, res) => {
 
       res.json("notexist");
       await db.collection("Auth").insertMany([data]);
+      
     }
   } catch (e) {
     res.json("notexist");
