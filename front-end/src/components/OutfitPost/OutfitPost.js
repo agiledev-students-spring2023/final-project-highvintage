@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import StyleNav from "../StyleNav";
 import OutfitUserInfo from "./OutfitUserInfo";
 import OutfitMedia from "./OutfitMedia";
 import OutfitPostInteraction from "./OutfitPostInteraction";
@@ -12,20 +11,13 @@ export default function OutfitPost(props) {
   const details = props.post;
   console.log('details', details);
 
-  function arrayBufferToBase64(buffer) {
-    const binary = "";
-    let bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => (binary += String.fromCharCode(b)));
-    return window.btoa(binary);
-  }
-
    useEffect(() => {
      const newImgSrcs = details.photos.map((photo) => {
       // console.log('photo', photo)
       return "data:image/jpeg;base64," + photo.data;
     });
     setImgSrcs(newImgSrcs);
-   }, []);
+   }, [details.photos]);
   
   // imgSrcs.length > 0 && console.log('imgSrcs', imgSrcs)
 

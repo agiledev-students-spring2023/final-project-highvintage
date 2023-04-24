@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
   FaHeart,
-  FaRegCommentDots,
-  FaRegBookmark,
-  FaBookmark,
+  FaRegCommentDots
 } from "react-icons/fa";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
@@ -34,7 +32,7 @@ export default function OutfitPostInfo(props) {
       } catch (error) {
         console.log(error);
       }
-    }, [isLiked]);
+    }, []);
     return [toggle];
   };
 
