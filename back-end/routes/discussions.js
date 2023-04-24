@@ -53,13 +53,12 @@ router.use((err, req, res, next) => {
 
 router.post("/:id/like", async (req, res) => {
   const { userID, discussionID, liked, discussionLikes } = req.body;
-  console.log("userId", userID);
-  console.log("discussionId", discussionID);
+ 
   const user = req.user
   //finds user performing like
   try {
     const likeUser = await User.findById(user._id);
-    console.log("LikeUser", likeUser);
+   
   } catch (err) {
     console.log("* Cannot find user performing like", err);
   }
@@ -133,7 +132,7 @@ router.get("/view/:id", async (req, res) => {
       found,
       authorUsername: author.username,
       authorID: author._id,
-      // authorPhoto: author.photo,
+      authorPhoto: author.photo,
     });
   } else {
     // 404 Not Found
