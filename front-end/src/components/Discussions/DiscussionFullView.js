@@ -39,7 +39,7 @@ export default function DiscussionFullView(props) {
       </div>
       <Link to={`/discussion-view/${props.discussionId}`}>
         <div className="p-4">
-          <p className="text-gray-700 leading-relaxed text-justify">
+          <p className="text-gray-700 leading-relaxed text-justify line-clamp-3">
             {props.content}
           </p>
         </div>
