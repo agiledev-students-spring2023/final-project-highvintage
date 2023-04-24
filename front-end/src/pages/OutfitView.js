@@ -16,18 +16,21 @@ export default function OutfitView() {
   useEffect(() => {
     async function fetchPost(query) {
       try {
-        const response = await axios.get(requestURL + "posts/view/?id=" + query);
+        const response = await axios.get(
+          requestURL + "posts/view/?id=" + query
+        );
+        response.data.post.postText = response.data.post.caption;
         setPost(response.data.post);
         setIsFetched(true);
         return response.data;
       } catch (error) {
-        console.log('Cannot fetch', error);
+        console.log("Cannot fetch", error);
       }
     }
     // still needs err handling
-    console.log('params.id', params.id);
+    console.log("params.id", params.id);
     fetchPost(params.id);
-    return () => { };
+    return () => {};
   }, [params.id]);
 
   return (

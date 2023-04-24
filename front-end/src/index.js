@@ -24,6 +24,7 @@ import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
 import Discussionform from "./pages/Discussionform";
 import Comments from "./pages/Comments";
+import PrivateRoute from "./PrivateRoute"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,22 +34,24 @@ root.render(
       <Route path="/register" element={<Register />}></Route>
       <Route path="/signin" element={<Signin />}></Route>
 
-      <Route path="/home" element={<Home />}></Route>
+      <Route element={<PrivateRoute/>}>
+        <Route path="/home" element={<Home />}></Route>
 
-      <Route path="/profile/:username" element={<Profile />}></Route>
-      <Route path="/followers" element={<Followers />}></Route>
-      <Route path="/following" element={<Following />}></Route>
-      <Route path="/comments/:postID" element={<Comments />}></Route>
-      <Route path="/contact-us" element={<Contactus />}></Route>
-      <Route path="/tos" element={<Termsofservice />}></Route>
-      <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
-      <Route path="/outfit-form" element={<OutfitForm />}></Route>
-      <Route path="/outfit-view/:id" element={<OutfitView />}></Route>
-      <Route path="/edit-profile" element={<EditProfile />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
-      <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
-      <Route path="/discussion-form" element={<Discussionform />}></Route>
+        <Route path="/profile/:username" element={<Profile />}></Route>
+        <Route path="/followers" element={<Followers />}></Route>
+        <Route path="/following" element={<Following />}></Route>
+        <Route path="/comments/:postID" element={<Comments />}></Route>
+        <Route path="/contact-us" element={<Contactus />}></Route>
+        <Route path="/tos" element={<Termsofservice />}></Route>
+        <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
+        <Route path="/outfit-form" element={<OutfitForm />}></Route>
+        <Route path="/outfit-view/:id" element={<OutfitView />}></Route>
+        <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
+        <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
+        <Route path="/discussion-form" element={<Discussionform />}></Route>
+      </Route>
     </Routes>
   </BrowserRouter>
 );

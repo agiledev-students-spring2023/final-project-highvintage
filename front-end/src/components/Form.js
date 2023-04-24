@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
 import {useNavigate, Link } from "react-router-dom"
-
+import Cookies from "js-cookie"
 
 export default function Form() {
 
@@ -11,6 +11,30 @@ export default function Form() {
     const [password,setPassword]=useState('')
 
     let navigate = useNavigate();
+    
+    // const [response, setResponse] = useState({}) // will hold a JSON object returned by the server
+    // const [cookieData, setCookieData] = useState({}) // will hold any cookies set in the browser
+
+    // // the following side-effect will be called once upon initial render
+    // useEffect(() => {
+    //     // make a request to a route on the express server that sets a cookie in the browser
+    //     axios(`${process.env.REACT_APP_BACKEND}/cookie/set`, {
+    //     withCredentials: true,
+    //     })
+    //     .then(response => {
+    //         // extract the data from the server response body
+    //         setResponse(response.data)
+    //     })
+    //     .catch(err => {
+    //         console.error(err) // the server returned an error...
+    //     })
+    // }, []) // only run this side-effect function once!
+
+    // // any time the response state variable changes value, we retrieve the cookie and place it into its own state variable so it appears in the JSX of the component
+    // useEffect(() => {
+    //     // copy the cookie data into a state variable (so react auto-inserts it into the JSX)
+    //     setCookieData(Cookies.get())
+    // }, [response])
 
 
     async function submit(e){
@@ -22,10 +46,13 @@ export default function Form() {
                 email,password
             })
             .then(res=>{
+                
                 if(res.data=="exist"){
+                    sessionStorage.setItem("isLogged", true)
                     history("/home",{state:{id:email}})
                 }
                 else if(res.data=="notexist"){
+                    
                     alert("User does not exist")
                 }
             })
@@ -49,7 +76,7 @@ export default function Form() {
             <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your account details.</p>
             <div className='mt-8'>
                 <form action="POST">
-                    <label className='text-lg font-medium'>Email</label>
+                    <label className='text-lg font-medium'>Email/Username</label>
                     <input 
                         type="email"
                         className='w-full border-2 border-gray-100 rounded-l p-4 mt-1 bg-transparent'
@@ -66,7 +93,7 @@ export default function Form() {
                         placeholder='Enter your Password'
                     />
                 </div>
-                <div className='mt-8 flex justify-between items-center'>
+                {/* <div className='mt-8 flex justify-between items-center'>
                     <div>
                         <input 
                             type="checkbox"
@@ -75,16 +102,16 @@ export default function Form() {
                         <label className='ml-2 font-medium text-base' for="remember">Remember Me</label>
                     </div>
                     <button className='font-medium text-base text-blue-500'>Forgot password</button>
-                </div>
+                </div> */}
                 <div onClick={submit} className='mt-8 flex flex-col gap-y-4'>
                     
                     
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all py-3 rounded-xl bg-yellow-600 text-white text-lg font-bold'>Sign In</button>
                     
                 </div>
-                <div className="items-center justify-items-center flex flex-col mt-5">
+                {/* <div className="items-center justify-items-center flex flex-col mt-5">
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all'><a href="/home">Join As Guest</a></button>
-                </div>
+                </div> */}
                 <form className='mt-8 flex justify-center items-center'>
                     <p className='font-medium text-base'>Don't have an account?</p>
                     <button className='text-blue-500 text-base font-medium ml-2'><a href="/register">Sign Up</a></button>

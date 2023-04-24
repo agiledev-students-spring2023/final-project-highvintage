@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DiscussionFullView from "../Discussions/DiscussionFullView.js";
 import OutfitPreview from "../OutfitPost/OutfitPreview.js";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,18 +11,22 @@ export default function ProfileShowPosts(props) {
     setCurrTab(tab);
   };
 
+  function arrayBufferToBase64(buffer) {
+    let binary = "";
+    let bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => (binary += String.fromCharCode(b)));
+    return window.btoa(binary);
+  }
+
   const [discussions, setDiscussions] = useState(props.discussions);
 
-  console.log(props.userPosts[0]);
+  console.log("PROPS", props);
 
-  const OutfitPreviews = props.userPosts.map((post) => (
-    <OutfitPreview
-      key={post._id}
-      id={post._id}
-      photo={post.photos[0]}
-      buffer={true}
-    />
-  ));
+  const OutfitPreviews = props.userPosts.map((post) => {
+    const imgSrc =
+      "data:image/jpeg;base64," + arrayBufferToBase64(post.photos[0].data.data);
+    return <OutfitPreview key={post._id} id={post._id} photo={imgSrc} />;
+  });
 
   const discussionComponents = props.discussions.map((discussion) => (
     <DiscussionFullView

@@ -22,6 +22,7 @@ export default function Form() {
                     alert("User already exists")
                 }
                 else if(res.data=="notexist"){
+                    sessionStorage.setItem("isLogged", true)
                     history("/home",{state:{id:email}})
                 }
             })
@@ -70,9 +71,13 @@ export default function Form() {
                     
                     
                 </div>
-                <div className="items-center justify-items-center flex flex-col mt-5">
+                {/* <div className="items-center justify-items-center flex flex-col mt-5">
                     <button className='active:scale-[.98] active:duration-75 hover:scale-[1.01] ease-in-out transition-all'><a href="/home">Join As Guest</a></button>
-                </div>
+                </div> */}
+                <form className='mt-8 flex justify-center items-center'>
+                    <p className='font-medium text-base'>Back to</p>
+                    <button className='text-blue-500 text-base font-medium ml-2'><a href="/signin">Log In</a></button>
+                </form>
             </div>
         </div>
     )
