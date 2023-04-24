@@ -46,10 +46,13 @@ export default function Form() {
                 email,password
             })
             .then(res=>{
+                
                 if(res.data=="exist"){
+                    sessionStorage.setItem("isLogged", true)
                     history("/home",{state:{id:email}})
                 }
                 else if(res.data=="notexist"){
+                    
                     alert("User does not exist")
                 }
             })

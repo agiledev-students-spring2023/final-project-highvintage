@@ -134,6 +134,8 @@ app.post("/", async (req, res) => {
         httpOnly: true,
       });
 
+      // localStorage.setItem('jwt', check.token);
+
       res.json("exist");
     } else {
       res.json("notexist");
@@ -167,6 +169,9 @@ app.post("/register", async (req, res) => {
         password: await hashPass(password),
         token: token,
       };
+
+      // localStorage.setItem('jwt', token);
+
 
       res.json("notexist");
       await db.collection("Auth").insertMany([data]);

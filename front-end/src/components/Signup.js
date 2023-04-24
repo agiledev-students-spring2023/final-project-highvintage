@@ -22,6 +22,7 @@ export default function Form() {
                     alert("User already exists")
                 }
                 else if(res.data=="notexist"){
+                    sessionStorage.setItem("isLogged", true)
                     history("/home",{state:{id:email}})
                 }
             })
