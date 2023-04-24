@@ -13,8 +13,15 @@ export default function ProfileShowPosts(props) {
 
   const [discussions, setDiscussions] = useState(props.discussions);
 
+  console.log(props.userPosts[0]);
+
   const OutfitPreviews = props.userPosts.map((post) => (
-    <OutfitPreview key={post._id} id={post._id} photo={post.photos[0]} />
+    <OutfitPreview
+      key={post._id}
+      id={post._id}
+      photo={post.photos[0]}
+      buffer={true}
+    />
   ));
 
   const discussionComponents = props.discussions.map((discussion) => (
