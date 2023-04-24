@@ -103,18 +103,20 @@ router.put("/edit-profile", async function (req, res) {
   }
 });
 
-router.get("/search", function (req, res) {
+router.get("/search", async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.query.query) {
     return res.sendStatus(500);
   }
 
-  const findUsers = dummyUsers.filter((user) => {
+  const users = await User.find({});
+
+  const found = users.filter((user) => {
     return user.username.includes(req.query.query);
   });
 
-  return res.json(findUsers);
+  return res.json({ found });
 });
 
 router.get("/me", async function (req, res) {
