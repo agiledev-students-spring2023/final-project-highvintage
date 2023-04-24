@@ -8,9 +8,6 @@ import { requestURL } from "../requestURL";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
-  const [updatedUsername, setUpdatedUsername] = useState(null);
-
-
   async function fetchMe() {
     const response = await axios.get(requestURL + "users/me");
     setLoggedIn(response.data.user);
@@ -61,17 +58,37 @@ export default function EditProfile() {
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");
-        // setting so that when you navigate back, it takes you to the corect profile
-        setUpdatedUsername(response.data.user.username);  
       } catch (error) {
-        if (error.response.status === 409) {
-          // special error message for taken username
-          toast.error("Username already in use.");
-          setErr(true);
-        } else {
-          toast.error("Unable to save changes!");
-        }
+        console.error(error);
+        toast.error("Unable to save changes!");
       }
+    }
+  }
+
+  async function handlePhotoUpload(e) {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+
+    }
+    const formData = new FormData();
+    formData.append("photo", file);
+    try {
+      const response = await axios.post(
+        requestURL + 'users/upload-profile-photo',
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setLoggedIn({ ...loggedIn, photo: response.data.photo });
+      await fetchMe();
+      toast.success("Profile photo uploaded successfully!");
+    } catch (error) {
+      toast.error("Unable to upload profile photo!");
     }
   }
 
@@ -79,10 +96,7 @@ export default function EditProfile() {
     <>
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
         <div>
-          <GenericHeader
-            pageName="Edit profile"
-            updatedUsername={updatedUsername}
-          />
+          <GenericHeader pageName="Edit profile" />
           <div className="flex flex-col items-center">
             <img
               className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
@@ -93,9 +107,19 @@ export default function EditProfile() {
               }
               alt="profile-picture"
             />
-            <a className="text-blue-500 font-semibold mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              className="hidden"
+              id="profile-photo-input"
+            />
+            <label
+              htmlFor="profile-photo-input"
+              className="text-blue-500 font-semibold mb-4 cursor-pointer"
+            >
               Change profile photo
-            </a>
+            </label>
             <form className="w-full px-4">
               <div className="mb-4">
                 <label
