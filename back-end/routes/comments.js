@@ -25,7 +25,7 @@ router.get("/view/:postID", async function (req, res) {
         .lean();
 
       const commentsToAppend = comments.map((comment) => ({
-        id: comment.author.id,
+        id: comment.author._id,
         photo: comment.author.photo,
         user: comment.author.username,
         body: comment.body,
@@ -34,7 +34,7 @@ router.get("/view/:postID", async function (req, res) {
       res.send({
         userPhoto: req.user.photo,
         username: req.user.username,
-        id: req.user.id,
+        id: req.user._id,
         comments: commentsToAppend,
       });
     } catch (err) {
@@ -44,7 +44,7 @@ router.get("/view/:postID", async function (req, res) {
   }
   if (req.query.photoPost) {
     try {
-      const post = await Post({ _id: new ObjectId(id) });
+      const post = await Post.findOne({ _id: new ObjectId(id) });
 
       if (!post) {
         return res.status(404).send("Post not found");
@@ -55,7 +55,7 @@ router.get("/view/:postID", async function (req, res) {
         .lean();
 
       const commentsToAppend = comments.map((comment) => ({
-        id: comment.author.id,
+        id: comment.author._id,
         photo: comment.author.photo,
         user: comment.author.username,
         body: comment.body,
@@ -64,7 +64,7 @@ router.get("/view/:postID", async function (req, res) {
       res.send({
         userPhoto: req.user.photo,
         username: req.user.username,
-        id: req.user.id,
+        id: req.user._id,
         comments: commentsToAppend,
       });
     } catch (err) {
@@ -98,7 +98,6 @@ router.post("/add", async function (req, res) {
     } else {
       console.log("type error");
     }
-    b;
 
     res.sendStatus(200);
   } catch (err) {
