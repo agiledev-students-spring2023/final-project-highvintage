@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import OutfitPostMsg from "../components/OutfitPost/OutfitPostMsg";
-import { dummyStyles } from "../dummy/styles";
 import { useFormik } from "formik";
 import axios from "axios";
 import { requestURL } from "../requestURL";
@@ -10,12 +9,27 @@ import { requestURL } from "../requestURL";
 export default function OutfitForm() {
   const navigate = useNavigate();
 
-  const styles = dummyStyles;
+  const [styles, setStyles] = useState([])
   const [success, setSuccess] = useState(null);
   const [post, setPost] = useState(null);
 
   post && console.log("post", post);
   post && console.log("post.postMedia", post.postMedia);
+
+
+  useEffect(() => {
+    const fetchStyles = async () => {
+      try {
+        const response = await axios.get(
+          requestURL + 'posts/styles');
+        console.log("* Fetching Styles for Form...")
+        setStyles(response.data.styles);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStyles()
+  }, [])
 
   const onSubmit = async (values, { resetForm, setFieldValue }) => {
     const formData = new FormData();
