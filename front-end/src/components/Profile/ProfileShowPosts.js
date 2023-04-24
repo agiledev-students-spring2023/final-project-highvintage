@@ -33,7 +33,7 @@ export default function ProfileShowPosts(props) {
       key={discussion._id}
       discussionId={discussion._id}
       title={discussion.title}
-      // photo={props.authorPhoto}
+      photo={props.authorPhoto}
       content={discussion.content}
       username={props.authorUsername}
       date={discussion.posted}

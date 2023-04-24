@@ -13,7 +13,7 @@ export default function ShareDiscussion() {
   const navigate = useNavigate();
   const [sortedDiscussions, setSortedDiscussions] = useState([]);
   const [users, setUsers] = useState([]);
-  const [me, setMe] = useState("");
+  const [me, setMe] = useState([]);
   const [discussions, setDiscussions] = useState([]);
   useEffect(() => {
     const fetchDiscussion = async () => {
@@ -29,7 +29,7 @@ export default function ShareDiscussion() {
 
     async function fetchMe() {
       const response = await axios.get(requestURL + "users/me");
-      setMe(response.data.user.username);
+      setMe(response.data.user);
     }
 
     fetchDiscussion();
@@ -53,12 +53,12 @@ export default function ShareDiscussion() {
       key={discussion._id}
       discussionId={discussion._id}
       title={discussion.title}
-      // photo={user.photo}
+      photo={me.photo}
       content={discussion.content}
       userID={discussion.author}
       date={discussion.posted}
       likes={discussion.likes.length}
-      username={me}
+      username={me.username}
     ></DiscussionFullView>
   ));
 
