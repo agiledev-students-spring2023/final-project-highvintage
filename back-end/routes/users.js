@@ -32,8 +32,6 @@ router.post(
     if (!file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-
-    // Update the user's profile photo URL
     const photo = "/profile_photos/" + file.filename;
 
     try {
