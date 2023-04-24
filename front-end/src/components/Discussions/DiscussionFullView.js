@@ -27,12 +27,11 @@ export default function DiscussionFullView(props) {
           {props.title}
         </h2>
         <div className="flex items-center">
-          {/* <img
+          <img
             src={props.photo}
             alt="User Avatar"
             className="w-8 h-8 rounded-full mr-2"
-          /> */}
-          {/* need link to the profile when click on */}
+          />
           <span className="overflow-hidden truncate text-gray-600">
             {props.username}
           </span>
