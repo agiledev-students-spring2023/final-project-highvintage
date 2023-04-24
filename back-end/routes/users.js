@@ -103,18 +103,20 @@ router.put("/edit-profile", async function (req, res) {
   }
 });
 
-router.get("/search", function (req, res) {
+router.get("/search", async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.query.query) {
     return res.sendStatus(500);
   }
 
-  const findUsers = dummyUsers.filter((user) => {
+  const users = await User.find({});
+
+  const found = users.filter((user) => {
     return user.username.includes(req.query.query);
   });
 
-  return res.json(findUsers);
+  return res.json({ found });
 });
 
 router.get("/me", async function (req, res) {
@@ -148,6 +150,8 @@ router.put("/:username/follow", async function (req, res) {
     { $push: { following: gainedAFollower._id } }
   );
 
+  req.user = gainedAFollowing;
+
   res.sendStatus(200);
 });
 
@@ -164,6 +168,8 @@ router.put("/:username/unfollow", async function (req, res) {
     { username: req.user.username },
     { $pull: { following: losingAFollower._id } }
   );
+
+  req.user = losingAFollowing;
 
   res.sendStatus(200);
 });

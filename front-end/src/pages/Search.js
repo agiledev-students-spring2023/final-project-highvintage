@@ -17,10 +17,19 @@ export default function Search() {
     const response = await axios.get(
       requestURL + "users/search?query=" + query
     );
-    setFound(response.data);
+
+    setFound(response.data.found);
 
     const viewable = found.map((user, idx) => (
-      <ProfilePreview key={idx} photo={user.photo} username={user.username} />
+      <ProfilePreview
+        key={idx}
+        photo={
+          user.photo
+            ? user.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        }
+        username={user.username}
+      />
     ));
 
     setResults(viewable);
