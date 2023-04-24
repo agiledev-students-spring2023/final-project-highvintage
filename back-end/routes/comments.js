@@ -44,7 +44,7 @@ router.get("/view/:postID", async function (req, res) {
   }
   if (req.query.photoPost) {
     try {
-      const post = await Post.findOne({ _id: new ObjectId(id) });
+      const post = await Post({ _id: new ObjectId(id) });
 
       if (!post) {
         return res.status(404).send("Post not found");
@@ -91,13 +91,14 @@ router.post("/add", async function (req, res) {
       await Discussion.findByIdAndUpdate(postID, {
         $push: { comments: savedComment._id },
       });
-    } else if (type == "post") {
+    } else if (type == "photo") {
       await Post.findByIdAndUpdate(postID, {
         $push: { comments: savedComment._id },
       });
     } else {
       console.log("type error");
     }
+    b;
 
     res.sendStatus(200);
   } catch (err) {
