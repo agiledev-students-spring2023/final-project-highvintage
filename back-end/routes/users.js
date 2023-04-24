@@ -4,12 +4,14 @@ const User = require("../schemas/users.js");
 const db = require("../db.js");
 const Post = require("../schemas/posts.js");
 const router = express.Router();
+const path = require("path");
 const multer = require("multer");
+const uploadDir = path.join(__dirname, "..", "..", "front-end", "public", "profile_photos");
 
 // storage for user's profile photos
-const profileStorage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/profile_photos");
+    cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
     cb(
@@ -18,7 +20,33 @@ const profileStorage = multer.diskStorage({
     );
   },
 });
-const uploadProfile = multer({ storage: profileStorage });
+const upload = multer({ storage: storage });
+
+router.post(
+  "/upload-profile-photo",
+  upload.single("photo"),
+  async (req, res, next) => {
+    const user = req.user;
+    const file = req.file;
+
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    const photo = "/profile_photos/" + file.filename;
+
+    try {
+      user.photo = photo;
+      await user.save();
+      res.status(200).json({
+        photo: photo,
+        message: "Profile photo uploaded successfully!",
+      });
+    } catch (err) {
+      console.log("Error:", err);
+      next(err);
+    }
+  }
+);
 
 // api/users/
 router.get("/profile/:username", async function (req, res) {
@@ -48,34 +76,6 @@ router.get("/profile/:username", async function (req, res) {
     return res.sendStatus(404);
   }
 });
-
-router.post(
-  "/upload-profile-photo",
-  uploadProfile.single("profile_photo"),
-  async (req, res, next) => {
-    const user = req.user;
-    const file = req.file;
-
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
-
-    // Update the user's profile photo URL
-    const photoURL = `/profile_photos/${file.filename}`;
-
-    try {
-      user.photo = photoURL;
-      await user.save();
-      res.status(200).json({
-        photoURL: photoURL,
-        message: "Profile photo uploaded successfully!",
-      });
-    } catch (err) {
-      console.log("Error:", err);
-      next(err);
-    }
-  }
-);
 
 router.put("/edit-profile", async function (req, res) {
   const toChange = req.body.changes;

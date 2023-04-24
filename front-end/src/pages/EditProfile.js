@@ -65,6 +65,33 @@ export default function EditProfile() {
     }
   }
 
+  async function handlePhotoUpload(e) {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+
+    }
+    const formData = new FormData();
+    formData.append("photo", file);
+    try {
+      const response = await axios.post(
+        requestURL + 'users/upload-profile-photo',
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setLoggedIn({ ...loggedIn, photo: response.data.photo });
+      await fetchMe();
+      toast.success("Profile photo uploaded successfully!");
+    } catch (error) {
+      toast.error("Unable to upload profile photo!");
+    }
+  }
+
   return (
     <>
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
@@ -72,17 +99,27 @@ export default function EditProfile() {
           <GenericHeader pageName="Edit profile" />
           <div className="flex flex-col items-center">
             <img
-            className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
-            src={
-              loggedIn.profilePhoto
-                ? loggedIn.profilePhoto
-                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-            }
-            alt="profile-picture"
-          />
-            <a className="text-blue-500 font-semibold mb-4">
+              className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
+              src={
+                loggedIn.photo
+                  ? loggedIn.photo
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              }
+              alt="profile-picture"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoUpload}
+              className="hidden"
+              id="profile-photo-input"
+            />
+            <label
+              htmlFor="profile-photo-input"
+              className="text-blue-500 font-semibold mb-4 cursor-pointer"
+            >
               Change profile photo
-            </a>
+            </label>
             <form className="w-full px-4">
               <div className="mb-4">
                 <label
@@ -144,7 +181,7 @@ export default function EditProfile() {
                     "Minimal",
                     "Other",
                   ]
-                    .filter((option) => option !== loggedIn.style)  // makes sure the selected style isn't shown twice in the list
+                    .filter((option) => option !== loggedIn.style) // makes sure the selected style isn't shown twice in the list
                     .map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -202,7 +239,7 @@ export default function EditProfile() {
       )}
       <ToastContainer
         position="top-center"
-        autoClose={1000}
+        autoClose={3000}
         hideProgressBar
         newestOnTop={false}
         closeOnClick
