@@ -78,7 +78,7 @@ export default function OutfitCollection() {
     setImgSrcs(newImgSrcs);
   }, [filteredPosts]);
 
-  // imgSrcs && console.log('imgSrcs in collection', imgSrcs)
+  imgSrcs && console.log('imgSrcs in collection', imgSrcs)
   
   const OutfitPreviews = filteredPosts.map((post, i) => (
     <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />

@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import StyleNav from "../StyleNav";
 import OutfitUserInfo from "./OutfitUserInfo";
 import OutfitMedia from "./OutfitMedia";
 import OutfitPostInteraction from "./OutfitPostInteraction";
@@ -23,7 +22,7 @@ export default function OutfitPost(props) {
       return "data:image/jpeg;base64," + photo.data;
     });
     setImgSrcs(newImgSrcs);
-  }, []);
+  }, [details.photos]);
 
   // imgSrcs.length > 0 && console.log('imgSrcs', imgSrcs)
 
@@ -50,7 +49,7 @@ export default function OutfitPost(props) {
         comments={details.comments}
         authorID={details.author}
       />
-      <OutfitText likes={0} text={details.postText} />
+      <OutfitText text={details.postText} />
     </div>
   );
 }

@@ -7,11 +7,30 @@ const dummyUsers = require("../mock-db/mock.js");
 const dummyPosts = require("../mock-db/mock_posts.js");
 const Post = require("../schemas/posts.js");
 const User = require("../schemas/users.js");
+const Style = require("../schemas/styles.js");
 const db = require("../db.js");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
+
+router.get("/styles", async (req, res) => {
+  try {
+    const fetchedStyles = await new Style({
+      styles: [
+        'All', 'Sporty & Athleisure', 'Streetwear', 'Classic', 'Funk', 'Minimal', 'Other'
+      ]
+    }).save();
+    let styles = fetchedStyles.styles;
+    // console.log('* styles', styles)
+    res
+      .status(201)
+      .json({ styles });
+  }
+  catch (err) {
+    console.log("Style error:", err)
+  }
+})
 
 // enable file uploads saved to disk in a directory named 'public/uploads'
 const storage = multer.diskStorage({
@@ -109,10 +128,6 @@ router.post("/:postID/like", async (req, res) => {
   // console.log('userId', userID)
   // console.log("postId", postID);
 
-  // TODO: Update the like status of the post in the database
-
-  // Get the updated number of likes and like state from the database
-
   let numLikes = postLikes;
   let isLiked = liked;
   //isLiked true = not liked, since passed in !isLiked
@@ -139,6 +154,7 @@ router.post("/:postID/like", async (req, res) => {
       console.log("* Error deleting user from like array", err);
     }
   }
+
   //getting likes data
   await Post.findById(postID)
     .populate()
@@ -153,6 +169,7 @@ router.post("/:postID/like", async (req, res) => {
   // Return the updated number of likes and like state in the response
   res.json({ numLikes, isLiked });
 });
+
 //get like status
 router.get("/:id/like", async (req, res) => {
   const userID = req.query.userID;
@@ -195,7 +212,6 @@ router.get("/collection", async (req, res) => {
 });
 
 // api/posts/
-
 router.get("/view", async (req, res) => {
   console.log("FINDING USER", req.user);
 
@@ -216,6 +232,7 @@ router.get("/view", async (req, res) => {
       authorUsername: user.username,
       postLoc: foundPost.location || " ",
       date: foundPost.posted,
+      postText: foundPost.caption
     };
     return res.json({ post });
   } else {
