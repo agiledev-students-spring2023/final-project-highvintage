@@ -58,7 +58,7 @@ export default function Comments(props) {
     <>
       <GenericHeader pageName="Comments" />
 
-      <section className="mt-16 w-10/12 mr-auto ml-auto">
+      <section className="mt-16 mb-24 py-1 w-10/12 mr-auto ml-auto">
         {comments.length > 0 ? (
           commentComponents
         ) : (
@@ -68,7 +68,6 @@ export default function Comments(props) {
           </p>
         )}
       </section>
-
       <AddComment
         type={toFetch.includes("photo") ? "photo" : "discussion"}
         id={userID}
