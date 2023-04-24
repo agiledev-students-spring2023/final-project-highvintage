@@ -128,10 +128,6 @@ router.post("/:postID/like", async (req, res) => {
   // console.log('userId', userID)
   // console.log("postId", postID);
 
-  // TODO: Update the like status of the post in the database
-
-  // Get the updated number of likes and like state from the database
-
   let numLikes = postLikes;
   let isLiked = liked;
   //isLiked true = not liked, since passed in !isLiked
@@ -158,6 +154,7 @@ router.post("/:postID/like", async (req, res) => {
       console.log("* Error deleting user from like array", err);
     }
   }
+
   //getting likes data
   await Post.findById(postID)
     .populate()
@@ -172,6 +169,7 @@ router.post("/:postID/like", async (req, res) => {
   // Return the updated number of likes and like state in the response
   res.json({ numLikes, isLiked });
 });
+
 //get like status
 router.get("/:id/like", async (req, res) => {
   const userID = req.query.userID;
@@ -214,7 +212,6 @@ router.get("/collection", async (req, res) => {
 });
 
 // api/posts/
-
 router.get("/view", async (req, res) => {
   console.log("FINDING USER", req.user);
 
@@ -235,6 +232,7 @@ router.get("/view", async (req, res) => {
       authorUsername: user.username,
       postLoc: foundPost.location || " ",
       date: foundPost.posted,
+      postText: foundPost.caption
     };
     return res.json({ post });
   } else {
