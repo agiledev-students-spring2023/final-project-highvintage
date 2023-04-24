@@ -96,7 +96,7 @@ app.get("/", (req, res) => {
   if (req.cookies.jwt) {
     const verify = jwt.verify(
       req.cookies.jwt,
-      "qwertyuiopasdfghjklzxcvbnmqwertyu"
+      "qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz"
     );
     res.render("home", { name: verify.email });
   } else {
@@ -125,7 +125,7 @@ app.post("/", async (req, res) => {
   try {
     const check = await db
       .collection("Auth")
-      .findOne({ email: req.body.email });
+      .findOne({email:req.body.email});
     const passCheck = await compare(req.body.password, check.password);
 
     if (check && passCheck) {
@@ -153,9 +153,9 @@ app.post("/register", async (req, res) => {
       res.json("exist");
     } else {
       const token = jwt.sign(
-        { email: email },
-        "qwertyuiopasdfghjklzxcvbnmqwertyu"
-      );
+        {email:req.body.email},
+        "qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz"
+      )
 
       res.cookie("jwt", token, {
         maxAge: 600000,
