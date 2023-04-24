@@ -47,7 +47,7 @@ export default function OutfitPost(props) {
         comments={details.comments}
         authorID = {details.author}
       />
-      <OutfitText likes={0} text={details.postText} />
+      <OutfitText text={details.postText} />
     </div>
   );
 }
