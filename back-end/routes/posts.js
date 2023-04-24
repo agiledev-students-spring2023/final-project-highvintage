@@ -7,11 +7,30 @@ const dummyUsers = require("../mock-db/mock.js");
 const dummyPosts = require("../mock-db/mock_posts.js");
 const Post = require("../schemas/posts.js");
 const User = require("../schemas/users.js");
+const Style = require("../schemas/styles.js");
 const db = require("../db.js");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
+
+router.get("/styles", async (req, res) => {
+  try {
+    const fetchedStyles = await new Style({
+      styles: [
+        'All', 'Sporty & Athleisure', 'Streetwear', 'Classic', 'Funk', 'Minimal', 'Other'
+      ]
+    }).save();
+    let styles = fetchedStyles.styles;
+    // console.log('* styles', styles)
+    res
+      .status(201)
+      .json({ styles });
+  }
+  catch (err) {
+    console.log("Style error:", err)
+  }
+})
 
 // enable file uploads saved to disk in a directory named 'public/uploads'
 const storage = multer.diskStorage({
