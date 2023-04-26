@@ -10,6 +10,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function Home() {
   const [viewable, setViewable] = useState([]);
   const [me, setMe] = useState("");
+  const [err, setErr] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   function arrayBufferToBase64(buffer) {
     let binary = "";
@@ -20,38 +22,39 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchFeed() {
-      const response = await axios.get(requestURL + "posts/feed");
-      const results = response.data.feed.map((post) => {
-        // each element is a post by a followed user!
+      try {
+        const response = await axios.get(requestURL + "posts/feed");
+        setLoaded(true);
+        const results = response.data.feed.map((post) => {
+          // each element is a post by a followed user!
 
-        // rewriting post for outfitPost
-        const thisPost = {
-          authorPhoto: post.author.photo
-            ? post.author.photo
-            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
-          authorUsername: post.author.username,
-          author: post.author._id,
-          postLoc: post.location,
-          postDate: post.posted,
-          photos: post.photos.map((photo) => {
-            return { data: arrayBufferToBase64(photo.data.data) };
-          }),
-          postID: post._id,
-          date: post.posted,
-          likes: post.likes,
-          postText: post.caption,
-          postLike: post.likes,
-          likeArray: post.likes,
-          comments: post.comments,
-          _id: post._id,
-        };
+          // rewriting post for outfitPost
+          const thisPost = {
+            authorPhoto: post.author.photo
+              ? post.author.photo
+              : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+            authorUsername: post.author.username,
+            author: post.author._id,
+            postLoc: post.location,
+            postDate: post.posted,
+            photos: post.photos.map((photo) => {
+              return { data: arrayBufferToBase64(photo.data.data) };
+            }),
+            postID: post._id,
+            date: post.posted,
+            likes: post.likes,
+            postText: post.caption,
+            postLike: post.likes,
+            likeArray: post.likes,
+            comments: post.comments,
+            _id: post._id,
+          };
 
-        console.log("POST.PHOTOS", post.photos);
+          return <OutfitPost key={post._id} post={thisPost} />;
+        });
 
-        return <OutfitPost key={post._id} post={thisPost} />;
-      });
-
-      setViewable(results);
+        setViewable(results);
+      } catch (e) {}
     }
 
     fetchFeed();
@@ -68,11 +71,16 @@ export default function Home() {
       ) : (
         <div className="flex flex-col items-center justify-center h-40">
           <p className="text-gray-500 text-sm text-center mb-2">
-            You aren't following anyone yet!
+            {loaded
+              ? err
+                ? "Oops! Looks like something went wrong on our end."
+                : "Looks like you don't follow anyone, yet!"
+              : "Loading your feed..."}
           </p>
           <p className="text-gray-500 text-sm text-center">
-            Try following other users to view your home feed and discover new
-            content that you'll love.
+            {!loaded
+              ? "One sec!"
+              : "Try following other users to view your home feed and discover new content that you'll love."}
           </p>
         </div>
       )}
