@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import myImg from '../../../../back-end/public/uploads/my_files-1681848421971.png';
 
 export default function OutfitPreview(props) {
@@ -11,6 +11,7 @@ export default function OutfitPreview(props) {
         <img
           className="object-cover w-full h-full aspect-square justify-self-end"
           src={props.photo}
+          alt="preview"
         />
       </Link>
     </div>

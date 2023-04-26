@@ -14,9 +14,6 @@ export default function OutfitPostInfo(props) {
 
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
-  useEffect(() => {
-    fetchInitialLikeState();
-  }, []);
 
   console.log("POST INTERACTION AA ", props);
 
@@ -52,6 +49,10 @@ export default function OutfitPostInfo(props) {
     }, []);
     return [toggle];
   };
+
+  useEffect(() => {
+    fetchInitialLikeState();
+  }, []);
 
   const [toggleLike] = useLikeToggle(false, props.postID);
 

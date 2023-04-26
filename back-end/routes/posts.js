@@ -10,9 +10,13 @@ const User = require("../schemas/users.js");
 const Style = require("../schemas/styles.js");
 const db = require("../db.js");
 const { ObjectId } = require("mongodb");
+
+
 const router = express.Router();
+
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
+
 
 router.get("/styles", async (req, res) => {
   try {

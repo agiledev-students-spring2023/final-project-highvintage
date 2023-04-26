@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
-import { useFormik, Form, Formik, Field, ErrorMessage } from "formik";
+import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { requestURL } from "../requestURL";
@@ -10,7 +10,6 @@ export default function OutfitForm() {
   const navigate = useNavigate();
 
   const [styles, setStyles] = useState([])
-  const [success, setSuccess] = useState(null);
   const [post, setPost] = useState(null);
 
   post && console.log("post", post);
@@ -67,7 +66,6 @@ export default function OutfitForm() {
     if (response && response.data) {
       console.log("values", values);
       console.log("response.data", response.data);
-      setSuccess(response.data.message);
       resetForm(); // Reset the form after successful submission
       setPost(response.data.newPost);
       navigate('/outfit-collection'); // redirect user after posting
@@ -99,7 +97,6 @@ export default function OutfitForm() {
           <div className="flex justify-center items-center relative z-0 h-screen">
 
             <Form
-              // onSubmit={formik.handleSubmit}
               className="bg-white p-10 rounded-lg my-auto"
             >
               {/* File Upload */}
@@ -150,6 +147,7 @@ export default function OutfitForm() {
                     if (style !== "All") {
                       return <option key={index}>{style}</option>;
                     }
+                    return null
                   })}
                 </Field>
                 <ErrorMessage
@@ -160,7 +158,6 @@ export default function OutfitForm() {
               </div>
 
               {/* Location */}
-              <h2 className="text-2xl font-bold mb-4"></h2>
               <div className="mb-4">
                 <label
                   htmlFor="location"
