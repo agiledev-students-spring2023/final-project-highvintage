@@ -1,5 +1,4 @@
 import React from "react";
-import GenericHeader from "../components/GenericHeader";
 import { Link } from "react-router-dom";
 
 export default function NotFound() {

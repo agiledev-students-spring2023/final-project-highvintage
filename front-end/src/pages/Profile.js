@@ -9,10 +9,7 @@ import { requestURL } from "../requestURL.js";
 
 const Profile = () => {
   const username = useParams();
-  const [isFollowing, setIsFollowing] = useState(false);
   const [me, setMe] = useState("");
-  const [isMyProfile, setIsMyProfile] = useState(false);
-  const [err, setErr] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const nav = useNavigate();
 

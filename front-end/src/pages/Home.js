@@ -5,11 +5,10 @@ import MainNav from "../components/MainNav";
 import OutfitPost from "../components/OutfitPost/OutfitPost";
 import axios from "axios";
 import { requestURL } from "../requestURL";
-import { useLocation, useNavigate } from "react-router-dom";
+import { set } from "mongoose";
 
 export default function Home() {
   const [viewable, setViewable] = useState([]);
-  const [me, setMe] = useState("");
   const [err, setErr] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -54,7 +53,9 @@ export default function Home() {
         });
 
         setViewable(results);
-      } catch (e) {}
+      } catch (e) {
+        setErr(true);
+      }
     }
 
     fetchFeed();
@@ -85,7 +86,7 @@ export default function Home() {
         </div>
       )}
       <div className="mt-14">
-        <MainNav linkToMe={me} />
+        <MainNav />
       </div>
     </div>
   );
