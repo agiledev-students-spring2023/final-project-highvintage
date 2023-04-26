@@ -101,7 +101,7 @@ export default function MainNav(props) {
 
       <div>
         <Link
-          to={`/profile/` + me}
+          to={me ? `/profile/` + me : ""}
           className={
             currpath.slice(0, 8) === "/profile" ? activeEl : nonActiveEl
           }
