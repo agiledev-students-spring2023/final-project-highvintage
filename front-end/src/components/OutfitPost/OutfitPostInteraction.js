@@ -1,4 +1,4 @@
-import { React, useCallback, useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaRegHeart,
@@ -15,13 +15,34 @@ export default function OutfitPostInfo(props) {
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
 
-  console.log("POST INTERACTION AA ", props);
+  console.log("props user", props);
 
-  const fetchInitialLikeState = async () => {
+  useEffect(() => {
+    const fetchInitialLikeState = async () => {
+      try {
+        const response = await axios.get(
+          requestURL + `posts/${props.postID}/like`,
+          { params: { userID: props.authorID } }
+        );
+        setIsLiked(response.data.isLiked);
+        setNumLikes(response.data.numLikes);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchInitialLikeState();
+  }, []);
+
+  const toggleLike = async () => {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         requestURL + `posts/${props.postID}/like`,
-        { params: { userID: props.authorID } }
+        {
+          userID: props.author,
+          postID: props.postID,
+          liked: !isLiked,
+          postLikes: numLikes,
+        }
       );
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
@@ -29,39 +50,14 @@ export default function OutfitPostInfo(props) {
       console.log(error);
     }
   };
-  const useLikeToggle = (postID) => {
-    const toggle = useCallback(async () => {
-      try {
-        const response = await axios.post(
-          requestURL + `posts/${props.postID}/like`,
-          {
-            userID: props.author,
-            postID: props.postID,
-            liked: !isLiked,
-            postLikes: numLikes,
-          }
-        );
-        setIsLiked(response.data.isLiked);
-        setNumLikes(response.data.numLikes);
-      } catch (error) {
-        console.log(error);
-      }
-    }, []);
-    return [toggle];
-  };
 
-  useEffect(() => {
-    fetchInitialLikeState();
-  }, []);
-
-  const [toggleLike] = useLikeToggle(false, props.postID);
 
   return (
     <div className="grid grid-cols-1 px-2">
       <div className="flex space-x-2">
         {/* Like */}
         <div className="my-auto" onClick={toggleLike}>
-          {!isLiked ? <FaRegHeart size={25} /> : <FaHeart size={25} />}
+          {isLiked ? <FaHeart size={25} /> : <FaRegHeart size={25} />}
         </div>
 
         {/* Comment */}

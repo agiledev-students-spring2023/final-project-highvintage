@@ -33,6 +33,7 @@ router.get("/styles", async (req, res) => {
   }
   catch (err) {
     console.log("Style error:", err)
+    res.status(500).json({ message: "Internal Server Error" });
   }
 })
 
@@ -114,6 +115,7 @@ router.post(
         .json({ newPost: populatedPost, message: "Successfully posted!" });
     } catch (err) {
       console.log("Error:", err);
+      res.status(500).json({ message: "Internal Server Error" });
       next(err);
     }
   }
@@ -125,6 +127,30 @@ router.use((err, req, res, next) => {
   res.status(500).json({ message: "Internal Server Error" });
 });
 
+// get like status
+router.get("/:id/like", async (req, res) => {
+  const userID = req.query.userID;
+  const postID = req.params.id;
+  console.log('userID', userID);
+  console.log('postID', postID);
+
+  try {
+    const post = await Post.findById(postID);
+    post ? console.log('post found') : null
+
+    const numLikes = post.likes.length;
+    // determine if it is liked
+    const isLiked = post.likes.some((like) => like.equals(userID));
+
+    // console.log('numLikes from db', numLikes)
+    // console.log('isLiked from db', isLiked)
+    res.json({ numLikes, isLiked });
+  } catch (err) {
+    console.log("* Cannot get initial like state", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // api/posts/
 router.post("/:postID/like", async (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
@@ -134,33 +160,42 @@ router.post("/:postID/like", async (req, res) => {
 
   let numLikes = postLikes;
   let isLiked = liked;
-  //isLiked true = not liked, since passed in !isLiked
+  // console.log('numLikes from form', numLikes)
+  // console.log('isLiked from form', isLiked)
+
+  // isLiked true = not liked, since passed in !isLiked
   if (isLiked) {
-    //adds user objectID to like array
+    // adds user objectID to like array
     try {
       await Post.findByIdAndUpdate(postID, {
         $push: { likes: new ObjectId(user._id) },
       })
         .populate()
         .then((post) => {
-          console.log("Likes", post.likes);
+          console.log("+ Likes", post.likes.length);
         });
     } catch (err) {
       console.log("* Error adding user to like array", err);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   } else {
-    //deletes user from like array
+    // deletes user from like array
     try {
       await Post.findByIdAndUpdate(postID, {
         $pull: { likes: new ObjectId(user._id) },
-      });
+      })
+        .then((post) => {
+          console.log("- Likes", post.likes.length);
+        })
     } catch (err) {
       console.log("* Error deleting user from like array", err);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
-  //getting likes data
-  await Post.findById(postID)
+  // getting likes data
+  try {
+    await Post.findById(postID)
     .populate()
     .then((post) => {
       numLikes = post.likes.length;
@@ -172,23 +207,11 @@ router.post("/:postID/like", async (req, res) => {
     });
   // Return the updated number of likes and like state in the response
   res.json({ numLikes, isLiked });
-});
-
-//get like status
-router.get("/:id/like", async (req, res) => {
-  const userID = req.query.userID;
-  const postID = req.params.id;
-
-  try {
-    const post = await Post.findById(postID);
-    const numLikes = post.likes.length;
-    //determine if it is liked
-    const isLiked = post.likes.some((like) => like.equals(userID));
-    res.json({ numLikes, isLiked });
   } catch (err) {
-    console.log("* Cannot get initial like state", err);
+    console.log(err)
     res.status(500).json({ message: "Internal Server Error" });
   }
+ 
 });
 
 // api/posts/
@@ -212,20 +235,19 @@ router.get("/collection", async (req, res) => {
       .catch((err) => console.log("* Cannot fetch all users", err));
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 // api/posts/
 router.get("/view", async (req, res) => {
-  console.log("FINDING USER", req.user);
-
   const user = req.user;
-  console.log("user", user);
+  // console.log("user", user);
   const author = user.username;
-  console.log("author", author);
-  console.log("req.query", req.query);
+  // console.log("author", author);
+  // console.log("req.query", req.query);
   const postID = req.query.id;
-  console.log("postID", postID);
+  // console.log("postID", postID);
 
   const foundPost = await Post.findOne({ _id: postID });
 
