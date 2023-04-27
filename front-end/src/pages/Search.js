@@ -1,38 +1,41 @@
 import React from "react";
 import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
-import { dummyUsers } from "../dummy/users";
-import { useEffect } from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import { useNavigate } from "react-router-dom";
 
 export default function Search() {
   const [found, setFound] = useState([]);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
+  const nav = useNavigate();
 
   async function search(query) {
-    const response = await axios.get(
-      requestURL + "users/search?query=" + query
-    );
+    try {
+      const response = await axios.get(
+        requestURL + "users/search?query=" + query
+      );
 
-    setFound(response.data.found);
+      setFound(response.data.found);
 
-    const viewable = found.map((user, idx) => (
-      <ProfilePreview
-        key={idx}
-        photo={
-          user.photo
-            ? user.photo
-            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-        }
-        username={user.username}
-      />
-    ));
+      const viewable = found.map((user, idx) => (
+        <ProfilePreview
+          key={idx}
+          photo={
+            user.photo
+              ? user.photo
+              : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+          }
+          username={user.username}
+        />
+      ));
 
-    setResults(viewable);
+      setResults(viewable);
+    } catch (e) {
+      nav("/500");
+    }
   }
 
   return (

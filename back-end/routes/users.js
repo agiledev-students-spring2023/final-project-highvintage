@@ -6,7 +6,14 @@ const Post = require("../schemas/posts.js");
 const router = express.Router();
 const path = require("path");
 const multer = require("multer");
-const uploadDir = path.join(__dirname, "..", "..", "front-end", "public", "profile_photos");
+const uploadDir = path.join(
+  __dirname,
+  "..",
+  "..",
+  "front-end",
+  "public",
+  "profile_photos"
+);
 
 // storage for user's profile photos
 const storage = multer.diskStorage({
@@ -58,22 +65,26 @@ router.get("/profile/:username", async function (req, res) {
   }
   const username = req.params.username;
 
-  const findUser = await User.findOne({ username });
+  try {
+    const findUser = await User.findOne({ username });
 
-  if (findUser) {
-    // populate required fields
-    const populatedUser = await findUser.populate("posts");
-    const findFollowers = await findUser.populate("followers");
+    if (findUser) {
+      // populate required fields
+      const populatedUser = await findUser.populate("posts");
+      const findFollowers = await findUser.populate("followers");
 
-    const checkFollower = findFollowers.followers.find((user) => {
-      return user.username === req.user.username;
-    });
+      const checkFollower = findFollowers.followers.find((user) => {
+        return user.username === req.user.username;
+      });
 
-    const isAFollower = checkFollower ? true : false;
+      const isAFollower = checkFollower ? true : false;
 
-    return res.send({ user: findUser, isFollowing: isAFollower });
-  } else {
-    return res.sendStatus(404);
+      return res.send({ user: findUser, isFollowing: isAFollower });
+    } else {
+      return res.sendStatus(404);
+    }
+  } catch (e) {
+    return res.sendStatus(500);
   }
 });
 
@@ -126,15 +137,15 @@ router.get("/me", async function (req, res) {
     res.sendStatus(500);
   }
 
-  // should not send over any passwords in the case
-  // that we have to code this with mongodb
+  try {
+    const me = await User.findById(req.user._id)
+      .populate("posts")
+      .populate("discussions");
 
-  const me = await User.findById(req.user._id)
-    .populate("posts")
-    .populate("discussions");
-  // console.log("Populated", populateUser);
-
-  res.json({ user: me });
+    return res.json({ user: me });
+  } catch (e) {
+    return res.sendStatus(500);
+  }
 });
 
 // api/users/:username/follow
