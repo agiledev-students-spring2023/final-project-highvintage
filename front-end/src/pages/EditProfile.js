@@ -69,7 +69,7 @@ export default function EditProfile() {
         if (e.response.status === 404) {
           nav("/404");
         } else {
-          nav("/500");
+          toast.e("Unable to upload profile photo!");
         }
       }
     }
@@ -97,7 +97,11 @@ export default function EditProfile() {
       await fetchMe();
       toast.success("Profile photo uploaded successfully!");
     } catch (e) {
+      if (e.response.status === 404) {
+        nav("/404");
+      } else {
       toast.e("Unable to upload profile photo!");
+      }
     }
   }
 
@@ -244,7 +248,7 @@ export default function EditProfile() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>Loading...</p> 
       )}
       <ToastContainer
         position="top-center"
