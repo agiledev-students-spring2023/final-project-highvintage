@@ -36,7 +36,6 @@ export default function OutfitCollection() {
         }
         setStyle(style);
         setFilteredPosts(newPosts);
-        setLoaded(true);
       }
     },
     [allPosts]
@@ -73,6 +72,7 @@ export default function OutfitCollection() {
   useEffect(() => {
     if (allPosts.length > 0) {
       filterByStyle(style);
+      setLoaded(true);
     }
   }, [allPosts, style, filterByStyle]);
 
