@@ -53,8 +53,12 @@ export default function Comments(props) {
       }
     }
 
-    fetchMe();
-    fetchComments(params.postID);
+    try {
+      fetchMe();
+      fetchComments(params.postID);
+    } catch (e) {
+      nav("/500");
+    }
 
     return () => {};
   }, []);
@@ -68,6 +72,9 @@ export default function Comments(props) {
       key={idx}
     />
   ));
+
+  commentComponents.reverse();
+
   return (
     <>
       <GenericHeader pageName="Comments" />
