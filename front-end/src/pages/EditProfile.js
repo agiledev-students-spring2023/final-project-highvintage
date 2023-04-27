@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import GenericHeader from "../components/GenericHeader";
+import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
+  const nav = useNavigate();
+
   async function fetchMe() {
-    const response = await axios.get(requestURL + "users/me");
-    setLoggedIn(response.data.user);
+    try {
+      const response = await axios.get(requestURL + "users/me");
+      setLoggedIn(response.data.user);
+    } catch (e) {
+      nav("/500");
+    }
   }
 
   useEffect(() => {
     fetchMe();
-  }, []);
+  });
 
   const [update, setUpdate] = useState({});
 
@@ -58,9 +66,12 @@ export default function EditProfile() {
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");
-      } catch (error) {
-        console.error(error);
-        toast.error("Unable to save changes!");
+      } catch (e) {
+        if (e.response.status === 404) {
+          nav("/404");
+        } else {
+          toast.e("Unable to upload profile photo!");
+        }
       }
     }
   }
@@ -70,13 +81,12 @@ export default function EditProfile() {
     const file = e.target.files[0];
     if (!file) {
       return;
-
     }
     const formData = new FormData();
     formData.append("photo", file);
     try {
       const response = await axios.post(
-        requestURL + 'users/upload-profile-photo',
+        requestURL + "users/upload-profile-photo",
         formData,
         {
           headers: {
@@ -87,16 +97,20 @@ export default function EditProfile() {
       setLoggedIn({ ...loggedIn, photo: response.data.photo });
       await fetchMe();
       toast.success("Profile photo uploaded successfully!");
-    } catch (error) {
-      toast.error("Unable to upload profile photo!");
+    } catch (e) {
+      if (e.response.status === 404) {
+        nav("/404");
+      } else {
+        toast.e("Unable to upload profile photo!");
+      }
     }
   }
 
   return (
     <>
+      <GenericHeader pageName="Edit profile" />
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
         <div>
-          <GenericHeader pageName="Edit profile" />
           <div className="flex flex-col items-center">
             <img
               className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
@@ -105,7 +119,7 @@ export default function EditProfile() {
                   ? loggedIn.photo
                   : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
               }
-              alt="profile-picture"
+              alt="pfp"
             />
             <input
               type="file"
@@ -235,7 +249,7 @@ export default function EditProfile() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p> // added this just in case the loggedIn state isn't rendered yet to avoid
+        <Loading />
       )}
       <ToastContainer
         position="top-center"

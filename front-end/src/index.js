@@ -8,8 +8,6 @@ import reportWebVitals from "./reportWebVitals";
 import Profile from "./pages/Profile";
 import Followers from "./pages/Followers";
 import Following from "./pages/Following";
-import Contactus from "./pages/Contactus";
-import Termsofservice from "./pages/Termsofservice";
 import OutfitCollection from "./pages/OutfitCollection";
 import OutfitForm from "./pages/OutfitForm";
 import OutfitView from "./pages/OutfitView";
@@ -46,8 +44,6 @@ root.render(
         <Route path="/followers" element={<Followers />}></Route>
         <Route path="/following" element={<Following />}></Route>
         <Route path="/comments/:postID" element={<Comments />}></Route>
-        <Route path="/contact-us" element={<Contactus />}></Route>
-        <Route path="/tos" element={<Termsofservice />}></Route>
         <Route path="/outfit-collection" element={<OutfitCollection />}></Route>
         <Route path="/outfit-form" element={<OutfitForm />}></Route>
         <Route path="/outfit-view/:id" element={<OutfitView />}></Route>
