@@ -18,13 +18,15 @@ import Search from "./pages/Search";
 
 import Home from "./pages/Home";
 import Register from "./Register";
-import Signin from "./signin"
+import Signin from "./signin";
 
 import DiscussionView from "./pages/DiscussionView";
 import ShareDiscussion from "./pages/ShareDiscussion";
 import Discussionform from "./pages/Discussionform";
 import Comments from "./pages/Comments";
-import PrivateRoute from "./PrivateRoute"
+import PrivateRoute from "./PrivateRoute";
+import NotFound from "./pages/NotFound";
+import GenericErr from "./pages/GenericErr";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,8 +35,11 @@ root.render(
       <Route path="/" element={<App />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route path="/signin" element={<Signin />}></Route>
+      <Route path="/*" element={<NotFound />}></Route>
+      <Route path="/404" element={<NotFound />}></Route>
+      <Route path="/500" element={<GenericErr />}></Route>
 
-      <Route element={<PrivateRoute/>}>
+      <Route element={<PrivateRoute />}>
         <Route path="/home" element={<Home />}></Route>
 
         <Route path="/profile/:username" element={<Profile />}></Route>
@@ -60,4 +65,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
