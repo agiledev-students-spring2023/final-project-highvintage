@@ -5,6 +5,7 @@ import GenericHeader from "../components/GenericHeader";
 import MainNav from "../components/MainNav";
 import StyleNav from "../components/StyleNav";
 import OutfitPreview from "../components/OutfitPost/OutfitPreview";
+import Loading from "../components/Loading";
 import axios from "axios";
 import { useEffect } from "react";
 import { requestURL } from "../requestURL";
@@ -17,24 +18,29 @@ export default function OutfitCollection() {
   const [style, setStyle] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [imgSrcs, setImgSrcs] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
-  const filterByStyle = useCallback((style) => {
-    let newPosts = [];
+  const filterByStyle = useCallback(
+    (style) => {
+      let newPosts = [];
 
-    if (allPosts.length > 0) {
-      if (style === "All" || style === "") {
-        newPosts = allPosts;
-      } else {
-        allPosts.forEach((p) => {
-          if (style === p.style) {
-            newPosts.push(p);
-          }
-        });
+      if (allPosts.length > 0) {
+        if (style === "All" || style === "") {
+          newPosts = allPosts;
+        } else {
+          allPosts.forEach((p) => {
+            if (style === p.style) {
+              newPosts.push(p);
+            }
+          });
+        }
+        setStyle(style);
+        setFilteredPosts(newPosts);
+        setLoaded(true);
       }
-      setStyle(style);
-      setFilteredPosts(newPosts);
-    }
-  }, [allPosts]);
+    },
+    [allPosts]
+  );
 
   function arrayBufferToBase64(buffer) {
     var binary = "";
@@ -78,8 +84,8 @@ export default function OutfitCollection() {
     setImgSrcs(newImgSrcs);
   }, [filteredPosts]);
 
-  imgSrcs && console.log('imgSrcs in collection', imgSrcs)
-  
+  imgSrcs && console.log("imgSrcs in collection", imgSrcs);
+
   const OutfitPreviews = filteredPosts.map((post, i) => (
     <OutfitPreview key={post._id} id={post._id} photo={imgSrcs[i]} />
   ));
@@ -93,21 +99,24 @@ export default function OutfitCollection() {
   });
 
   return (
-    <div>
+    <>
       <GenericHeader pageName="Outfits" />
-      <StyleNav filterByStyle={filterByStyle}></StyleNav>
+      {loaded ? (
+        <>
+          <StyleNav filterByStyle={filterByStyle}></StyleNav>
+          <div className="grid grid-cols-2 gap-1">{OutfitPreviews}</div>
 
-      {/* outfit grid */}
-      <div className="grid grid-cols-2 gap-1">{OutfitPreviews}</div>
-
-      <button
-        onClick={() => navigate("/outfit-form")}
-        className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3"
-      >
-        Post
-      </button>
-
+          <button
+            onClick={() => navigate("/outfit-form")}
+            className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3"
+          >
+            Post
+          </button>
+        </>
+      ) : (
+        <Loading />
+      )}
       <MainNav linkToMe={me} />
-    </div>
+    </>
   );
 }

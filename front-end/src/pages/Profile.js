@@ -4,6 +4,7 @@ import ProfileHeader from "../components/Profile/ProfileHeader.js";
 import ProfileShowPosts from "../components/Profile/ProfileShowPosts.js";
 import GenericHeader from "../components/GenericHeader.js";
 import MainNav from "../components/MainNav.js";
+import Loading from "../components/Loading.js";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 
@@ -137,10 +138,7 @@ const Profile = () => {
             ></ProfileShowPosts>
           </>
         ) : (
-          <p className="text-gray-500 text-sm text-center mt-24">
-            {" "}
-            Loading profile...
-          </p>
+          <Loading/>
         )}
 
         <MainNav />

@@ -23,7 +23,7 @@ export default function EditProfile() {
 
   useEffect(() => {
     fetchMe();
-  }, []);
+  });
 
   const [update, setUpdate] = useState({});
 
@@ -101,16 +101,16 @@ export default function EditProfile() {
       if (e.response.status === 404) {
         nav("/404");
       } else {
-      toast.e("Unable to upload profile photo!");
+        toast.e("Unable to upload profile photo!");
       }
     }
   }
 
   return (
     <>
+      <GenericHeader pageName="Edit profile" />
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
         <div>
-          <GenericHeader pageName="Edit profile" />
           <div className="flex flex-col items-center">
             <img
               className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
@@ -119,7 +119,7 @@ export default function EditProfile() {
                   ? loggedIn.photo
                   : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
               }
-              alt="profile-picture"
+              alt="pfp"
             />
             <input
               type="file"
@@ -249,7 +249,7 @@ export default function EditProfile() {
           </div>
         </div>
       ) : (
-        <Loading/>
+        <Loading />
       )}
       <ToastContainer
         position="top-center"

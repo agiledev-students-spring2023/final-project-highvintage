@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import GenericHeader from "../components/GenericHeader";
 import MainNav from "../components/MainNav";
 import OutfitPost from "../components/OutfitPost/OutfitPost";
+import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
-import { set } from "mongoose";
 
 export default function Home() {
   const [viewable, setViewable] = useState([]);
@@ -70,19 +70,26 @@ export default function Home() {
       {viewable.length > 0 ? (
         viewable
       ) : (
-        <div className="flex flex-col items-center justify-center h-40">
-          <p className="text-gray-500 text-sm text-center mb-2">
-            {loaded
-              ? err
-                ? "Oops! Looks like something went wrong on our end."
-                : "Looks like you don't follow anyone, yet!"
-              : "Loading your feed..."}
-          </p>
-          <p className="text-gray-500 text-sm text-center">
-            {!loaded
-              ? "One sec!"
-              : "Try following other users to view your home feed and discover new content that you'll love."}
-          </p>
+        <div>
+          {loaded ? (
+            <div className="flex flex-col items-center justify-center h-40">
+              <p className="text-gray-500 text-sm text-center mb-2">
+                {err
+                  ? "Oops! Looks like something went wrong on our end."
+                  : "Looks like you don't follow anyone yet!"}
+              </p>
+              <p className="text-gray-500 text-sm text-center">
+                {err
+                  ? "One sec!"
+                  : "Try following other users to view your home feed and discover new content that you'll love."}
+              </p>
+            </div>
+          ) : (
+            <div className="-mt-14">
+              {" "}
+              <Loading />{" "}
+            </div>
+          )}
         </div>
       )}
       <div className="mt-14">
