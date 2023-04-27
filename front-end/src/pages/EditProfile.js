@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import GenericHeader from "../components/GenericHeader";
 import axios from "axios";
@@ -8,9 +9,15 @@ import { requestURL } from "../requestURL";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
+  const nav = useNavigate();
+
   async function fetchMe() {
-    const response = await axios.get(requestURL + "users/me");
-    setLoggedIn(response.data.user);
+    try {
+      const response = await axios.get(requestURL + "users/me");
+      setLoggedIn(response.data.user);
+    } catch (e) {
+      nav("/500");
+    }
   }
 
   useEffect(() => {
@@ -58,9 +65,12 @@ export default function EditProfile() {
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");
-      } catch (error) {
-        console.error(error);
-        toast.error("Unable to save changes!");
+      } catch (e) {
+        if (e.response.status === 404) {
+          nav("/404");
+        } else {
+          nav("/500");
+        }
       }
     }
   }
@@ -70,13 +80,12 @@ export default function EditProfile() {
     const file = e.target.files[0];
     if (!file) {
       return;
-
     }
     const formData = new FormData();
     formData.append("photo", file);
     try {
       const response = await axios.post(
-        requestURL + 'users/upload-profile-photo',
+        requestURL + "users/upload-profile-photo",
         formData,
         {
           headers: {
@@ -87,8 +96,8 @@ export default function EditProfile() {
       setLoggedIn({ ...loggedIn, photo: response.data.photo });
       await fetchMe();
       toast.success("Profile photo uploaded successfully!");
-    } catch (error) {
-      toast.error("Unable to upload profile photo!");
+    } catch (e) {
+      toast.e("Unable to upload profile photo!");
     }
   }
 
@@ -235,7 +244,7 @@ export default function EditProfile() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p> // added this just in case the loggedIn state isn't rendered yet to avoid
+        <p>Loading...</p>
       )}
       <ToastContainer
         position="top-center"
