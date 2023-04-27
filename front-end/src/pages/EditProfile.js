@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import GenericHeader from "../components/GenericHeader";
+import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 
@@ -248,7 +249,7 @@ export default function EditProfile() {
           </div>
         </div>
       ) : (
-        <p>Loading...</p> 
+        <Loading/>
       )}
       <ToastContainer
         position="top-center"
