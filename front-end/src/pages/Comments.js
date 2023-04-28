@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
 import Comment from "../components/Comments/Comment";
 import AddComment from "../components/Comments/AddComment";
@@ -11,6 +12,7 @@ export default function Comments(props) {
   const [userPhoto, setUserPhoto] = useState("");
   const [userName, setUserName] = useState("");
   const [userID, setUserID] = useState(0);
+  const nav = useNavigate();
 
   const params = useParams();
 
@@ -18,25 +20,37 @@ export default function Comments(props) {
 
   useEffect(() => {
     async function fetchComments(query) {
-      const response = await axios.get(
-        requestURL + "comments/view/" + query + toFetch
-      );
-      setComments(response.data.comments);
-      setUserPhoto(response.data.userPhoto);
-      setUserName(response.data.username);
-      setUserID(response.data.id);
+      try {
+        const response = await axios.get(
+          requestURL + "comments/view/" + query + toFetch
+        );
+        setComments(response.data.comments);
+        setUserPhoto(response.data.userPhoto);
+        setUserName(response.data.username);
+        setUserID(response.data.id);
+      } catch (e) {
+        if (e.response.status === 404) {
+          nav("/404");
+        } else {
+          nav("/500");
+        }
+      }
     }
 
     async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
-      const user = response.data.user;
-      setUserID(user._id);
-      setUserName(user.username);
-      setUserPhoto(
-        user.photo
-          ? user.photo
-          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-      );
+      try {
+        const response = await axios.get(requestURL + "users/me");
+        const user = response.data.user;
+        setUserID(user._id);
+        setUserName(user.username);
+        setUserPhoto(
+          user.photo
+            ? user.photo
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        );
+      } catch (e) {
+        nav("/500");
+      }
     }
 
     fetchMe();

@@ -22,8 +22,14 @@ router.get("/styles", async (req, res) => {
   try {
     const fetchedStyles = await new Style({
       styles: [
-        'All', 'Sporty & Athleisure', 'Streetwear', 'Classic', 'Funk', 'Minimal', 'Other'
-      ]
+        "All",
+        "Sporty & Athleisure",
+        "Streetwear",
+        "Classic",
+        "Funk",
+        "Minimal",
+        "Other",
+      ],
     }).save();
     let styles = fetchedStyles.styles;
     // console.log('* styles', styles)
@@ -35,7 +41,7 @@ router.get("/styles", async (req, res) => {
     console.log("Style error:", err)
     res.status(500).json({ message: "Internal Server Error" });
   }
-})
+});
 
 // enable file uploads saved to disk in a directory named 'public/uploads'
 const storage = multer.diskStorage({
@@ -258,7 +264,7 @@ router.get("/view", async (req, res) => {
       authorUsername: user.username,
       postLoc: foundPost.location || " ",
       date: foundPost.posted,
-      postText: foundPost.caption
+      postText: foundPost.caption,
     };
     return res.json({ post });
   } else {
@@ -269,7 +275,15 @@ router.get("/view", async (req, res) => {
 
 // api/posts/
 router.get("/feed", async function (req, res) {
-  const populateFollowing = await req.user.populate("following");
+  if (!req.user) {
+    res.sendStatus(403);
+  }
+
+  try {
+    const populateFollowing = await req.user.populate("following");
+  } catch (e) {
+    res.sendStatus(500);
+  }
 
   const postsToDisplay = [];
 
@@ -278,12 +292,32 @@ router.get("/feed", async function (req, res) {
   );
 
   const feed = [];
-  for (const post of postsToDisplay) {
-    const putInFeed = await Post.findById(post).populate("author");
-    feed.push(putInFeed);
+
+  try {
+    for (const post of postsToDisplay) {
+      const putInFeed = await Post.findById(post).populate("author");
+      feed.push(putInFeed);
+    }
+  } catch (e) {
+    return res.sendStatus(500);
   }
 
-  console.log(feed);
+  try {
+    const populatePosts = await req.user.populate("posts");
+  } catch (e) {
+    return res.sendStatus(500);
+  }
+
+  for (const myPost of req.user.posts) {
+    try {
+      const addMyPostToFeed = await Post.findById(myPost._id).populate(
+        "author"
+      );
+      feed.push(addMyPostToFeed);
+    } catch (e) {
+      return res.sendStatus(500);
+    }
+  }
 
   const sorted = feed.sort(function (a, b) {
     return new Date(b.posted) - new Date(a.posted);

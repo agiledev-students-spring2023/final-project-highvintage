@@ -17,7 +17,7 @@ router.get("/view/:postID", async function (req, res) {
       const post = await Discussion.findOne({ _id: new ObjectId(id) });
 
       if (!post) {
-        return res.status(404).send("Post not found");
+        return res.status(404);
       }
 
       const comments = await Comment.find({ _id: { $in: post.comments } })
@@ -47,7 +47,7 @@ router.get("/view/:postID", async function (req, res) {
       const post = await Post.findOne({ _id: new ObjectId(id) });
 
       if (!post) {
-        return res.status(404).send("Post not found");
+        return res.status(404);
       }
 
       const comments = await Comment.find({ _id: { $in: post.comments } })
@@ -71,37 +71,46 @@ router.get("/view/:postID", async function (req, res) {
       console.error(err);
       return res.status(500);
     }
+  } else {
+    return res.status(500);
   }
 });
 
 router.post("/add", async function (req, res) {
   try {
     const { type, postID, comment } = req.body;
+
+    if (!type || !postID || !comment) {
+      return res.status(500);
+    }
+
     const newComment = new Comment({
       type: type,
       author: req.user.id,
       body: comment.body,
     });
 
-    // save the comment to Comment collection
-    const savedComment = await newComment.save();
+    try {
+      // save the comment to Comment collection
+      const savedComment = await newComment.save();
 
-    // update post's comment array
-    if (type == "discussion") {
-      await Discussion.findByIdAndUpdate(postID, {
-        $push: { comments: savedComment._id },
-      });
-    } else if (type == "photo") {
-      await Post.findByIdAndUpdate(postID, {
-        $push: { comments: savedComment._id },
-      });
-    } else {
-      console.log("type error");
+      // update post's comment array
+      if (type == "discussion") {
+        await Discussion.findByIdAndUpdate(postID, {
+          $push: { comments: savedComment._id },
+        });
+      } else if (type == "photo") {
+        await Post.findByIdAndUpdate(postID, {
+          $push: { comments: savedComment._id },
+        });
+      } else {
+        return res.sendStatus(500).send("Post type error");
+      }
+    } catch (err) {
+      console.log(err);
+      return res.sendStatus(500);
     }
-
-    res.sendStatus(200);
   } catch (err) {
-    console.log(err);
     return res.sendStatus(500);
   }
 });
