@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
@@ -29,10 +29,7 @@ export default function AddComment(props) {
       },
     };
 
-    const response = await axios.post(
-      requestURL + "comments/add",
-      commentObject
-    );
+    await axios.post(requestURL + "comments/add", commentObject);
   }
 
   function generateButton() {
@@ -77,6 +74,7 @@ export default function AddComment(props) {
           <img
             className="h-14 ml-4 object-cover aspect-square"
             src={props.photo}
+            alt="User's profile"
           />
         </div>
         <input

@@ -30,7 +30,7 @@ export default function Followers() {
     } catch (e) {
       setErr(true);
     }
-  }, []);
+  });
 
   const followerComponents = followers.map((follower) => (
     <ProfilePreview username={follower.username} photo={follower.photo} />

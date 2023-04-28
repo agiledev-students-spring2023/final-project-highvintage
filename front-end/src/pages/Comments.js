@@ -64,7 +64,7 @@ export default function Comments(props) {
     }
 
     return () => {};
-  }, []);
+  });
 
   const commentComponents = comments.map((comment, idx) => (
     <Comment
