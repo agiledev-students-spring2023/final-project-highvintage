@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
+
   const navigate = useNavigate();
 
   function handleInput(value) {
@@ -18,6 +19,7 @@ export default function AddComment(props) {
   }
 
   async function handleComment() {
+    navigate(0);
     const commentObject = {
       type: props.type,
       postID: props.postID,
@@ -31,10 +33,6 @@ export default function AddComment(props) {
       requestURL + "comments/add",
       commentObject
     );
-
-    if (response.status === 200) {
-      navigate(0);
-    }
   }
 
   function generateButton() {
@@ -57,7 +55,11 @@ export default function AddComment(props) {
           type="submit"
           className="col-span-2 text-blue-400 "
           onClick={async (e) => {
-            await handleComment();
+            try {
+              await handleComment();
+            } catch (e) {
+              navigate("/500");
+            }
           }}
         >
           {" "}
