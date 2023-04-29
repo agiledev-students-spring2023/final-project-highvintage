@@ -6,12 +6,14 @@ import Comment from "../components/Comments/Comment";
 import AddComment from "../components/Comments/AddComment";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import Loading from "../components/Loading";
 
 export default function Comments(props) {
   const [comments, setComments] = useState([]);
   const [userPhoto, setUserPhoto] = useState("");
   const [userName, setUserName] = useState("");
   const [userID, setUserID] = useState(0);
+  const [loaded, setLoaded] = useState(false);
   const nav = useNavigate();
 
   const params = useParams();
@@ -48,16 +50,21 @@ export default function Comments(props) {
             ? user.photo
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
         );
+        setLoaded(true);
       } catch (e) {
         nav("/500");
       }
     }
 
-    fetchMe();
-    fetchComments(params.postID);
+    try {
+      fetchMe();
+      fetchComments(params.postID);
+    } catch (e) {
+      nav("/500");
+    }
 
     return () => {};
-  }, []);
+  });
 
   const commentComponents = comments.map((comment, idx) => (
     <Comment
@@ -68,27 +75,42 @@ export default function Comments(props) {
       key={idx}
     />
   ));
+
+  commentComponents.reverse();
+
+  function loadPage() {
+    if (loaded) {
+      return (
+        <>
+          {" "}
+          <section className="mt-16 mb-24 py-1 w-10/12 mr-auto ml-auto">
+            {comments.length > 0 ? (
+              commentComponents
+            ) : (
+              <p className="text-center mt-24">
+                {" "}
+                No comments on this post. Be the first to comment!
+              </p>
+            )}
+          </section>
+          <AddComment
+            type={toFetch.includes("photo") ? "photo" : "discussion"}
+            id={userID}
+            photo={userPhoto}
+            username={userName}
+            postID={params.postID}
+          />{" "}
+        </>
+      );
+    } else {
+      return <Loading />;
+    }
+  }
+
   return (
     <>
       <GenericHeader pageName="Comments" />
-
-      <section className="mt-16 mb-24 py-1 w-10/12 mr-auto ml-auto">
-        {comments.length > 0 ? (
-          commentComponents
-        ) : (
-          <p className="text-center mt-24">
-            {" "}
-            No comments on this post. Be the first to comment!
-          </p>
-        )}
-      </section>
-      <AddComment
-        type={toFetch.includes("photo") ? "photo" : "discussion"}
-        id={userID}
-        photo={userPhoto}
-        username={userName}
-        postID={params.postID}
-      />
+      {loadPage()}
     </>
   );
 }

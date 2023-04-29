@@ -138,7 +138,7 @@ const Profile = () => {
             ></ProfileShowPosts>
           </>
         ) : (
-          <Loading/>
+          <Loading />
         )}
 
         <MainNav />
