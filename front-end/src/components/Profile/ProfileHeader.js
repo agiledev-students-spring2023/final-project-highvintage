@@ -52,7 +52,7 @@ export default function ProfileHeader(props) {
           <h2 className="text-2xl ">{username}</h2>
           <div className="flex flex-col mt-2">
             {isLoggedIn ? (
-              <button className="bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ">
+              <button className="bg-gray-300 text-black w-full px-4 py-1 rounded-lg mr-4 ">
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
             ) : (
@@ -69,7 +69,7 @@ export default function ProfileHeader(props) {
         </div>
       </div>
 
-      <div className="ml-8 mr-8">
+      <div className="ml-6 mr-8">
         <div className="text-gray-500">
           <p className="mt-3">
             <span className="font-semibold">Style:</span> {style}
@@ -82,14 +82,14 @@ export default function ProfileHeader(props) {
         <p className="mt-1">{bio}</p>
       </div>
 
-      <ul className="flex justify-center w-full mt-2">
-        <li className="flex flex-col items-center flex-1">
+      <ul className="flex justify-center w-full mt-3 border-b-2 bg-white border-x-slate-400">
+        <li className="flex flex-col items-center flex-1 py-2">
           <span className="leading-tight font-bold">{posts.length}</span>
           <span className="text-gray-500">{`post${
             posts.length !== 1 ? "s" : ""
           }`}</span>
         </li>
-        <li className="flex flex-col items-center flex-1">
+        <li className="flex flex-col items-center flex-1 py-2">
           <span className="leading-tight font-bold">{followers.length}</span>
           <button className="mx-auto">
             <Link
@@ -101,7 +101,7 @@ export default function ProfileHeader(props) {
             </Link>
           </button>
         </li>
-        <li className="flex flex-col items-center flex-1">
+        <li className="flex flex-col items-center flex-1 py-2">
           <span className=" leading-tight font-bold">{following.length}</span>
           <button className="mx-auto">
             <Link
