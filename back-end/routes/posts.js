@@ -39,7 +39,7 @@ router.get("/styles", async (req, res) => {
   }
   catch (err) {
     console.log("Style error:", err)
-    res.status(500).json({ message: "Internal Server Error" });
+    res.sendStatus(500);
   }
 });
 
@@ -93,7 +93,10 @@ router.post(
         // console.log('* newPost', newPost);
         console.log("* date format", newPost.posted);
         db.collection("Posts").insertOne(newPost);
-      } else console.log("* Failed to create post");
+      } else {
+        console.log("* Failed to create post")
+        res.sendStatus(500);
+      };
 
       // Populate the author field in the newPost object
       const populatedPost = await Post.populate(newPost, {
@@ -114,14 +117,15 @@ router.post(
         // await User.updateMany({}, { $set: { posts: [] } });
       } catch (err) {
         console.log("* Issue saving user", err);
+        res.sendStatus(500);
       }
 
       res
         .status(201)
-        .json({ newPost: populatedPost, message: "Successfully posted!" });
+        .json({ newPost: populatedPost });
     } catch (err) {
       console.log("Error:", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.sendStatus(500);
       next(err);
     }
   }
@@ -130,7 +134,7 @@ router.post(
 // error handling middleware
 router.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Internal Server Error" });
+  res.sendStatus(500);
 });
 
 // get like status
@@ -153,7 +157,7 @@ router.get("/:id/like", async (req, res) => {
     res.json({ numLikes, isLiked });
   } catch (err) {
     console.log("* Cannot get initial like state", err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.sendStatus(500);
   }
 });
 
@@ -182,7 +186,7 @@ router.post("/:postID/like", async (req, res) => {
         });
     } catch (err) {
       console.log("* Error adding user to like array", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.sendStatus(500);
     }
   } else {
     // deletes user from like array
@@ -195,7 +199,7 @@ router.post("/:postID/like", async (req, res) => {
         })
     } catch (err) {
       console.log("* Error deleting user from like array", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.sendStatus(500);
     }
   }
 
@@ -215,7 +219,7 @@ router.post("/:postID/like", async (req, res) => {
   res.json({ numLikes, isLiked });
   } catch (err) {
     console.log(err)
-    res.status(500).json({ message: "Internal Server Error" });
+    res.sendStatus(500);
   }
  
 });
@@ -241,7 +245,7 @@ router.get("/collection", async (req, res) => {
       .catch((err) => console.log("* Cannot fetch all users", err));
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.sendStatus(500);
   }
 });
 
