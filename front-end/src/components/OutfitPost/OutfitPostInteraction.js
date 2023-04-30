@@ -28,11 +28,12 @@ export default function OutfitPostInfo(props) {
         setNumLikes(response.data.numLikes);
       } catch (error) {
         console.log(error);
-        navigate("/500")
+        navigate("/500");
       }
     };
     fetchInitialLikeState();
-  }, []);
+  }, [props.postID, props.authorID, navigate]); 
+
 
   const toggleLike = async () => {
     try {
