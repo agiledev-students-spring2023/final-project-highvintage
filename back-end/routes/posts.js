@@ -1,32 +1,31 @@
-const express = require("express");
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
-const Post = require("../schemas/posts.js");
-const User = require("../schemas/users.js");
-const Style = require("../schemas/styles.js");
-const db = require("../db.js");
-const { ObjectId } = require("mongodb");
-const { isValidObjectId } = require("mongoose");
+const express = require('express');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const Post = require('../schemas/posts.js');
+const User = require('../schemas/users.js');
+const Style = require('../schemas/styles.js');
+const db = require('../db.js');
+const { ObjectId } = require('mongodb');
 const router = express.Router();
 
-router.use("/static", express.static("public"));
-const uploadDir = path.join(__dirname, "..", "public", "uploads");
+router.use('/static', express.static('public'));
+const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
 
-router.get("/styles", async (req, res) => {
+router.get('/styles', async (req, res) => {
   try {
     const fetchedStyles = await new Style({
       styles: [
-        "All",
-        "Sporty & Athleisure",
-        "Streetwear",
-        "Classic",
-        "Funk",
-        "Minimal",
-        "Other",
-      ],
+        'All',
+        'Sporty & Athleisure',
+        'Streetwear',
+        'Classic',
+        'Funk',
+        'Minimal',
+        'Other'
+      ]
     }).save();
-    let styles = fetchedStyles.styles;
+    const styles = fetchedStyles.styles;
     res.status(201).json({ styles });
   } catch (err) {
     res.sendStatus(500);
@@ -43,53 +42,52 @@ const storage = multer.diskStorage({
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
-  },
+  }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // TODO: file validation
 
 // api/posts/ (outfit posts)
 router.post(
-  "/create",
-  upload.fields([{ name: "my_files", maxCount: 5 }]),
+  '/create',
+  upload.fields([{ name: 'my_files', maxCount: 5 }]),
   async (req, res, next) => {
     const user = req.user;
-    const author = user.username;
     const { location, content, style } = req.body;
 
     const photos = req.files.my_files.map((file) => ({
-      data: fs.readFileSync(path.join(uploadDir + "/" + file.filename)),
-      contentType: file.mimetype,
+      data: fs.readFileSync(path.join(uploadDir + '/' + file.filename)),
+      contentType: file.mimetype
     }));
 
     try {
       // create new Post and save
       const newPost = await new Post({
         author: user._id,
-        style: style,
+        style,
         caption: content,
-        photos: photos,
-        location: location,
+        photos,
+        location
       }).save();
 
       if (newPost) {
-        db.collection("Posts").insertOne(newPost);
+        db.collection('Posts').insertOne(newPost);
       } else {
         res.sendStatus(500);
       }
 
       // Populate the author field in the newPost object
       const populatedPost = await Post.populate(newPost, {
-        path: "author",
-        model: "User",
+        path: 'author',
+        model: 'User'
       });
       user.posts.push(populatedPost._id);
 
       try {
         await user.save();
         // Populate posts field in User
-        const populatedUser = await User.findById(user._id).populate("posts");
+        await User.findById(user._id).populate('posts');
 
         // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
@@ -113,13 +111,12 @@ router.use((err, req, res, next) => {
 });
 
 // get like status
-router.get("/:id/like", async (req, res) => {
+router.get('/:id/like', async (req, res) => {
   const userID = req.query.userID;
   const postID = req.params.id;
 
   try {
     const post = await Post.findById(postID);
-    post ? console.log("post found") : null;
 
     const numLikes = post.likes.length;
     // determine if it is liked
@@ -132,7 +129,7 @@ router.get("/:id/like", async (req, res) => {
 });
 
 // api/posts/
-router.post("/:postID/like", async (req, res) => {
+router.post('/:postID/like', async (req, res) => {
   const { userID, postID, liked, postLikes } = req.body;
   const user = req.user;
 
@@ -144,11 +141,11 @@ router.post("/:postID/like", async (req, res) => {
     // adds user objectID to like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $push: { likes: new ObjectId(user._id) },
+        $push: { likes: new ObjectId(user._id) }
       })
         .populate()
         .then((post) => {
-          console.log("+ Likes", post.likes.length);
+          console.log('+ Likes', post.likes.length);
         });
     } catch (err) {
       res.sendStatus(500);
@@ -157,9 +154,9 @@ router.post("/:postID/like", async (req, res) => {
     // deletes user from like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $pull: { likes: new ObjectId(user._id) },
+        $pull: { likes: new ObjectId(user._id) }
       }).then((post) => {
-        console.log("- Likes", post.likes.length);
+        console.log('- Likes', post.likes.length);
       });
     } catch (err) {
       res.sendStatus(500);
@@ -186,29 +183,29 @@ router.post("/:postID/like", async (req, res) => {
 });
 
 // api/posts/
-router.get("/collection", async (req, res) => {
+router.get('/collection', async (req, res) => {
   const user = req.user;
   try {
     await User.find()
       .then(async (fetchedUsers) => {
-        const populatedUsers = await User.findById(user._id).populate("posts");
-        let allPosts = [];
+        const populatedUsers = await User.findById(user._id).populate('posts');
+        const allPosts = [];
         [populatedUsers].forEach((user) => {
           user.posts.forEach((p) => {
             allPosts.push(p);
           });
         });
-        console.log("* allPosts", allPosts);
+        console.log('* allPosts', allPosts);
         res.json({ populatedUsers, allPosts });
       })
-      .catch((err) => console.log("* Cannot fetch all users", err));
+      .catch((err) => console.log('* Cannot fetch all users', err));
   } catch (err) {
     res.sendStatus(500);
   }
 });
 
 // api/posts/
-router.get("/view", async (req, res) => {
+router.get('/view', async (req, res) => {
   const user = req.user;
   const author = user.username;
   const postID = req.query.id;
@@ -220,9 +217,9 @@ router.get("/view", async (req, res) => {
         ...foundPost.toObject(),
         authorPhoto: user.photo,
         authorUsername: user.username,
-        postLoc: foundPost.location || " ",
+        postLoc: foundPost.location || ' ',
         date: foundPost.posted,
-        postText: foundPost.caption,
+        postText: foundPost.caption
       };
       return res.json({ post });
     } else {
@@ -235,13 +232,13 @@ router.get("/view", async (req, res) => {
 });
 
 // api/posts/
-router.get("/feed", async function (req, res) {
+router.get('/feed', async function (req, res) {
   if (!req.user) {
     res.sendStatus(403);
   }
 
   try {
-    const populateFollowing = await req.user.populate("following");
+    await req.user.populate('following');
   } catch (e) {
     res.sendStatus(500);
   }
@@ -256,7 +253,7 @@ router.get("/feed", async function (req, res) {
 
   try {
     for (const post of postsToDisplay) {
-      const putInFeed = await Post.findById(post).populate("author");
+      const putInFeed = await Post.findById(post).populate('author');
       feed.push(putInFeed);
     }
   } catch (e) {
@@ -264,7 +261,7 @@ router.get("/feed", async function (req, res) {
   }
 
   try {
-    const populatePosts = await req.user.populate("posts");
+    await req.user.populate('posts');
   } catch (e) {
     return res.sendStatus(500);
   }
@@ -272,7 +269,7 @@ router.get("/feed", async function (req, res) {
   for (const myPost of req.user.posts) {
     try {
       const addMyPostToFeed = await Post.findById(myPost._id).populate(
-        "author"
+        'author'
       );
       feed.push(addMyPostToFeed);
     } catch (e) {

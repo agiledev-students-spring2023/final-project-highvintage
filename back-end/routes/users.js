@@ -1,18 +1,15 @@
-const express = require("express");
-const dummyUsers = require("../mock-db/mock.js");
-const User = require("../schemas/users.js");
-const db = require("../db.js");
-const Post = require("../schemas/posts.js");
+const express = require('express');
+const User = require('../schemas/users.js');
 const router = express.Router();
-const path = require("path");
-const multer = require("multer");
+const path = require('path');
+const multer = require('multer');
 const uploadDir = path.join(
   __dirname,
-  "..",
-  "..",
-  "front-end",
-  "public",
-  "profile_photos"
+  '..',
+  '..',
+  'front-end',
+  'public',
+  'profile_photos'
 );
 
 // storage for user's profile photos
@@ -25,38 +22,38 @@ const storage = multer.diskStorage({
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
-  },
+  }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 router.post(
-  "/upload-profile-photo",
-  upload.single("photo"),
+  '/upload-profile-photo',
+  upload.single('photo'),
   async (req, res, next) => {
     const user = req.user;
     const file = req.file;
 
     if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
+      return res.status(400).json({ message: 'No file uploaded' });
     }
-    const photo = "/profile_photos/" + file.filename;
+    const photo = '/profile_photos/' + file.filename;
 
     try {
       user.photo = photo;
       await user.save();
       res.status(200).json({
-        photo: photo,
-        message: "Profile photo uploaded successfully!",
+        photo,
+        message: 'Profile photo uploaded successfully!'
       });
     } catch (err) {
-      console.log("Error:", err);
+      console.log('Error:', err);
       next(err);
     }
   }
 );
 
 // api/users/
-router.get("/profile/:username", async function (req, res) {
+router.get('/profile/:username', async function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
@@ -70,14 +67,14 @@ router.get("/profile/:username", async function (req, res) {
 
     if (findUser) {
       // populate required fields
-      const populatedUser = await findUser.populate("posts");
-      const findFollowers = await findUser.populate("followers");
+      await findUser.populate('posts');
+      const findFollowers = await findUser.populate('followers');
 
       const checkFollower = findFollowers.followers.find((user) => {
         return user.username === req.user.username;
       });
 
-      const isAFollower = checkFollower ? true : false;
+      const isAFollower = !!checkFollower;
 
       return res.send({ user: findUser, isFollowing: isAFollower });
     } else {
@@ -88,33 +85,33 @@ router.get("/profile/:username", async function (req, res) {
   }
 });
 
-router.put("/edit-profile", async function (req, res) {
+router.put('/edit-profile', async function (req, res) {
   const toChange = req.body.changes;
 
-  if (toChange["username"]) {
+  if (toChange.username) {
     // does a user already have an existing username?
     const usernameExists = await User.findOne({ username: toChange.username });
 
     if (usernameExists) {
       // 409 conflict
-      return res.status(409).send({ error: "Username already exists." });
+      return res.status(409).send({ error: 'Username already exists.' });
     }
   }
 
   // update user in the database
   try {
     const updatedUser = await User.findByIdAndUpdate(req.user._id, toChange, {
-      new: true,
+      new: true
     });
 
-    res.json({ message: "Sucessfully updated profile", user: updatedUser });
+    res.json({ message: 'Sucessfully updated profile', user: updatedUser });
   } catch (error) {
     console.error(error);
     return res.status(500);
   }
 });
 
-router.get("/search", async function (req, res) {
+router.get('/search', async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.query.query) {
@@ -130,7 +127,7 @@ router.get("/search", async function (req, res) {
   return res.json({ found });
 });
 
-router.get("/me", async function (req, res) {
+router.get('/me', async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.user) {
@@ -139,8 +136,8 @@ router.get("/me", async function (req, res) {
 
   try {
     const me = await User.findById(req.user._id)
-      .populate("posts")
-      .populate("discussions");
+      .populate('posts')
+      .populate('discussions');
 
     return res.json({ user: me });
   } catch (e) {
@@ -149,7 +146,7 @@ router.get("/me", async function (req, res) {
 });
 
 // api/users/:username/follow
-router.put("/:username/follow", async function (req, res) {
+router.put('/:username/follow', async function (req, res) {
   const username = req.params.username;
   const gainedAFollower = await User.findOneAndUpdate(
     { username },
@@ -167,7 +164,7 @@ router.put("/:username/follow", async function (req, res) {
 });
 
 // api/users/:username/unfollow
-router.put("/:username/unfollow", async function (req, res) {
+router.put('/:username/unfollow', async function (req, res) {
   const toLoseFollower = req.params.username;
 
   const losingAFollower = await User.findOneAndUpdate(
@@ -186,10 +183,10 @@ router.put("/:username/unfollow", async function (req, res) {
 });
 
 // get user's followers
-router.get("/:username/followers", async function (req, res) {
+router.get('/:username/followers', async function (req, res) {
   const username = req.params.username.toLowerCase();
 
-  const user = await User.findOne({ username }).populate({ path: "followers" });
+  const user = await User.findOne({ username }).populate({ path: 'followers' });
 
   if (!user) {
     return res.sendStatus(500);
@@ -200,7 +197,7 @@ router.get("/:username/followers", async function (req, res) {
       username: follower.username,
       photo: follower.photo
         ? follower.photo
-        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+        : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
     };
   });
 
@@ -208,10 +205,10 @@ router.get("/:username/followers", async function (req, res) {
 });
 
 // get user's following
-router.get("/:username/following", async function (req, res) {
+router.get('/:username/following', async function (req, res) {
   const username = req.params.username.toLowerCase();
 
-  const user = await User.findOne({ username }).populate({ path: "following" });
+  const user = await User.findOne({ username }).populate({ path: 'following' });
 
   if (!user) {
     return res.sendStatus(500);
@@ -222,20 +219,20 @@ router.get("/:username/following", async function (req, res) {
       username: following.username,
       photo: following.photo
         ? following.photo
-        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+        : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
     };
   });
 
   return res.json({ following: response });
 });
 
-//retrieve username
-router.get("/:id", async (req, res) => {
+// retrieve username
+router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json({ username: user.username });
   } catch (err) {
-    res.status(404).json({ error: "User not found" });
+    res.status(404).json({ error: 'User not found' });
   }
 });
 module.exports = router;

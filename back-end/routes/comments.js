@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { ObjectId } = require("mongodb");
-const Discussion = require("../schemas/discussions");
-const Comment = require("../schemas/comments");
-const Post = require("../schemas/posts");
+const { ObjectId } = require('mongodb');
+const Discussion = require('../schemas/discussions');
+const Comment = require('../schemas/comments');
+const Post = require('../schemas/posts');
 
-router.get("/view/:postID", async function (req, res) {
+router.get('/view/:postID', async function (req, res) {
   if (!req.params.postID) {
     res.send(500);
   }
@@ -21,21 +21,21 @@ router.get("/view/:postID", async function (req, res) {
       }
 
       const comments = await Comment.find({ _id: { $in: post.comments } })
-        .populate("author", "id photo username")
+        .populate('author', 'id photo username')
         .lean();
 
       const commentsToAppend = comments.map((comment) => ({
         id: comment.author._id,
         photo: comment.author.photo,
         user: comment.author.username,
-        body: comment.body,
+        body: comment.body
       }));
 
       res.send({
         userPhoto: req.user.photo,
         username: req.user.username,
         id: req.user._id,
-        comments: commentsToAppend,
+        comments: commentsToAppend
       });
     } catch (err) {
       return res.status(500);
@@ -50,21 +50,21 @@ router.get("/view/:postID", async function (req, res) {
       }
 
       const comments = await Comment.find({ _id: { $in: post.comments } })
-        .populate("author", "id photo username")
+        .populate('author', 'id photo username')
         .lean();
 
       const commentsToAppend = comments.map((comment) => ({
         id: comment.author._id,
         photo: comment.author.photo,
         user: comment.author.username,
-        body: comment.body,
+        body: comment.body
       }));
 
       res.send({
         userPhoto: req.user.photo,
         username: req.user.username,
         id: req.user._id,
-        comments: commentsToAppend,
+        comments: commentsToAppend
       });
     } catch (err) {
       return res.status(500);
@@ -74,7 +74,7 @@ router.get("/view/:postID", async function (req, res) {
   }
 });
 
-router.post("/add", async function (req, res) {
+router.post('/add', async function (req, res) {
   try {
     const { type, postID, comment } = req.body;
 
@@ -83,9 +83,9 @@ router.post("/add", async function (req, res) {
     }
 
     const newComment = new Comment({
-      type: type,
+      type,
       author: req.user.id,
-      body: comment.body,
+      body: comment.body
     });
 
     try {
@@ -93,16 +93,16 @@ router.post("/add", async function (req, res) {
       const savedComment = await newComment.save();
 
       // update post's comment array
-      if (type == "discussion") {
+      if (type === 'discussion') {
         await Discussion.findByIdAndUpdate(postID, {
-          $push: { comments: savedComment._id },
+          $push: { comments: savedComment._id }
         });
-      } else if (type == "photo") {
+      } else if (type === 'photo') {
         await Post.findByIdAndUpdate(postID, {
-          $push: { comments: savedComment._id },
+          $push: { comments: savedComment._id }
         });
       } else {
-        return res.sendStatus(500).send("Post type error");
+        return res.sendStatus(500).send('Post type error');
       }
     } catch (err) {
       return res.sendStatus(500);
