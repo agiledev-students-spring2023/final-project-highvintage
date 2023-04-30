@@ -1,25 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { FaRegHeart, FaRegCommentDots, FaRegBookmark } from "react-icons/fa";
-import axios from "axios";
 import moment from "moment";
-import { requestURL } from "../../requestURL.js";
+
 export default function DiscussionFullView(props) {
-
-  const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-
   let likes = props.likes;
-  const handleLike = () => {
-    console.log("handle like");
-  };
-  const handleComment = () => {
-    console.log("handle comment");
-  };
-  const handleSave = () => {
-    console.log("handle save");
-  };
+
   return (
     <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">
       <div className="flex items-center px-4 py-2 border-b border-gray-200">

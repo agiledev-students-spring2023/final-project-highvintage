@@ -8,11 +8,9 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 
-// const { ObjectId } = require("mongodb");
 export default function ShareDiscussion() {
   const navigate = useNavigate();
   const [sortedDiscussions, setSortedDiscussions] = useState([]);
-  const [users, setUsers] = useState([]);
   const [me, setMe] = useState([]);
   const [discussions, setDiscussions] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -21,23 +19,28 @@ export default function ShareDiscussion() {
     const fetchDiscussion = async () => {
       try {
         const response = await axios.get(requestURL + "allDiscussions");
-        // console.log(response.data);
         setDiscussions(response.data);
         setSortedDiscussions(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
+        navigate("/500");
       }
     };
 
     async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
-      setMe(response.data.user);
-      setLoaded(true);
+      try {
+        const response = await axios.get(requestURL + "users/me");
+        setMe(response.data.user);
+        setLoaded(true);
+      } catch (error) {
+        console.error("Error fetching me:", error);
+        navigate("/500");
+      }
     }
 
     fetchDiscussion();
     fetchMe();
-  }, []);
+  }, [navigate]);
 
   const sortByMostRecent = () => {
     const sorted = [...discussions].sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -98,7 +101,7 @@ export default function ShareDiscussion() {
           </div>
         </>
       ) : (
-        <Loading/>
+        <Loading />
       )}
       <MainNav linkToMe={me} />
     </>

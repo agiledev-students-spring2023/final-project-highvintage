@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 Displays preview of discussion with title and content
 */
 function DiscussionPreviewFull(props) {
-  const handleOnClick = () => {
-    const id = props.id;
-    return id;
-  };
+
   return (
     <>
       <Link to={`/discussion-view/${props.id}`}>
