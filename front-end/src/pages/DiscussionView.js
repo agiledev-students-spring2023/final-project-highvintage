@@ -32,17 +32,17 @@ export default function DiscussionView() {
           setIsFetched(true);
           setDiscussion(response.data);
         } else {
-          navigate("/notFound");
+          navigate("/404");
         }
       } catch (error) {
-        navigate("/500");
+        navigate("/404");
       }
     }
 
     fetchDiscussion(params.id)
       .then((res) => {
         if (!res.found) {
-          navigate("/notFound");
+          navigate("/404");
         }
       })
       .catch((err) => console.log(err));
