@@ -43,12 +43,12 @@ export default function ProfileShowPosts(props) {
 
   return (
     <div>
-      <ul className="flex flex-row mt-4 mb-1 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
+      <ul className="flex flex-row mb-1 font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadowdark:divide-gray-700 dark:text-gray-400">
         <li className="flex-1">
           <button
             className={`inline-block w-full p-4 ${
               currTab === "Outfits"
-                ? "text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white"
+                ? "text-gray-900 bg-blue-200 dark:bg-gray-700 dark:text-white"
                 : "bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
             }`}
             onClick={() => tabChange("Outfits")}
@@ -60,7 +60,7 @@ export default function ProfileShowPosts(props) {
           <button
             className={`inline-block w-full p-4 ${
               currTab === "Discussion Posts"
-                ? "text-gray-900 bg-gray-200 dark:bg-gray-700 dark:text-white"
+                ? "text-gray-900 bg-blue-200 dark:bg-gray-700 dark:text-white"
                 : "bg-white hover:text-gray-700 hover:bg-gray-50 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
             }`}
             onClick={() => tabChange("Discussion Posts")}
