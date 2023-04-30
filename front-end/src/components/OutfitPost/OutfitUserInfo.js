@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 
 export default function OutfitUserInfo(props) {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ export default function OutfitUserInfo(props) {
           className="h-12 my-auto object-cover aspect-square rounded-full justify-self-end"
           src={props.photo}
           onClick={showProfile}
+          alt="user"
         />
 
         {/* if no location, only show user name*/}
