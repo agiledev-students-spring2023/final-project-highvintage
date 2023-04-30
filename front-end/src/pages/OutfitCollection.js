@@ -110,7 +110,7 @@ export default function OutfitCollection() {
 
           <button
             onClick={() => navigate("/outfit-form")}
-            className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3"
+            className="fixed bottom-4 left-0 mb-8 w-full text-l font-bold bg-gray-500 text-white py-3"
           >
             Post
           </button>
