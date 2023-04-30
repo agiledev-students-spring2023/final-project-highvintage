@@ -38,7 +38,6 @@ router.get("/view/:postID", async function (req, res) {
         comments: commentsToAppend,
       });
     } catch (err) {
-      console.error(err);
       return res.status(500);
     }
   }
@@ -68,7 +67,6 @@ router.get("/view/:postID", async function (req, res) {
         comments: commentsToAppend,
       });
     } catch (err) {
-      console.error(err);
       return res.status(500);
     }
   } else {
@@ -107,7 +105,6 @@ router.post("/add", async function (req, res) {
         return res.sendStatus(500).send("Post type error");
       }
     } catch (err) {
-      console.log(err);
       return res.sendStatus(500);
     }
   } catch (err) {

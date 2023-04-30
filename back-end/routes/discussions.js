@@ -34,7 +34,6 @@ router.post("/create", upload.none(), async (req, res, next) => {
     await user.save();
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -47,6 +46,7 @@ router.post("/:id/like", async (req, res) => {
   try {
     const likeUser = await User.findById(user._id);
   } catch (err) {
+    // TODO
     console.log("* Cannot find user performing like", err);
   }
 
@@ -60,6 +60,7 @@ router.post("/:id/like", async (req, res) => {
         $push: { likes: new ObjectId(user._id) },
       }).populate();
     } catch (err) {
+      // TO DO
       console.log("* Error adding user to like array", err);
     }
   } else {
@@ -69,6 +70,7 @@ router.post("/:id/like", async (req, res) => {
         $pull: { likes: new ObjectId(user._id) },
       });
     } catch (err) {
+      // TO DO
       console.log("* Error deleting user from like array", err);
     }
   }
@@ -124,7 +126,6 @@ router.get("/view/:id", async (req, res) => {
       return res.sendStatus(404).json({ message: "Discussion not found" });
     }
   } catch (error) {
-    console.error("Error fetching discussion:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
