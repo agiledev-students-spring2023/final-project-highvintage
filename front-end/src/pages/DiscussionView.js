@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import GenericHeader from "../components/GenericHeader";
-import { FaRegHeart, FaRegCommentDots, FaHeart } from "react-icons/fa";
-import { useParams } from "react-router";
+
+import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
-import { useNavigate } from "react-router-dom";
+
 import moment from "moment";
 import DiscussionInteraction from "../components/Discussions/DiscussionInteraction";
 export default function DiscussionView() {
-  const navigate = useNavigate();
-  // const [user, setUser] = useState();
   const params = useParams();
+  const navigate = useNavigate();
   const [isFetched, setIsFetched] = useState(false);
   const [discussion, setDiscussion] = useState({
     id: "",
@@ -25,31 +24,34 @@ export default function DiscussionView() {
 
   useEffect(() => {
     async function fetchDiscussion(query) {
-      const response = await axios.get(
-        requestURL + "discussions/view/" + query
-      );
-      setIsFetched(true);
-      return response.data;
+      try {
+        const response = await axios.get(
+          requestURL + "discussions/view/" + query
+        );
+        if (response.data.found) {
+          setIsFetched(true);
+          setDiscussion(response.data);
+        } else {
+          navigate("/404");
+        }
+      } catch (error) {
+        navigate("/404");
+      }
     }
 
-    // still needs err handling
     fetchDiscussion(params.id)
-      .then((res) => setDiscussion(res))
+      .then((res) => {
+        if (!res.found) {
+          navigate("/404");
+        }
+      })
       .catch((err) => console.log(err));
 
     return () => {};
-  }, []);
+  }, [params.id, navigate]);
 
-  const handleLike = () => {
-    console.log("handle like");
-  };
-  const handleComment = () => {
-    console.log("handle comment");
-  };
   if (!isFetched) {
     return <div>Loading...</div>;
-  }else{
-    console.log("discussionfound", discussion.found);
   }
   return (
     <>
@@ -95,7 +97,6 @@ export default function DiscussionView() {
           </div>
         </div>
       </div>
-      {/* comment component goes here */}
     </>
   );
 }

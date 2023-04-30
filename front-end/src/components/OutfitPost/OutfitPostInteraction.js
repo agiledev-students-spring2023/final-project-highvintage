@@ -28,6 +28,7 @@ export default function OutfitPostInfo(props) {
         setNumLikes(response.data.numLikes);
       } catch (error) {
         console.log(error);
+        navigate("/500")
       }
     };
     fetchInitialLikeState();
@@ -47,10 +48,9 @@ export default function OutfitPostInfo(props) {
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
     } catch (error) {
-      console.log(error);
+      navigate("/500");
     }
   };
-
 
   return (
     <div className="grid grid-cols-1 px-2">

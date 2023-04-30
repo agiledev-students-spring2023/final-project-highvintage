@@ -1,12 +1,6 @@
 import { React, useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaRegHeart,
-  FaHeart,
-  FaRegCommentDots,
-  FaRegBookmark,
-  FaBookmark,
-} from "react-icons/fa";
+import { FaRegHeart, FaHeart, FaRegCommentDots } from "react-icons/fa";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 
@@ -16,11 +10,11 @@ export default function DiscussionInteraction(props) {
 
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
-   //fetch initial state to set heart status
+  //fetch initial state to set heart status
   useEffect(() => {
-    fetchInitialLikeState();
-  }, []);
- 
+    fetchInitialLikeState().catch(()=> navigate("/500"));
+  }, );
+
   const fetchInitialLikeState = async () => {
     try {
       const response = await axios.get(
@@ -30,11 +24,11 @@ export default function DiscussionInteraction(props) {
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
     } catch (error) {
-      console.log(error);
+      navigate("/500");
     }
   };
-   //handling liking
-  const useLikeToggle = (discussionID) => {
+  //handling liking
+  const useLikeToggle = () => {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
@@ -46,18 +40,24 @@ export default function DiscussionInteraction(props) {
             discussionLikes: numLikes,
           }
         );
-        console.log("likesbefore", numLikes);
         setNumLikes(response.data.numLikes);
         setIsLiked(response.data.isLiked);
-        console.log("likesafter", response.data.numLikes);
       } catch (error) {
-        console.log(error);
+        navigate("/500");
       }
-    }, [isLiked]);
+    }, [isLiked]);// eslint-disable-line react-hooks/exhaustive-deps
     return [toggle];
   };
 
   const [toggleLike] = useLikeToggle(false, props.discussionID);
+
+  const handleCommentClick = () => {
+    try {
+      navigate("/comments/" + props.discussionID + "?discussionPost=true");
+    } catch (error) {
+      navigate("/500");
+    }
+  };
 
   return (
     <div className="grid grid-cols-2 px-2">
@@ -71,11 +71,7 @@ export default function DiscussionInteraction(props) {
         <div className="my-auto">
           <FaRegCommentDots
             size={24}
-            onClick={() =>
-              navigate(
-                "/comments/" + props.discussionID + "?discussionPost=true"
-              )
-            }
+            onClick={handleCommentClick}
           />
         </div>
       </div>

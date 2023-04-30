@@ -12,9 +12,7 @@ const { ObjectId } = require("mongodb");
 
 router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
-  console.log("user:", user);
   const { date, title, content } = req.body;
-  // const comments = JSON.parse(req.body.comments);
   try {
     // Create a new discussion instance
     const newDiscussion = new Discussion({
@@ -26,56 +24,41 @@ router.post("/create", upload.none(), async (req, res, next) => {
       posted: date,
     });
     //save the new discussion to the database
-    if (newDiscussion) {
-      await newDiscussion.save();
-    } else console.log("* Failed to create discussion");
+    await newDiscussion.save();
 
     const populatedDiscussion = await Discussion.populate(newDiscussion, {
       path: "author",
       model: "User",
     });
     user.discussions.push(populatedDiscussion._id);
-
+    await user.save();
     res.status(201).json({ newDiscussion, message: "Successfully posted!" });
   } catch (err) {
-    next(err);
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  try {
-    await user.save();
-  } catch (err) {
-    console.log("* Issue saving user", err);
-  }
-});
-router.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Internal Server Error" });
 });
 
 router.post("/:id/like", async (req, res) => {
   const { userID, discussionID, liked, discussionLikes } = req.body;
- 
-  const user = req.user
+
+  const user = req.user;
   //finds user performing like
   try {
     const likeUser = await User.findById(user._id);
-   
   } catch (err) {
     console.log("* Cannot find user performing like", err);
   }
 
-  let isLiked = liked;
-  let numLikes = discussionLikes; 
+  let performLike = liked;
+  let numLikes = discussionLikes;
   //isLiked true = not liked, since passed in !isLiked
-  if (isLiked) {
+  if (performLike) {
     //adds user objectID to like array
     try {
       await Discussion.findByIdAndUpdate(discussionID, {
         $push: { likes: new ObjectId(user._id) },
-      })
-        .populate()
-        .then((discussion) => {
-          console.log("Likes", discussion.likes);
-        });
+      }).populate();
     } catch (err) {
       console.log("* Error adding user to like array", err);
     }
@@ -101,7 +84,7 @@ router.post("/:id/like", async (req, res) => {
       console.error("* Error getting likes length", err);
     });
   // Return the updated number of likes and like state in the response
-  res.json({ numLikes, isLiked });
+  res.json({ numLikes, isLiked: performLike });
 });
 //initial like state
 router.get("/:id/like", async (req, res) => {
@@ -122,22 +105,27 @@ router.get("/:id/like", async (req, res) => {
 });
 // api/users/
 router.get("/view/:id", async (req, res) => {
-  const discussionID = req.params.id;
-  const found = await Discussion.findById(discussionID);
-  if (found) {
-    // get author object
-    const author = await User.findOne({ _id: found.author });
-    // 200 OK
-    return res.json({
-      found,
-      authorUsername: author.username,
-      authorID: author._id,
-      authorPhoto: author.photo,
-    });
-  } else {
-    // 404 Not Found
+  try {
+    const discussionID = req.params.id;
+    const found = await Discussion.findById(discussionID);
+    if (found) {
+      // get author object
+      const author = await User.findOne({ _id: found.author });
+      // 200 OK
+      return res.json({
+        found,
+        authorUsername: author.username,
+        authorID: author._id,
+        authorPhoto: author.photo,
+      });
+    } else {
+      // 404 Not Found
 
-    return res.sendStatus(404);
+      return res.sendStatus(404).json({ message: "Discussion not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching discussion:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
