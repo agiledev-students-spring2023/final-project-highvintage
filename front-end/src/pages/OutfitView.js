@@ -3,14 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import OutfitPost from "../components/OutfitPost/OutfitPost";
 import GenericHeader from "../components/GenericHeader";
 import MainNav from "../components/MainNav";
+import Loading from "../components/Loading";
 import { requestURL } from "../requestURL";
 import axios from "axios";
 
 export default function OutfitView() {
   // fetch on page load - useEffect
   const params = useParams();
-  const navigate = useNavigate();
+
+  const nav = useNavigate();
   const [me, setMe] = useState([]);
+
   const [isFetched, setIsFetched] = useState(false);
 
   // this matches the response with all of the same properties!
@@ -26,7 +29,11 @@ export default function OutfitView() {
         setIsFetched(true);
         return response.data;
       } catch (error) {
-        console.log("Cannot fetch", error);
+        if (error.response.status === 500) {
+          nav("/500");
+        } else {
+          nav("/404");
+        }
       }
     }
     // still needs err handling
@@ -42,7 +49,7 @@ export default function OutfitView() {
         setMe(response.data.user.username);
       }
       catch {
-        navigate("/500");
+        nav("/500");
       }
     }
     fetchMe();
@@ -52,7 +59,7 @@ export default function OutfitView() {
     <div>
       <GenericHeader pageName="View Post"></GenericHeader>
       <div className="mt-20">
-        {isFetched ? <OutfitPost post={post}></OutfitPost> : null}
+        {isFetched ? <OutfitPost post={post}></OutfitPost> : <Loading />}
       </div>
       <MainNav linkToMe={me} />
     </div>

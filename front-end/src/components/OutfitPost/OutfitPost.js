@@ -9,12 +9,6 @@ export default function OutfitPost(props) {
   const [imgSrcs, setImgSrcs] = useState([]);
 
   const details = props.post;
-  function arrayBufferToBase64(buffer) {
-    const binary = "";
-    let bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => (binary += String.fromCharCode(b)));
-    return window.btoa(binary);
-  }
 
   useEffect(() => {
     const newImgSrcs = details.photos.map((photo) => {
