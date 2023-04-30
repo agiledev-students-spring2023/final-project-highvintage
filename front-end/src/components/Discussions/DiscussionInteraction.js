@@ -12,7 +12,7 @@ export default function DiscussionInteraction(props) {
   const [numLikes, setNumLikes] = useState(likes);
   //fetch initial state to set heart status
   useEffect(() => {
-    fetchInitialLikeState();
+    fetchInitialLikeState().catch(()=> navigate("/500"));
   }, );
 
   const fetchInitialLikeState = async () => {
@@ -51,6 +51,14 @@ export default function DiscussionInteraction(props) {
 
   const [toggleLike] = useLikeToggle(false, props.discussionID);
 
+  const handleCommentClick = () => {
+    try {
+      navigate("/comments/" + props.discussionID + "?discussionPost=true");
+    } catch (error) {
+      navigate("/500");
+    }
+  };
+
   return (
     <div className="grid grid-cols-2 px-2">
       <div className="flex space-x-2">
@@ -63,11 +71,7 @@ export default function DiscussionInteraction(props) {
         <div className="my-auto">
           <FaRegCommentDots
             size={24}
-            onClick={() =>
-              navigate(
-                "/comments/" + props.discussionID + "?discussionPost=true"
-              )
-            }
+            onClick={handleCommentClick}
           />
         </div>
       </div>
