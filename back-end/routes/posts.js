@@ -105,11 +105,6 @@ router.post(
   }
 );
 
-// error handling middleware
-router.use((err, req, res, next) => {
-  res.sendStatus(500);
-});
-
 // get like status
 router.get('/:id/like', async (req, res) => {
   const userID = req.query.userID;
@@ -130,7 +125,7 @@ router.get('/:id/like', async (req, res) => {
 
 // api/posts/
 router.post('/:postID/like', async (req, res) => {
-  const { userID, postID, liked, postLikes } = req.body;
+  const { postID, liked, postLikes } = req.body;
   const user = req.user;
 
   let numLikes = postLikes;
@@ -171,9 +166,6 @@ router.post('/:postID/like', async (req, res) => {
         numLikes = post.likes.length;
         // Check if the current user has already liked the discussion
         isLiked = post.likes.some((like) => like.equals(user._id));
-      })
-      .catch((err) => {
-        return res.sendStatus(500);
       });
     // Return the updated number of likes and like state in the response
     res.json({ numLikes, isLiked });
@@ -207,7 +199,6 @@ router.get('/collection', async (req, res) => {
 // api/posts/
 router.get('/view', async (req, res) => {
   const user = req.user;
-  const author = user.username;
   const postID = req.query.id;
 
   try {
