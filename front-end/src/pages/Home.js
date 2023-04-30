@@ -28,6 +28,9 @@ export default function Home() {
           // each element is a post by a followed user!
 
           // rewriting post for outfitPost
+
+          const date = new Date(post.posted);
+          const cleanDate = date.toLocaleDateString().replaceAll("/", "-");
           const thisPost = {
             authorPhoto: post.author.photo
               ? post.author.photo
@@ -40,7 +43,7 @@ export default function Home() {
               return { data: arrayBufferToBase64(photo.data.data) };
             }),
             postID: post._id,
-            date: post.posted,
+            date: cleanDate,
             likes: post.likes,
             postText: post.caption,
             postLike: post.likes,
