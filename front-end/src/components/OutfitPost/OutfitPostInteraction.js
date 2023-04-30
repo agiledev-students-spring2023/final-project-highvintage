@@ -16,7 +16,7 @@ export default function OutfitPostInfo(props) {
   const [numLikes, setNumLikes] = useState(likes);
   useEffect(() => {
     fetchInitialLikeState();
-  }, []);
+  },);
 
   console.log("POST INTERACTION AA ", props);
 
@@ -49,7 +49,7 @@ export default function OutfitPostInfo(props) {
       } catch (error) {
         console.log(error);
       }
-    }, []);
+    }, [isLiked]);// eslint-disable-line react-hooks/exhaustive-deps
     return [toggle];
   };
 

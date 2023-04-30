@@ -63,19 +63,16 @@ router.post("/:id/like", async (req, res) => {
     console.log("* Cannot find user performing like", err);
   }
 
-  let isLiked = liked;
+  let performLike = liked;
   let numLikes = discussionLikes; 
   //isLiked true = not liked, since passed in !isLiked
-  if (isLiked) {
+  if (performLike) {
     //adds user objectID to like array
     try {
       await Discussion.findByIdAndUpdate(discussionID, {
         $push: { likes: new ObjectId(user._id) },
       })
         .populate()
-        .then((discussion) => {
-          console.log("Likes", discussion.likes);
-        });
     } catch (err) {
       console.log("* Error adding user to like array", err);
     }
@@ -101,7 +98,7 @@ router.post("/:id/like", async (req, res) => {
       console.error("* Error getting likes length", err);
     });
   // Return the updated number of likes and like state in the response
-  res.json({ numLikes, isLiked });
+  res.json({ numLikes, isLiked: performLike });
 });
 //initial like state
 router.get("/:id/like", async (req, res) => {
