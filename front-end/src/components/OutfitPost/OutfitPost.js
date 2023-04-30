@@ -22,7 +22,7 @@ export default function OutfitPost(props) {
 
   return (
     // full outfit post - 4 children components combined
-    <div className="grid grid-row-4 py-2 bg-white rounded-lg shadow-md">
+    <div className="grid grid-row-4 py-2 bg-white rounded-lg shadow-md mt-4">
       <OutfitUserInfo
         photo={details.authorPhoto}
         username={details.authorUsername}
