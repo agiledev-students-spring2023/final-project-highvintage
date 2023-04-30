@@ -15,7 +15,7 @@ export default function OutfitPostInfo(props) {
   const [isLiked, setIsLiked] = useState(false);
   const [numLikes, setNumLikes] = useState(likes);
   useEffect(() => {
-    fetchInitialLikeState();
+    fetchInitialLikeState().catch(()=> navigate("/500"));
   },);
 
   console.log("POST INTERACTION AA ", props);
@@ -29,7 +29,7 @@ export default function OutfitPostInfo(props) {
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
     } catch (error) {
-      console.log(error);
+      navigate("/500");
     }
   };
   const useLikeToggle = (postID) => {
@@ -47,7 +47,7 @@ export default function OutfitPostInfo(props) {
         setIsLiked(response.data.isLiked);
         setNumLikes(response.data.numLikes);
       } catch (error) {
-        console.log(error);
+        navigate("/500");
       }
     }, [isLiked]);// eslint-disable-line react-hooks/exhaustive-deps
     return [toggle];
