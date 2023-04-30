@@ -4,6 +4,7 @@ import GenericHeader from "../components/GenericHeader";
 import { requestURL } from "../requestURL";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function OutfitView() {
   // fetch on page load - useEffect
@@ -42,7 +43,7 @@ export default function OutfitView() {
     <div>
       <GenericHeader pageName="View Post"></GenericHeader>
       <div className="mt-20">
-        {isFetched ? <OutfitPost post={post}></OutfitPost> : null}
+        {isFetched ? <OutfitPost post={post}></OutfitPost> : <Loading />}
       </div>
     </div>
   );

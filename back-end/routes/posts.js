@@ -226,23 +226,22 @@ router.get("/view", async (req, res) => {
 
   try {
     const foundPost = await Post.findOne({ _id: postID });
+    if (foundPost) {
+      const post = {
+        ...foundPost.toObject(),
+        authorPhoto: user.photo,
+        authorUsername: user.username,
+        postLoc: foundPost.location || " ",
+        date: foundPost.posted,
+        postText: foundPost.caption,
+      };
+      return res.json({ post });
+    } else {
+      // 404 Not Found
+      return res.sendStatus(404);
+    }
   } catch (e) {
     return res.sendStatus(500);
-  }
-
-  if (foundPost) {
-    const post = {
-      ...foundPost.toObject(),
-      authorPhoto: user.photo,
-      authorUsername: user.username,
-      postLoc: foundPost.location || " ",
-      date: foundPost.posted,
-      postText: foundPost.caption,
-    };
-    return res.json({ post });
-  } else {
-    // 404 Not Found
-    return res.sendStatus(404);
   }
 });
 
