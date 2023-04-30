@@ -1,16 +1,16 @@
-const { ObjectId } = require("mongodb");
-const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-  author: { type: ObjectId, ref: "User", required: true }, // reference to author
+  author: { type: ObjectId, ref: 'User', required: true }, // reference to author
   style: { type: String, required: true },
   caption: { type: String, required: true },
-  photos: [{ 
-    data: Buffer, 
-    contentType: String 
- }],
-  comments: [{ type: ObjectId, ref: "Comment" }],
-  likes: [{ type: ObjectId, ref: "User" }],
+  photos: [{
+    data: Buffer,
+    contentType: String
+  }],
+  comments: [{ type: ObjectId, ref: 'Comment' }],
+  likes: [{ type: ObjectId, ref: 'User' }],
   posted: {
     type: Date,
     default: Date.now,
@@ -19,11 +19,12 @@ const PostSchema = new mongoose.Schema({
     },
     set: function (value) {
       return new Date(value); // convert the string value to a Date object
-    }, required: true
+    },
+    required: true
   },
-  location: { type: String, required: true },
+  location: { type: String, required: true }
 });
 
-const Post = mongoose.model("Post", PostSchema, "posts");
+const Post = mongoose.model('Post', PostSchema, 'posts');
 
 module.exports = Post;
