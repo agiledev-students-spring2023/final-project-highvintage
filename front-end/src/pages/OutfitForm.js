@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GenericHeader from "../components/GenericHeader";
-import { useFormik, Form, Formik, Field, ErrorMessage } from "formik";
+import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { requestURL } from "../requestURL";
@@ -10,7 +10,6 @@ export default function OutfitForm() {
   const navigate = useNavigate();
 
   const [styles, setStyles] = useState([])
-  const [success, setSuccess] = useState(null);
   const [post, setPost] = useState(null);
 
   post && console.log("post", post);
@@ -25,6 +24,7 @@ export default function OutfitForm() {
         setStyles(response.data.styles);
       } catch (error) {
         console.log(error);
+        navigate("/500")
       }
     };
     fetchStyles()
@@ -53,25 +53,30 @@ export default function OutfitForm() {
       formData.append("my_files", values.my_files[i]);
     }
 
-    const response = await axios
-      .post(requestURL + "posts/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .catch((err) => {
-        if (err && err.response) {
-          console.log("Error :", err);
-        }
-      });
-    if (response && response.data) {
-      console.log("values", values);
-      console.log("response.data", response.data);
-      setSuccess(response.data.message);
-      resetForm(); // Reset the form after successful submission
-      setPost(response.data.newPost);
-      navigate('/outfit-collection'); // redirect user after posting
+    try {
+      const response = await axios
+        .post(requestURL + "posts/create", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .catch((err) => {
+          if (err && err.response) {
+            console.log("Error :", err);
+            navigate("/500");
+          }
+        });
+      if (response && response.data) {
+        console.log("values", values);
+        console.log("response.data", response.data);
+        resetForm(); // Reset the form after successful submission
+        setPost(response.data.newPost);
+        navigate('/outfit-collection'); // redirect user after posting
+      }
+    } catch {
+      navigate("/500");
     }
+
   };
 
   const initialValues = {
@@ -99,7 +104,6 @@ export default function OutfitForm() {
           <div className="flex justify-center items-center relative z-0 h-screen">
 
             <Form
-              // onSubmit={formik.handleSubmit}
               className="bg-white p-10 rounded-lg my-auto"
             >
               {/* File Upload */}
@@ -123,11 +127,11 @@ export default function OutfitForm() {
                   }}
                   multiple
                 />
-               <ErrorMessage
-                name="my_files"
-                component="div"
-                className="text-red-500 mt-2 text-sm"
-              />
+                <ErrorMessage
+                  name="my_files"
+                  component="div"
+                  className="text-red-500 mt-2 text-sm"
+                />
               </div>
               {/* Style */}
               <div className="mb-4">
@@ -150,17 +154,17 @@ export default function OutfitForm() {
                     if (style !== "All") {
                       return <option key={index}>{style}</option>;
                     }
+                    return null
                   })}
                 </Field>
                 <ErrorMessage
-                name="style"
-                component="div"
-                className="text-red-500 mt-2 text-sm"
-              />
+                  name="style"
+                  component="div"
+                  className="text-red-500 mt-2 text-sm"
+                />
               </div>
 
               {/* Location */}
-              <h2 className="text-2xl font-bold mb-4"></h2>
               <div className="mb-4">
                 <label
                   htmlFor="location"
@@ -176,10 +180,10 @@ export default function OutfitForm() {
                 >
                 </Field>
                 <ErrorMessage
-                name="location"
-                component="div"
-                className="text-red-500 mt-2 text-sm"
-              />
+                  name="location"
+                  component="div"
+                  className="text-red-500 mt-2 text-sm"
+                />
               </div>
 
               {/* Content */}
@@ -195,7 +199,7 @@ export default function OutfitForm() {
                   cols="40"
                 ></textarea>
               </div>
-{/* letmepush */}
+              {/* letmepush */}
               {/* Post Button */}
               <div className="flex justify-end">
                 <button

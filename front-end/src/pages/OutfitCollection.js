@@ -50,20 +50,17 @@ export default function OutfitCollection() {
 
   useEffect(() => {
     async function fetchCollection() {
-      const response = await axios
-        .get(requestURL + "posts/collection")
-        .then(console.log("* Fetched"))
-        .catch((err) => {
-          if (err) {
-            console.log("Error :", err);
-          }
-        });
-
-      console.log("response", response);
-
-      if (response) {
-        console.log("* Fetched Posts", response.data.allPosts);
-        setAllPosts(response.data.allPosts);
+      try {
+        const response = await axios
+          .get(requestURL + "posts/collection")
+          .then(console.log("* Fetched"))
+        // console.log("response", response);
+        if (response) {
+          console.log("* Fetched Posts", response.data.allPosts);
+          setAllPosts(response.data.allPosts);
+        }
+      } catch {
+        navigate("/500")
       }
     }
     fetchCollection();
@@ -92,8 +89,13 @@ export default function OutfitCollection() {
 
   useEffect(() => {
     async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
-      setMe(response.data.user.username);
+      try {
+        const response = await axios.get(requestURL + "users/me");
+        setMe(response.data.user.username);
+      }
+      catch {
+        navigate("/500");
+      }
     }
     fetchMe();
   });
@@ -108,7 +110,7 @@ export default function OutfitCollection() {
 
           <button
             onClick={() => navigate("/outfit-form")}
-            className="fixed bottom-4 left-0 mb-10 w-full text-l font-bold bg-gray-500 text-white py-3"
+            className="fixed bottom-4 left-0 mb-8 w-full text-l font-bold bg-gray-500 text-white py-3"
           >
             Post
           </button>
