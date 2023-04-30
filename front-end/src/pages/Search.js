@@ -41,7 +41,7 @@ export default function Search() {
   return (
     <>
       <GenericHeader pageName="Search" />
-      <form className="mt-12 p-5 w-full">
+      <form className="mt-12 p-5 w-full text-center">
         <label>
           <input
             type="text"
@@ -56,7 +56,7 @@ export default function Search() {
         <input
           type="submit"
           value={"Search"}
-          className="bg-gray-400 p-1"
+          className=" bg-gray-400 py-1 px-2 mt-3"
           onClick={(e) => {
             e.preventDefault();
             if (query !== "") {
@@ -69,7 +69,7 @@ export default function Search() {
       {results.length > 0 ? (
         results
       ) : (
-        <p className="text-center"> No users found. </p>
+        <p className="text-center p-10"> No users found. </p>
       )}
     </>
   );
