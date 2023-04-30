@@ -12,9 +12,7 @@ const { ObjectId } = require("mongodb");
 
 router.post("/create", upload.none(), async (req, res, next) => {
   const user = req.user; // needs to be revisited
-  console.log("user:", user);
   const { date, title, content } = req.body;
-  // const comments = JSON.parse(req.body.comments);
   try {
     // Create a new discussion instance
     const newDiscussion = new Discussion({
