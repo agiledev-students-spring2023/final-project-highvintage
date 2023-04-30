@@ -3,12 +3,13 @@ import OutfitPost from "../components/OutfitPost/OutfitPost";
 import GenericHeader from "../components/GenericHeader";
 import { requestURL } from "../requestURL";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function OutfitView() {
   // fetch on page load - useEffect
   const params = useParams();
 
+  const nav = useNavigate();
   const [isFetched, setIsFetched] = useState(false);
 
   // this matches the response with all of the same properties!
@@ -24,7 +25,11 @@ export default function OutfitView() {
         setIsFetched(true);
         return response.data;
       } catch (error) {
-        console.log("Cannot fetch", error);
+        if (error.response.status === 500) {
+          nav("/500");
+        } else {
+          nav("/404");
+        }
       }
     }
     // still needs err handling

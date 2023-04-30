@@ -7,6 +7,7 @@ const User = require("../schemas/users.js");
 const Style = require("../schemas/styles.js");
 const db = require("../db.js");
 const { ObjectId } = require("mongodb");
+const { isValidObjectId } = require("mongoose");
 const router = express.Router();
 router.use("/static", express.static("public"));
 const uploadDir = path.join(__dirname, "..", "public", "uploads");
@@ -223,7 +224,11 @@ router.get("/view", async (req, res) => {
   const postID = req.query.id;
   console.log("postID", postID);
 
-  const foundPost = await Post.findOne({ _id: postID });
+  try {
+    const foundPost = await Post.findOne({ _id: postID });
+  } catch (e) {
+    return res.sendStatus(500);
+  }
 
   if (foundPost) {
     const post = {

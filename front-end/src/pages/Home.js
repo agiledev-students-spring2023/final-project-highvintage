@@ -49,6 +49,8 @@ export default function Home() {
             _id: post._id,
           };
 
+          console.log(typeof post.posted);
+
           return <OutfitPost key={post._id} post={thisPost} />;
         });
 
