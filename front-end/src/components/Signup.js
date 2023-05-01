@@ -6,16 +6,16 @@ import {useNavigate, Link } from "react-router-dom"
 export default function Form() {
     const history=useNavigate();
 
-    const [email,setEmail]=useState('')
+    const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
 
     async function submit(e){
         e.preventDefault();
 
         try{
-
+            
             await axios.post("http://localhost:5000/register", {
-                email,password
+                username,password
             })
             .then(res=>{
                 if(res.data=="exist"){
@@ -23,7 +23,7 @@ export default function Form() {
                 }
                 else if(res.data=="notexist"){
                     sessionStorage.setItem("isLogged", true)
-                    history("/home",{state:{id:email}})
+                    history("/home",{state:{id:username}})
                 }
             })
             .catch(e=>{
@@ -46,12 +46,12 @@ export default function Form() {
             <p className='font-medium text-lg text-gray-500 mt-4'>Please enter the details.</p>
             <div className='mt-8'>
                 <form action="POST">
-                    <label className='text-lg font-medium'>Email</label>
+                    <label className='text-lg font-medium'>Username</label>
                     <input 
                         type="email"
                         className='w-full border-2 border-gray-100 rounded-l p-4 mt-1 bg-transparent'
-                        onChange={(e)=>{setEmail(e.target.value)}}
-                        placeholder='Enter your Email/Username'
+                        onChange={(e)=>{setUsername(e.target.value.toLowerCase())}}
+                        placeholder='Enter your Username'
                     />
                 </form>
                 <div>

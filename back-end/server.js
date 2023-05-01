@@ -98,7 +98,7 @@ app.get('/', (req, res) => {
       req.cookies.jwt,
       'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
     );
-    res.render('home', { name: verify.email });
+    res.render('home', { name: verify.username });
   } else {
     res.render('/');
   }
@@ -125,7 +125,7 @@ app.post('/', async (req, res) => {
   try {
     const check = await db
       .collection('Auth')
-      .findOne({ email: req.body.email });
+      .findOne({ email: req.body.username });
     const passCheck = await compare(req.body.password, check.password);
 
     if (check && passCheck) {
@@ -146,16 +146,16 @@ app.post('/', async (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-  const { email, password } = req.body;
-
+  const { username, password } = req.body;
+  
   try {
-    const check = await db.collection('Auth').findOne({ email });
+    const check = await db.collection('Auth').findOne({ username });
 
     if (check) {
       res.json('exist');
     } else {
       const token = jwt.sign(
-        { email: req.body.email },
+        { username: req.body.username },
         'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
       );
 
@@ -165,15 +165,19 @@ app.post('/register', async (req, res) => {
       });
 
       const data = {
-        email,
+        username,
         password: await hashPass(password),
         token
+        // bio: "",
+        // favThrift: "",
+        // style: ""
       };
 
       // localStorage.setItem('jwt', token);
 
       res.json('notexist');
       await db.collection('Auth').insertMany([data]);
+      // req.user = await db.collection('Users').findOne({username})
     }
   } catch (e) {
     res.json('notexist');

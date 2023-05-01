@@ -7,7 +7,7 @@ export default function Form() {
 
     const history=useNavigate();
 
-    const [email,setEmail]=useState('')
+    const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
 
     let navigate = useNavigate();
@@ -43,13 +43,13 @@ export default function Form() {
         try{
 
             await axios.post("http://localhost:5000/", {
-                email,password
+                username,password
             })
             .then(res=>{
                 
                 if(res.data=="exist"){
                     sessionStorage.setItem("isLogged", true)
-                    history("/home",{state:{id:email}})
+                    history("/home",{state:{id:username}})
                 }
                 else if(res.data=="notexist"){
                     
@@ -72,16 +72,17 @@ export default function Form() {
 
     return (
         <div className='bg-white px-10 py-20 rounded-3xl border-2 border-gray-100'>
-            <h1 className='text-5xl font-semibold'>Welcome!</h1>
+            <h1 className='text-5xl mb-4 font-semibold text-yellow-700 font-serif'>High Vintage</h1>
+            <h2 className='text-3xl font-semibold'>Welcome!</h2>
             <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your account details.</p>
             <div className='mt-8'>
                 <form action="POST">
-                    <label className='text-lg font-medium'>Email/Username</label>
+                    <label className='text-lg font-medium'>Username</label>
                     <input 
-                        type="email"
+                        type="username"
                         className='w-full border-2 border-gray-100 rounded-l p-4 mt-1 bg-transparent'
-                        onChange={(e)=>{setEmail(e.target.value)}}
-                        placeholder='Enter your Email/Username'
+                        onChange={(e)=>{setUsername(e.target.value.toLowerCase())}}
+                        placeholder='Enter your Username'
                     />
                 </form>
                 <div>
