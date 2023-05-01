@@ -225,13 +225,13 @@ router.get('/view', async (req, res) => {
 // api/posts/
 router.get('/feed', async function (req, res) {
   if (!req.user) {
-    res.sendStatus(403);
+    return res.sendStatus(403);
   }
 
   try {
     await req.user.populate('following');
   } catch (e) {
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 
   const postsToDisplay = [];

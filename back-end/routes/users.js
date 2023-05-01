@@ -131,7 +131,7 @@ router.get('/me', async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.user) {
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 
   try {
