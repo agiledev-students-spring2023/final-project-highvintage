@@ -72,7 +72,8 @@ export default function Form() {
 
     return (
         <div className='bg-white px-10 py-20 rounded-3xl border-2 border-gray-100'>
-            <h1 className='text-5xl font-semibold'>Welcome!</h1>
+            <h1 className='text-5xl mb-4 font-semibold text-yellow-700 font-serif'>High Vintage</h1>
+            <h2 className='text-3xl font-semibold'>Welcome!</h2>
             <p className='font-medium text-lg text-gray-500 mt-4'>Please enter your account details.</p>
             <div className='mt-8'>
                 <form action="POST">

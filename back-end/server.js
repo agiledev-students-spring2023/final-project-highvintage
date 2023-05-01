@@ -167,13 +167,22 @@ app.post('/register', async (req, res) => {
       const data = {
         email,
         password: await hashPass(password),
-        token
+        token,
+        photo,
+        bio,
+        favThrift,
+        style,
+        posts,
+        discussions,
+        followers,
+        following
       };
 
       // localStorage.setItem('jwt', token);
 
       res.json('notexist');
-      await db.collection('Auth').insertMany([data]);
+      await db.collection('Users').insertMany([data]);
+      req.user = await User.findOne()
     }
   } catch (e) {
     res.json('notexist');
