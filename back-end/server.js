@@ -145,7 +145,7 @@ app.post('/', async (req, res) => {
   }
 });
 
-app.post('/register', async (req, res) => {
+app.post('/register', async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -179,10 +179,11 @@ app.post('/register', async (req, res) => {
       };
 
       // localStorage.setItem('jwt', token);
-
+      await db.collection('Auth').insert([data]);
+      req.user = await User.findOne({username: req.body.email})
+      next();
       res.json('notexist');
-      await db.collection('Users').insertMany([data]);
-      req.user = await User.findOne()
+      
     }
   } catch (e) {
     res.json('notexist');
