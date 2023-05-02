@@ -5,42 +5,54 @@ const User = require('../schemas/users.js');
 const upload = multer();
 const router = express.Router();
 const { ObjectId } = require('mongodb');
+const { body, validationResult } = require('express-validator');
 
-router.post('/create', upload.none(), async (req, res, next) => {
-  const user = req.user; // needs to be revisited
-  const { date, title, content } = req.body;
-  try {
-    // Create a new discussion instance
-    const newDiscussion = new Discussion({
-      author: user._id,
-      title,
-      content,
-      comments: [],
-      likes: [],
-      posted: date
-    });
-    // save the new discussion to the database
-    await newDiscussion.save();
+router.post('/create', upload.none(),
+  [
+    // express-validator checks
+    body('title').notEmpty().withMessage('Title is required.'),
+    body('content').notEmpty().withMessage('Content is required.')
+  ],
+  async (req, res, next) => {
+    const user = req.user; // needs to be revisited
+    const { date, title, content } = req.body;
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        // If there are validation errors, send a 400 with the errors array
+        return res.status(400).json({ errors: errors.array() });
+      }
+      // Create a new discussion instance
+      const newDiscussion = new Discussion({
+        author: user._id,
+        title,
+        content,
+        comments: [],
+        likes: [],
+        posted: date
+      });
+      // save the new discussion to the database
+      await newDiscussion.save();
 
-    const populatedDiscussion = await Discussion.populate(newDiscussion, {
-      path: 'author',
-      model: 'User'
-    });
-    user.discussions.push(populatedDiscussion._id);
-    await user.save();
-    res.status(201).json({ newDiscussion, message: 'Successfully posted!' });
-  } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+      const populatedDiscussion = await Discussion.populate(newDiscussion, {
+        path: 'author',
+        model: 'User'
+      });
+      user.discussions.push(populatedDiscussion._id);
+      await user.save();
+      res.status(201).json({ newDiscussion, message: 'Successfully posted!' });
+    } catch (err) {
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
 
 router.post('/:id/like', async (req, res) => {
-  const { userID, discussionID, liked, discussionLikes } = req.body;
+  const { discussionID, liked, discussionLikes } = req.body;
 
   const user = req.user;
   // finds user performing like
   try {
-    const likeUser = await User.findById(user._id);
+    await User.findById(user._id);
   } catch (err) {
     // TODO
     console.log('* Cannot find user performing like', err);
@@ -86,7 +98,7 @@ router.post('/:id/like', async (req, res) => {
 });
 // initial like state
 router.get('/:id/like', async (req, res) => {
-  const userID = req.query.userID;
+  // const userID = req.query.userID;
   const discussionID = req.params.id;
   const user = req.user;
 
