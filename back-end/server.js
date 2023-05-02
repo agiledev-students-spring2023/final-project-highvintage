@@ -79,9 +79,6 @@ passport.use('local-login', new passportLocal({passReqToCallback: true},
 
 });
 
-
-
-
 // REGISTER
 passport.use('local-register', new passportLocal({passReqToCallback: true}, 
  async function(req, username, password, done) {
@@ -106,7 +103,7 @@ passport.use('local-register', new passportLocal({passReqToCallback: true},
   }
 
  }
-  
+
 )) 
 app.post('/register', passport.authenticate('local-register'), async (req, res) => {
   if (req.user) {

@@ -9,7 +9,6 @@ const db = require('../db.js');
 const { ObjectId } = require('mongodb');
 const passport = require("passport");
 const router = express.Router();
-const passportLocal = require("passport-local").Strategy;
 
 router.use('/static', express.static('public'));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
@@ -225,7 +224,7 @@ router.get('/view', async (req, res) => {
 });
 
 // api/posts/
-router.get('/feed', passport.authenticate('local'), async function (req, res) {
+router.get('/feed', async function (req, res) {
 
   if (!req.user) {
     return res.sendStatus(403);
