@@ -66,10 +66,25 @@ passport.use('local-login', new passportLocal({passReqToCallback: true},
 
       // if all ok return done(null, userdocument)
       // any issues reutrn done(null, false)
+      try {
+        const cleanUsername = req.body.username.toLowerCase(); 
+        const findUser = await User.findOne({username: cleanUsername});
+        if (!findUser) return done(null, false); 
+        const passCompare = await bcryptjs.compare(password, req.body.password)
+        if (findUser && passCompare) {
+          return done(null, findUser);
+        } 
+        else {
+          return done(null, false);
+        }
+      } catch(e) {
+        return done(e)
+      }
   }
  )) 
 
  app.post('/', passport.authenticate('local-login'), async (req, res) => {
+  console.log(req.user)
   if (req.user) {
     // do what u need to in order to get user onto the following page - they r logged in 
   }
@@ -106,10 +121,15 @@ passport.use('local-register', new passportLocal({passReqToCallback: true},
 
 )) 
 app.post('/register', passport.authenticate('local-register'), async (req, res) => {
+  console.log(req.user)
   if (req.user) {
     // do what u need to in order to get user onto the following page - they r logged in 
+    
   }
+  else {
+    return res.sendStatus(404);
 
+  }
   // else
   // display error message
 

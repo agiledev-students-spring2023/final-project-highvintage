@@ -37,7 +37,7 @@ root.render(
       <Route path="/404" element={<NotFound />}></Route>
       <Route path="/500" element={<GenericErr />}></Route>
 
-      <Route element={<PrivateRoute />}>
+      {/* <Route element={<PrivateRoute />}> */}
         <Route path="/home" element={<Home />}></Route>
 
         <Route path="/profile/:username" element={<Profile />}></Route>
@@ -52,7 +52,7 @@ root.render(
         <Route path="/discussion-view/:id" element={<DiscussionView />}></Route>
         <Route path="/discussion-home" element={<ShareDiscussion />}></Route>
         <Route path="/discussion-form" element={<Discussionform />}></Route>
-      </Route>
+      {/* </Route> */}
     </Routes>
   </BrowserRouter>
 );

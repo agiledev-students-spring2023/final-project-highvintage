@@ -9,49 +9,49 @@ export default function Form() {
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
 
-    // async function submit(e){
-    //     e.preventDefault();
+    async function submit(e){
+        e.preventDefault();
 
-    //     try{
+        try{
             
-    //         await axios.post("http://localhost:5000/register", {
-    //             username,password
-    //         })
-    //         .then(res=>{
-    //             if(res.data=="exist"){
-    //                 alert("User already exists")
-    //             }
-    //             else if(res.data=="notexist"){
-    //                 sessionStorage.setItem("isLogged", true)
-    //                 history("/home",{state:{id:username}})
-    //             }
-    //         })
-    //         .catch(e=>{
-    //             alert("wrong username or password")
-    //             console.log(e);
-    //         })
+            await axios.post("http://localhost:5000/register", {
+                username,password
+            })
+            .then(res=>{
+                if(res.data=="exist"){
+                    alert("User already exists")
+                }
+                else if(res.data=="notexist"){
+                    sessionStorage.setItem("isLogged", true)
+                    history("/home",{state:{id:username}})
+                }
+            })
+            .catch(e=>{
+                alert("wrong username or password")
+                console.log(e);
+            })
 
-    //     }
-    //     catch(e){
-    //         console.log(e);
+        }
+        catch(e){
+            console.log(e);
 
-    //     }
+        }
 
 
-    // }
-
-    const submit = () => {
-        
-        axios({
-            method: "POST",
-            data: {
-                username: username,
-                password: password
-            },
-            withCredentials: true,
-            url: "http://localhost:5000/register",
-        }).then((res) => console.log(res));
     }
+
+    // const submit = () => {
+        
+    //     axios({
+    //         method: "POST",
+    //         data: {
+    //             username: username,
+    //             password: password
+    //         },
+    //         withCredentials: true,
+    //         url: "http://localhost:5000/register",
+    //     }).then((res) => console.log(res));
+    // }
 
     return (
         <div className='bg-white px-10 py-20 rounded-3xl border-2 border-gray-100'>
