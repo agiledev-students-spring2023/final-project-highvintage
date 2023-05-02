@@ -14,6 +14,7 @@ const Discussion = require('./schemas/discussions.js');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bcryptjs = require('bcryptjs');
+const session = require('express-session')
 
 // adding post author to all mock users
 for (const user of mockUsers) {
@@ -45,7 +46,8 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.urlencoded({ extended: true }));
+// TODO add to process.env
+app.use(session({ secret: 'high-vintage', username: undefined, cookie: { maxAge: 60000 }}))
 
 const publicPath = path.join(__dirname, '../front-end/src/pages');
 
@@ -84,10 +86,8 @@ set(oneUser);
 // middleware to access/manipulate the logged in user!
 // in any route, user req.user to get the "logged in " user
 const persistUser = async function (req, res, next) {
-  // req.user = mockUsers[0];
-  req.user = await User.findOne({ username: 'krunker' });
-
-  next();
+  console.log(req.session)
+  next(); 
 };
 
 app.use(persistUser);
@@ -121,7 +121,9 @@ app.get('/', (req, res) => {
 //   }
 // });
 
+// LOGIN 
 app.post('/', async (req, res) => {
+
   try {
     const check = await db
       .collection('Auth')
@@ -129,22 +131,19 @@ app.post('/', async (req, res) => {
     const passCheck = await compare(req.body.password, check.password);
 
     if (check && passCheck) {
-      res.cookie('jwt', check.token, {
-        maxAge: 600000,
-        httpOnly: true
-      });
-
-      // localStorage.setItem('jwt', check.token);
-
-      res.json('exist');
+      
+      req.session.username = req.body.username; 
+      
+      return res.json('exist')
     } else {
-      res.json('notexist');
+      return res.json('notexist');
     }
   } catch (e) {
-    res.json('notexist');
+    return res.json('notexist');
   }
 });
 
+// REGISTER
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   
