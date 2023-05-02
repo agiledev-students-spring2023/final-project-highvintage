@@ -37,37 +37,48 @@ export default function Form() {
     // }, [response])
 
 
-    async function submit(e){
-        e.preventDefault();
+    // async function submit(e){
+    //     e.preventDefault();
 
-        try{
+    //     try{
 
-            await axios.post("http://localhost:5000/", {
-                username,password
-            })
-            .then(res=>{
+    //         await axios.post("http://localhost:5000/", {
+    //             username,password
+    //         })
+    //         .then(res=>{
                 
-                if(res.data=="exist"){
-                    sessionStorage.setItem("isLogged", true)
-                    history("/home",{state:{id:username}})
-                }
-                else if(res.data=="notexist"){
+    //             if(res.data=="exist"){
+    //                 sessionStorage.setItem("isLogged", true)
+    //                 history("/home",{state:{id:username}})
+    //             }
+    //             else if(res.data=="notexist"){
                     
-                    alert("User does not exist")
-                }
-            })
-            .catch(e=>{
-                alert("wrong username or password")
-                console.log(e);
-            })
+    //                 alert("User does not exist")
+    //             }
+    //         })
+    //         .catch(e=>{
+    //             alert("wrong username or password")
+    //             console.log(e);
+    //         })
 
-        }
-        catch(e){
-            console.log(e);
+    //     }
+    //     catch(e){
+    //         console.log(e);
 
-        }
+    //     }
 
 
+    // }
+    const submit = () => {
+        axios({
+            method: "POST",
+            data: {
+                username: username,
+                password: password
+            },
+            withCredentials: true,
+            url: "http://localhost:5000/",
+        }).then((res) => console.log(res));
     }
 
     return (

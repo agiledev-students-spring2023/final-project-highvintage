@@ -15,172 +15,155 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bcryptjs = require('bcryptjs');
 const session = require('express-session')
+const passport = require("passport");
+const passportLocal = require("passport-local").Strategy;
 
-// adding post author to all mock users
-for (const user of mockUsers) {
-  user.savedPosts = [];
-  user.bio = 'This is my bio made from the server.js file!';
-  user.style = 'Server.js';
-  user.favoriteThrift = 'nodemon server.js';
-  if (!user.followers) {
-    user.followers = [];
-    user.following = [];
-  }
-  for (const post of user.posts) {
-    post.author = user.id;
-    if (!post.postLoc) {
-      post.postLoc = '';
-    }
-  }
-  // store user.id as discussion author
-  for (const discussion of user.discussion) {
-    discussion.author = user.id;
-  }
-}
 
 const app = express();
 const path = require('path');
 
-app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}))
+
 app.use(express.json());
-app.use(cookieParser());
+
+
 app.use(express.urlencoded({ extended: false }));
 // TODO add to process.env
-app.use(session({ secret: 'high-vintage', username: undefined, cookie: { maxAge: 60000 }}))
+app.use(session({
+  secret: "secret",
+  resave: true,
+  saveUninitialized: true
+}));
 
-const publicPath = path.join(__dirname, '../front-end/src/pages');
+app.use(cookieParser("secret"));
 
-// app.set('view engine', 'hbs')
-// app.set('views', templatePath)
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
-app.use(express.static(publicPath));
 
-async function hashPass (password) {
-  const res = await bcryptjs.hash(password, 10);
-  return res;
-}
+// async function hashPass (password) {
+//   const res = await bcryptjs.hash(password, 10);
+//   return res;
+// }
 
-async function compare (userPass, hashPass) {
-  const res = await bcryptjs.compare(userPass, hashPass);
-  return res;
-}
+// async function compare (userPass, hashPass) {
+//   const res = await bcryptjs.compare(userPass, hashPass);
+//   return res;
+// }
 
-const oneUser = [];
-const set = async function (oneUser) {
-  try {
-    const user = await User.findOne({ username: 'krunker' });
 
-    if (user) {
-      oneUser.push(user);
-      // console.log("user found:", user);
-    } else {
-      console.error('User not found');
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-  }
-};
-set(oneUser);
-
-// middleware to access/manipulate the logged in user!
-// in any route, user req.user to get the "logged in " user
-const persistUser = async function (req, res, next) {
-  console.log(req.session)
-  next(); 
-};
-
-app.use(persistUser);
-
-app.get('/', (req, res) => {
-  if (req.cookies.jwt) {
-    const verify = jwt.verify(
-      req.cookies.jwt,
-      'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-    );
-    res.render('home', { name: verify.username });
-  } else {
-    res.render('/');
-  }
-  // res.render("/signin")
-});
-
-// app.post("/", async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const check = await db.collection("Auth").findOne({ email: email });
-
-//     if (check) {
-//       res.json("exist");
-//     } else {
-//       res.json("notexist");
-//     }
-//   } catch (e) {
-//     res.json("notexist");
-//   }
+// app.get('/', (req, res) => {
+//   // if (req.cookies.jwt) {
+//   //   const verify = jwt.verify(
+//   //     req.cookies.jwt,
+//   //     'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
+//   //   );
+//   //   res.render('home', { name: verify.username });
+//   // } else {
+//   //   res.render('/');
+//   // }
+//   // // res.render("/signin")
 // });
 
+
 // LOGIN 
-app.post('/', async (req, res) => {
+app.post('/', (req, res, next) => {
 
-  try {
-    const check = await db
-      .collection('Auth')
-      .findOne({ email: req.body.username });
-    const passCheck = await compare(req.body.password, check.password);
+  // try {
+  //   const check = await db
+  //     .collection('Auth')
+  //     .findOne({ email: req.body.username });
+  //   const passCheck = await compare(req.body.password, check.password);
 
-    if (check && passCheck) {
+  //   if (check && passCheck) {
       
-      req.session.username = req.body.username; 
+  //     req.session.username = req.body.username; 
       
-      return res.json('exist')
-    } else {
-      return res.json('notexist');
+  //     return res.json('exist')
+  //   } else {
+  //     return res.json('notexist');
+  //   }
+  // } catch (e) {
+  //   return res.json('notexist');
+  // }
+  passport.authenticate("local", (err,user,info) => {
+    if (err) throw err;
+    if (!user) {
+      console.log(user)
+      res.send("No User Exists");
     }
-  } catch (e) {
-    return res.json('notexist');
-  }
+    else{
+      req.logIn(user, err => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+        console.log(req.user);
+      })
+    }
+  })(req,res,next);
 });
 
 // REGISTER
 app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
+  // const { username, password } = req.body;
   
-  try {
-    const check = await db.collection('Auth').findOne({ username });
+  // try {
+  //   const check = await db.collection('Auth').findOne({ username });
 
-    if (check) {
-      res.json('exist');
-    } else {
-      const token = jwt.sign(
-        { username: req.body.username },
-        'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-      );
+  //   if (check) {
+  //     res.json('exist');
+  //   } else {
+  //     const token = jwt.sign(
+  //       { username: req.body.username },
+  //       'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
+  //     );
 
-      res.cookie('jwt', token, {
-        maxAge: 600000,
-        httpOnly: true
+  //     res.cookie('jwt', token, {
+  //       maxAge: 600000,
+  //       httpOnly: true
+  //     });
+
+  //     const data = {
+  //       username,
+  //       password: await hashPass(password),
+  //       token
+  //       // bio: "",
+  //       // favThrift: "",
+  //       // style: ""
+  //     };
+
+  //     // localStorage.setItem('jwt', token);
+
+  //     res.json('notexist');
+  //     await db.collection('Auth').insertMany([data]);
+  //     // req.user = await db.collection('Users').findOne({username})
+  //   }
+  // } catch (e) {
+  //   res.json('notexist');
+  // }
+  User.findOne({username: req.body.username}).then(async function(err,doc){
+    if (err) throw err;
+    if (doc) res.send("User Already Exists");
+    if (!doc) {
+      const hashedPassword = await bcryptjs.hash(req.body.password, 10);
+      const newUser = User({
+        username: req.body.username,
+        password: hashedPassword,
+        bio: "",
+        favThrift: "",
+        style: ""
       });
-
-      const data = {
-        username,
-        password: await hashPass(password),
-        token
-        // bio: "",
-        // favThrift: "",
-        // style: ""
-      };
-
-      // localStorage.setItem('jwt', token);
-
-      res.json('notexist');
-      await db.collection('Auth').insertMany([data]);
-      // req.user = await db.collection('Users').findOne({username})
+      newUser.save("User Created");
     }
-  } catch (e) {
-    res.json('notexist');
-  }
+
+  })
+  
+
 });
 
 app.get('/api/allUsers', async (req, res) => {
