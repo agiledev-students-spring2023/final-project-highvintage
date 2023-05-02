@@ -46,123 +46,75 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
-// async function hashPass (password) {
-//   const res = await bcryptjs.hash(password, 10);
-//   return res;
-// }
-
-// async function compare (userPass, hashPass) {
-//   const res = await bcryptjs.compare(userPass, hashPass);
-//   return res;
-// }
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
 
-// app.get('/', (req, res) => {
-//   // if (req.cookies.jwt) {
-//   //   const verify = jwt.verify(
-//   //     req.cookies.jwt,
-//   //     'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-//   //   );
-//   //   res.render('home', { name: verify.username });
-//   // } else {
-//   //   res.render('/');
-//   // }
-//   // // res.render("/signin")
-// });
 
 
 // LOGIN 
-app.post('/', (req, res, next) => {
+passport.use('local-login', new passportLocal({passReqToCallback: true}, 
+  async function(req, username, password, done) {
+    // check user's credentials 
+      // put username input to lowercase then use await.UserfindOne to find by username
+      // compare hashed passwords
 
-  // try {
-  //   const check = await db
-  //     .collection('Auth')
-  //     .findOne({ email: req.body.username });
-  //   const passCheck = await compare(req.body.password, check.password);
+      // if all ok return done(null, userdocument)
+      // any issues reutrn done(null, false)
+  }
+ )) 
 
-  //   if (check && passCheck) {
-      
-  //     req.session.username = req.body.username; 
-      
-  //     return res.json('exist')
-  //   } else {
-  //     return res.json('notexist');
-  //   }
-  // } catch (e) {
-  //   return res.json('notexist');
-  // }
-  passport.authenticate("local", (err,user,info) => {
-    if (err) throw err;
-    if (!user) {
-      console.log(user)
-      res.send("No User Exists");
-    }
-    else{
-      req.logIn(user, err => {
-        if (err) throw err;
-        res.send("Successfully Authenticated");
-        console.log(req.user);
-      })
-    }
-  })(req,res,next);
+ app.post('/', passport.authenticate('local-login'), async (req, res) => {
+  if (req.user) {
+    // do what u need to in order to get user onto the following page - they r logged in 
+  }
+
+  // else
+  // display error message
+
 });
 
+
+
+
 // REGISTER
-app.post('/register', async (req, res) => {
-  // const { username, password } = req.body;
-  
-  // try {
-  //   const check = await db.collection('Auth').findOne({ username });
-
-  //   if (check) {
-  //     res.json('exist');
-  //   } else {
-  //     const token = jwt.sign(
-  //       { username: req.body.username },
-  //       'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-  //     );
-
-  //     res.cookie('jwt', token, {
-  //       maxAge: 600000,
-  //       httpOnly: true
-  //     });
-
-  //     const data = {
-  //       username,
-  //       password: await hashPass(password),
-  //       token
-  //       // bio: "",
-  //       // favThrift: "",
-  //       // style: ""
-  //     };
-
-  //     // localStorage.setItem('jwt', token);
-
-  //     res.json('notexist');
-  //     await db.collection('Auth').insertMany([data]);
-  //     // req.user = await db.collection('Users').findOne({username})
-  //   }
-  // } catch (e) {
-  //   res.json('notexist');
-  // }
-  User.findOne({username: req.body.username}).then(async function(err,doc){
-    if (err) throw err;
-    if (doc) res.send("User Already Exists");
-    if (!doc) {
+passport.use('local-register', new passportLocal({passReqToCallback: true}, 
+ async function(req, username, password, done) {
+  try {
+    const cleanUsername = req.body.username.toLowerCase(); 
+    const findUser = await User.findOne({username: cleanUsername});
+    if (findUser) return done(null, false); 
+    if (!findUser) {
       const hashedPassword = await bcryptjs.hash(req.body.password, 10);
       const newUser = User({
-        username: req.body.username,
+        username: cleanUsername,
         password: hashedPassword,
         bio: "",
         favThrift: "",
         style: ""
       });
-      newUser.save("User Created");
+      newUser.save();
+      return done(null, newUser)
     }
+  } catch(e) {
+    return done(e)
+  }
 
-  })
+ }
   
+)) 
+app.post('/register', passport.authenticate('local-register'), async (req, res) => {
+  if (req.user) {
+    // do what u need to in order to get user onto the following page - they r logged in 
+  }
+
+  // else
+  // display error message
 
 });
 
