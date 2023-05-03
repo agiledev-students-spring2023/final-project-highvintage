@@ -1,1 +1,3 @@
-export const requestURL = process.env.DEPLOY_URL + 'api/';
+export const requestURL = "https://high-vintage-be.onrender.com/" + 'api/';
+
+

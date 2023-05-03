@@ -31,7 +31,7 @@ export default function ProfileHeader(props) {
       );
       nav(0);
     } catch(e) {
-      console.log(e)
+      // error
 
     }
     

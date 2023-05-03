@@ -1,2 +1,2 @@
-export const onboardingURL = process.env.DEPLOY_URL;
+export const onboardingURL = "https://high-vintage-be.onrender.com";
 
