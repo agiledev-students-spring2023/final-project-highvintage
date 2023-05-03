@@ -1,2 +1,2 @@
-export const onboardingURL = process.env.DEPLOY_URL;
+export const onboardingURL = "http://localhost:5000";
 
