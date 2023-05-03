@@ -60,12 +60,12 @@ export default function ShareDiscussion() {
       key={discussion._id}
       discussionId={discussion._id}
       title={discussion.title}
-      photo={me.photo}
+      photo={discussion.author.photo}
       content={discussion.content}
       userID={discussion.author}
       date={discussion.posted}
       likes={discussion.likes.length}
-      username={me.username}
+      username={discussion.author.username}
     ></DiscussionFullView>
   ));
 
