@@ -64,9 +64,15 @@ export default function ProfileHeader(props) {
           <h2 className="text-2xl ">{username}</h2>
           <div className="flex flex-col mt-2">
             {isLoggedIn ? (
-              <button className="bg-gray-300 text-black w-full px-4 py-1 rounded-lg mr-4 ">
+              <div> 
+              <button className="bg-blue-200 text-black w-full px-4 py-1 rounded-lg mr-4 ">
                 <Link to="/edit-profile">Edit Profile</Link>
               </button>
+
+              <button className="bg-gray-300 mt-2 text-black w-full px-4 py-1 rounded-lg mr-4 ">
+                <Link to="/"> Log out </Link>
+              </button>
+              </div>
             ) : (
               <button
                 className={`bg-gray-300 text-black w-full px-4 py-1.5 rounded-lg mr-4 ${
