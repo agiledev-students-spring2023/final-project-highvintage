@@ -27,7 +27,7 @@ export default function Form() {
                 }
             })
             .catch(e=>{
-                alert("wrong username or password")
+                alert("User already exists")
                 console.log(e);
             })
 

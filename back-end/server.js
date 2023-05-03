@@ -94,11 +94,11 @@ passport.use(
     async (username, password, done) => {
       try {
         const user = await User.findOne({ username: username });
-        if (!user) return done(null, false);
+        if (!user) return done("user does not exist", false);
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return done(null, false);
         // if passwords match return user
-        console.log("Returning user" + user);
+        // console.log("Returning user" + user);
         return done(null, user);
       } catch (error) {
         console.log(error);
@@ -175,6 +175,8 @@ passport.use(
           });
           newUser.save();
           return done(null, newUser);
+        }else {
+          return done("User already exists", null)
         }
       } catch (error) {
         done(error);
