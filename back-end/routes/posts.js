@@ -108,7 +108,7 @@ router.post(
       });
       user.posts.push(populatedPost._id);
       await user.save();
-
+      
       return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
       console.log('err1');
