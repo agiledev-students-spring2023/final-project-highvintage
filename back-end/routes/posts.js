@@ -106,19 +106,8 @@ router.post(
         path: 'author',
         model: 'User'
       });
-
-      try {
-        // Populate posts field in User
-        const update = await User.findById(req.user._id).populate('posts');
-        req.user.posts.push(populatedPost._id);
-        // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
-        // await Post.deleteMany({});
-        // remove post ids from user.posts array
-        // await User.updateMany({}, { $set: { posts: [] } });
-      } catch (err) {
-        console.log('err2');
-        return res.sendStatus(500);
-      }
+      user.posts.push(populatedPost._id);
+      await user.save();
 
       return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
