@@ -1,2 +1,2 @@
-export const onboardingURL = "https://high-vintage-be.onrender.com";
+export const onboardingURL = "http://localhost:5000";
 
