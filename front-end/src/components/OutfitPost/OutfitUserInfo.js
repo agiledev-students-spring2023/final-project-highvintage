@@ -8,12 +8,16 @@ export default function OutfitUserInfo(props) {
     navigate(path);
   };
   console.log(props.postDate)
+  console.log(props.photo)
+
+  let photo = props.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+  
   return (
     <div className="grid grid-cols-3 px-3 py-2">
       <div className="flex col-span-2 gap-x-4">
         <img
           className="h-12 my-auto object-cover aspect-square rounded-full justify-self-end"
-          src={props.photo}
+          src={photo}
           onClick={showProfile}
           alt="user"
         />
