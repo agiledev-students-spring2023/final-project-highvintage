@@ -230,7 +230,7 @@ app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);
 app.use("/api/comments", CommentsRoute);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
