@@ -7,10 +7,13 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 import config from "../token";
+import { useNavigate } from "react-router-dom";
 export default function Home() {
   const [viewable, setViewable] = useState([]);
   const [err, setErr] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const nav = useNavigate();
 
   function arrayBufferToBase64(buffer) {
     let binary = "";
@@ -22,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchFeed() {
       try {
-        const response = await axios.get(requestURL + "posts/feed", config);
+        const response = await axios.get(requestURL + "posts/feed", config).catch((e) => nav(0));
         setLoaded(true);
         const results = response.data.feed.map((post) => {
           // each element is a post by a followed user!

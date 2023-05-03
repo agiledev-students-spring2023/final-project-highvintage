@@ -76,6 +76,8 @@ router.get('/view/:postID',  passport.authenticate('jwt'), async function (req, 
 });
 
 router.post('/add',  passport.authenticate('jwt'), async function (req, res) {
+
+  console.log(req.body)
   try {
     const { type, postID, comment } = req.body;
 
