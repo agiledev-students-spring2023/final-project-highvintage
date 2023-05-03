@@ -66,7 +66,7 @@ export default function OutfitCollection() {
       }
     }
     fetchCollection();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     if (allPosts.length > 0) {

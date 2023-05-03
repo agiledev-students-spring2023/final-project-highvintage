@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
-import { config } from "../../token";
+import config from "../../token";
 
 export default function AddComment(props) {
   const [comment, setComment] = useState("");

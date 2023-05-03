@@ -19,8 +19,8 @@ export default function DiscussionInteraction(props) {
   const fetchInitialLikeState = async () => {
     try {
       const response = await axios.get(
-        requestURL + `discussions/${props.discussionID}/like`, config, 
-        { params: { userID: props.authorID } }
+        requestURL + `discussions/${props.discussionID}/like`,config ,
+        { params: { userID: props.authorID } }, 
       );
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
@@ -33,13 +33,13 @@ export default function DiscussionInteraction(props) {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
-          requestURL + `discussions/${props.discussionID}/like`, config, 
+          requestURL + `discussions/${props.discussionID}/like`, 
           {
             userID: props.authorID,
             discussionID: props.discussionID,
             liked: !isLiked,
             discussionLikes: numLikes,
-          },
+          },config
         );
         setNumLikes(response.data.numLikes);
         setIsLiked(response.data.isLiked);

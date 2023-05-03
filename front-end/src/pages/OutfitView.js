@@ -41,7 +41,7 @@ export default function OutfitView() {
     console.log("params.id", params.id);
     fetchPost(params.id);
     return () => {};
-  }, [params.id]);
+  }, [params.id, nav]);
 
   useEffect(() => {
     async function fetchMe() {

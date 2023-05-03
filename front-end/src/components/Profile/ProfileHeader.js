@@ -25,7 +25,7 @@ export default function ProfileHeader(props) {
   const nav = useNavigate();
   async function handleFollow() {
     const response = await axios.put(
-      requestURL + "users/" + props.username + "/follow", config
+      requestURL + "users/" + props.username + "/follow", config,
     );
 
     nav(0);
@@ -33,7 +33,7 @@ export default function ProfileHeader(props) {
 
   async function handleUnfollow() {
     const response = await axios.put(
-      requestURL + "users/" + props.username + "/unfollow", config
+      requestURL + "users/" + props.username + "/unfollow", config,
     );
 
     nav(0);
