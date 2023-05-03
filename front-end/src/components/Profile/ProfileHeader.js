@@ -90,14 +90,14 @@ export default function ProfileHeader(props) {
       <div className="ml-6 mr-8">
         <div className="text-gray-500">
           <p className="mt-3">
-            <span className="font-semibold">Style:</span> {style}
+            <span className="font-semibold">Style:</span> {style === "" ? "Not shared...yet!" : style}
           </p>
           <p className="">
             <span className="font-semibold">Favorite Thrift:</span>{" "}
-            {favoriteThrift}
+            {favoriteThrift === "" ? "Not shared...yet!" : favoriteThrift}
           </p>
         </div>
-        <p className="mt-1">{bio}</p>
+        <p className="mt-1">{bio === "" ? "I love clothes!" : bio}</p>
       </div>
 
       <ul className="flex justify-center w-full mt-3 border-b-2 bg-white border-x-slate-400">
