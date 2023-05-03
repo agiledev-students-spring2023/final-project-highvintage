@@ -25,10 +25,9 @@ HighVintage is a social media web application that aims to provide easy access t
 
 ## **Product Vision Statement**
 ### Our Minimum Viable Product includes following features :
-- User can post image / video with text to share one's thrifted items or outfits and categorize them by style, with an option to include store location(s)
+- User can post images with text to share one's thrifted items or outfits and categorize them by style, with an option to include store location
 - User can post questions or any discussion topics in a forum-style page to exchange ideas with others 
 - User can like and comment on other's posts
-- User can save outfit posts and/or discussion posts to collect information
 - User can create one's profile and access other's profile, given an option to follow or unfollow.
 
 </br>
@@ -37,9 +36,9 @@ HighVintage is a social media web application that aims to provide easy access t
 <!-- include links to their GitHub accounts and any other web presence they have -->
 - Ruby Kim - [GitHub](https://github.com/rubykiim)
 - Kedan Zha - [GitHub](https://github.com/Zackdan0227)
-- Eduarda Martini [GitHub](https://github.com/ezmartini)
-- Kate Yoon [GitHub](https://github.com/katepilled)
-- Tony Kim [GitHub](https://github.com/wjdgus02)
+- Eduarda Martini - [GitHub](https://github.com/ezmartini)
+- Kate Yoon - [GitHub](https://github.com/katepilled)
+- Tony Kim - [GitHub](https://github.com/wjdgus02)
 
 </br>
 
