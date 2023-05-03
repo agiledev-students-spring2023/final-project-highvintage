@@ -6,6 +6,7 @@ import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
 import config from "../token";
+import { Link } from "react-router-dom";
 
 import moment from "moment";
 import DiscussionInteraction from "../components/Discussions/DiscussionInteraction";
@@ -24,6 +25,7 @@ export default function DiscussionView() {
   });
   //get discussion
 
+  const photo = discussion.authorPhoto || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
   useEffect(() => {
     async function fetchDiscussion(query) {
       try {
@@ -67,14 +69,16 @@ export default function DiscussionView() {
           </h2>
           <div className="flex items-center">
             <img
-              src={discussion.authorPhoto}
+              src={photo}
               alt="User Avatar"
               className="w-8 h-8 rounded-full mr-2"
             />
-            {/* need link to the profile when click on */}
-            <span className="overflow-hidden truncate text-gray-600">
-              {discussion.authorUsername}
-            </span>
+          <Link
+            to={`/profile/${discussion.authorUsername}`}
+            className="overflow-hidden truncate text-gray-600"
+          >
+            {discussion.authorUsername}
+          </Link>
           </div>
         </div>
 
