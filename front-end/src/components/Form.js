@@ -23,10 +23,9 @@ export default function Form() {
             })
             .then(res=>{ console.log(res)
                 
-                if(res.data=="exist"){
-                    console.log('here')
+                if(res.data.data==="exist"){
                     localStorage.setItem("isLogged", true)
-                    localStorage.setItem('token', res.token);
+                    localStorage.setItem('token', res.data.token);
                     navigate('/home')
                 }
                 else if(res.data=="notexist"){
