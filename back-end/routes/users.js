@@ -150,7 +150,7 @@ router.get('/me', passport.authenticate('jwt'), async function (req, res) {
 });
 
 // api/users/:username/follow
-router.put('/:username/follow', passport.authenticate('jwt'), async function (req, res) {
+router.post('/:username/follow', passport.authenticate('jwt'), async function (req, res) {
   const username = req.params.username;
   const gainedAFollower = await User.findOneAndUpdate(
     { username },
@@ -168,7 +168,7 @@ router.put('/:username/follow', passport.authenticate('jwt'), async function (re
 });
 
 // api/users/:username/unfollow
-router.put('/:username/unfollow', passport.authenticate('jwt'), async function (req, res) {
+router.post('/:username/unfollow', passport.authenticate('jwt'), async function (req, res) {
   const toLoseFollower = req.params.username;
 
   const losingAFollower = await User.findOneAndUpdate(
