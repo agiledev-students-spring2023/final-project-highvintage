@@ -7,7 +7,7 @@ const User = require('../schemas/users.js');
 const Style = require('../schemas/styles.js');
 const db = require('../db.js');
 const { ObjectId } = require('mongodb');
-const passport = require("passport");
+const passport = require('passport');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
@@ -15,8 +15,6 @@ router.use('/static', express.static('public'));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
 
 router.get('/styles', passport.authenticate('jwt'), async (req, res) => {
-
-  console.log(req.user)
   try {
     const fetchedStyles = await new Style({
       styles: [
@@ -84,7 +82,7 @@ router.post(
     const photos = req.files.my_files.map((file) => ({
       data: fs.readFileSync(path.join(uploadDir + '/' + file.filename)),
       contentType: file.mimetype
-    }))
+    }));
 
     try {
       // create new Post and save
@@ -99,7 +97,7 @@ router.post(
       if (newPost) {
         db.collection('Posts').insertOne(newPost);
       } else {
-        console.log('err3')
+        console.log('err3');
         return res.sendStatus(500);
       }
 
@@ -113,20 +111,18 @@ router.post(
         // Populate posts field in User
         const update = await User.findById(req.user._id).populate('posts');
         req.user.posts.push(populatedPost._id);
-      
-
         // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
         // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } });
       } catch (err) {
-        console.log('err2')
+        console.log('err2');
         return res.sendStatus(500);
       }
 
       return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
-      console.log('err1')
+      console.log('err1');
       res.sendStatus(500);
       next(err);
     }
@@ -203,23 +199,22 @@ router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
 });
 
 // api/posts/
-router.get('/collection',passport.authenticate('jwt'), async (req, res) => {
-  const user = req.user;
+router.get('/collection', passport.authenticate('jwt'), async (req, res) => {
   try {
-    await User.find()
-      .then(async (fetchedUsers) => {
-        const populatedUsers = await User.findById(user._id).populate('posts');
-        const allPosts = [];
-        [populatedUsers].forEach((user) => {
-          user.posts.forEach((p) => {
-            allPosts.push(p);
-          });
-        });
-        console.log('* allPosts', allPosts);
-        res.json({ populatedUsers, allPosts });
-      })
-      .catch((err) => console.log('* Cannot fetch all users', err));
+    // Fetch all users
+    const fetchedUsers = await User.find({});
+
+    // Populate posts for each user and create an array of all posts
+    const allPosts = [];
+    for (const user of fetchedUsers) {
+      const populatedUser = await User.findById(user._id).populate('posts');
+      allPosts.push(...populatedUser.posts);
+    }
+
+    console.log('* allPosts', allPosts);
+    res.json({ allPosts });
   } catch (err) {
+    console.log('* Cannot fetch all users and their posts', err);
     res.sendStatus(500);
   }
 });
@@ -251,8 +246,7 @@ router.get('/view', passport.authenticate('jwt'), async (req, res) => {
 });
 
 // api/posts/
-router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
-
+router.get('/feed', passport.authenticate('jwt'), async function (req, res) {
   if (!req.user) {
     return res.sendStatus(403);
   }
