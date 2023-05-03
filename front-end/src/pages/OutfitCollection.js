@@ -60,6 +60,7 @@ export default function OutfitCollection() {
           console.log("* Fetched Posts", response.data.allPosts);
           setAllPosts(response.data.allPosts);
         }
+        setLoaded(true);
       } catch {
         navigate("/500")
       }
@@ -70,7 +71,6 @@ export default function OutfitCollection() {
   useEffect(() => {
     if (allPosts.length > 0) {
       filterByStyle(style);
-      setLoaded(true);
     }
   }, [allPosts, style, filterByStyle]);
 

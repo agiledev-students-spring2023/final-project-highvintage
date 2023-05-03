@@ -5,6 +5,7 @@ import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import config from "../token";
 
 export default function OutfitForm() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function OutfitForm() {
     const fetchStyles = async () => {
       try {
         const response = await axios.get(
-          requestURL + 'posts/styles');
+          requestURL + 'posts/styles', config);
         console.log("* Fetching Styles...")
         setStyles(response.data.styles);
       } catch (error) {

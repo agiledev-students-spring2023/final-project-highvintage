@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart, FaRegCommentDots } from "react-icons/fa";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
-import config from "../../token";
+import config, { headers } from "../../token";
 
 export default function DiscussionInteraction(props) {
   const navigate = useNavigate();
@@ -19,8 +19,8 @@ export default function DiscussionInteraction(props) {
   const fetchInitialLikeState = async () => {
     try {
       const response = await axios.get(
-        requestURL + `discussions/${props.discussionID}/like`,
-        { config, params: { userID: props.authorID } }
+        requestURL + `discussions/${props.discussionID}/like`, config, 
+        { params: { userID: props.authorID } }
       );
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
@@ -33,13 +33,12 @@ export default function DiscussionInteraction(props) {
     const toggle = useCallback(async () => {
       try {
         const response = await axios.post(
-          requestURL + `discussions/${props.discussionID}/like`,
+          requestURL + `discussions/${props.discussionID}/like`, config, 
           {
             userID: props.authorID,
             discussionID: props.discussionID,
             liked: !isLiked,
             discussionLikes: numLikes,
-            config
           },
         );
         setNumLikes(response.data.numLikes);
