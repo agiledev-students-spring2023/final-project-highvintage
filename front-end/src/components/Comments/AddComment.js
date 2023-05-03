@@ -75,7 +75,7 @@ export default function AddComment(props) {
         <div className="col-span-2">
           {" "}
           <img
-            className="h-14 ml-4 object-cover aspect-square"
+            className="object-cover w-12 h-12 rounded-full"
             src={photo}
             alt="User's profile"
           />
