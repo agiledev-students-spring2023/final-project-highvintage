@@ -4,6 +4,7 @@ import moment from "moment";
 
 export default function DiscussionFullView(props) {
   let likes = props.likes;
+  const photo = props.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
 
   return (
     <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">
@@ -13,7 +14,7 @@ export default function DiscussionFullView(props) {
         </h2>
         <div className="flex items-center">
           <img
-            src={props.photo}
+            src={photo}
             alt="User Avatar"
             className="w-8 h-8 rounded-full mr-2"
           />
