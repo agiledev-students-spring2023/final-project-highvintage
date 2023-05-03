@@ -11,7 +11,8 @@ export default function Form() {
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
 
-    localStorage.setItem('auth', false)
+    localStorage.setItem('auth', false);
+    localStorage.setItem('token', '0');
 
     async function submit(e){
         e.preventDefault();

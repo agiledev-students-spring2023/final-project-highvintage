@@ -13,6 +13,7 @@ export default function Form() {
     let navigate = useNavigate();
    
     localStorage.setItem('auth', false)
+    localStorage.setItem('token', '0')
 
     async function submit(e){
         e.preventDefault();

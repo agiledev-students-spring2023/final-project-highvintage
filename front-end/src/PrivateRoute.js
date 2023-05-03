@@ -4,6 +4,7 @@ import {Navigate, Outlet} from 'react-router-dom'
 const PrivateRoute = ({ children }) => {
 
     let isAuth = localStorage.getItem('auth');
+    let token = localStorage.getItem('token');
 
     
 
