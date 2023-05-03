@@ -5,6 +5,7 @@ import ProfilePreview from "../components/Profile/ProfilePreview";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 import { useNavigate } from "react-router-dom";
+import config from "../token";
 
 export default function Search() {
   const [found, setFound] = useState([]);
@@ -15,7 +16,7 @@ export default function Search() {
   async function search(query) {
     try {
       const response = await axios.get(
-        requestURL + "users/search?query=" + query
+        requestURL + "users/search?query=" + query, config
       );
 
       setFound(response.data.found);

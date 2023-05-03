@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 // import { FaHome } from "react-icons/fa";
 import { requestURL } from "../requestURL";
 import axios from "axios";
+import config from "../token";
 
 export default function MainNav(props) {
   const [me, setMe] = useState("");
@@ -12,7 +13,7 @@ export default function MainNav(props) {
 
   useEffect(() => {
     async function fetchMe() {
-      const response = await axios.get(requestURL + "users/me");
+      const response = await axios.get(requestURL + "users/me", config);
       setMe(response.data.user.username);
     }
 

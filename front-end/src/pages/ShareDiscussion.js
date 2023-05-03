@@ -7,7 +7,8 @@ import DropDownMenuTwo from "../components/Discussions/DropDownSort";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
-
+import config
+ from "../token";
 export default function ShareDiscussion() {
   const navigate = useNavigate();
   const [sortedDiscussions, setSortedDiscussions] = useState([]);
@@ -18,7 +19,7 @@ export default function ShareDiscussion() {
   useEffect(() => {
     const fetchDiscussion = async () => {
       try {
-        const response = await axios.get(requestURL + "allDiscussions");
+        const response = await axios.get(requestURL + "allDiscussions", config);
         setDiscussions(response.data);
         setSortedDiscussions(response.data);
       } catch (error) {
@@ -29,7 +30,7 @@ export default function ShareDiscussion() {
 
     async function fetchMe() {
       try {
-        const response = await axios.get(requestURL + "users/me");
+        const response = await axios.get(requestURL + "users/me", config);
         setMe(response.data.user);
         setLoaded(true);
       } catch (error) {

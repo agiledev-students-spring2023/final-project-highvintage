@@ -9,6 +9,7 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { useEffect } from "react";
 import { requestURL } from "../requestURL";
+import config from "../token";
 
 export default function OutfitCollection() {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ export default function OutfitCollection() {
     async function fetchCollection() {
       try {
         const response = await axios
-          .get(requestURL + "posts/collection")
+          .get(requestURL + "posts/collection", config)
           .then(console.log("* Fetched"))
         // console.log("response", response);
         if (response) {
@@ -90,7 +91,7 @@ export default function OutfitCollection() {
   useEffect(() => {
     async function fetchMe() {
       try {
-        const response = await axios.get(requestURL + "users/me");
+        const response = await axios.get(requestURL + "users/me", config);
         setMe(response.data.user.username);
       }
       catch {

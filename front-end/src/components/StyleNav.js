@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import config from "../token";
 
 export default function StyleNav(props) {
   const [styles, setStyles] = useState([])
@@ -14,7 +15,7 @@ export default function StyleNav(props) {
     const fetchStyles = async () => {
       try {
         const response = await axios.get(
-          requestURL + 'posts/styles');
+          requestURL + 'posts/styles', config);
         console.log("* Fetching Styles...")
         setStyles(response.data.styles);
       } catch (error) {

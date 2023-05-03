@@ -54,10 +54,12 @@ export default function OutfitForm() {
     }
 
     try {
+      const token = localStorage.getItem("token");
       const response = await axios
         .post(requestURL + "posts/create", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`
           },
         })
         .catch((err) => {

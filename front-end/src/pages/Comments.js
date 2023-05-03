@@ -7,6 +7,7 @@ import AddComment from "../components/Comments/AddComment";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 import Loading from "../components/Loading";
+import config from "../token";
 
 export default function Comments(props) {
   const [comments, setComments] = useState([]);
@@ -41,7 +42,7 @@ export default function Comments(props) {
 
     async function fetchMe() {
       try {
-        const response = await axios.get(requestURL + "users/me");
+        const response = await axios.get(requestURL + "users/me", config);
         const user = response.data.user;
         setUserID(user._id);
         setUserName(user.username);

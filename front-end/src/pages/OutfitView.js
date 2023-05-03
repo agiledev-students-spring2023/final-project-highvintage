@@ -6,6 +6,7 @@ import MainNav from "../components/MainNav";
 import Loading from "../components/Loading";
 import { requestURL } from "../requestURL";
 import axios from "axios";
+import config from "../token";
 
 export default function OutfitView() {
   // fetch on page load - useEffect
@@ -22,7 +23,7 @@ export default function OutfitView() {
     async function fetchPost(query) {
       try {
         const response = await axios.get(
-          requestURL + "posts/view/?id=" + query
+          requestURL + "posts/view/?id=" + query, config
         );
         response.data.post.postText = response.data.post.caption;
         setPost(response.data.post);
@@ -45,7 +46,7 @@ export default function OutfitView() {
   useEffect(() => {
     async function fetchMe() {
       try {
-        const response = await axios.get(requestURL + "users/me");
+        const response = await axios.get(requestURL + "users/me", config);
         setMe(response.data.user.username);
       }
       catch {

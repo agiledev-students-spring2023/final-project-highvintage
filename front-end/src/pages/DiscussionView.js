@@ -4,6 +4,7 @@ import GenericHeader from "../components/GenericHeader";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
+import config from "../token";
 
 import moment from "moment";
 import DiscussionInteraction from "../components/Discussions/DiscussionInteraction";
@@ -26,7 +27,7 @@ export default function DiscussionView() {
     async function fetchDiscussion(query) {
       try {
         const response = await axios.get(
-          requestURL + "discussions/view/" + query
+          requestURL + "discussions/view/" + query, config
         );
         if (response.data.found) {
           setIsFetched(true);
