@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaRegHeart, FaHeart, FaRegCommentDots } from "react-icons/fa";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
+import config from "../../token";
 
 export default function DiscussionInteraction(props) {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function DiscussionInteraction(props) {
     try {
       const response = await axios.get(
         requestURL + `discussions/${props.discussionID}/like`,
-        { params: { userID: props.authorID } }
+        { config, params: { userID: props.authorID } }
       );
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
@@ -38,7 +39,8 @@ export default function DiscussionInteraction(props) {
             discussionID: props.discussionID,
             liked: !isLiked,
             discussionLikes: numLikes,
-          }
+            config
+          },
         );
         setNumLikes(response.data.numLikes);
         setIsLiked(response.data.isLiked);
@@ -53,7 +55,7 @@ export default function DiscussionInteraction(props) {
 
   const handleCommentClick = () => {
     try {
-      navigate("/comments/" + props.discussionID + "?discussionPost=true");
+      navigate("/comments/" + props.discussionID + "?discussionPost=true", config);
     } catch (error) {
       navigate("/500");
     }

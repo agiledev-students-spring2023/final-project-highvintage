@@ -3,6 +3,7 @@ import EditProfile from "../../pages/EditProfile";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
+import config from "../../token";
 /**
  * A React component that represents a user's profile header
  * @returns The contents of this component, in JSX form.
@@ -24,7 +25,7 @@ export default function ProfileHeader(props) {
   const nav = useNavigate();
   async function handleFollow() {
     const response = await axios.put(
-      requestURL + "users/" + props.username + "/follow"
+      requestURL + "users/" + props.username + "/follow", config
     );
 
     nav(0);
@@ -32,7 +33,7 @@ export default function ProfileHeader(props) {
 
   async function handleUnfollow() {
     const response = await axios.put(
-      requestURL + "users/" + props.username + "/unfollow"
+      requestURL + "users/" + props.username + "/unfollow", config
     );
 
     nav(0);

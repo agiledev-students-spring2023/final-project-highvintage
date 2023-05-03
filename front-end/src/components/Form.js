@@ -11,30 +11,6 @@ export default function Form() {
     const [password,setPassword]=useState('')
 
     let navigate = useNavigate();
-    
-    // const [response, setResponse] = useState({}) // will hold a JSON object returned by the server
-    // const [cookieData, setCookieData] = useState({}) // will hold any cookies set in the browser
-
-    // // the following side-effect will be called once upon initial render
-    // useEffect(() => {
-    //     // make a request to a route on the express server that sets a cookie in the browser
-    //     axios(`${process.env.REACT_APP_BACKEND}/cookie/set`, {
-    //     withCredentials: true,
-    //     })
-    //     .then(response => {
-    //         // extract the data from the server response body
-    //         setResponse(response.data)
-    //     })
-    //     .catch(err => {
-    //         console.error(err) // the server returned an error...
-    //     })
-    // }, []) // only run this side-effect function once!
-
-    // // any time the response state variable changes value, we retrieve the cookie and place it into its own state variable so it appears in the JSX of the component
-    // useEffect(() => {
-    //     // copy the cookie data into a state variable (so react auto-inserts it into the JSX)
-    //     setCookieData(Cookies.get())
-    // }, [response])
 
 
     async function submit(e){
