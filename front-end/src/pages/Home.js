@@ -6,7 +6,7 @@ import OutfitPost from "../components/OutfitPost/OutfitPost";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
-
+import config from "../token";
 export default function Home() {
   const [viewable, setViewable] = useState([]);
   const [err, setErr] = useState(false);
@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchFeed() {
       try {
-        const response = await axios.get(requestURL + "posts/feed");
+        const response = await axios.get(requestURL + "posts/feed", config);
         setLoaded(true);
         const results = response.data.feed.map((post) => {
           // each element is a post by a followed user!

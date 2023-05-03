@@ -4,8 +4,9 @@ const { ObjectId } = require('mongodb');
 const Discussion = require('../schemas/discussions');
 const Comment = require('../schemas/comments');
 const Post = require('../schemas/posts');
+const passport = require("passport");
 
-router.get('/view/:postID', async function (req, res) {
+router.get('/view/:postID',  passport.authenticate('jwt'), async function (req, res) {
   if (!req.params.postID) {
     res.send(500);
   }
@@ -74,7 +75,7 @@ router.get('/view/:postID', async function (req, res) {
   }
 });
 
-router.post('/add', async function (req, res) {
+router.post('/add',  passport.authenticate('jwt'), async function (req, res) {
   try {
     const { type, postID, comment } = req.body;
 

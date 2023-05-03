@@ -7,13 +7,16 @@ const User = require('../schemas/users.js');
 const Style = require('../schemas/styles.js');
 const db = require('../db.js');
 const { ObjectId } = require('mongodb');
+const passport = require("passport");
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
 router.use('/static', express.static('public'));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
 
-router.get('/styles', async (req, res) => {
+router.get('/styles', passport.authenticate('jwt'), async (req, res) => {
+
+  console.log(req.user)
   try {
     const fetchedStyles = await new Style({
       styles: [
@@ -51,6 +54,9 @@ const upload = multer({ storage });
 router.post(
   '/create',
   upload.fields([{ name: 'my_files', maxCount: 5 }]),
+
+  passport.authenticate('jwt'),
+
   [
     // express-validator checks
     body('location').notEmpty().withMessage('Location is required'),
@@ -78,7 +84,7 @@ router.post(
     const photos = req.files.my_files.map((file) => ({
       data: fs.readFileSync(path.join(uploadDir + '/' + file.filename)),
       contentType: file.mimetype
-    }));
+    }))
 
     try {
       // create new Post and save
@@ -93,7 +99,8 @@ router.post(
       if (newPost) {
         db.collection('Posts').insertOne(newPost);
       } else {
-        res.sendStatus(500);
+        console.log('err3')
+        return res.sendStatus(500);
       }
 
       // Populate the author field in the newPost object
@@ -101,23 +108,25 @@ router.post(
         path: 'author',
         model: 'User'
       });
-      user.posts.push(populatedPost._id);
 
       try {
-        await user.save();
         // Populate posts field in User
-        await User.findById(user._id).populate('posts');
+        const update = await User.findById(req.user._id).populate('posts');
+        req.user.posts.push(populatedPost._id);
+      
 
         // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
         // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } });
       } catch (err) {
-        res.sendStatus(500);
+        console.log('err2')
+        return res.sendStatus(500);
       }
 
-      res.status(201).json({ newPost: populatedPost });
+      return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
+      console.log('err1')
       res.sendStatus(500);
       next(err);
     }
@@ -125,7 +134,7 @@ router.post(
 );
 
 // get like status
-router.get('/:id/like', async (req, res) => {
+router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const userID = req.query.userID;
   const postID = req.params.id;
 
@@ -143,7 +152,7 @@ router.get('/:id/like', async (req, res) => {
 });
 
 // api/posts/
-router.post('/:postID/like', async (req, res) => {
+router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
   const { postID, liked, postLikes } = req.body;
   const user = req.user;
 
@@ -194,7 +203,7 @@ router.post('/:postID/like', async (req, res) => {
 });
 
 // api/posts/
-router.get('/collection', async (req, res) => {
+router.get('/collection',passport.authenticate('jwt'), async (req, res) => {
   const user = req.user;
   try {
     await User.find()
@@ -216,7 +225,7 @@ router.get('/collection', async (req, res) => {
 });
 
 // api/posts/
-router.get('/view', async (req, res) => {
+router.get('/view', passport.authenticate('jwt'), async (req, res) => {
   const user = req.user;
   const postID = req.query.id;
 
@@ -242,7 +251,8 @@ router.get('/view', async (req, res) => {
 });
 
 // api/posts/
-router.get('/feed', async function (req, res) {
+router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
+
   if (!req.user) {
     return res.sendStatus(403);
   }

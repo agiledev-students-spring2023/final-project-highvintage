@@ -27,7 +27,7 @@ export default function Form() {
                 }
             })
             .catch(e=>{
-                alert("wrong username or password")
+                alert("User already exists")
                 console.log(e);
             })
 
@@ -39,6 +39,19 @@ export default function Form() {
 
 
     }
+
+    // const submit = () => {
+        
+    //     axios({
+    //         method: "POST",
+    //         data: {
+    //             username: username,
+    //             password: password
+    //         },
+    //         withCredentials: true,
+    //         url: "http://localhost:5000/register",
+    //     }).then((res) => console.log(res));
+    // }
 
     return (
         <div className='bg-white px-10 py-20 rounded-3xl border-2 border-gray-100'>

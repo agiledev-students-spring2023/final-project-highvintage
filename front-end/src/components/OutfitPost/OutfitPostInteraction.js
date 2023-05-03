@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
+import config from "../../token";
 
 export default function OutfitPostInfo(props) {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function OutfitPostInfo(props) {
       try {
         const response = await axios.get(
           requestURL + `posts/${props.postID}/like`,
-          { params: { userID: props.authorID } }
+          { config,  params: { userID: props.authorID } }
         );
         setIsLiked(response.data.isLiked);
         setNumLikes(response.data.numLikes);
@@ -44,6 +45,7 @@ export default function OutfitPostInfo(props) {
           postID: props.postID,
           liked: !isLiked,
           postLikes: numLikes,
+          config
         }
       );
       setIsLiked(response.data.isLiked);

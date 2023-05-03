@@ -5,6 +5,7 @@ import GenericHeader from "../components/GenericHeader";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 import Loading from "../components/Loading";
+import config from "../token";
 
 export default function Following() {
   const [following, setFollowing] = useState([]);
@@ -18,7 +19,7 @@ export default function Following() {
     async function fetchFollowing() {
       try {
         const response = await axios.get(
-          requestURL + "users/" + currentUser.username + "/following"
+          requestURL + "users/" + currentUser.username + "/following", config
         );
         //const response = await axios.get('${requestURL}api/users/${props.username}/followings');
         setFollowing(response.data.following);

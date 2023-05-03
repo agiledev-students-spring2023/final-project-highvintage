@@ -6,6 +6,7 @@ import GenericHeader from "../components/GenericHeader";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
+import config from "../token";
 
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
@@ -14,7 +15,7 @@ export default function EditProfile() {
 
   async function fetchMe() {
     try {
-      const response = await axios.get(requestURL + "users/me");
+      const response = await axios.get(requestURL + "users/me", config);
       setLoggedIn(response.data.user);
     } catch (e) {
       nav("/500");
@@ -62,7 +63,7 @@ export default function EditProfile() {
       try {
         const response = await axios.put(requestURL + "users/edit-profile", {
           changes,
-        });
+        }, config);
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");

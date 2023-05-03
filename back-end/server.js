@@ -1,205 +1,230 @@
-const express = require('express');
+const express = require("express");
 // const session = require("express-session");
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const UsersRoute = require('./routes/users.js');
-const PostsRoute = require('./routes/posts.js');
-const DiscussionsRoute = require('./routes/discussions.js');
-const CommentsRoute = require('./routes/comments.js');
-const mockUsers = require('./mock-db/mock.js');
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const UsersRoute = require("./routes/users.js");
+const PostsRoute = require("./routes/posts.js");
+const DiscussionsRoute = require("./routes/discussions.js");
+const CommentsRoute = require("./routes/comments.js");
+const mockUsers = require("./mock-db/mock.js");
 const PORT = process.env.PORT || 5000;
-const db = require('./db.js');
-const User = require('./schemas/users.js');
-const Discussion = require('./schemas/discussions.js');
-const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser');
-const bcryptjs = require('bcryptjs');
-const session = require('express-session')
+const db = require("./db.js");
+const User = require("./schemas/users.js");
+const Discussion = require("./schemas/discussions.js");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcryptjs");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const jwt = require("jsonwebtoken");
 
-// adding post author to all mock users
-for (const user of mockUsers) {
-  user.savedPosts = [];
-  user.bio = 'This is my bio made from the server.js file!';
-  user.style = 'Server.js';
-  user.favoriteThrift = 'nodemon server.js';
-  if (!user.followers) {
-    user.followers = [];
-    user.following = [];
-  }
-  for (const post of user.posts) {
-    post.author = user.id;
-    if (!post.postLoc) {
-      post.postLoc = '';
-    }
-  }
-  // store user.id as discussion author
-  for (const discussion of user.discussion) {
-    discussion.author = user.id;
-  }
-}
+const {ExtractJwt } = require("passport-jwt");
+const JwtStrategy = require("passport-jwt").Strategy;
 
 const app = express();
-const path = require('path');
+const path = require("path");
 
-app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(cors({
+//   origin: "http://localhost:3000",
+//   credentials: true
+// }))
+app.use(cors());
+
 app.use(express.json());
-app.use(cookieParser());
+
 app.use(express.urlencoded({ extended: false }));
 // TODO add to process.env
-app.use(session({ secret: 'high-vintage', username: undefined, cookie: { maxAge: 60000 }}))
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-const publicPath = path.join(__dirname, '../front-end/src/pages');
+app.use(cookieParser("secret"));
 
-// app.set('view engine', 'hbs')
-// app.set('views', templatePath)
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/passport")(passport);
 
-app.use(express.static(publicPath));
-
-async function hashPass (password) {
-  const res = await bcryptjs.hash(password, 10);
-  return res;
-}
-
-async function compare (userPass, hashPass) {
-  const res = await bcryptjs.compare(userPass, hashPass);
-  return res;
-}
-
-const oneUser = [];
-const set = async function (oneUser) {
-  try {
-    const user = await User.findOne({ username: 'krunker' });
-
-    if (user) {
-      oneUser.push(user);
-      // console.log("user found:", user);
-    } else {
-      console.error('User not found');
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-  }
-};
-set(oneUser);
-
-// middleware to access/manipulate the logged in user!
-// in any route, user req.user to get the "logged in " user
-const persistUser = async function (req, res, next) {
-  console.log(req.session)
-  next(); 
-};
-
-app.use(persistUser);
-
-app.get('/', (req, res) => {
-  if (req.cookies.jwt) {
-    const verify = jwt.verify(
-      req.cookies.jwt,
-      'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-    );
-    res.render('home', { name: verify.username });
-  } else {
-    res.render('/');
-  }
-  // res.render("/signin")
+passport.serializeUser(function (user, done) {
+  done(null, user);
 });
 
-// app.post("/", async (req, res) => {
-//   const { email, password } = req.body;
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
 
-//   try {
-//     const check = await db.collection("Auth").findOne({ email: email });
+const opts = {};
 
-//     if (check) {
-//       res.json("exist");
-//     } else {
-//       res.json("notexist");
-//     }
-//   } catch (e) {
-//     res.json("notexist");
-//   }
-// });
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = "SECRET";
 
-// LOGIN 
-app.post('/', async (req, res) => {
+passport.use(
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const user = await User.findById(jwt_payload.userId);
+      if (user) {
+        const copy = user;
+        copy.password = "[redacted]";
+        return done(null, copy);
+      }
+      return done(null, false);
+    } catch (err) {
+      console.error(err);
+    }
+  })
+);
 
+passport.use(
+  "local-login",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      try {
+        const user = await User.findOne({ username: username });
+        if (!user) return done("user does not exist", false);
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) return done(null, false);
+        // if passwords match return user
+        // console.log("Returning user" + user);
+        return done(null, user);
+      } catch (error) {
+        console.log(error);
+        return done(error, false);
+      }
+    }
+  )
+);
+
+app.post("/", passport.authenticate("local-login"), async (req, res) => {
+
+  console.log('jwt', req.user)
   try {
-    const check = await db
-      .collection('Auth')
-      .findOne({ email: req.body.username });
-    const passCheck = await compare(req.body.password, check.password);
 
-    if (check && passCheck) {
-      
-      req.session.username = req.body.username; 
-      
-      return res.json('exist')
+    const token = jwt.sign({ userId: req.user._id }, "SECRET", {
+      expiresIn: "1h",
+    });
+    
+    if (req.user) {
+      res.json({exist: "exist", token});
     } else {
-      return res.json('notexist');
+      res.json("notexist");
     }
   } catch (e) {
-    return res.json('notexist');
+    res.json("notexist");
   }
+  // do what u need to in order to get user onto the following page - they r logged in
+
+  // else
+  // display error message
 });
 
 // REGISTER
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-  
-  try {
-    const check = await db.collection('Auth').findOne({ username });
+// passport.use('local-signup', new passportLocal({passReqToCallback: true},
+//  async function(req, username, password, done) {
+//   try {
+//     const cleanUsername = req.body.username.toLowerCase();
+//     const findUser = await User.findOne({username: cleanUsername});
+//     if (findUser) return done(null, false);
+//     if (!findUser) {
+//       const salt = await bcrypt.genSalt(10);
+//       const hashedPassword = await bcrypt.hash(req.body.password, salt);
+//       const newUser = User({
+//         username: cleanUsername,
+//         password: hashedPassword,
+//         bio: "",
+//         favThrift: "",
+//         style: ""
+//       });
+//       newUser.save();
+//       return done(null, newUser)
+//     }
+//   } catch(e) {
+//     return done(e)
+//   }
 
-    if (check) {
-      res.json('exist');
-    } else {
-      const token = jwt.sign(
-        { username: req.body.username },
-        'qwertyuiopasdfghjklzxcvbnmqwertyuzzzzz'
-      );
+//  }
 
-      res.cookie('jwt', token, {
-        maxAge: 600000,
-        httpOnly: true
-      });
+// ))
 
-      const data = {
-        username,
-        password: await hashPass(password),
-        token
-        // bio: "",
-        // favThrift: "",
-        // style: ""
-      };
 
-      // localStorage.setItem('jwt', token);
-
-      res.json('notexist');
-      await db.collection('Auth').insertMany([data]);
-      // req.user = await db.collection('Users').findOne({username})
+passport.use(
+  "local-signup",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      try {
+        // check if user exists
+        const userExists = await User.findOne({ username: username });
+        const cleanUsername = username.toLowerCase();
+        if (!userExists) {
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(password, salt);
+          const newUser = User({
+            username: cleanUsername,
+            password: hashedPassword,
+            bio: "",
+            favThrift: "",
+            style: "",
+          });
+          newUser.save();
+          return done(null, newUser);
+        }else {
+          return done("User already exists", null)
+        }
+      } catch (error) {
+        done(error);
+      }
     }
-  } catch (e) {
-    res.json('notexist');
-  }
-});
+  )
+);
+app.post(
+  "/register",
+  passport.authenticate("local-signup"),
+  async (req, res) => {
 
-app.get('/api/allUsers', async (req, res) => {
+    try {
+      if(req.user) {
+        res.json("notexist")
+      }else {
+        res.json("exist")
+      }
+    }
+    catch(e) {
+      res.json("exist")
+    }
+    
+  }
+);
+
+app.get("/api/allUsers", async (req, res) => {
   const allUsers = await User.find({});
   res.json(allUsers);
 });
 
-app.get('/api/allDiscussions', async (req, res) => {
+app.get("/api/allDiscussions", async (req, res) => {
   const allDiscussions = await Discussion.find({}).populate();
   res.json(allDiscussions);
 });
 
-app.get('/api/dummyUsers', (req, res) => {
+app.get("/api/dummyUsers", (req, res) => {
   res.json(mockUsers);
 });
-app.use('/api/users', UsersRoute);
-app.use('/api/posts', PostsRoute);
-app.use('/api/discussions', DiscussionsRoute);
-app.use('/api/comments', CommentsRoute);
+
+app.use("/api/users", UsersRoute);
+app.use("/api/posts", PostsRoute);
+app.use("/api/discussions", DiscussionsRoute);
+app.use("/api/comments", CommentsRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

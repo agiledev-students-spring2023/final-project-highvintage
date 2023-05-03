@@ -33,10 +33,12 @@ export default function DiscussionForm() {
       formData.append("title", values.title);
       formData.append("date", values.date);
       formData.append("comments", JSON.stringify(values.comments));
+      const token = localStorage.getItem("token");
       const response = await axios
         .post(requestURL + "discussions/create", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Authorization": `Bearer ${token}`
           },
         })
         .catch((err) => {

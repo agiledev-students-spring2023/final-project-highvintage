@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
+import { config } from "../../token";
 
 export default function AddComment(props) {
   const [comment, setComment] = useState("");
@@ -29,7 +30,7 @@ export default function AddComment(props) {
       },
     };
 
-    await axios.post(requestURL + "comments/add", commentObject);
+    await axios.post(requestURL + "comments/add", commentObject, config);
   }
 
   function generateButton() {

@@ -7,6 +7,7 @@ import MainNav from "../components/MainNav.js";
 import Loading from "../components/Loading.js";
 import axios from "axios";
 import { requestURL } from "../requestURL.js";
+import config from "../token.js";
 
 const Profile = () => {
   const username = useParams();
@@ -33,7 +34,7 @@ const Profile = () => {
     async function fetchPage() {
       async function fetchMe() {
         try {
-          const response = await axios.get(requestURL + "users/me");
+          const response = await axios.get(requestURL + "users/me", config);
           return response.data.user;
         } catch (e) {
           nav("/500");
@@ -43,7 +44,7 @@ const Profile = () => {
       async function fetchAnother(cleanUsername) {
         try {
           const response = await axios.get(
-            requestURL + "users/profile/" + cleanUsername
+            requestURL + "users/profile/" + cleanUsername, config
           );
           return response.data;
         } catch (e) {
