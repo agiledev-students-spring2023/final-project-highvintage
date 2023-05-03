@@ -6,10 +6,11 @@ import { onboardingURL } from '../onboardingURL';
 
 
 export default function Form() {
-    const history=useNavigate();
+    const navigate=useNavigate();
 
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
+
 
     async function submit(e){
         e.preventDefault();
@@ -21,12 +22,13 @@ export default function Form() {
             })
             .then(res=>{
                 if(res.data.data=="exist"){
-                    alert("User already exists")
-                    sessionStorage.setItem("isLogged", true)
-                    sessionStorage.setItem("token", res.token)
+                    localStorage.setItem("isLogged", true)
+                    localStorage.setItem("token", res.data.token)
+                    navigate("/home");
+
                 }
                 else if(res.data.data=="notexist"){
-                    history("/home",{state:{id:username}})
+                    alert('User does not exist');
                 }
             })
             .catch(e=>{
