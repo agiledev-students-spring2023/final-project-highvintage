@@ -113,7 +113,7 @@ app.post("/", passport.authenticate("local-login"), async (req, res) => {
       expiresIn: "1h",
     });
     
-    return res.json('exist');
+    return res.json({data: "exist", token});
   } catch (e) {
     res.json("notexist");
   }
