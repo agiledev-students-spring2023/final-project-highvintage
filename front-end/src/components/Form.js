@@ -11,7 +11,8 @@ export default function Form() {
     const [password,setPassword]=useState('')
 
     let navigate = useNavigate();
-
+   
+    localStorage.setItem('auth', false)
 
     async function submit(e){
         e.preventDefault();
@@ -24,7 +25,7 @@ export default function Form() {
             .then(res=>{ console.log(res)
                 
                 if(res.data.data==="exist"){
-                    localStorage.setItem("isLogged", true)
+                    localStorage.setItem('auth', true)
                     localStorage.setItem('token', res.data.token);
                     navigate('/home')
                 }
