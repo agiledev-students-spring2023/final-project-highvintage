@@ -69,7 +69,7 @@ export default function Home() {
     fetchFeed();
 
     return () => {};
-  }, []);
+  }, [nav]);
 
   return (
     <div>
