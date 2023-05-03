@@ -72,12 +72,15 @@ router.get('/profile/:username',passport.authenticate("jwt"), async function (re
       // populate required fields
       await findUser.populate('posts');
       const findFollowers = await findUser.populate('followers');
+      const findDiscussions = await findUser.populate('discussions');
 
       const checkFollower = findFollowers.followers.find((user) => {
         return user.username === req.user.username;
       });
 
       const isAFollower = !!checkFollower;
+
+      console.log('krunker', findUser)
 
       return res.send({ user: findUser, isFollowing: isAFollower });
     } else {
