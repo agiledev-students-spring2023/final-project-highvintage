@@ -21,9 +21,10 @@ export default function Form() {
             await axios.post(onboardingURL, {
                 username,password
             })
-            .then(res=>{
+            .then(res=>{ console.log(res)
                 
-                if(res.data.exist=="exist"){
+                if(res.data=="exist"){
+                    console.log('here')
                     localStorage.setItem("isLogged", true)
                     localStorage.setItem('token', res.data.token);
                     navigate('/home')

@@ -22,8 +22,6 @@ export default function Form() {
             })
             .then(res=>{
                 if(res.data.data=="exist"){
-                    console.log('here')
-                    alert("User already exists")
                     localStorage.setItem("isLogged", true)
                     localStorage.setItem("token", res.data.token)
                     navigate("/home");
