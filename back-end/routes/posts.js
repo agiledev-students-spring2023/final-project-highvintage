@@ -1,33 +1,32 @@
-const express = require('express');
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const Post = require('../schemas/posts.js');
-const User = require('../schemas/users.js');
-const Style = require('../schemas/styles.js');
-const db = require('../db.js');
-const { ObjectId } = require('mongodb');
+const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+const Post = require("../schemas/posts.js");
+const User = require("../schemas/users.js");
+const Style = require("../schemas/styles.js");
+const db = require("../db.js");
+const { ObjectId } = require("mongodb");
 const passport = require("passport");
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
+const { body, validationResult } = require("express-validator");
 
-router.use('/static', express.static('public'));
-const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
+router.use("/static", express.static("public"));
+const uploadDir = path.join(__dirname, "..", "public", "uploads");
 
-router.get('/styles', passport.authenticate('jwt'), async (req, res) => {
-
-  console.log(req.user)
+router.get("/styles", passport.authenticate("jwt"), async (req, res) => {
+  console.log(req.user);
   try {
     const fetchedStyles = await new Style({
       styles: [
-        'All',
-        'Sporty & Athleisure',
-        'Streetwear',
-        'Classic',
-        'Funk',
-        'Minimal',
-        'Other'
-      ]
+        "All",
+        "Sporty & Athleisure",
+        "Streetwear",
+        "Classic",
+        "Funk",
+        "Minimal",
+        "Other",
+      ],
     }).save();
     const styles = fetchedStyles.styles;
     res.status(201).json({ styles });
@@ -46,30 +45,30 @@ const storage = multer.diskStorage({
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
-  }
+  },
 });
 const upload = multer({ storage });
 
 // api/posts/ (outfit posts)
 router.post(
-  '/create',
-  upload.fields([{ name: 'my_files', maxCount: 5 }]),
+  "/create",
+  upload.fields([{ name: "my_files", maxCount: 5 }]),
 
-  passport.authenticate('jwt'),
+  passport.authenticate("jwt"),
 
   [
     // express-validator checks
-    body('location').notEmpty().withMessage('Location is required'),
-    body('content').notEmpty().withMessage('Content is required'),
-    body('style').notEmpty().withMessage('Style is required'),
-    body('my_files')
+    body("location").notEmpty().withMessage("Location is required"),
+    body("content").notEmpty().withMessage("Content is required"),
+    body("style").notEmpty().withMessage("Style is required"),
+    body("my_files")
       .custom((value, { req }) => {
         if (!req.files || !req.files.my_files) {
-          throw new Error('At least one photo is required');
+          throw new Error("At least one photo is required");
         }
         return true;
       })
-      .withMessage('At least one photo is required')
+      .withMessage("At least one photo is required"),
   ],
 
   async (req, res, next) => {
@@ -82,9 +81,9 @@ router.post(
     }
 
     const photos = req.files.my_files.map((file) => ({
-      data: fs.readFileSync(path.join(uploadDir + '/' + file.filename)),
-      contentType: file.mimetype
-    }))
+      data: fs.readFileSync(path.join(uploadDir + "/" + file.filename)),
+      contentType: file.mimetype,
+    }));
 
     try {
       // create new Post and save
@@ -93,40 +92,39 @@ router.post(
         style,
         caption: content,
         photos,
-        location
+        location,
       }).save();
 
       if (newPost) {
-        db.collection('Posts').insertOne(newPost);
+        db.collection("Posts").insertOne(newPost);
       } else {
-        console.log('err3')
+        console.log("err3");
         return res.sendStatus(500);
       }
 
       // Populate the author field in the newPost object
       const populatedPost = await Post.populate(newPost, {
-        path: 'author',
-        model: 'User'
+        path: "author",
+        model: "User",
       });
 
       try {
         // Populate posts field in User
-        const update = await User.findById(req.user._id).populate('posts');
+        const update = await User.findById(req.user._id).populate("posts");
         req.user.posts.push(populatedPost._id);
-      
 
         // JUST TO MAKE EASIER TO DELETE.. IF NEEDED
         // await Post.deleteMany({});
         // remove post ids from user.posts array
         // await User.updateMany({}, { $set: { posts: [] } });
       } catch (err) {
-        console.log('err2')
+        console.log("err2");
         return res.sendStatus(500);
       }
 
       return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
-      console.log('err1')
+      console.log("err1");
       res.sendStatus(500);
       next(err);
     }
@@ -134,7 +132,7 @@ router.post(
 );
 
 // get like status
-router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
+router.get("/:id/like", passport.authenticate("jwt"), async (req, res) => {
   const userID = req.query.userID;
   const postID = req.params.id;
 
@@ -152,7 +150,7 @@ router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
 });
 
 // api/posts/
-router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
+router.post("/:postID/like", passport.authenticate("jwt"), async (req, res) => {
   const { postID, liked, postLikes } = req.body;
   const user = req.user;
 
@@ -164,11 +162,11 @@ router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
     // adds user objectID to like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $push: { likes: new ObjectId(user._id) }
+        $push: { likes: new ObjectId(user._id) },
       })
         .populate()
         .then((post) => {
-          console.log('+ Likes', post.likes.length);
+          console.log("+ Likes", post.likes.length);
         });
     } catch (err) {
       res.sendStatus(500);
@@ -177,9 +175,9 @@ router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
     // deletes user from like array
     try {
       await Post.findByIdAndUpdate(postID, {
-        $pull: { likes: new ObjectId(user._id) }
+        $pull: { likes: new ObjectId(user._id) },
       }).then((post) => {
-        console.log('- Likes', post.likes.length);
+        console.log("- Likes", post.likes.length);
       });
     } catch (err) {
       res.sendStatus(500);
@@ -203,29 +201,28 @@ router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
 });
 
 // api/posts/
-router.get('/collection',passport.authenticate('jwt'), async (req, res) => {
-  const user = req.user;
+router.get("/collection", passport.authenticate("jwt"), async (req, res) => {
   try {
-    await User.find()
-      .then(async (fetchedUsers) => {
-        const populatedUsers = await User.findById(user._id).populate('posts');
-        const allPosts = [];
-        [populatedUsers].forEach((user) => {
-          user.posts.forEach((p) => {
-            allPosts.push(p);
-          });
-        });
-        console.log('* allPosts', allPosts);
-        res.json({ populatedUsers, allPosts });
-      })
-      .catch((err) => console.log('* Cannot fetch all users', err));
+    // Fetch all users
+    const fetchedUsers = await User.find({});
+
+    // Populate posts for each user and create an array of all posts
+    const allPosts = [];
+    for (const user of fetchedUsers) {
+      const populatedUser = await User.findById(user._id).populate("posts");
+      allPosts.push(...populatedUser.posts);
+    }
+
+    console.log("* allPosts", allPosts);
+    res.json({ allPosts });
   } catch (err) {
+    console.log("* Cannot fetch all users and their posts", err);
     res.sendStatus(500);
   }
 });
 
 // api/posts/
-router.get('/view', passport.authenticate('jwt'), async (req, res) => {
+router.get("/view", passport.authenticate("jwt"), async (req, res) => {
   const user = req.user;
   const postID = req.query.id;
 
@@ -236,9 +233,9 @@ router.get('/view', passport.authenticate('jwt'), async (req, res) => {
         ...foundPost.toObject(),
         authorPhoto: user.photo,
         authorUsername: user.username,
-        postLoc: foundPost.location || ' ',
+        postLoc: foundPost.location || " ",
         date: foundPost.posted,
-        postText: foundPost.caption
+        postText: foundPost.caption,
       };
       return res.json({ post });
     } else {
@@ -251,14 +248,13 @@ router.get('/view', passport.authenticate('jwt'), async (req, res) => {
 });
 
 // api/posts/
-router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
-
+router.get("/feed", passport.authenticate("jwt"), async function (req, res) {
   if (!req.user) {
     return res.sendStatus(403);
   }
 
   try {
-    await req.user.populate('following');
+    await req.user.populate("following");
   } catch (e) {
     return res.sendStatus(500);
   }
@@ -273,7 +269,7 @@ router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
 
   try {
     for (const post of postsToDisplay) {
-      const putInFeed = await Post.findById(post).populate('author');
+      const putInFeed = await Post.findById(post).populate("author");
       feed.push(putInFeed);
     }
   } catch (e) {
@@ -281,7 +277,7 @@ router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
   }
 
   try {
-    await req.user.populate('posts');
+    await req.user.populate("posts");
   } catch (e) {
     return res.sendStatus(500);
   }
@@ -289,7 +285,7 @@ router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
   for (const myPost of req.user.posts) {
     try {
       const addMyPostToFeed = await Post.findById(myPost._id).populate(
-        'author'
+        "author"
       );
       feed.push(addMyPostToFeed);
     } catch (e) {
