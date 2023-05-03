@@ -87,6 +87,7 @@ passport.use(
       passwordField: "password",
     },
     async (username, password, done) => {
+      console.log(username)
       try {
         const user = await User.findOne({ username: username });
         if (!user) return done("user does not exist", false);
@@ -112,11 +113,7 @@ app.post("/", passport.authenticate("local-login"), async (req, res) => {
       expiresIn: "1h",
     });
     
-    if (req.user) {
-      res.json({exist: "exist", token});
-    } else {
-      res.json("notexist");
-    }
+    return res.json('exist');
   } catch (e) {
     res.json("notexist");
   }
@@ -126,33 +123,6 @@ app.post("/", passport.authenticate("local-login"), async (req, res) => {
   // display error message
 });
 
-// REGISTER
-// passport.use('local-signup', new passportLocal({passReqToCallback: true},
-//  async function(req, username, password, done) {
-//   try {
-//     const cleanUsername = req.body.username.toLowerCase();
-//     const findUser = await User.findOne({username: cleanUsername});
-//     if (findUser) return done(null, false);
-//     if (!findUser) {
-//       const salt = await bcrypt.genSalt(10);
-//       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-//       const newUser = User({
-//         username: cleanUsername,
-//         password: hashedPassword,
-//         bio: "",
-//         favThrift: "",
-//         style: ""
-//       });
-//       newUser.save();
-//       return done(null, newUser)
-//     }
-//   } catch(e) {
-//     return done(e)
-//   }
-
-//  }
-
-// ))
 
 
 passport.use(
@@ -192,6 +162,10 @@ app.post(
   "/register",
   passport.authenticate("local-signup"),
   async (req, res) => {
+
+    const token = jwt.sign({ userId: req.user._id }, "SECRET", {
+      expiresIn: "1h",
+    });
 
     try {
       if(req.user) {
