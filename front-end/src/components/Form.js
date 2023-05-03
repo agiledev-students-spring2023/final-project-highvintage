@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
 import {useNavigate, Link } from "react-router-dom"
-import Cookies from "js-cookie"
+import { onboardingURL } from '../onboardingURL';
 
 export default function Form() {
 
@@ -18,7 +18,7 @@ export default function Form() {
 
         try{
 
-            await axios.post("http://localhost:5000/", {
+            await axios.post(onboardingURL, {
                 username,password
             })
             .then(res=>{

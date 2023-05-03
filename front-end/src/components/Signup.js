@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios'
-import {useNavigate, Link } from "react-router-dom"
+import axios from 'axios';
+import {useNavigate, Link } from "react-router-dom";
+import { onboardingURL } from '../onboardingURL';
+
 
 
 export default function Form() {
@@ -14,7 +16,7 @@ export default function Form() {
 
         try{
             
-            await axios.post("http://localhost:5000/register", {
+            await axios.post(onboardingURL + "register", {
                 username,password
             })
             .then(res=>{
