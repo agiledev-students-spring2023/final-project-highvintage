@@ -25,8 +25,6 @@ export default function Form() {
             .then(res=>{ console.log(res)
                 if(res.data.data=="exist"){
                     localStorage.setItem('auth', true)
-
-                    console.log(res.data.token)
                     localStorage.setItem("token", res.data.token)
                     navigate("/home");
 
