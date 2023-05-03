@@ -11,6 +11,7 @@ import config from "../token";
 export default function EditProfile() {
   const [loggedIn, setLoggedIn] = useState({});
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
   async function fetchMe() {
@@ -60,10 +61,15 @@ export default function EditProfile() {
     }
 
     if (!err && changes) {
+      setLoading(true);
       try {
-        const response = await axios.put(requestURL + "users/edit-profile", {
-          changes,
-        }, config);
+        const response = await axios.put(
+          requestURL + "users/edit-profile",
+          {
+            changes,
+          },
+          config
+        );
         setLoggedIn(response.data.user);
         await fetchMe();
         toast.success("Changes saved!");
@@ -73,6 +79,8 @@ export default function EditProfile() {
         } else {
           toast.error("Unable to save changes!");
         }
+      } finally {
+        setLoading(false);
       }
     }
   }
@@ -91,6 +99,7 @@ export default function EditProfile() {
         formData,
         {
           headers: {
+            ...config.headers,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -109,7 +118,10 @@ export default function EditProfile() {
 
   return (
     <>
-      <GenericHeader pageName="Edit profile" />
+      <GenericHeader
+        pageName="Edit profile"
+        updatedUsername={loggedIn.username}
+      />
       {loggedIn && Object.keys(loggedIn).length > 0 ? ( // checking if logged in state is populated
         <div>
           <div className="flex flex-col items-center">
@@ -243,7 +255,16 @@ export default function EditProfile() {
                     handleSubmit();
                   }}
                 >
-                  Save changes
+                  {loading ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2">
+                        <i className="fas fa-spinner"></i>
+                      </span>
+                      Saving...
+                    </span>
+                  ) : (
+                    "Save changes"
+                  )}
                 </button>
               </div>
             </form>
