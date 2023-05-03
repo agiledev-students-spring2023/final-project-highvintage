@@ -22,19 +22,30 @@ export default function ProfileHeader(props) {
     isFollowing,
   } = props;
 
+  console.log(config)
   const nav = useNavigate();
   async function handleFollow() {
-    const response = await axios.put(
-      requestURL + "users/" + props.username + "/follow", config,
-    );
+    try {
+      const response = await axios.post(
+        requestURL + "users/" + props.username + "/follow", {}, config, 
+      );
+      nav(0);
+    } catch(e) {
+      console.log(e)
 
-    nav(0);
+    }
+    
   }
 
   async function handleUnfollow() {
-    const response = await axios.put(
-      requestURL + "users/" + props.username + "/unfollow", config,
-    );
+    try {
+      const response = await axios.post(
+        requestURL + "users/" + props.username + "/unfollow", {}, config
+      );
+    } catch(e) {
+
+    }
+    
 
     nav(0);
   }
