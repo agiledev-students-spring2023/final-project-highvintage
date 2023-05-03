@@ -179,7 +179,7 @@ passport.use(
           });
           newUser.save();
           return done(null, newUser);
-        }else {
+        }else{
           return done("User already exists", null)
         }
       } catch (error) {
