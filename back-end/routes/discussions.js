@@ -6,6 +6,8 @@ const upload = multer();
 const router = express.Router();
 const passport = require("passport");
 const { ObjectId } = require('mongodb');
+const { body, validationResult } = require('express-validator');
+
 
 router.post('/create', upload.none(), passport.authenticate('jwt'), async (req, res, next) => {
   const user = req.user; // needs to be revisited
@@ -23,17 +25,18 @@ router.post('/create', upload.none(), passport.authenticate('jwt'), async (req, 
     // save the new discussion to the database
     await newDiscussion.save();
 
-    const populatedDiscussion = await Discussion.populate(newDiscussion, {
-      path: 'author',
-      model: 'User'
-    });
-    user.discussions.push(populatedDiscussion._id);
-    await user.save();
-    res.status(201).json({ newDiscussion, message: 'Successfully posted!' });
-  } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+      const populatedDiscussion = await Discussion.populate(newDiscussion, {
+        path: 'author',
+        model: 'User'
+      });
+      user.discussions.push(populatedDiscussion._id);
+      await user.save();
+      res.status(201).json({ newDiscussion, message: 'Successfully posted!' });
+    } catch (err) {
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
 
 router.post('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const { userID, discussionID, liked, discussionLikes } = req.body;
@@ -41,7 +44,7 @@ router.post('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const user = req.user;
   // finds user performing like
   try {
-    const likeUser = await User.findById(user._id);
+    await User.findById(user._id);
   } catch (err) {
     // TODO
     console.log('* Cannot find user performing like', err);
@@ -86,8 +89,10 @@ router.post('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   res.json({ numLikes, isLiked: performLike });
 });
 // initial like state
+
 router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const userID = req.query.userID;
+
   const discussionID = req.params.id;
   const user = req.user;
 

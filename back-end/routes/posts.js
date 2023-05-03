@@ -9,6 +9,7 @@ const db = require('../db.js');
 const { ObjectId } = require('mongodb');
 const passport = require("passport");
 const router = express.Router();
+const { body, validationResult } = require('express-validator');
 
 router.use('/static', express.static('public'));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
@@ -49,16 +50,36 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// TODO: file validation
-
 // api/posts/ (outfit posts)
 router.post(
   '/create',
   upload.fields([{ name: 'my_files', maxCount: 5 }]),
+
   passport.authenticate('jwt'),
+
+  [
+    // express-validator checks
+    body('location').notEmpty().withMessage('Location is required'),
+    body('content').notEmpty().withMessage('Content is required'),
+    body('style').notEmpty().withMessage('Style is required'),
+    body('my_files')
+      .custom((value, { req }) => {
+        if (!req.files || !req.files.my_files) {
+          throw new Error('At least one photo is required');
+        }
+        return true;
+      })
+      .withMessage('At least one photo is required')
+  ],
+
   async (req, res, next) => {
     const user = req.user;
     const { location, content, style } = req.body;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
     const photos = req.files.my_files.map((file) => ({
       data: fs.readFileSync(path.join(uploadDir + '/' + file.filename)),
