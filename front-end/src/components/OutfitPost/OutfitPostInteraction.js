@@ -22,8 +22,8 @@ export default function OutfitPostInfo(props) {
     const fetchInitialLikeState = async () => {
       try {
         const response = await axios.get(
-          requestURL + `posts/${props.postID}/like`,
-          { config,  params: { userID: props.authorID } }
+          requestURL + `posts/${props.postID}/like`, config, 
+          { params: { userID: props.authorID } }
         );
         setIsLiked(response.data.isLiked);
         setNumLikes(response.data.numLikes);
@@ -39,14 +39,13 @@ export default function OutfitPostInfo(props) {
   const toggleLike = async () => {
     try {
       const response = await axios.post(
-        requestURL + `posts/${props.postID}/like`,
+        requestURL + `posts/${props.postID}/like`, 
         {
           userID: props.author,
           postID: props.postID,
           liked: !isLiked,
           postLikes: numLikes,
-          config
-        }
+        }, config
       );
       setIsLiked(response.data.isLiked);
       setNumLikes(response.data.numLikes);
