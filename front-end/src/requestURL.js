@@ -1,3 +1,3 @@
-export const requestURL = "http://localhost:5000/" + 'api/' ;
+export const requestURL = process.env.REACT_APP_DEPLOY_URL + 'api/' ;
 
 
