@@ -67,15 +67,18 @@ export default function Comments(props) {
     return () => {};
   });
 
-  const commentComponents = comments.map((comment, idx) => (
-    <Comment
-      username={comment.user}
-      body={comment.body}
-      photo={comment.photo}
-      id={comment.id}
-      key={idx}
-    />
-  ));
+  const commentComponents = comments.map((comment, idx) => {
+    let photo = comment.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+    return (
+      <Comment
+        username={comment.user}
+        body={comment.body}
+        photo={photo}
+        id={comment.id}
+        key={idx}
+      />
+    );
+  });  
 
   commentComponents.reverse();
 
