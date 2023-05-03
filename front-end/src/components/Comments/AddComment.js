@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import { requestURL } from "../../requestURL";
 import { useNavigate } from "react-router-dom";
-import { config } from "../../token";
+import config from "../../token";
 
 export default function AddComment(props) {
   const [comment, setComment] = useState("");
   const [empty, setEmpty] = useState(true);
 
   const navigate = useNavigate();
+
+  const photo = props.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
 
   function handleInput(value) {
     if (value.length <= 0) {
@@ -74,7 +76,7 @@ export default function AddComment(props) {
           {" "}
           <img
             className="h-14 ml-4 object-cover aspect-square"
-            src={props.photo}
+            src={photo}
             alt="User's profile"
           />
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GenericHeader from "../components/GenericHeader";
+import Loading from "../components/Loading";
 
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
@@ -52,7 +53,7 @@ export default function DiscussionView() {
   }, [params.id, navigate]);
 
   if (!isFetched) {
-    return <div>Loading...</div>;
+    return  <Loading/>
   }
   return (
     <>
@@ -94,7 +95,7 @@ export default function DiscussionView() {
           <div className="justify-self-end ml-20 "></div>
           <div className="text-right text-base font-normal pl-24 mt-4 mb-2">
             {/* Better MM-DD-*/}
-            {moment.utc(discussion.found.date).format("MM/DD/YY")}
+            {moment.utc(discussion.found.posted).format("MM/DD/YY")}
           </div>
         </div>
       </div>
