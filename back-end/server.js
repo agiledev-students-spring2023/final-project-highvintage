@@ -213,8 +213,12 @@ app.get("/api/allUsers", async (req, res) => {
 });
 
 app.get("/api/allDiscussions", async (req, res) => {
-  const allDiscussions = await Discussion.find({}).populate();
-  res.json(allDiscussions);
+  try {
+    const allDiscussions = await Discussion.find({}).populate('author');
+    res.json(allDiscussions);
+  } catch (err) {
+    res.status(500).json({ message: 'Error retrieving all discussions' });
+  }
 });
 
 app.get("/api/dummyUsers", (req, res) => {
