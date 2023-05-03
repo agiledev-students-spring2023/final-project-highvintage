@@ -107,7 +107,7 @@ export default function OutfitCollection() {
       {loaded ? (
         <>
           <StyleNav filterByStyle={filterByStyle}></StyleNav>
-          <div className="grid grid-cols-2 gap-1">{OutfitPreviews}</div>
+          <div className="grid grid-cols-2 gap-1 pb-24">{OutfitPreviews}</div>
 
           <button
             onClick={() => navigate("/outfit-form")}
