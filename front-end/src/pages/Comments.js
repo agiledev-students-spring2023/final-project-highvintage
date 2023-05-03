@@ -31,6 +31,7 @@ export default function Comments(props) {
         setUserPhoto(response.data.userPhoto);
         setUserName(response.data.username);
         setUserID(response.data.id);
+        setLoaded(true);
       } catch (e) {
         if (e.response.status === 404) {
           nav("/404");
@@ -51,7 +52,6 @@ export default function Comments(props) {
             ? user.photo
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
         );
-        setLoaded(true);
       } catch (e) {
         nav("/500");
       }

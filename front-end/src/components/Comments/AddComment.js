@@ -10,6 +10,8 @@ export default function AddComment(props) {
 
   const navigate = useNavigate();
 
+  const photo = props.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+
   function handleInput(value) {
     if (value.length <= 0) {
       setEmpty(true);
@@ -74,7 +76,7 @@ export default function AddComment(props) {
           {" "}
           <img
             className="h-14 ml-4 object-cover aspect-square"
-            src={props.photo}
+            src={photo}
             alt="User's profile"
           />
         </div>

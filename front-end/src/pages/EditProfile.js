@@ -71,7 +71,7 @@ export default function EditProfile() {
         if (e.response.status === 404) {
           nav("/404");
         } else {
-          toast.e("Unable to upload profile photo!");
+          toast.error("Unable to save changes!");
         }
       }
     }
@@ -102,7 +102,7 @@ export default function EditProfile() {
       if (e.response.status === 404) {
         nav("/404");
       } else {
-        toast.e("Unable to upload profile photo!");
+        toast.error("Unable to upload profile photo!");
       }
     }
   }
