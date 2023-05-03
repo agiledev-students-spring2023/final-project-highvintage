@@ -25,7 +25,7 @@ export default function Comments(props) {
     async function fetchComments(query) {
       try {
         const response = await axios.get(
-          requestURL + "comments/view/" + query + toFetch
+          requestURL + "comments/view/" + query + toFetch, config,
         );
         setComments(response.data.comments);
         setUserPhoto(response.data.userPhoto);
