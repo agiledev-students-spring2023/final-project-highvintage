@@ -25,6 +25,8 @@ export default function OutfitView() {
         const response = await axios.get(
           requestURL + "posts/view/?id=" + query, config
         );
+
+        console.log(response)
         response.data.post.postText = response.data.post.caption;
         setPost(response.data.post);
         setIsFetched(true);
