@@ -3,6 +3,8 @@ const User = require('../schemas/users.js');
 const router = express.Router();
 const path = require('path');
 const multer = require('multer');
+const passport = require("passport");
+
 const uploadDir = path.join(
   __dirname,
   '..',
@@ -29,6 +31,7 @@ const upload = multer({ storage });
 router.post(
   '/upload-profile-photo',
   upload.single('photo'),
+  passport.authenticate('jwt'),
   async (req, res, next) => {
     const user = req.user;
     const file = req.file;
@@ -53,7 +56,7 @@ router.post(
 );
 
 // api/users/
-router.get('/profile/:username', async function (req, res) {
+router.get('/profile/:username',passport.authenticate("jwt"), async function (req, res) {
   // input is cleaned in front end, before call is made
   // no params = error
 
@@ -85,7 +88,7 @@ router.get('/profile/:username', async function (req, res) {
   }
 });
 
-router.put('/edit-profile', async function (req, res) {
+router.put('/edit-profile',passport.authenticate('jwt'), async function (req, res) {
   const toChange = req.body.changes;
 
   if (toChange.username) {
@@ -111,7 +114,7 @@ router.put('/edit-profile', async function (req, res) {
   }
 });
 
-router.get('/search', async function (req, res) {
+router.get('/search', passport.authenticate('jwt'), async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.query.query) {
@@ -127,9 +130,8 @@ router.get('/search', async function (req, res) {
   return res.json({ found });
 });
 
-router.get('/me', async function (req, res) {
+router.get('/me', passport.authenticate('jwt'), async function (req, res) {
   // input is cleaned in front end, before call is made
-
   if (!req.user) {
     return res.sendStatus(500);
   }
@@ -146,7 +148,7 @@ router.get('/me', async function (req, res) {
 });
 
 // api/users/:username/follow
-router.put('/:username/follow', async function (req, res) {
+router.put('/:username/follow', passport.authenticate('jwt'), async function (req, res) {
   const username = req.params.username;
   const gainedAFollower = await User.findOneAndUpdate(
     { username },
@@ -164,7 +166,7 @@ router.put('/:username/follow', async function (req, res) {
 });
 
 // api/users/:username/unfollow
-router.put('/:username/unfollow', async function (req, res) {
+router.put('/:username/unfollow', passport.authenticate('jwt'), async function (req, res) {
   const toLoseFollower = req.params.username;
 
   const losingAFollower = await User.findOneAndUpdate(
@@ -183,7 +185,7 @@ router.put('/:username/unfollow', async function (req, res) {
 });
 
 // get user's followers
-router.get('/:username/followers', async function (req, res) {
+router.get('/:username/followers', passport.authenticate('jwt'), async function (req, res) {
   const username = req.params.username.toLowerCase();
 
   const user = await User.findOne({ username }).populate({ path: 'followers' });
@@ -205,7 +207,7 @@ router.get('/:username/followers', async function (req, res) {
 });
 
 // get user's following
-router.get('/:username/following', async function (req, res) {
+router.get('/:username/following', passport.authenticate('jwt'), async function (req, res) {
   const username = req.params.username.toLowerCase();
 
   const user = await User.findOne({ username }).populate({ path: 'following' });
@@ -227,7 +229,7 @@ router.get('/:username/following', async function (req, res) {
 });
 
 // retrieve username
-router.get('/:id', async (req, res) => {
+router.get('/:id', passport.authenticate('jwt'), async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json({ username: user.username });

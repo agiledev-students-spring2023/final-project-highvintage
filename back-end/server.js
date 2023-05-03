@@ -11,12 +11,15 @@ const PORT = process.env.PORT || 5000;
 const db = require("./db.js");
 const User = require("./schemas/users.js");
 const Discussion = require("./schemas/discussions.js");
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const jwt = require("jsonwebtoken");
+
+const {ExtractJwt } = require("passport-jwt");
+const JwtStrategy = require("passport-jwt").Strategy;
 
 const app = express();
 const path = require("path");
@@ -55,35 +58,27 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-// LOGIN
-// passport.use('local-login', new passportLocal({passReqToCallback: true},
-//   async function(req, username, password, done) {
-//     // check user's credentials
-//       // put username input to lowercase then use await.UserfindOne to find by username
-//       // compare hashed passwords
+const opts = {};
 
-//       // if all ok return done(null, userdocument)
-//       // any issues reutrn done(null, false)
-//       try {
-//         const cleanUsername = req.body.username.toLowerCase();
-//         const findUser = await User.findOne({username: cleanUsername});
-//         console.log(req.body.password)
-//         console.log(password)
-//         if (!findUser) return done(null, false);
-//         const passCompare = await bcrypt.compare(findUser.password, req.body.password);
-//         console.log(findUser.password)
-//         if (passCompare) {
-//           return done(null, findUser);
-//         }
-//         else {
-//           console.log("pass dont match")
-//           return done(null, false);
-//         }
-//       } catch(e) {
-//         return done(e)
-//       }
-//   }
-//  ))
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = "SECRET";
+
+passport.use(
+  new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const user = await User.findById(jwt_payload.userId);
+      if (user) {
+        const copy = user;
+        copy.password = "[redacted]";
+        return done(null, copy);
+      }
+      return done(null, false);
+    } catch (err) {
+      console.error(err);
+    }
+  })
+);
+
 passport.use(
   "local-login",
   new LocalStrategy(
@@ -109,9 +104,16 @@ passport.use(
 );
 
 app.post("/", passport.authenticate("local-login"), async (req, res) => {
+
+  console.log('jwt', req.user)
   try {
+
+    const token = jwt.sign({ userId: req.user._id }, "SECRET", {
+      expiresIn: "1h",
+    });
+    
     if (req.user) {
-      res.json("exist");
+      res.json({exist: "exist", token});
     } else {
       res.json("notexist");
     }
@@ -151,6 +153,8 @@ app.post("/", passport.authenticate("local-login"), async (req, res) => {
 //  }
 
 // ))
+
+
 passport.use(
   "local-signup",
   new LocalStrategy(
@@ -188,6 +192,7 @@ app.post(
   "/register",
   passport.authenticate("local-signup"),
   async (req, res) => {
+
     try {
       if(req.user) {
         res.json("notexist")
@@ -215,6 +220,7 @@ app.get("/api/allDiscussions", async (req, res) => {
 app.get("/api/dummyUsers", (req, res) => {
   res.json(mockUsers);
 });
+
 app.use("/api/users", UsersRoute);
 app.use("/api/posts", PostsRoute);
 app.use("/api/discussions", DiscussionsRoute);

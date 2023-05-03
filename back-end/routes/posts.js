@@ -13,7 +13,7 @@ const router = express.Router();
 router.use('/static', express.static('public'));
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
 
-router.get('/styles', async (req, res) => {
+router.get('/styles', passport.authenticate('jwt'), async (req, res) => {
   try {
     const fetchedStyles = await new Style({
       styles: [
@@ -53,6 +53,7 @@ const upload = multer({ storage });
 router.post(
   '/create',
   upload.fields([{ name: 'my_files', maxCount: 5 }]),
+  passport.authenticate('jwt'),
   async (req, res, next) => {
     const user = req.user;
     const { location, content, style } = req.body;
@@ -107,7 +108,7 @@ router.post(
 );
 
 // get like status
-router.get('/:id/like', async (req, res) => {
+router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const userID = req.query.userID;
   const postID = req.params.id;
 
@@ -125,7 +126,7 @@ router.get('/:id/like', async (req, res) => {
 });
 
 // api/posts/
-router.post('/:postID/like', async (req, res) => {
+router.post('/:postID/like', passport.authenticate('jwt'), async (req, res) => {
   const { postID, liked, postLikes } = req.body;
   const user = req.user;
 
@@ -176,7 +177,7 @@ router.post('/:postID/like', async (req, res) => {
 });
 
 // api/posts/
-router.get('/collection', async (req, res) => {
+router.get('/collection',passport.authenticate('jwt'), async (req, res) => {
   const user = req.user;
   try {
     await User.find()
@@ -198,7 +199,7 @@ router.get('/collection', async (req, res) => {
 });
 
 // api/posts/
-router.get('/view', async (req, res) => {
+router.get('/view', passport.authenticate('jwt'), async (req, res) => {
   const user = req.user;
   const postID = req.query.id;
 
@@ -224,7 +225,7 @@ router.get('/view', async (req, res) => {
 });
 
 // api/posts/
-router.get('/feed', async function (req, res) {
+router.get('/feed', passport.authenticate("jwt"), async function (req, res) {
 
   if (!req.user) {
     return res.sendStatus(403);

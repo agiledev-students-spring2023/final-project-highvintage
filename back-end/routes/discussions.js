@@ -4,9 +4,10 @@ const Discussion = require('../schemas/discussions.js');
 const User = require('../schemas/users.js');
 const upload = multer();
 const router = express.Router();
+const passport = require("passport");
 const { ObjectId } = require('mongodb');
 
-router.post('/create', upload.none(), async (req, res, next) => {
+router.post('/create', upload.none(), passport.authenticate('jwt'), async (req, res, next) => {
   const user = req.user; // needs to be revisited
   const { date, title, content } = req.body;
   try {
@@ -34,7 +35,7 @@ router.post('/create', upload.none(), async (req, res, next) => {
   }
 });
 
-router.post('/:id/like', async (req, res) => {
+router.post('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const { userID, discussionID, liked, discussionLikes } = req.body;
 
   const user = req.user;
@@ -85,7 +86,7 @@ router.post('/:id/like', async (req, res) => {
   res.json({ numLikes, isLiked: performLike });
 });
 // initial like state
-router.get('/:id/like', async (req, res) => {
+router.get('/:id/like', passport.authenticate('jwt'), async (req, res) => {
   const userID = req.query.userID;
   const discussionID = req.params.id;
   const user = req.user;
@@ -102,7 +103,7 @@ router.get('/:id/like', async (req, res) => {
   }
 });
 // api/users/
-router.get('/view/:id', async (req, res) => {
+router.get('/view/:id', passport.authenticate('jwt'), async (req, res) => {
   try {
     const discussionID = req.params.id;
     const found = await Discussion.findById(discussionID);
