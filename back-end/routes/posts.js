@@ -108,7 +108,7 @@ router.post(
       });
       user.posts.push(populatedPost._id);
       await user.save();
-
+      
       return res.status(201).json({ newPost: populatedPost });
     } catch (err) {
       console.log('err1');
@@ -215,11 +215,13 @@ router.get('/view', passport.authenticate('jwt'), async (req, res) => {
 
   try {
     const foundPost = await Post.findOne({ _id: postID });
+    const populated = await foundPost.populate('author');
+    const author = populated.author; 
     if (foundPost) {
       const post = {
         ...foundPost.toObject(),
-        authorPhoto: user.photo,
-        authorUsername: user.username,
+        authorPhoto: author.photo,
+        authorUsername: author.username,
         postLoc: foundPost.location || ' ',
         date: foundPost.posted,
         postText: foundPost.caption

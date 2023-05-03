@@ -1,33 +1,32 @@
-const express = require("express");
-// const session = require("express-session");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const UsersRoute = require("./routes/users.js");
-const PostsRoute = require("./routes/posts.js");
-const DiscussionsRoute = require("./routes/discussions.js");
-const CommentsRoute = require("./routes/comments.js");
-const mockUsers = require("./mock-db/mock.js");
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const UsersRoute = require('./routes/users.js');
+const PostsRoute = require('./routes/posts.js');
+const DiscussionsRoute = require('./routes/discussions.js');
+const CommentsRoute = require('./routes/comments.js');
+const mockUsers = require('./mock-db/mock.js');
 const PORT = process.env.PORT || 5000;
-const db = require("./db.js");
-const User = require("./schemas/users.js");
-const Discussion = require("./schemas/discussions.js");
-const cookieParser = require("cookie-parser");
-const bcrypt = require("bcryptjs");
-const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const jwt = require("jsonwebtoken");
+const db = require('./db.js');
+const User = require('./schemas/users.js');
+const Discussion = require('./schemas/discussions.js');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const jwt = require('jsonwebtoken');
 
-const {ExtractJwt } = require("passport-jwt");
-const JwtStrategy = require("passport-jwt").Strategy;
+const { ExtractJwt } = require('passport-jwt');
+const JwtStrategy = require('passport-jwt').Strategy;
 
 const app = express();
-const path = require("path");
+const path = require('path');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(cors({
-//   origin: "http://localhost:3000",
+//   origin: 'http://localhost:3000',
 //   credentials: true
 // }))
 app.use(cors());
@@ -38,17 +37,17 @@ app.use(express.urlencoded({ extended: false }));
 // TODO add to process.env
 app.use(
   session({
-    secret: "secret",
+    secret: 'secret',
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: true
   })
 );
 
-app.use(cookieParser("secret"));
+app.use(cookieParser('secret'));
 
 app.use(passport.initialize());
 app.use(passport.session());
-require("./config/passport")(passport);
+require('./config/passport')(passport);
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -61,15 +60,15 @@ passport.deserializeUser(function (user, done) {
 const opts = {};
 
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = "SECRET";
+opts.secretOrKey = 'SECRET';
 
 passport.use(
-  new JwtStrategy(opts, async (jwt_payload, done) => {
+  new JwtStrategy(opts, async (jwtPayload, done) => {
     try {
-      const user = await User.findById(jwt_payload.userId);
+      const user = await User.findById(jwtPayload.userId);
       if (user) {
         const copy = user;
-        copy.password = "[redacted]";
+        copy.password = '[redacted]';
         return done(null, copy);
       }
       return done(null, false);
@@ -80,20 +79,21 @@ passport.use(
 );
 
 passport.use(
-  "local-login",
+  'local-login',
   new LocalStrategy(
     {
-      usernameField: "username",
-      passwordField: "password",
+      usernameField: 'username',
+      passwordField: 'password'
     },
     async (username, password, done) => {
+      console.log(username);
       try {
         const user = await User.findOne({ username: username });
-        if (!user) return done("user does not exist", false);
+        if (!user) return done('user does not exist', false);
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return done(null, false);
         // if passwords match return user
-        // console.log("Returning user" + user);
+        // console.log('Returning user' + user);
         return done(null, user);
       } catch (error) {
         console.log(error);
@@ -103,22 +103,15 @@ passport.use(
   )
 );
 
-app.post("/", passport.authenticate("local-login"), async (req, res) => {
-
-  console.log('jwt', req.user)
+app.post('/', passport.authenticate('local-login'), async (req, res) => {
+  console.log('jwt', req.user);
   try {
-
-    const token = jwt.sign({ userId: req.user._id }, "SECRET", {
-      expiresIn: "1h",
+    const token = jwt.sign({ userId: req.user._id }, 'SECRET', {
+      expiresIn: '1h'
     });
-    
-    if (req.user) {
-      res.json({exist: "exist", token});
-    } else {
-      res.json("notexist");
-    }
+    return res.json({ data: 'exist', token });
   } catch (e) {
-    res.json("notexist");
+    res.json('notexist');
   }
   // do what u need to in order to get user onto the following page - they r logged in
 
@@ -126,41 +119,12 @@ app.post("/", passport.authenticate("local-login"), async (req, res) => {
   // display error message
 });
 
-// REGISTER
-// passport.use('local-signup', new passportLocal({passReqToCallback: true},
-//  async function(req, username, password, done) {
-//   try {
-//     const cleanUsername = req.body.username.toLowerCase();
-//     const findUser = await User.findOne({username: cleanUsername});
-//     if (findUser) return done(null, false);
-//     if (!findUser) {
-//       const salt = await bcrypt.genSalt(10);
-//       const hashedPassword = await bcrypt.hash(req.body.password, salt);
-//       const newUser = User({
-//         username: cleanUsername,
-//         password: hashedPassword,
-//         bio: "",
-//         favThrift: "",
-//         style: ""
-//       });
-//       newUser.save();
-//       return done(null, newUser)
-//     }
-//   } catch(e) {
-//     return done(e)
-//   }
-
-//  }
-
-// ))
-
-
 passport.use(
-  "local-signup",
+  'local-signup',
   new LocalStrategy(
     {
-      usernameField: "username",
-      passwordField: "password",
+      usernameField: 'username',
+      passwordField: 'password'
     },
     async (username, password, done) => {
       try {
@@ -173,14 +137,14 @@ passport.use(
           const newUser = User({
             username: cleanUsername,
             password: hashedPassword,
-            bio: "",
-            favThrift: "",
-            style: "",
+            bio: '',
+            favThrift: '',
+            style: ''
           });
           newUser.save();
           return done(null, newUser);
-        }else{
-          return done("User already exists", null)
+        } else {
+          return done('User already exists', null);
         }
       } catch (error) {
         done(error);
@@ -189,30 +153,22 @@ passport.use(
   )
 );
 app.post(
-  "/register",
-  passport.authenticate("local-signup"),
+  '/register',
+  passport.authenticate('local-signup'),
   async (req, res) => {
-
-    try {
-      if(req.user) {
-        res.json("notexist")
-      }else {
-        res.json("exist")
-      }
-    }
-    catch(e) {
-      res.json("exist")
-    }
-    
+    const token = jwt.sign({ userId: req.user._id }, 'SECRET', {
+      expiresIn: '1h'
+    });
+    return res.json({ data: 'exist', token });
   }
 );
 
-app.get("/api/allUsers", async (req, res) => {
+app.get('/api/allUsers', async (req, res) => {
   const allUsers = await User.find({});
   res.json(allUsers);
 });
 
-app.get("/api/allDiscussions", async (req, res) => {
+app.get('/api/allDiscussions', async (req, res) => {
   try {
     const allDiscussions = await Discussion.find({}).populate('author');
     res.json(allDiscussions);
@@ -221,16 +177,16 @@ app.get("/api/allDiscussions", async (req, res) => {
   }
 });
 
-app.get("/api/dummyUsers", (req, res) => {
+app.get('/api/dummyUsers', (req, res) => {
   res.json(mockUsers);
 });
 
-app.use("/api/users", UsersRoute);
-app.use("/api/posts", PostsRoute);
-app.use("/api/discussions", DiscussionsRoute);
-app.use("/api/comments", CommentsRoute);
+app.use('/api/users', UsersRoute);
+app.use('/api/posts', PostsRoute);
+app.use('/api/discussions', DiscussionsRoute);
+app.use('/api/comments', CommentsRoute);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`Server running on port ${PORT}`);
 });
 

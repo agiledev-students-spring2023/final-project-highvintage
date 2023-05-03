@@ -23,6 +23,7 @@ export default function Following() {
         );
         //const response = await axios.get('${requestURL}api/users/${props.username}/followings');
         setFollowing(response.data.following);
+        setLoaded(true);
       } catch (error) {
         setErr(true);
       }
@@ -30,7 +31,6 @@ export default function Following() {
 
     try {
       fetchFollowing();
-      setLoaded(true);
     } catch (err) {
       setErr(true);
     }

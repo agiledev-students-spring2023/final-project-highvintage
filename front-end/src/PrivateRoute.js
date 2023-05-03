@@ -1,12 +1,15 @@
 import React from 'react';
-import {Navigate, Outlet} from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
 const PrivateRoute = ({ children }) => {
 
-    let isAuth = sessionStorage.getItem("isLogged")
+    let isAuth = localStorage.getItem('auth');
+    let token = localStorage.getItem('token');
+
+
 
     return (
-        isAuth != "true" ? <Navigate to="signin"/> : <Outlet/>
+        isAuth === 'true' ? <Outlet /> : <Navigate to="signin" />
     );
 }
 
