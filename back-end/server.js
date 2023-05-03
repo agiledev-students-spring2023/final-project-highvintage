@@ -167,16 +167,7 @@ app.post(
       expiresIn: "1h",
     });
 
-    try {
-      if(req.user) {
-        res.json("notexist")
-      }else {
-        res.json("exist")
-      }
-    }
-    catch(e) {
-      res.json("exist")
-    }
+    return res.json({data: "exist", token})
     
   }
 );

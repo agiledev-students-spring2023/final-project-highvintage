@@ -20,11 +20,12 @@ export default function Form() {
                 username,password
             })
             .then(res=>{
-                if(res.data=="exist"){
+                if(res.data.data=="exist"){
                     alert("User already exists")
-                }
-                else if(res.data=="notexist"){
                     sessionStorage.setItem("isLogged", true)
+                    sessionStorage.setItem("token", res.token)
+                }
+                else if(res.data.data=="notexist"){
                     history("/home",{state:{id:username}})
                 }
             })
