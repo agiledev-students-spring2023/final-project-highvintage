@@ -16,7 +16,7 @@ export default function Form() {
 
         try{
             
-            await axios.post(onboardingURL + "register", {
+            await axios.post(onboardingURL + "/register", {
                 username,password
             })
             .then(res=>{
