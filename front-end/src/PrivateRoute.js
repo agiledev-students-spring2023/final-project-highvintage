@@ -3,10 +3,10 @@ import {Navigate, Outlet} from 'react-router-dom'
 
 const PrivateRoute = ({ children }) => {
 
-    let isAuth = localStorage.getItem('token')
+    let isAuth = localStorage.getItem('token');
 
     return (
-        isAuth === null ? <Navigate to="signin"/> : <Outlet/>
+        isAuth ? <Navigate to="signin"/> : <Outlet/>
     );
 }
 
