@@ -1,5 +1,6 @@
-// CHANGE BEFORE DEPLOY
 
-export const onboardingURL = "http://localhost:5000" ;
+export const onboardingURL = "https://high-vintage-be.onrender.com" ;
+
+
 
 
