@@ -136,7 +136,6 @@ const Profile = () => {
             <ProfileShowPosts
               userPosts={header.posts}
               discussions={header.discussion}
-              authorPhoto={header.profilePicture}
               authorUsername={header.username}
             ></ProfileShowPosts>
           </>

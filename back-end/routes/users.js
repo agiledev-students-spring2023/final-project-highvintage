@@ -236,10 +236,9 @@ router.get(
 
     const response = user.followers.map((follower) => {
       return {
+        _id: follower._id,
         username: follower.username,
         photo: follower.photo
-          ? follower.photo
-          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
       };
     });
 
@@ -264,10 +263,9 @@ router.get(
 
     const response = user.following.map((following) => {
       return {
+        _id: following._id,
         username: following.username,
         photo: following.photo
-          ? following.photo
-          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
       };
     });
 
