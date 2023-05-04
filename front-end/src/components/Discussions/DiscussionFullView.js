@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { requestURL } from "../../requestURL";
 
 export default function DiscussionFullView(props) {
   let likes = props.likes;
-  const photo = props.photo || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
+  let author = props.author;
+  const photo = `${requestURL}users/${author._id}/profile-photo`;
 
   return (
     <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">
@@ -14,7 +16,11 @@ export default function DiscussionFullView(props) {
         </h2>
         <div className="flex items-center">
           <img
-            src={photo}
+            src={
+              photo
+                ? photo
+                : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+            }
             alt="User Avatar"
             className="w-8 h-8 rounded-full mr-2"
           />
