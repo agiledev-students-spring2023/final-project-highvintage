@@ -6,7 +6,8 @@ import { requestURL } from "../../requestURL";
 export default function DiscussionFullView(props) {
   let likes = props.likes;
   let author = props.author;
-  const photo = `${requestURL}users/${author._id}/profile-photo`;
+  console.log(author);
+  const photo = `${requestURL}users/${author}/profile-photo`;
 
   return (
     <div className="w-full max-w-md mx-auto pt-10 mt-5 bg-white shadow-md rounded-md overflow-hidden">

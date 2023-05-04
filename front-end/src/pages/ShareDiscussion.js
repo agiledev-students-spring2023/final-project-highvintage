@@ -62,7 +62,7 @@ export default function ShareDiscussion() {
       discussionId={discussion._id}
       title={discussion.title}
       content={discussion.content}
-      author={discussion.author}
+      author={discussion.author._id}
       date={discussion.posted}
       likes={discussion.likes.length}
       username={discussion.author.username}
