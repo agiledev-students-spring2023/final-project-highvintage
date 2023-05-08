@@ -58,6 +58,7 @@ const Profile = () => {
       const cleanUsername = username.username.toLowerCase();
       const myProfile = await fetchMe();
       setMe(myProfile.username);
+      const myProfilePhoto = `${requestURL}users/${myProfile._id}/profile-photo`;
 
       const isDoneFetching = myProfile.username === cleanUsername;
 
@@ -66,7 +67,7 @@ const Profile = () => {
         const userState = {
           username: myProfile.username,
           profilePicture: myProfile.photo
-            ? myProfile.photo
+            ? myProfilePhoto
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
           style: myProfile.style,
           favoriteThrift: myProfile.favThrift,
@@ -82,10 +83,11 @@ const Profile = () => {
       } else {
         const other = await fetchAnother(cleanUsername);
         const otherProfile = other.user;
+        const otherProfilePhoto = `${requestURL}users/${otherProfile._id}/profile-photo`;
         const userState = {
           username: otherProfile.username,
           profilePicture: otherProfile.photo
-            ? otherProfile.photo
+            ? otherProfilePhoto
             : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
           style: otherProfile.style,
           favoriteThrift: otherProfile.favThrift,
@@ -134,7 +136,6 @@ const Profile = () => {
             <ProfileShowPosts
               userPosts={header.posts}
               discussions={header.discussion}
-              authorPhoto={header.profilePicture}
               authorUsername={header.username}
             ></ProfileShowPosts>
           </>

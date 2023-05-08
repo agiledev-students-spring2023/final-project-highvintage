@@ -25,12 +25,12 @@ export default function DiscussionView() {
   });
   //get discussion
 
-  const photo = discussion.authorPhoto || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png";
   useEffect(() => {
     async function fetchDiscussion(query) {
       try {
         const response = await axios.get(
-          requestURL + "discussions/view/" + query, config
+          requestURL + "discussions/view/" + query,
+          config
         );
         if (response.data.found) {
           setIsFetched(true);
@@ -55,8 +55,10 @@ export default function DiscussionView() {
   }, [params.id, navigate]);
 
   if (!isFetched) {
-    return  <Loading/>
+    return <Loading />;
   }
+  const photo = `${requestURL}users/${discussion.found.author}/profile-photo`;
+
   return (
     <>
       <GenericHeader pageName="View Discussion"></GenericHeader>
@@ -69,16 +71,20 @@ export default function DiscussionView() {
           </h2>
           <div className="flex items-center">
             <img
-              src={photo}
+              src={
+                photo
+                  ? photo
+                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+              }
               alt="User Avatar"
               className="w-8 h-8 rounded-full mr-2"
             />
-          <Link
-            to={`/profile/${discussion.authorUsername}`}
-            className="overflow-hidden truncate text-gray-600"
-          >
-            {discussion.authorUsername}
-          </Link>
+            <Link
+              to={`/profile/${discussion.authorUsername}`}
+              className="overflow-hidden truncate text-gray-600"
+            >
+              {discussion.authorUsername}
+            </Link>
           </div>
         </div>
 

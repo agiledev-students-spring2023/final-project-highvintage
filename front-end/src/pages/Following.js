@@ -19,7 +19,8 @@ export default function Following() {
     async function fetchFollowing() {
       try {
         const response = await axios.get(
-          requestURL + "users/" + currentUser.username + "/following", config
+          requestURL + "users/" + currentUser.username + "/following",
+          config
         );
         //const response = await axios.get('${requestURL}api/users/${props.username}/followings');
         setFollowing(response.data.following);
@@ -37,7 +38,15 @@ export default function Following() {
   }, []);
 
   const followingComponents = following.map((following) => (
-    <ProfilePreview username={following.username} photo={following.photo} />
+    <ProfilePreview
+      id={following._id}
+      username={following.username}
+      photo={
+        following.photo
+          ? `${requestURL}users/${following._id}/profile-photo`
+          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+      }
+    />
   ));
 
   function loadPage() {

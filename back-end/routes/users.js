@@ -1,20 +1,13 @@
-const express = require('express');
-const User = require('../schemas/users.js');
+const express = require("express");
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
+const User = require("../schemas/users.js");
 const router = express.Router();
-const path = require('path');
-const multer = require('multer');
 const passport = require("passport");
 
-const uploadDir = path.join(
-  __dirname,
-  '..',
-  '..',
-  'front-end',
-  'public',
-  'profile_photos'
-);
+const uploadDir = path.join(__dirname, "..", "public", "profile_photos");
 
-// storage for user's profile photos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -24,99 +17,131 @@ const storage = multer.diskStorage({
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
-  }
+  },
 });
 const upload = multer({ storage });
-
 router.post(
-  '/upload-profile-photo',
-  upload.single('photo'),
+  "/upload-profile-photo",
   passport.authenticate('jwt'),
-  async (req, res, next) => {
+  upload.single("photo"),
+  async (req, res) => {
     const user = req.user;
     const file = req.file;
 
-    if (!file) {
-      return res.status(400).json({ message: 'No file uploaded' });
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
-    const photo = '/profile_photos/' + file.filename;
+
+    if (!file) {
+      return res.status(400).json({ error: "No file was uploaded" });
+    }
 
     try {
+      const photoData = fs.readFileSync(path.join(uploadDir, file.filename));
+      const photo = {
+        data: photoData,
+        contentType: file.mimetype,
+      };
+
       user.photo = photo;
       await user.save();
-      res.status(200).json({
-        photo,
-        message: 'Profile photo uploaded successfully!'
-      });
+
+      return res.status(200).json({ success: true });
     } catch (err) {
-      console.log('Error:', err);
-      next(err);
+      console.log(err);
+      return res.status(500).json({ error: "Failed to upload profile photo" });
     }
   }
 );
 
-// api/users/
-router.get('/profile/:username',passport.authenticate("jwt"), async function (req, res) {
-  // input is cleaned in front end, before call is made
-  // no params = error
-
-  if (!req.params) {
-    return res.sendStatus(500);
-  }
-  const username = req.params.username;
-
+router.get("/:id/profile-photo", async (req, res) => {
   try {
-    const findUser = await User.findOne({ username });
+    const user = await User.findById(req.params.id);
 
-    if (findUser) {
-      // populate required fields
-      await findUser.populate('posts');
-      const findFollowers = await findUser.populate('followers');
-      const findPosts = await findUser.populate('posts');
-      const findDiscussions = await findUser.populate('discussions');
+    if (!user || !user.photo) {
+      return res.status(404).json({ error: "Profile photo not found" });
+    }
 
-      const checkFollower = findFollowers.followers.find((user) => {
-        return user.username === req.user.username;
+    res.set("Content-Type", user.photo.contentType);
+    res.send(user.photo.data);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Failed to fetch profile photo" });
+  }
+});
+
+// api/users/
+router.get(
+  "/profile/:username",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    // input is cleaned in front end, before call is made
+    // no params = error
+
+    if (!req.params) {
+      return res.sendStatus(500);
+    }
+    const username = req.params.username;
+
+    try {
+      const findUser = await User.findOne({ username });
+
+      if (findUser) {
+        // populate required fields
+        await findUser.populate("posts");
+        const findFollowers = await findUser.populate("followers");
+        const findPosts = await findUser.populate("posts");
+        const findDiscussions = await findUser.populate("discussions");
+
+        const checkFollower = findFollowers.followers.find((user) => {
+          return user.username === req.user.username;
+        });
+
+        const isAFollower = !!checkFollower;
+
+        return res.send({ user: findUser, isFollowing: isAFollower });
+      } else {
+        return res.sendStatus(404);
+      }
+    } catch (e) {
+      return res.sendStatus(500);
+    }
+  }
+);
+
+router.put(
+  "/edit-profile",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    const toChange = req.body.changes;
+
+    if (toChange.username) {
+      // does a user already have an existing username?
+      const usernameExists = await User.findOne({
+        username: toChange.username,
       });
 
-      const isAFollower = !!checkFollower;
-
-      return res.send({ user: findUser, isFollowing: isAFollower });
-    } else {
-      return res.sendStatus(404);
+      if (usernameExists) {
+        // 409 conflict
+        return res.status(409).send({ error: "Username already exists." });
+      }
     }
-  } catch (e) {
-    return res.sendStatus(500);
-  }
-});
 
-router.put('/edit-profile',passport.authenticate('jwt'), async function (req, res) {
-  const toChange = req.body.changes;
+    // update user in the database
+    try {
+      const updatedUser = await User.findByIdAndUpdate(req.user._id, toChange, {
+        new: true,
+      });
 
-  if (toChange.username) {
-    // does a user already have an existing username?
-    const usernameExists = await User.findOne({ username: toChange.username });
-
-    if (usernameExists) {
-      // 409 conflict
-      return res.status(409).send({ error: 'Username already exists.' });
+      res.json({ message: "Sucessfully updated profile", user: updatedUser });
+    } catch (error) {
+      console.error(error);
+      return res.status(500);
     }
   }
+);
 
-  // update user in the database
-  try {
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, toChange, {
-      new: true
-    });
-
-    res.json({ message: 'Sucessfully updated profile', user: updatedUser });
-  } catch (error) {
-    console.error(error);
-    return res.status(500);
-  }
-});
-
-router.get('/search', passport.authenticate('jwt'), async function (req, res) {
+router.get("/search", passport.authenticate("jwt"), async function (req, res) {
   // input is cleaned in front end, before call is made
 
   if (!req.query.query) {
@@ -132,7 +157,7 @@ router.get('/search', passport.authenticate('jwt'), async function (req, res) {
   return res.json({ found });
 });
 
-router.get('/me', passport.authenticate('jwt'), async function (req, res) {
+router.get("/me", passport.authenticate("jwt"), async function (req, res) {
   // input is cleaned in front end, before call is made
   if (!req.user) {
     return res.sendStatus(500);
@@ -140,8 +165,8 @@ router.get('/me', passport.authenticate('jwt'), async function (req, res) {
 
   try {
     const me = await User.findById(req.user._id)
-      .populate('posts')
-      .populate('discussions');
+      .populate("posts")
+      .populate("discussions");
 
     return res.json({ user: me });
   } catch (e) {
@@ -150,93 +175,111 @@ router.get('/me', passport.authenticate('jwt'), async function (req, res) {
 });
 
 // api/users/:username/follow
-router.post('/:username/follow', passport.authenticate('jwt'), async function (req, res) {
-  const username = req.params.username;
-  const gainedAFollower = await User.findOneAndUpdate(
-    { username },
-    { $push: { followers: req.user._id } }
-  );
+router.post(
+  "/:username/follow",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    const username = req.params.username;
+    const gainedAFollower = await User.findOneAndUpdate(
+      { username },
+      { $push: { followers: req.user._id } }
+    );
 
-  const gainedAFollowing = await User.findOneAndUpdate(
-    { username: req.user.username },
-    { $push: { following: gainedAFollower._id } }
-  );
+    const gainedAFollowing = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { $push: { following: gainedAFollower._id } }
+    );
 
-  req.user = gainedAFollowing;
+    req.user = gainedAFollowing;
 
-  res.sendStatus(200);
-});
+    res.sendStatus(200);
+  }
+);
 
 // api/users/:username/unfollow
-router.post('/:username/unfollow', passport.authenticate('jwt'), async function (req, res) {
-  const toLoseFollower = req.params.username;
+router.post(
+  "/:username/unfollow",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    const toLoseFollower = req.params.username;
 
-  const losingAFollower = await User.findOneAndUpdate(
-    { username: toLoseFollower },
-    { $pull: { followers: req.user._id } }
-  );
+    const losingAFollower = await User.findOneAndUpdate(
+      { username: toLoseFollower },
+      { $pull: { followers: req.user._id } }
+    );
 
-  const losingAFollowing = await User.findOneAndUpdate(
-    { username: req.user.username },
-    { $pull: { following: losingAFollower._id } }
-  );
+    const losingAFollowing = await User.findOneAndUpdate(
+      { username: req.user.username },
+      { $pull: { following: losingAFollower._id } }
+    );
 
-  req.user = losingAFollowing;
+    req.user = losingAFollowing;
 
-  res.sendStatus(200);
-});
+    res.sendStatus(200);
+  }
+);
 
 // get user's followers
-router.get('/:username/followers', passport.authenticate('jwt'), async function (req, res) {
-  const username = req.params.username.toLowerCase();
+router.get(
+  "/:username/followers",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    const username = req.params.username.toLowerCase();
 
-  const user = await User.findOne({ username }).populate({ path: 'followers' });
+    const user = await User.findOne({ username }).populate({
+      path: "followers",
+    });
 
-  if (!user) {
-    return res.sendStatus(500);
+    if (!user) {
+      return res.sendStatus(500);
+    }
+
+    const response = user.followers.map((follower) => {
+      return {
+        _id: follower._id,
+        username: follower.username,
+        photo: follower.photo
+      };
+    });
+
+    res.json({ followers: response });
   }
-
-  const response = user.followers.map((follower) => {
-    return {
-      username: follower.username,
-      photo: follower.photo
-        ? follower.photo
-        : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
-    };
-  });
-
-  res.json({ followers: response });
-});
+);
 
 // get user's following
-router.get('/:username/following', passport.authenticate('jwt'), async function (req, res) {
-  const username = req.params.username.toLowerCase();
+router.get(
+  "/:username/following",
+  passport.authenticate("jwt"),
+  async function (req, res) {
+    const username = req.params.username.toLowerCase();
 
-  const user = await User.findOne({ username }).populate({ path: 'following' });
+    const user = await User.findOne({ username }).populate({
+      path: "following",
+    });
 
-  if (!user) {
-    return res.sendStatus(500);
+    if (!user) {
+      return res.sendStatus(500);
+    }
+
+    const response = user.following.map((following) => {
+      return {
+        _id: following._id,
+        username: following.username,
+        photo: following.photo
+      };
+    });
+
+    return res.json({ following: response });
   }
-
-  const response = user.following.map((following) => {
-    return {
-      username: following.username,
-      photo: following.photo
-        ? following.photo
-        : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'
-    };
-  });
-
-  return res.json({ following: response });
-});
+);
 
 // retrieve username
-router.get('/:id', passport.authenticate('jwt'), async (req, res) => {
+router.get("/:id", passport.authenticate("jwt"), async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     res.json({ username: user.username });
   } catch (err) {
-    res.status(404).json({ error: 'User not found' });
+    res.status(404).json({ error: "User not found" });
   }
 });
 module.exports = router;
