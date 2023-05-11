@@ -4,7 +4,6 @@ const router = express.Router();
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
-
 const passport = require("passport");
 
 const uploadDir = path.join(__dirname, "..", "public", "profile_photos");
@@ -43,8 +42,7 @@ router.post(
         "base64"
       )}`;
       fs.unlinkSync(file.path);
-
-
+      
       user.photo = photo;
       await user.save();
 
