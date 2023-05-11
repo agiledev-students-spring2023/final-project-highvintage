@@ -4,11 +4,11 @@ const router = express.Router();
 const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
+
 const passport = require("passport");
 
 const uploadDir = path.join(__dirname, "..", "public", "profile_photos");
 
-// storage for user's profile photos
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadDir);
@@ -21,7 +21,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage });
-
 router.post(
   "/upload-profile-photo",
   passport.authenticate("jwt", { session: false }),
@@ -29,6 +28,10 @@ router.post(
   async (req, res, next) => {
     const user = req.user;
     const file = req.file;
+
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
     if (!file) {
       return res.status(400).json({ message: "No file uploaded" });
@@ -40,6 +43,7 @@ router.post(
         "base64"
       )}`;
       fs.unlinkSync(file.path);
+
 
       user.photo = photo;
       await user.save();
@@ -221,6 +225,7 @@ router.get(
 
     const response = user.followers.map((follower) => {
       return {
+        _id: follower._id,
         username: follower.username,
         photo: follower.photo
           ? follower.photo
@@ -249,6 +254,7 @@ router.get(
 
     const response = user.following.map((following) => {
       return {
+        _id: following._id,
         username: following.username,
         photo: following.photo
           ? following.photo
