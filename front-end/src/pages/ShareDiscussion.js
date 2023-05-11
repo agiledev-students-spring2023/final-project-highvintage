@@ -55,14 +55,14 @@ export default function ShareDiscussion() {
     setSortedDiscussions(sorted);
   };
 
-
   const discussionComponents = sortedDiscussions.map((discussion) => (
     <DiscussionFullView
       key={discussion._id}
       discussionId={discussion._id}
       title={discussion.title}
+      photo={discussion.author.photo}
       content={discussion.content}
-      author={discussion.author._id}
+      userID={discussion.author}
       date={discussion.posted}
       likes={discussion.likes.length}
       username={discussion.author.username}

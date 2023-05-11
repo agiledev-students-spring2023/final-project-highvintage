@@ -84,7 +84,6 @@ export default function EditProfile() {
       }
     }
   }
-  const profilePhotoUrl = `${requestURL}users/${loggedIn._id}/profile-photo`;
 
   async function handlePhotoUpload(e) {
     e.preventDefault();
@@ -95,15 +94,13 @@ export default function EditProfile() {
     const formData = new FormData();
     formData.append("photo", file);
     try {
-      const token = localStorage.getItem("token");
-
       const response = await axios.post(
         requestURL + "users/upload-profile-photo",
         formData,
         {
           headers: {
+            ...config.headers,
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -115,7 +112,6 @@ export default function EditProfile() {
         nav("/404");
       } else {
         toast.error("Unable to upload profile photo!");
-        console.log(e);
       }
     }
   }
@@ -133,7 +129,7 @@ export default function EditProfile() {
               className="bg-gray-200 h-32 object-cover aspect-square mt-20 mb-3 rounded-full"
               src={
                 loggedIn.photo
-                  ? profilePhotoUrl
+                  ? loggedIn.photo
                   : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
               }
               alt="pfp"

@@ -2,7 +2,6 @@ import React from "react";
 import GenericHeader from "../components/GenericHeader";
 import { useState } from "react";
 import ProfilePreview from "../components/Profile/ProfilePreview";
-import Loading from "../components/Loading";
 import axios from "axios";
 import { requestURL } from "../requestURL";
 import { useNavigate } from "react-router-dom";
@@ -12,16 +11,14 @@ export default function Search() {
   const [found, setFound] = useState([]);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
   async function search(query) {
-    setLoading(true);
     try {
       const response = await axios.get(
-        requestURL + "users/search?query=" + query,
-        config
+        requestURL + "users/search?query=" + query, config
       );
+
       setFound(response.data.found);
 
       const viewable = found.map((user, idx) => (
@@ -29,7 +26,7 @@ export default function Search() {
           key={idx}
           photo={
             user.photo
-              ? `${requestURL}users/${user._id}/profile-photo`
+              ? user.photo
               : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
           }
           username={user.username}
@@ -37,9 +34,7 @@ export default function Search() {
       ));
 
       setResults(viewable);
-      setLoading(false);
     } catch (e) {
-      setLoading(false);
       nav("/500");
     }
   }
@@ -72,9 +67,7 @@ export default function Search() {
         />
       </form>
 
-      {loading ? (
-        <Loading />
-      ) : results.length > 0 ? (
+      {results.length > 0 ? (
         results
       ) : (
         <p className="text-center p-10"> No users found. </p>

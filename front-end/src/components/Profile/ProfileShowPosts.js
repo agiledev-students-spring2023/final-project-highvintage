@@ -33,11 +33,11 @@ export default function ProfileShowPosts(props) {
       key={discussion._id}
       discussionId={discussion._id}
       title={discussion.title}
+      photo={props.authorPhoto}
       content={discussion.content}
-      author={discussion.author}
+      username={props.authorUsername}
       date={discussion.posted}
       likes={discussion.likes.length}
-      username={props.authorUsername}
     ></DiscussionFullView>
   ));
 
