@@ -1,9 +1,9 @@
 const express = require("express");
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
 const User = require("../schemas/users.js");
 const router = express.Router();
+const path = require("path");
+const multer = require("multer");
+const fs = require("fs");
 const passport = require("passport");
 
 const uploadDir = path.join(__dirname, "..", "public", "profile_photos");
@@ -22,9 +22,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 router.post(
   "/upload-profile-photo",
-  passport.authenticate('jwt'),
+  passport.authenticate("jwt", { session: false }),
   upload.single("photo"),
-  async (req, res) => {
+  async (req, res, next) => {
     const user = req.user;
     const file = req.file;
 
@@ -33,42 +33,29 @@ router.post(
     }
 
     if (!file) {
-      return res.status(400).json({ error: "No file was uploaded" });
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
     try {
-      const photoData = fs.readFileSync(path.join(uploadDir, file.filename));
-      const photo = {
-        data: photoData,
-        contentType: file.mimetype,
-      };
-
+      const fileData = fs.readFileSync(file.path);
+      const photo = `data:${file.mimetype};base64,${fileData.toString(
+        "base64"
+      )}`;
+      fs.unlinkSync(file.path);
+      
       user.photo = photo;
       await user.save();
 
-      return res.status(200).json({ success: true });
+      res.status(200).json({
+        photo,
+        message: "Profile photo uploaded successfully!",
+      });
     } catch (err) {
-      console.log(err);
-      return res.status(500).json({ error: "Failed to upload profile photo" });
+      console.log("Error:", err);
+      next(err);
     }
   }
 );
-
-router.get("/:id/profile-photo", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    if (!user || !user.photo) {
-      return res.status(404).json({ error: "Profile photo not found" });
-    }
-
-    res.set("Content-Type", user.photo.contentType);
-    res.send(user.photo.data);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Failed to fetch profile photo" });
-  }
-});
 
 // api/users/
 router.get(
@@ -239,6 +226,8 @@ router.get(
         _id: follower._id,
         username: follower.username,
         photo: follower.photo
+          ? follower.photo
+          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
       };
     });
 
@@ -266,6 +255,8 @@ router.get(
         _id: following._id,
         username: following.username,
         photo: following.photo
+          ? following.photo
+          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
       };
     });
 
